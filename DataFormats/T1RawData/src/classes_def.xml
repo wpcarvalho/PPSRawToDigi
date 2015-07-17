@@ -1,0 +1,15 @@
+<lcgdict>
+<class name="__gnu_cxx::hash_map<int,int>"/>
+<class name="__gnu_cxx::hashtable<std::pair<const int,int>,int,__gnu_cxx::hash<int>,std::_Select1st<std::pair<const int,int> >,std::equal_to<int>,std::allocator<int> >"/>
+<class name="__gnu_cxx::hash<int>"/>
+
+<class name="std::_Select1st<std::pair<const int,int> >"/>
+<class name="std::equal_to<int>"/>
+<class name="std::allocator<__gnu_cxx::_Hashtable_node<std::pair<const int,int> > >"/>
+<class name="std::vector<__gnu_cxx::_Hashtable_node<std::pair<const int,int> >*>"/>
+<class name="std::vector<unsigned short*>"/>
+<class name="TotemRawVFATFrame"/>
+<class name="TotemVFATFrameColl"/>
+<class name="std::vector<TotemRawVFATFrame>"/> 
+<class name="edm::Wrapper<TotemVFATFrameColl>"/> 
+</lcgdict>

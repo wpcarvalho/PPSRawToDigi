@@ -1,0 +1,15 @@
+<lcgdict>
+   <class pattern="emd::Wrapper<*>"/>
+   <class name="RPCCBits"/>
+   <class name="edm::Wrapper<RPCCBits>"/>
+   <class name="std::vector<RPCCBits>"/>
+   <class name="edm::Wrapper<std::vector<RPCCBits> >"/>
+   <class name="T1TriggerBits"/>
+   <class name="edm::Wrapper<T1TriggerBits>"/>
+   <class name="std::vector<T1TriggerBits>"/>
+   <class name="edm::Wrapper<std::vector<T1TriggerBits> >"/>
+   <class name="T2TriggerBits"/>
+   <class name="edm::Wrapper<T2TriggerBits>"/>
+   <class name="std::vector<T2TriggerBits>"/>
+   <class name="edm::Wrapper<std::vector<T2TriggerBits> >"/>
+</lcgdict>

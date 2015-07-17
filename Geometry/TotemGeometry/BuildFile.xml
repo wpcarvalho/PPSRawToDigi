@@ -1,0 +1,10 @@
+<use   name="DataFormats/DetId"/>
+<use   name="DataFormats/T1DetId"/>
+<use   name="DataFormats/T2DetId"/>
+<use   name="DataFormats/T2Cluster"/>
+<use   name="FWCore/Framework"/>
+<use   name="Geometry/Records"/>
+<use   name="clhep"/>
+<export>
+  <lib   name="1"/>
+</export>

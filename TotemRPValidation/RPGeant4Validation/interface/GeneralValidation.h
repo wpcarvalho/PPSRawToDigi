@@ -1,0 +1,6 @@
+#ifndef TotemRPValidation_RPGeant4Validation_GeneralValidation_h
+#define TotemRPValidation_RPGeant4Validation_GeneralValidation_h
+
+//class 
+
+#endif

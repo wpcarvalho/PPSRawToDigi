@@ -1,0 +1,17 @@
+<library   file="*.cc" name="RecoTotemT1T2T1MakeClusterPlugins">
+  <use   name="DataFormats/Common"/>
+  <use   name="FWCore/Framework"/>
+  <use   name="FWCore/ParameterSet"/>
+  <use   name="FWCore/MessageLogger"/>
+  <use   name="Geometry/TotemRecords"/>
+  <use   name="DataFormats/T1DigiWire"/>
+  <use   name="DataFormats/T1DigiSantiard"/>
+  <use   name="DataFormats/T1DigiVfat"/>
+  <use   name="DataFormats/T1Cluster"/>
+  <use   name="Geometry/TotemGeometry"/>
+<use   name="TotemRawDataLibrary/DataFormats"/>
+<use   name="SimTotem/T1Digitizer"/>
+  <use   name="boost"/>
+  <use   name="root"/>
+  <flags   EDM_PLUGIN="1"/>
+</library>

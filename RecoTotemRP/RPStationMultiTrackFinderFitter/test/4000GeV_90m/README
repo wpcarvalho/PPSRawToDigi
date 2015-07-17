@@ -1,0 +1,15 @@
+STEP 1.
+a) Set reasonably high number of events in generate_ES_cfg.py.
+b) Run
+	cmsRun generate_ES_cfg.py | grep ^[+-][0-9] &> sample_ES
+
+
+STEP 2.
+a) Set reasonably high number of events in generate_SD_cfg.py.
+b) Run
+	cmsRun generate_SD_cfg.py | grep ^[+-][0-9] &> sample_SD
+
+
+STEP 3.
+Run
+	cmsRun simulate_cfg.py

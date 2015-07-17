@@ -1,0 +1,7 @@
+<library   name="TotemRPValidationBeamSmearingPlugins" file="*.cc">
+  <use   name="TotemRPValidation/BeamSmearing"/>
+  <use   name="FWCore/Framework"/>
+  <use   name="root"/>
+  <use   name="SimDataFormats/GeneratorProducts"/>
+  <flags   EDM_PLUGIN="1"/>
+</library>

@@ -1,0 +1,13 @@
+<library   name="TotemRPValidationElasticReconstructionPlugins" file="*.cc">
+  <use   name="TotemRPValidation/ElasticReconstruction"/>
+  <use   name="FWCore/Framework"/>
+  <use   name="DataFormats/TotemRPDataTypes"/>
+  <use   name="DataFormats/TotemRPDetId"/>
+  <use   name="RecoTotemRP/RPRecoDataFormats"/>
+  <use   name="TotemRPValidation/BaseValidationClasses"/>
+  <use   name="root"/>
+  <use   name="SimG4CMS/TotemRPProtTranspPar"/>
+  <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
+  <use   name="TotemCondFormats/DataRecord"/>
+  <flags   EDM_PLUGIN="1"/>
+</library>

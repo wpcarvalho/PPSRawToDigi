@@ -1,0 +1,11 @@
+<lcgdict>
+<class name="T2DigiVfat"/>
+<class name="std::vector<T2DigiVfat>"/>
+<class name="std::map<T2DetId,std::vector<T2DigiVfat> >"/>
+<class name="std::pair<T2DetId,std::vector<T2DigiVfat> >"/>
+<class name="TotemDigiCollection<T2DetId,T2DigiVfat>"/> 
+<class name="edm::Wrapper<TotemDigiCollection<T2DetId,T2DigiVfat>>" splitLevel="0"/> 
+<class name="edm::Wrapper<std::pair<T2DetId,std::vector<T2DigiVfat> > >"/>
+<class name="T2VfatInformation"/> 
+<class name="edm::Wrapper<T2VfatInformation>"/>
+</lcgdict>

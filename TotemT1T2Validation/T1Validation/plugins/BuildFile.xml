@@ -1,0 +1,22 @@
+<library   file="*.cc" name="TotemT1T2ValidationT1ValidationPlugins">
+  <use   name="FWCore/Framework"/>
+  <use   name="FWCore/ParameterSet"/>
+  <use   name="FWCore/MessageLogger"/>
+  <use   name="DataFormats/T1DigiWire"/>
+  <use   name="DataFormats/T1DigiVfat"/>
+  <use   name="DataFormats/DetId"/>
+  <use   name="DataFormats/T1DetId"/>
+  <use   name="Geometry/TotemGeometry"/>
+  <use   name="Geometry/TotemRecords"/>
+  <use   name="DataFormats/TrackingRecHit"/>
+  <use   name="DataFormats/T1RecHit"/>
+  <use   name="DataFormats/T1T2Track"/>
+  <use   name="DataFormats/Common"/>
+  <use   name="DataFormats/T1Cluster"/>
+  <use   name="SimDataFormats/Track"/>
+  <use   name="CommonTools/Clustering1D"/>
+  <use   name="boost"/>
+  <use   name="root"/>
+  <use   name="clhep"/>
+  <flags   EDM_PLUGIN="1"/>
+</library>

@@ -1,0 +1,28 @@
+<use   name="FWCore/Framework"/>
+<use   name="FWCore/PluginManager"/>
+<use   name="FWCore/ParameterSet"/>
+<use   name="DataFormats/T1T2Track"/>
+<use   name="SimDataFormats/GeneratorProducts"/>
+<use   name="SimDataFormats/Track"/>
+<use   name="SimDataFormats/Vertex"/>
+<use   name="Geometry/TotemGeometry"/>
+<use   name="TotemAnalysis/T2Cuts"/>
+<use   name="FWCore/MessageLogger"/>
+<use   name="boost"/>
+<use   name="root"/>
+<use   name="DataFormats/T2DetId"/>
+<use   name="SimDataFormats/TrackingHit"/>
+<use   name="SimDataFormats/CrossingFrame"/>
+<use   name="DataFormats/T2Road"/>
+<use   name="clhep"/>
+<use   name="SimGeneral/HepPDTRecord"/>
+<flags   EDM_PLUGIN="1"/>
+
+
+
+
+
+
+
+
+

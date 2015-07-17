@@ -1,0 +1,26 @@
+<lcgdict>
+
+  <class name="T2StripDigi"/>
+  <class name="T2StripDigiCollection"/>
+  <class name="T2PadDigi"/>
+  <class name="T2PadDigiCollection"/>
+
+  <class name="std::vector<T2StripDigi>"/>
+  <class name="std::vector<T2PadDigi>"/>
+
+  <class name="std::map<T2DetId,std::vector<T2StripDigi> >"/>
+  <class name="std::pair<T2DetId,std::vector<T2StripDigi> >"/>
+  <class name="std::map<T2DetId,std::vector<T2PadDigi> >"/>
+  <class name="std::pair<T2DetId,std::vector<T2PadDigi> >"/>
+
+  <class name="TotemDigiCollection<T2DetId,T2StripDigi>"/>
+  <class name="TotemDigiCollection<T2DetId,T2PadDigi>"/>
+
+  <class name="edm::Wrapper<TotemDigiCollection<T2DetId,T2StripDigi>>"
+           id="1234567890"/>
+  <class name="edm::Wrapper<std::pair<T2DetId,std::vector<T2StripDigi> > >"/>
+  <class name="edm::Wrapper<TotemDigiCollection<T2DetId,T2PadDigi>>" 
+           id="1029384756"/>	   
+  <class name="edm::Wrapper<std::pair<T2DetId,std::vector<T2PadDigi> > >"/>
+
+</lcgdict>

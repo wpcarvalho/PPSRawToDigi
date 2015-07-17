@@ -1,0 +1,1641 @@
+<top>
+
+<arm id="0">
+
+  <t2_half id="0">
+
+    <t2_detector position="0">
+
+      <vfat iid="1" fullMask="no">
+        <channel id="0"/>
+        <channel id="1"/>
+      </vfat>
+
+      <vfat iid="13" fullMask="no">
+        <channel id="51"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="2">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="2"/>
+        <channel id="109"/>
+      </vfat>
+
+      <vfat iid="1" fullMask="no">
+        <channel id="1"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="3">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="1"/>
+        <channel id="124"/>
+        <channel id="125"/>
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="15" fullMask="no">
+        <channel id="70"/>
+        <channel id="110"/>
+        <channel id="111"/>
+        <channel id="112"/>
+        <channel id="113"/>
+        <channel id="115"/>
+        <channel id="116"/>
+        <channel id="117"/>
+        <channel id="120"/>
+        <channel id="122"/>
+        <channel id="123"/>
+        <channel id="124"/>
+        <channel id="125"/>
+        <channel id="126"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="4">
+
+      <vfat iid="1" fullMask="no">
+        <channel id="1"/>
+        <channel id="2"/>
+      </vfat>
+
+      <vfat iid="3" fullMask="no">
+        <channel id="73"/>
+      </vfat>
+
+      <vfat iid="15" fullMask="no">
+        <channel id="0"/>
+        <channel id="11"/>
+        <channel id="15"/>
+        <channel id="17"/>
+        <channel id="18"/>
+        <channel id="19"/>
+        <channel id="26"/>
+        <channel id="28"/>
+        <channel id="34"/>
+        <channel id="35"/>
+        <channel id="37"/>
+        <channel id="38"/>
+        <channel id="40"/>
+        <channel id="42"/>
+        <channel id="43"/>
+        <channel id="44"/>
+        <channel id="45"/>
+        <channel id="47"/>
+        <channel id="50"/>
+        <channel id="52"/>
+        <channel id="53"/>
+        <channel id="54"/>
+        <channel id="57"/>
+        <channel id="59"/>
+        <channel id="60"/>
+        <channel id="61"/>
+        <channel id="62"/>
+        <channel id="63"/>
+        <channel id="65"/>
+        <channel id="67"/>
+        <channel id="68"/>
+        <channel id="69"/>
+        <channel id="71"/>
+        <channel id="72"/>
+        <channel id="73"/>
+        <channel id="74"/>
+        <channel id="75"/>
+        <channel id="77"/>
+        <channel id="79"/>
+        <channel id="80"/>
+        <channel id="81"/>
+        <channel id="83"/>
+        <channel id="84"/>
+        <channel id="86"/>
+        <channel id="87"/>
+        <channel id="90"/>
+        <channel id="91"/>
+        <channel id="93"/>
+        <channel id="95"/>
+        <channel id="97"/>
+        <channel id="98"/>
+        <channel id="99"/>
+        <channel id="101"/>
+        <channel id="102"/>
+        <channel id="103"/>
+        <channel id="104"/>
+        <channel id="105"/>
+        <channel id="108"/>
+        <channel id="109"/>
+        <channel id="110"/>
+        <channel id="111"/>
+        <channel id="112"/>
+        <channel id="114"/>
+        <channel id="117"/>
+        <channel id="119"/>
+        <channel id="120"/>
+        <channel id="123"/>
+        <channel id="124"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="5">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="125"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="6">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="54"/>
+        <channel id="56"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="7">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="0"/>
+        <channel id="1"/>
+        <channel id="2"/>
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="1" fullMask="no">
+        <channel id="1"/>
+        <channel id="57"/>
+        <channel id="58"/>
+        <channel id="59"/>
+      </vfat>
+
+      <vfat iid="2" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="99"/>
+        <channel id="100"/>
+      </vfat>
+
+      <vfat iid="3" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="4" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="5" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="7" fullMask="no">
+        <channel id="27"/>
+        <channel id="51"/>
+      </vfat>
+
+      <vfat iid="9" fullMask="no">
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="13" fullMask="no">
+        <channel id="3"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="14" fullMask="no">
+        <channel id="27"/>
+        <channel id="103"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="0"/>
+        <channel id="1"/>
+        <channel id="2"/>
+        <channel id="3"/>
+        <channel id="4"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="8">
+
+      <vfat iid="1" fullMask="no">
+        <channel id="1"/>
+        <channel id="2"/>
+      </vfat>
+
+      <vfat iid="11" fullMask="no">
+        <channel id="38"/>
+        <channel id="101"/>
+      </vfat>
+
+      <vfat iid="13" fullMask="no">
+        <channel id="105"/>
+      </vfat>
+
+      <vfat iid="14" fullMask="no">
+        <channel id="3"/>
+        <channel id="4"/>
+        <channel id="6"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="1"/>
+        <channel id="2"/>
+        <channel id="3"/>
+        <channel id="126"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="9">
+
+      <vfat iid="3" fullMask="no">
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="14" fullMask="no">
+        <channel id="4"/>
+      </vfat>
+
+    </t2_detector>
+
+  </t2_half>
+
+  <t2_half id="1">
+
+    <t2_detector position="1">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="110"/>
+        <channel id="125"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="2">
+
+      <vfat iid="2" fullMask="no">
+        <channel id="99"/>
+        <channel id="100"/>
+        <channel id="101"/>
+        <channel id="102"/>
+      </vfat>
+
+      <vfat iid="12" fullMask="no">
+        <channel id="27"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="3">
+
+      <vfat iid="3" fullMask="no">
+        <channel id="27"/>
+        <channel id="51"/>
+      </vfat>
+
+      <vfat iid="15" fullMask="no">
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="125"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="4">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="1"/>
+        <channel id="56"/>
+      </vfat>
+
+      <vfat iid="2" fullMask="no">
+        <channel id="3"/>
+        <channel id="75"/>
+        <channel id="96"/>
+        <channel id="97"/>
+        <channel id="99"/>
+        <channel id="100"/>
+        <channel id="101"/>
+        <channel id="102"/>
+        <channel id="104"/>
+        <channel id="105"/>
+        <channel id="106"/>
+        <channel id="108"/>
+        <channel id="114"/>
+        <channel id="115"/>
+        <channel id="116"/>
+        <channel id="118"/>
+        <channel id="119"/>
+        <channel id="120"/>
+        <channel id="121"/>
+      </vfat>
+
+      <vfat iid="3" fullMask="no">
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="4" fullMask="no">
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="67"/>
+        <channel id="71"/>
+        <channel id="75"/>
+        <channel id="84"/>
+        <channel id="99"/>
+        <channel id="115"/>
+        <channel id="120"/>
+      </vfat>
+
+      <vfat iid="5" fullMask="no">
+        <channel id="67"/>
+        <channel id="68"/>
+      </vfat>
+
+      <vfat iid="6" fullMask="no">
+        <channel id="43"/>
+      </vfat>
+
+      <vfat iid="8" fullMask="no">
+        <channel id="91"/>
+        <channel id="115"/>
+      </vfat>
+
+      <vfat iid="15" fullMask="no">
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="125"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="5">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="16"/>
+      </vfat>
+
+      <vfat iid="1" fullMask="no">
+        <channel id="58"/>
+      </vfat>
+
+      <vfat iid="15" fullMask="no">
+        <channel id="126"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="6">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="1"/>
+        <channel id="54"/>
+        <channel id="56"/>
+        <channel id="108"/>
+        <channel id="121"/>
+        <channel id="124"/>
+        <channel id="125"/>
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="2" fullMask="no">
+        <channel id="99"/>
+        <channel id="100"/>
+        <channel id="101"/>
+        <channel id="102"/>
+        <channel id="103"/>
+        <channel id="104"/>
+        <channel id="105"/>
+        <channel id="106"/>
+      </vfat>
+
+      <vfat iid="12" fullMask="no">
+        <channel id="27"/>
+      </vfat>
+
+      <vfat iid="13" fullMask="no">
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="14" fullMask="no">
+        <channel id="3"/>
+        <channel id="4"/>
+        <channel id="5"/>
+        <channel id="6"/>
+        <channel id="7"/>
+        <channel id="8"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="0"/>
+        <channel id="1"/>
+        <channel id="2"/>
+        <channel id="3"/>
+        <channel id="19"/>
+        <channel id="126"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="7">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="2"/>
+        <channel id="54"/>
+        <channel id="56"/>
+        <channel id="58"/>
+        <channel id="62"/>
+        <channel id="109"/>
+        <channel id="110"/>
+        <channel id="117"/>
+        <channel id="121"/>
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="1" fullMask="no">
+        <channel id="0"/>
+        <channel id="1"/>
+      </vfat>
+
+      <vfat iid="4" fullMask="no">
+        <channel id="13"/>
+      </vfat>
+
+      <vfat iid="11" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="30"/>
+        <channel id="51"/>
+      </vfat>
+
+      <vfat iid="12" fullMask="no">
+        <channel id="3"/>
+        <channel id="6"/>
+        <channel id="27"/>
+        <channel id="29"/>
+        <channel id="30"/>
+        <channel id="51"/>
+        <channel id="54"/>
+        <channel id="75"/>
+        <channel id="99"/>
+        <channel id="108"/>
+        <channel id="109"/>
+        <channel id="110"/>
+        <channel id="111"/>
+        <channel id="112"/>
+        <channel id="113"/>
+        <channel id="114"/>
+        <channel id="115"/>
+      </vfat>
+
+      <vfat iid="13" fullMask="no">
+        <channel id="3"/>
+        <channel id="6"/>
+        <channel id="27"/>
+        <channel id="28"/>
+        <channel id="30"/>
+        <channel id="51"/>
+        <channel id="54"/>
+        <channel id="75"/>
+        <channel id="76"/>
+        <channel id="77"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="14" fullMask="no">
+        <channel id="3"/>
+        <channel id="4"/>
+        <channel id="5"/>
+        <channel id="6"/>
+        <channel id="7"/>
+        <channel id="8"/>
+        <channel id="9"/>
+        <channel id="10"/>
+        <channel id="11"/>
+        <channel id="12"/>
+        <channel id="13"/>
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="77"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="0"/>
+        <channel id="1"/>
+        <channel id="2"/>
+        <channel id="3"/>
+        <channel id="18"/>
+        <channel id="19"/>
+        <channel id="126"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="8">
+
+      <vfat iid="5" fullMask="no">
+        <channel id="51"/>
+      </vfat>
+
+      <vfat iid="7" fullMask="no">
+        <channel id="27"/>
+        <channel id="51"/>
+      </vfat>
+
+      <vfat iid="11" fullMask="no">
+        <channel id="27"/>
+      </vfat>
+
+      <vfat iid="12" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+      </vfat>
+
+      <vfat iid="13" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+      </vfat>
+
+      <vfat iid="14" fullMask="no">
+        <channel id="3"/>
+        <channel id="4"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="1"/>
+        <channel id="2"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="9">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="125"/>
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="2" fullMask="no">
+        <channel id="27"/>
+        <channel id="99"/>
+        <channel id="100"/>
+        <channel id="101"/>
+        <channel id="102"/>
+        <channel id="104"/>
+      </vfat>
+
+      <vfat iid="3" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="8" fullMask="no">
+        <channel id="51"/>
+      </vfat>
+
+      <vfat iid="13" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+      </vfat>
+
+      <vfat iid="14" fullMask="no">
+        <channel id="4"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="15" fullMask="no">
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="0"/>
+      </vfat>
+
+    </t2_detector>
+
+  </t2_half>
+
+</arm>
+
+<arm id="1">
+
+  <t2_half id="0">
+
+    <t2_detector position="1">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="8"/>
+      </vfat>
+
+      <vfat iid="7" fullMask="no">
+        <channel id="4"/>
+        <channel id="75"/>
+        <channel id="80"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="2">
+
+      <vfat iid="15" fullMask="no">
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="2"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="3">
+
+      <vfat iid="12" fullMask="no">
+        <channel id="3"/>
+      </vfat>
+
+      <vfat iid="13" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="0"/>
+        <channel id="1"/>
+        <channel id="3"/>
+        <channel id="126"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="4">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="126"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="5">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="124"/>
+        <channel id="125"/>
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="14" fullMask="no">
+        <channel id="3"/>
+        <channel id="4"/>
+        <channel id="5"/>
+        <channel id="6"/>
+        <channel id="7"/>
+        <channel id="8"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="1"/>
+        <channel id="2"/>
+        <channel id="3"/>
+        <channel id="126"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="7">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="15" fullMask="no">
+        <channel id="126"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="8">
+
+      <vfat iid="1" fullMask="no">
+        <channel id="0"/>
+        <channel id="1"/>
+        <channel id="3"/>
+        <channel id="5"/>
+        <channel id="8"/>
+        <channel id="56"/>
+        <channel id="57"/>
+      </vfat>
+
+      <vfat iid="3" fullMask="no">
+        <channel id="27"/>
+      </vfat>
+
+      <vfat iid="14" fullMask="no">
+        <channel id="7"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="84"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="9">
+
+      <vfat iid="1" fullMask="no">
+        <channel id="1"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="70"/>
+      </vfat>
+
+    </t2_detector>
+
+  </t2_half>
+
+  <t2_half id="1">
+
+    <t2_detector position="1">
+
+      <vfat iid="13" fullMask="no">
+        <channel id="51"/>
+        <channel id="83"/>
+        <channel id="108"/>
+        <channel id="109"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="2">
+
+      <vfat iid="2" fullMask="no">
+        <channel id="50"/>
+        <channel id="74"/>
+        <channel id="75"/>
+        <channel id="76"/>
+        <channel id="77"/>
+        <channel id="78"/>
+        <channel id="79"/>
+        <channel id="80"/>
+        <channel id="84"/>
+        <channel id="93"/>
+        <channel id="122"/>
+      </vfat>
+
+      <vfat iid="15" fullMask="no">
+        <channel id="69"/>
+        <channel id="126"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="3">
+
+      <vfat iid="14" fullMask="no">
+        <channel id="5"/>
+        <channel id="38"/>
+        <channel id="99"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="4">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="1"/>
+        <channel id="54"/>
+        <channel id="121"/>
+        <channel id="125"/>
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="3" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="8" fullMask="no">
+        <channel id="12"/>
+        <channel id="14"/>
+        <channel id="15"/>
+        <channel id="21"/>
+        <channel id="22"/>
+        <channel id="23"/>
+        <channel id="24"/>
+        <channel id="25"/>
+        <channel id="46"/>
+        <channel id="47"/>
+        <channel id="48"/>
+        <channel id="49"/>
+        <channel id="50"/>
+      </vfat>
+
+      <vfat iid="9" fullMask="no">
+        <channel id="14"/>
+        <channel id="15"/>
+        <channel id="16"/>
+        <channel id="17"/>
+        <channel id="20"/>
+        <channel id="21"/>
+        <channel id="22"/>
+        <channel id="23"/>
+        <channel id="24"/>
+        <channel id="25"/>
+        <channel id="26"/>
+        <channel id="35"/>
+        <channel id="36"/>
+        <channel id="39"/>
+        <channel id="40"/>
+        <channel id="41"/>
+        <channel id="43"/>
+        <channel id="44"/>
+        <channel id="45"/>
+        <channel id="46"/>
+        <channel id="47"/>
+        <channel id="48"/>
+        <channel id="50"/>
+        <channel id="61"/>
+        <channel id="62"/>
+        <channel id="63"/>
+        <channel id="69"/>
+        <channel id="70"/>
+        <channel id="71"/>
+        <channel id="72"/>
+        <channel id="73"/>
+        <channel id="74"/>
+        <channel id="87"/>
+        <channel id="89"/>
+        <channel id="92"/>
+        <channel id="93"/>
+        <channel id="94"/>
+        <channel id="95"/>
+        <channel id="96"/>
+        <channel id="97"/>
+        <channel id="98"/>
+        <channel id="108"/>
+        <channel id="109"/>
+        <channel id="112"/>
+        <channel id="117"/>
+        <channel id="118"/>
+        <channel id="119"/>
+        <channel id="120"/>
+        <channel id="121"/>
+        <channel id="122"/>
+      </vfat>
+
+      <vfat iid="10" fullMask="no">
+        <channel id="10"/>
+        <channel id="12"/>
+        <channel id="13"/>
+        <channel id="14"/>
+        <channel id="16"/>
+        <channel id="17"/>
+        <channel id="19"/>
+        <channel id="20"/>
+        <channel id="21"/>
+        <channel id="22"/>
+        <channel id="23"/>
+        <channel id="24"/>
+        <channel id="25"/>
+        <channel id="26"/>
+        <channel id="36"/>
+        <channel id="37"/>
+        <channel id="38"/>
+        <channel id="39"/>
+        <channel id="40"/>
+        <channel id="45"/>
+        <channel id="46"/>
+        <channel id="47"/>
+        <channel id="48"/>
+        <channel id="49"/>
+        <channel id="50"/>
+        <channel id="58"/>
+        <channel id="59"/>
+        <channel id="60"/>
+        <channel id="61"/>
+        <channel id="62"/>
+        <channel id="63"/>
+        <channel id="64"/>
+        <channel id="65"/>
+        <channel id="68"/>
+        <channel id="69"/>
+        <channel id="71"/>
+        <channel id="72"/>
+        <channel id="73"/>
+        <channel id="74"/>
+        <channel id="82"/>
+        <channel id="84"/>
+        <channel id="85"/>
+        <channel id="86"/>
+        <channel id="87"/>
+        <channel id="88"/>
+        <channel id="91"/>
+        <channel id="92"/>
+        <channel id="93"/>
+        <channel id="94"/>
+        <channel id="95"/>
+        <channel id="96"/>
+        <channel id="97"/>
+        <channel id="98"/>
+        <channel id="107"/>
+        <channel id="108"/>
+        <channel id="109"/>
+        <channel id="111"/>
+        <channel id="112"/>
+        <channel id="113"/>
+        <channel id="116"/>
+        <channel id="117"/>
+        <channel id="118"/>
+        <channel id="119"/>
+        <channel id="120"/>
+        <channel id="121"/>
+        <channel id="122"/>
+      </vfat>
+
+      <vfat iid="11" fullMask="no">
+        <channel id="11"/>
+        <channel id="13"/>
+        <channel id="14"/>
+        <channel id="19"/>
+        <channel id="21"/>
+        <channel id="23"/>
+        <channel id="24"/>
+        <channel id="25"/>
+        <channel id="26"/>
+        <channel id="37"/>
+        <channel id="38"/>
+        <channel id="39"/>
+        <channel id="44"/>
+        <channel id="45"/>
+        <channel id="46"/>
+        <channel id="47"/>
+        <channel id="48"/>
+        <channel id="49"/>
+        <channel id="59"/>
+        <channel id="61"/>
+        <channel id="63"/>
+        <channel id="64"/>
+        <channel id="67"/>
+        <channel id="69"/>
+        <channel id="70"/>
+        <channel id="71"/>
+        <channel id="72"/>
+        <channel id="73"/>
+        <channel id="74"/>
+        <channel id="85"/>
+        <channel id="86"/>
+        <channel id="89"/>
+        <channel id="91"/>
+        <channel id="92"/>
+        <channel id="93"/>
+        <channel id="94"/>
+        <channel id="95"/>
+        <channel id="96"/>
+        <channel id="97"/>
+        <channel id="98"/>
+        <channel id="106"/>
+        <channel id="107"/>
+        <channel id="108"/>
+        <channel id="109"/>
+        <channel id="110"/>
+        <channel id="111"/>
+        <channel id="113"/>
+        <channel id="116"/>
+        <channel id="117"/>
+        <channel id="118"/>
+        <channel id="119"/>
+        <channel id="120"/>
+        <channel id="121"/>
+        <channel id="122"/>
+      </vfat>
+
+      <vfat iid="12" fullMask="no">
+        <channel id="12"/>
+        <channel id="14"/>
+        <channel id="15"/>
+        <channel id="23"/>
+        <channel id="24"/>
+        <channel id="26"/>
+        <channel id="35"/>
+        <channel id="36"/>
+        <channel id="38"/>
+        <channel id="39"/>
+        <channel id="40"/>
+        <channel id="43"/>
+        <channel id="44"/>
+        <channel id="45"/>
+        <channel id="47"/>
+        <channel id="48"/>
+        <channel id="49"/>
+        <channel id="50"/>
+        <channel id="58"/>
+        <channel id="60"/>
+        <channel id="62"/>
+        <channel id="63"/>
+        <channel id="64"/>
+        <channel id="69"/>
+        <channel id="71"/>
+        <channel id="72"/>
+        <channel id="73"/>
+        <channel id="74"/>
+        <channel id="82"/>
+        <channel id="83"/>
+        <channel id="85"/>
+        <channel id="87"/>
+        <channel id="94"/>
+        <channel id="95"/>
+        <channel id="96"/>
+        <channel id="97"/>
+        <channel id="98"/>
+        <channel id="108"/>
+        <channel id="109"/>
+        <channel id="110"/>
+        <channel id="117"/>
+        <channel id="118"/>
+        <channel id="119"/>
+        <channel id="120"/>
+        <channel id="121"/>
+        <channel id="122"/>
+      </vfat>
+
+      <vfat iid="13" fullMask="no">
+        <channel id="11"/>
+        <channel id="12"/>
+        <channel id="13"/>
+        <channel id="22"/>
+        <channel id="25"/>
+        <channel id="35"/>
+        <channel id="36"/>
+        <channel id="38"/>
+        <channel id="39"/>
+        <channel id="44"/>
+        <channel id="48"/>
+        <channel id="49"/>
+        <channel id="60"/>
+        <channel id="62"/>
+        <channel id="64"/>
+        <channel id="67"/>
+        <channel id="68"/>
+        <channel id="69"/>
+        <channel id="70"/>
+        <channel id="73"/>
+        <channel id="83"/>
+        <channel id="85"/>
+        <channel id="87"/>
+        <channel id="93"/>
+        <channel id="94"/>
+        <channel id="95"/>
+        <channel id="96"/>
+        <channel id="98"/>
+        <channel id="108"/>
+        <channel id="110"/>
+        <channel id="111"/>
+        <channel id="112"/>
+        <channel id="115"/>
+        <channel id="117"/>
+        <channel id="120"/>
+        <channel id="121"/>
+        <channel id="122"/>
+      </vfat>
+
+      <vfat iid="14" fullMask="no">
+        <channel id="3"/>
+        <channel id="5"/>
+        <channel id="8"/>
+        <channel id="10"/>
+        <channel id="11"/>
+        <channel id="12"/>
+        <channel id="13"/>
+        <channel id="14"/>
+        <channel id="15"/>
+        <channel id="16"/>
+        <channel id="21"/>
+        <channel id="22"/>
+        <channel id="24"/>
+        <channel id="25"/>
+        <channel id="39"/>
+        <channel id="49"/>
+        <channel id="50"/>
+        <channel id="71"/>
+        <channel id="72"/>
+        <channel id="85"/>
+        <channel id="92"/>
+        <channel id="93"/>
+        <channel id="95"/>
+        <channel id="111"/>
+        <channel id="112"/>
+        <channel id="118"/>
+        <channel id="120"/>
+      </vfat>
+
+      <vfat iid="16" fullMask="no">
+        <channel id="0"/>
+        <channel id="1"/>
+        <channel id="2"/>
+        <channel id="12"/>
+        <channel id="15"/>
+        <channel id="17"/>
+        <channel id="18"/>
+        <channel id="19"/>
+        <channel id="22"/>
+        <channel id="23"/>
+        <channel id="25"/>
+        <channel id="26"/>
+        <channel id="28"/>
+        <channel id="30"/>
+        <channel id="33"/>
+        <channel id="34"/>
+        <channel id="35"/>
+        <channel id="37"/>
+        <channel id="41"/>
+        <channel id="42"/>
+        <channel id="44"/>
+        <channel id="46"/>
+        <channel id="48"/>
+        <channel id="49"/>
+        <channel id="50"/>
+        <channel id="52"/>
+        <channel id="53"/>
+        <channel id="55"/>
+        <channel id="56"/>
+        <channel id="57"/>
+        <channel id="60"/>
+        <channel id="61"/>
+        <channel id="62"/>
+        <channel id="64"/>
+        <channel id="65"/>
+        <channel id="66"/>
+        <channel id="67"/>
+        <channel id="68"/>
+        <channel id="69"/>
+        <channel id="71"/>
+        <channel id="72"/>
+        <channel id="75"/>
+        <channel id="77"/>
+        <channel id="79"/>
+        <channel id="80"/>
+        <channel id="81"/>
+        <channel id="82"/>
+        <channel id="85"/>
+        <channel id="87"/>
+        <channel id="88"/>
+        <channel id="91"/>
+        <channel id="93"/>
+        <channel id="95"/>
+        <channel id="98"/>
+        <channel id="100"/>
+        <channel id="101"/>
+        <channel id="102"/>
+        <channel id="104"/>
+        <channel id="106"/>
+        <channel id="107"/>
+        <channel id="108"/>
+        <channel id="110"/>
+        <channel id="111"/>
+        <channel id="116"/>
+        <channel id="117"/>
+        <channel id="118"/>
+        <channel id="119"/>
+        <channel id="120"/>
+        <channel id="121"/>
+        <channel id="123"/>
+        <channel id="124"/>
+        <channel id="125"/>
+        <channel id="126"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="5">
+
+      <vfat iid="2" fullMask="no">
+        <channel id="101"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="6">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="2"/>
+        <channel id="56"/>
+        <channel id="62"/>
+        <channel id="109"/>
+      </vfat>
+
+      <vfat iid="1" fullMask="no">
+        <channel id="0"/>
+        <channel id="1"/>
+        <channel id="58"/>
+      </vfat>
+
+      <vfat iid="2" fullMask="no">
+        <channel id="103"/>
+      </vfat>
+
+      <vfat iid="3" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="28"/>
+        <channel id="29"/>
+        <channel id="30"/>
+        <channel id="31"/>
+        <channel id="32"/>
+        <channel id="33"/>
+        <channel id="35"/>
+        <channel id="36"/>
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="4" fullMask="no">
+        <channel id="27"/>
+        <channel id="30"/>
+        <channel id="54"/>
+        <channel id="56"/>
+        <channel id="65"/>
+        <channel id="75"/>
+        <channel id="77"/>
+        <channel id="78"/>
+        <channel id="99"/>
+        <channel id="100"/>
+        <channel id="101"/>
+        <channel id="102"/>
+      </vfat>
+
+      <vfat iid="5" fullMask="no">
+        <channel id="79"/>
+        <channel id="80"/>
+        <channel id="103"/>
+        <channel id="105"/>
+      </vfat>
+
+      <vfat iid="6" fullMask="no">
+        <channel id="41"/>
+      </vfat>
+
+      <vfat iid="7" fullMask="no">
+        <channel id="89"/>
+      </vfat>
+
+      <vfat iid="13" fullMask="no">
+        <channel id="23"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="7">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="1"/>
+        <channel id="125"/>
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="2" fullMask="no">
+        <channel id="99"/>
+        <channel id="100"/>
+        <channel id="101"/>
+        <channel id="102"/>
+        <channel id="104"/>
+      </vfat>
+
+      <vfat iid="3" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="4" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="5" fullMask="no">
+        <channel id="27"/>
+        <channel id="75"/>
+      </vfat>
+
+      <vfat iid="14" fullMask="no">
+        <channel id="4"/>
+        <channel id="5"/>
+        <channel id="27"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="8">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="54"/>
+        <channel id="56"/>
+        <channel id="121"/>
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="3" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="28"/>
+        <channel id="29"/>
+        <channel id="30"/>
+        <channel id="31"/>
+        <channel id="32"/>
+        <channel id="51"/>
+        <channel id="52"/>
+        <channel id="54"/>
+        <channel id="75"/>
+        <channel id="76"/>
+        <channel id="78"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="4" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="30"/>
+        <channel id="51"/>
+        <channel id="54"/>
+        <channel id="75"/>
+        <channel id="78"/>
+        <channel id="99"/>
+        <channel id="100"/>
+        <channel id="102"/>
+      </vfat>
+
+      <vfat iid="5" fullMask="no">
+        <channel id="27"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="9" fullMask="no">
+        <channel id="33"/>
+        <channel id="81"/>
+      </vfat>
+
+      <vfat iid="10" fullMask="no">
+        <channel id="81"/>
+        <channel id="105"/>
+      </vfat>
+
+      <vfat iid="11" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="51"/>
+      </vfat>
+
+      <vfat iid="12" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="28"/>
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="13" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="14" fullMask="no">
+        <channel id="4"/>
+        <channel id="5"/>
+        <channel id="6"/>
+        <channel id="8"/>
+        <channel id="9"/>
+        <channel id="11"/>
+      </vfat>
+
+    </t2_detector>
+
+    <t2_detector position="9">
+
+      <vfat iid="0" fullMask="no">
+        <channel id="121"/>
+        <channel id="125"/>
+        <channel id="126"/>
+      </vfat>
+
+      <vfat iid="2" fullMask="no">
+        <channel id="27"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="3" fullMask="no">
+        <channel id="3"/>
+        <channel id="27"/>
+        <channel id="51"/>
+        <channel id="75"/>
+        <channel id="99"/>
+      </vfat>
+
+      <vfat iid="4" fullMask="no">
+        <channel id="75"/>
+        <channel id="108"/>
+      </vfat>
+
+      <vfat iid="5" fullMask="no">
+        <channel id="75"/>
+      </vfat>
+
+      <vfat iid="8" fullMask="no">
+        <channel id="22"/>
+        <channel id="24"/>
+        <channel id="25"/>
+        <channel id="26"/>
+        <channel id="46"/>
+        <channel id="47"/>
+        <channel id="48"/>
+        <channel id="49"/>
+        <channel id="50"/>
+      </vfat>
+
+      <vfat iid="9" fullMask="no">
+        <channel id="21"/>
+        <channel id="22"/>
+        <channel id="23"/>
+        <channel id="24"/>
+        <channel id="26"/>
+        <channel id="44"/>
+        <channel id="45"/>
+        <channel id="46"/>
+        <channel id="47"/>
+        <channel id="48"/>
+        <channel id="49"/>
+        <channel id="50"/>
+        <channel id="70"/>
+        <channel id="71"/>
+        <channel id="72"/>
+        <channel id="73"/>
+        <channel id="74"/>
+        <channel id="92"/>
+        <channel id="93"/>
+        <channel id="95"/>
+        <channel id="96"/>
+        <channel id="97"/>
+        <channel id="98"/>
+        <channel id="118"/>
+        <channel id="119"/>
+        <channel id="120"/>
+        <channel id="121"/>
+        <channel id="122"/>
+      </vfat>
+
+      <vfat iid="10" fullMask="no">
+        <channel id="20"/>
+        <channel id="22"/>
+        <channel id="23"/>
+        <channel id="24"/>
+        <channel id="25"/>
+        <channel id="26"/>
+        <channel id="45"/>
+        <channel id="47"/>
+        <channel id="48"/>
+        <channel id="49"/>
+        <channel id="50"/>
+        <channel id="70"/>
+        <channel id="71"/>
+        <channel id="72"/>
+        <channel id="73"/>
+        <channel id="74"/>
+        <channel id="94"/>
+        <channel id="96"/>
+        <channel id="97"/>
+        <channel id="98"/>
+        <channel id="117"/>
+        <channel id="118"/>
+        <channel id="119"/>
+        <channel id="120"/>
+        <channel id="121"/>
+        <channel id="122"/>
+      </vfat>
+
+      <vfat iid="11" fullMask="no">
+        <channel id="23"/>
+        <channel id="26"/>
+        <channel id="47"/>
+        <channel id="48"/>
+        <channel id="49"/>
+        <channel id="72"/>
+        <channel id="74"/>
+        <channel id="95"/>
+        <channel id="96"/>
+        <channel id="97"/>
+        <channel id="117"/>
+        <channel id="118"/>
+        <channel id="119"/>
+        <channel id="120"/>
+        <channel id="121"/>
+        <channel id="122"/>
+      </vfat>
+
+      <vfat iid="12" fullMask="no">
+        <channel id="24"/>
+        <channel id="25"/>
+        <channel id="26"/>
+        <channel id="50"/>
+        <channel id="72"/>
+        <channel id="73"/>
+        <channel id="74"/>
+        <channel id="93"/>
+        <channel id="98"/>
+        <channel id="118"/>
+        <channel id="120"/>
+        <channel id="121"/>
+        <channel id="122"/>
+      </vfat>
+
+      <vfat iid="13" fullMask="no">
+        <channel id="74"/>
+        <channel id="94"/>
+        <channel id="97"/>
+        <channel id="122"/>
+      </vfat>
+
+      <vfat iid="14" fullMask="no">
+        <channel id="24"/>
+        <channel id="26"/>
+        <channel id="74"/>
+        <channel id="122"/>
+      </vfat>
+
+      <vfat iid="15" fullMask="no">
+        <channel id="66"/>
+        <channel id="111"/>
+        <channel id="112"/>
+        <channel id="114"/>
+        <channel id="116"/>
+        <channel id="117"/>
+        <channel id="118"/>
+        <channel id="119"/>
+        <channel id="121"/>
+        <channel id="122"/>
+        <channel id="123"/>
+        <channel id="124"/>
+        <channel id="125"/>
+        <channel id="126"/>
+      </vfat>
+
+    </t2_detector>
+
+  </t2_half>
+
+</arm>
+
+</top>
+

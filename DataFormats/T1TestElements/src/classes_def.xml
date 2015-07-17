@@ -1,0 +1,6 @@
+<lcgdict>
+<class name="T1TestElements"/>
+<class name="std::vector<T1TestElements>"/>
+<class 
+name="edm::Wrapper<std::vector<T1TestElements> >"/> 
+</lcgdict>

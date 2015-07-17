@@ -1,0 +1,15 @@
+<use   name="FWCore/Framework"/>
+<use   name="DataFormats/TotemRPDataTypes"/>
+<use   name="DataFormats/TotemRPDetId"/>
+<use   name="RecoTotemRP/RPRecoDataFormats"/>
+<use   name="root"/>
+<use   name="rootgraphics"/>
+<use   name="rootminuit"/>
+<use   name="boost"/>
+<use   name="TotemRPValidation/BaseValidationClasses"/>
+<use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
+<use   name="TotemCondFormats/DataRecord"/>
+<use   name="TotemCondFormats/ProtonTransportFunctions"/>
+<export>
+  <lib   name="1"/>
+</export>

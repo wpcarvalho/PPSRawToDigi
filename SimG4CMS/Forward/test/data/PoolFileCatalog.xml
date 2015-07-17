@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!-- Edited By POOL -->
+<!DOCTYPE POOLFILECATALOG SYSTEM "InMemory">
+<POOLFILECATALOG>
+  <File ID="1AC80051-5963-DB11-BF9A-000475992F2D">
+    <physical>
+      <pfn filetype="ROOT_Tree" name="file:simtotemevent.root"/>
+    </physical>
+    <logical/>
+  </File>
+
+  <File ID="E60D22AF-0ABC-DB11-A50C-000C6EE68F68">
+    <physical>
+      <pfn filetype="ROOT_Tree" name="file:tryPythia.root"/>
+    </physical>
+    <logical/>
+  </File>
+
+</POOLFILECATALOG>

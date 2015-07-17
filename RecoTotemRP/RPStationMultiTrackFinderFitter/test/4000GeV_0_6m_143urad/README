@@ -1,0 +1,9 @@
+STEP 1.
+a) Set reasonably high number of events in generate_SD_cfg.py.
+b) Run
+	cmsRun generate_SD_cfg.py | grep ^[+-][0-9] &> sample_SD
+
+
+STEP 2.
+Run
+	cmsRun simulate_cfg.py

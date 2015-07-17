@@ -1,0 +1,22 @@
+use   name="FWCore/MessageLogger"/>
+<use   name="boost"/>
+<use   name="FWCore/Framework"/>
+<use   name="FWCore/PluginManager"/>
+<use   name="FWCore/ParameterSet"/>
+<use   name="root"/>
+<use   name="rootcore"/>
+<use   name="SimDataFormats/GeneratorProducts"/>
+<use   name="DataFormats/T2Cluster"/>
+<use   name="DataFormats/T2DetId"/>
+<use   name="Geometry/TotemGeometry"/>
+<use   name="SimDataFormats/TrackingHit"/>
+<use   name="SimDataFormats/CrossingFrame"/>
+<use   name="DataFormats/T2Road"/>
+<use   name="TotemAnalysis/T2Cuts"/>
+<use   name="DataFormats/T1T2Track"/>
+<use   name="clhep"/>
+<use   name="xerces-c"/>
+<flags   EDM_PLUGIN="1"/>
+
+
+

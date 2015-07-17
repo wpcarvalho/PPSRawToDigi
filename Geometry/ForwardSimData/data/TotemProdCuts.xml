@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<DDDefinition xmlns="http://www.cern.ch/cms/DDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.cern.ch/cms/DDL ../../../DetectorDescription/Schema/DDLSchema.xsd">
+  
+
+<SpecParSection label="TotemProdCuts.xml" eval="true">
+
+
+ <SpecPar name="TotemAllPart">
+  <PartSelector path="//TotemT1" />
+  <PartSelector path="//TotemT2" />
+  <Parameter name="CMSCutsRegion" value="TotemRegion" eval="false"/>
+  <Parameter name="ProdCutsForGamma" value="0.01*mm"/>
+  <Parameter name="ProdCutsForElectrons" value="0.01*mm"/>
+  <Parameter name="ProdCutsForPositrons" value="0.01*mm"/>
+ </SpecPar>
+
+ <SpecPar name="TotemSensitivePart">
+  <PartSelector path="//Internal.*TotemT1_Plane.*" />  
+  <PartSelector path="//TotemT2gem_driftspace7r" /> 
+  <Parameter name="CMSCutsRegion" value="TotemSensitiveRegion" eval="false"/>
+  <Parameter name="ProdCutsForGamma" value="0.01*mm"/>
+  <Parameter name="ProdCutsForElectrons" value="0.01*mm"/>
+  <Parameter name="ProdCutsForPositrons" value="0.01*mm"/>
+ </SpecPar>
+
+  <SpecPar name="BeamPipe">
+    <PartSelector path="//BEAM" />
+    <PartSelector path="//BEAM1" />
+    <PartSelector path="//BEAM2" />
+    <Parameter name="CMSCutsRegion" value="BeamPipe" eval="false"/>
+    <Parameter name="ProdCutsForGamma" value="0.01*mm"/>
+    <Parameter name="ProdCutsForElectrons" value="0.01*mm"/>
+    <Parameter name="ProdCutsForPositrons" value="0.01*mm"/>
+   
+</SpecPar>
+
+ <SpecPar name="Shield">
+    <PartSelector path="//FixedShield01" />
+    <PartSelector path="//FixedShield02" />
+    <PartSelector path="//FixedShield03" />
+    <PartSelector path="//FixedShield04" />
+    <PartSelector path="//FixedShield05" />
+    <PartSelector path="//FixedShield06" />
+    <PartSelector path="//FixedShield07" />
+    <PartSelector path="//FixedShield08" />
+    <PartSelector path="//RotatedShield01" />
+    <PartSelector path="//RotatedShield02" />
+    <PartSelector path="//RotatedShield03" />
+    <PartSelector path="//RotatedShield04" />
+    <PartSelector path="//RotatedShield05" />
+    <Parameter name="CMSCutsRegion" value="Shield" eval="false"/>
+    <Parameter name="ProdCutsForGamma" value="0.01*mm"/>
+    <Parameter name="ProdCutsForElectrons" value="0.01*mm"/>
+    <Parameter name="ProdCutsForPositrons" value="0.01*mm"/>  
+</SpecPar>
+
+ <SpecPar name="HF">
+    <PartSelector path="//VCAL" />
+    <PartSelector path="//HVQF" />
+    <PartSelector path="//HVQX" />
+    <Parameter name="CMSCutsRegion" value="HF" eval="false"/>
+    <Parameter name="ProdCutsForGamma" value="0.01*mm"/>
+    <Parameter name="ProdCutsForElectrons" value="0.01*mm"/>
+    <Parameter name="ProdCutsForPositrons" value="0.01*mm"/>  
+</SpecPar>
+
+ <SpecPar name="castor">
+    <PartSelector path="//CastorF"/>
+    <PartSelector path="//CastorB"/>
+    <Parameter name="CMSCutsRegion" value="CastorRegion" eval="false"/>
+    <Parameter name="ProdCutsForElectrons" value="0.01*mm"/>
+    <Parameter name="ProdCutsForPositrons" value="0.01*mm"/>
+    <Parameter name="ProdCutsForGamma" value="0.01*mm"/>
+  </SpecPar>
+
+
+
+</SpecParSection>
+
+</DDDefinition>
+
+

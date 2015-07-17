@@ -1,0 +1,9 @@
+DetId: 0    DX: 0.03 DY: -0.15
+DetId: 1    DX: -0.08 DY: -0.15
+DetId: 2    DX: -0.15 DY: 0.15
+DetId: 3    DX: 0.07 DY: -0.05
+DetId: 4    DX: -0.09 DY: -0.15
+DetId: 5    DX: 0.12 DY: 0.15
+DetId: 6    DX: 0.15 DY: -0.1
+DetId: 7    DX: -0.1 DY: 0.1
+

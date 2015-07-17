@@ -1,0 +1,13 @@
+<use name="FWCore/Framework"/>
+<use name="FWCore/ParameterSet"/>
+<use name="FWCore/MessageLogger"/>
+<use name="DataFormats/Common"/>
+<use name="DataFormats/TotemRPDataTypes"/>
+<use name="RecoTotemRP/RPRecoDataFormats"/>
+<use name="Geometry/TotemRPGeometryBuilder"/>
+<use name="Geometry/TotemRecords"/>
+<use name="Geometry/TotemRPDetTopology"/>
+<use name="root"/>
+<export>
+  <lib   name="1"/>
+</export>

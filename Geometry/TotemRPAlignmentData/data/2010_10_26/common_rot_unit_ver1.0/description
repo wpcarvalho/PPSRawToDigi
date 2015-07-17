@@ -1,0 +1,3 @@
+* TB alignment, runs 3634 and 3635
+ - only shifts optimized
+ - common internal and unit rotations applied (no rotations between near and far units!)

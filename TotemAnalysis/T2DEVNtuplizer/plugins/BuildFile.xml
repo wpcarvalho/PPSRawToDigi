@@ -1,0 +1,7 @@
+<library   name="TotemAnalysisT2DEVNtuplizerPlugins" file="*.cc">
+  <use   name="FWCore/Framework"/>
+  <use   name="FWCore/ServiceRegistry"/>
+  <use   name="TotemAnalysis/T2DEVNtuplizer"/>
+  <use   name="SimGeneral/HepPDTRecord"/>
+  <flags   EDM_PLUGIN="1"/>
+</library>

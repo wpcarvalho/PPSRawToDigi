@@ -1,0 +1,9 @@
+<lcgdict>
+<class name="T1Cluster"/>
+<class name="std::vector<T1Cluster>"/>
+<class name="std::map<T1DetId,std::vector<T1Cluster> >"/>
+<class name="std::pair<T1DetId,std::vector<T1Cluster> >"/>
+<class name="TotemDigiCollection<T1DetId,T1Cluster>"/> 
+<class name="edm::Wrapper<TotemDigiCollection<T1DetId,T1Cluster>>"/>
+<class name="edm::Wrapper<std::pair<T1DetId, std::vector<T1Cluster> > >"/>
+</lcgdict>

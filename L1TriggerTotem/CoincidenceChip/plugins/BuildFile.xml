@@ -1,0 +1,17 @@
+<library   file="*.cc" name="L1TriggerTotemCoincidenceChipPlugins">
+  <use   name="FWCore/Framework"/>
+  <use   name="FWCore/PluginManager"/>
+  <use   name="FWCore/ParameterSet"/>
+  <use   name="L1TriggerTotem/CoincidenceChip"/>
+  <use   name="DataFormats/TotemRPDataTypes"/>
+  <use   name="DataFormats/TotemRPDetId"/>
+  <use   name="DataFormats/TotemL1Trigger"/>
+  <use   name="DataFormats/T2Digi"/>
+  <use   name="DataFormats/T2DetId"/>
+  <use   name="hepmc"/>
+  <use   name="SimDataFormats/GeneratorProducts"/>
+  <use   name="rootgraphics"/>
+  <use   name="TotemCondFormats/DAQInformation"/>
+  <use   name="TotemCondFormats/DataRecord"/>
+  <flags   EDM_PLUGIN="1"/>
+</library>

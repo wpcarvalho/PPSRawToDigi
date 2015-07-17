@@ -1,0 +1,20 @@
+<library   name="TotemAlignmentRPFastSimulation" file="*.cc">
+  <flags   EDM_PLUGIN="1"/>
+  <use   name="hepmc"/>
+  <use   name="clhep"/>
+  <use   name="FWCore/Framework"/>
+  <use   name="FWCore/ParameterSet"/>
+  <use   name="FWCore/ServiceRegistry"/>
+  <use   name="FWCore/Utilities"/>
+  <use   name="SimDataFormats/GeneratorProducts"/>
+  <use   name="Geometry/TotemRPDetTopology"/>
+  <use   name="DataFormats/TotemRPDetId"/>
+  <use   name="Geometry/TotemRPGeometryBuilder"/>
+  <use   name="Geometry/TotemRecords"/>
+  <use   name="RecoTotemRP/RPRecoDataFormats"/>
+  <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
+  <use   name="TotemCondFormats/ProtonTransportFunctions"/>
+  <use   name="TotemCondFormats/DataRecord"/>
+  <use   name="SimG4CMS/TotemRPProtTranspPar"/>
+  <use   name="TotemAlignment/RPDataFormats"/>
+</library>

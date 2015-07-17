@@ -1,0 +1,11 @@
+1) Prepare a simulation and reconstruction ROOT file. You can use config files 
+	Config/SimulateElastic_*.cfg in CVS offline/user/jan
+to simulate elastic events. Then perform elastic reconstruction using file (don't forget to enter the input/output files etc.)
+	Config/ReconstructElastic.cfg in CVS offline/user/jan
+
+2) Update data/validation.cfg: enter your input and output file. Select whether to compare reconstructed quantities to smeared or unsmeared MC values
+
+3) cmsRun data/validation.cfg
+
+4) View results using ROOT.
+#or the script following root -l scripts/showResults.cc

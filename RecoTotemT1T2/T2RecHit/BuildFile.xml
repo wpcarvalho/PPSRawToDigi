@@ -1,0 +1,20 @@
+<flags   CXXFLAGS="-O0 -g3 -fno-inline"/>
+<use   name="FWCore/Framework"/>
+<use   name="FWCore/ParameterSet"/>
+<use   name="Geometry/TotemRecords"/>
+<use   name="Geometry/CommonDetUnit"/>
+<use   name="Geometry/TotemGeometry"/>
+<use   name="Utilities/Timing"/>
+<use   name="FWCore/MessageLogger"/>
+<use   name="DataFormats/T2Cluster"/>
+<use   name="DataFormats/T2DetId"/>
+<use   name="DataFormats/DetId"/>
+<use   name="boost"/>
+<use   name="root"/>
+<use   name="MagneticField/Records"/>
+<use   name="MagneticField/Engine"/>
+<use   name="DataFormats/T2Hit"/>
+<use   name="Geometry/TotemT2AlignmentDataFormats"/>
+<export>
+  <lib   name="1"/>
+</export>

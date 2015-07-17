@@ -1,0 +1,59 @@
+************************************************************                   
+*      input file      PHOJET v1.12                    
+************************************************************                   
+*
+*  Define the process
+* ===================
+* 
+*   1  non-diffractive inelastic process
+*   2  elastic scattering
+*   3  quasi-elastic rho/omega/phi and pi+/pi-production
+*   4  central diffraction (DPE)
+*   5  single diffraction of PARTICLE1  
+*   6  single diffraction  of PARTICLE2
+*   7  double diffraction
+*   8  single-resolved / direct processes / photon-hadron, photon-photon  
+*
+*   9   hard interaction in SD of PARTICLE1
+*   10  hard interaction in SD of PARTICLE2
+*   11  hard interaction in DPE
+*                         
+* PROCESS     1 0 1 1 1 1 1 1
+*      
+PROCESS     0 0 0 1 0 0 0 0  
+*    
+*  define particles            
+*  ==================   
+*           id   virtuality
+*
+PARTICLE1   2212    0.0
+PARTICLE2   2212    0.0 
+SETMODEL   22  2
+*SETMODEL   13  0
+*
+*
+* debug events
+* ============
+*              LEVEL       desired output level
+*                                0   standard output
+*                                3   internal rejections
+*                                5   cross sections, slopes etc.
+*                               10   parameter of subroutines and
+*                                    results
+*                               20   huge amount of debug output
+*                               30   maximal possible output
+*
+*         1st event to be traced/number of events to be traced/output level 
+* DEBUG       190   1   35
+*
+*           ID of subroutine to be traced/output level
+*
+* TRACE     72  10
+*      
+*  generate 10000 events in CMS system            
+*   
+*       cms energy(GeV)   #events
+*                        
+EVENT-CMS   2360.0   10
+*
+ENDINPUT

@@ -1,0 +1,28 @@
+<use   name="FWCore/Framework"/>
+<use   name="FWCore/ParameterSet"/>
+<use   name="Utilities/Timing"/>
+<use   name="Utilities/General"/>
+<use   name="FWCore/MessageLogger"/>
+<use   name="DataFormats/T2Digi"/>
+<use   name="DataFormats/DetId"/>
+<use   name="DataFormats/T2DetId"/>
+<use   name="DataFormats/T2DigiVfat"/>
+<use   name="SimDataFormats/TrackingHit"/>
+<use   name="Geometry/TotemRecords"/>
+<use   name="Geometry/CommonDetUnit"/>
+<use   name="Geometry/TotemGeometry"/>
+<use   name="SimTracker/Common"/>
+<use   name="Mixing/Base"/>
+<use   name="Geometry/TotemT2AlignmentDataFormats"/>
+<use   name="geant4"/>
+<use   name="root"/>
+<use   name="boost"/>
+<use   name="clhep"/>
+<use   name="gsl"/>
+<use   name="hepmc"/>
+<use   name="SimDataFormats/GeneratorProducts"/>
+<use   name="TotemCondFormats/DAQInformation"/>
+<use   name="TotemCondFormats/DataRecord"/>
+<export>
+  <lib   name="1"/>
+</export>

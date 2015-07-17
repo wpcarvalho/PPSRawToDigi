@@ -1,0 +1,24 @@
+Example on how to use the MultiparticleGun 
+(it allows to generate as many particle you want for each event, each one with its  Id, energy, eta, phi)
+
+Example on how to generate events with 2 muons per event.
+
+The first muon is generated at a phi = 1.88 in the eta range 5.7<eta<5.75 with 50<E<60 GeV
+The second muon is generated at a phi = 2.55 in the eta range 6.3<eta<6.35 with 90<E<100 GeV
+
+    source = MultiParticleGunSource
+   {
+      #untracked uint32 firstRun  = 1
+      untracked PSet  PGunParameters =
+      {
+         untracked vint32 PartID = {13,13}
+         untracked vdouble MinEtas = {5.7,6.3}
+         untracked vdouble MaxEtas = {5.75,6.35}
+         untracked vdouble MinPhis = {1.88,2.5}
+         untracked vdouble MaxPhis = {1.88,2.5}
+         untracked vdouble MinEs   = {50.0, 90.0}
+         untracked vdouble MaxEs   = {60.0, 100.0}
+      }
+      untracked int32 Verbosity = 0 # for printouts, set it to 1 (or greater)
+   } 
+

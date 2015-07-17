@@ -1,0 +1,136 @@
+# Auto generated configuration file
+# using: 
+# Revision: 1.232.2.6.2.2 
+# Source: /cvs_server/repositories/CMSSW/CMSSW/Configuration/PyReleaseValidation/python/ConfigBuilder.py,v 
+# with command line options: Configuration/Generator/python/SingleElectronPt10_cfi.py --mc -s GEN,SIM --eventcontent RECOSIM --beamspot Realistic7TeVCollision --datatier GEN-SIM --conditions START39_V7HI::All -n 3 --no_exec
+import FWCore.ParameterSet.Config as cms
+
+process = cms.Process('SIM')
+
+# import of standard configurations
+process.load('Configuration.StandardSequences.Services_cff')
+process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
+process.load('FWCore.MessageService.MessageLogger_cfi')
+process.load('Configuration.StandardSequences.MixingNoPileUp_cff')
+process.load('Configuration.StandardSequences.GeometryDB_cff')
+process.load('Configuration.StandardSequences.MagneticField_38T_cff')
+process.load('Configuration.StandardSequences.Generator_cff')
+process.load('Configuration.StandardSequences.VtxSmearedRealistic7TeVCollision_cff')
+process.load('Configuration.StandardSequences.SimIdeal_cff')
+process.load('Configuration.StandardSequences.EndOfProcess_cff')
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+process.load('Configuration.EventContent.EventContent_cff')
+
+process.configurationMetadata = cms.untracked.PSet(
+    version = cms.untracked.string('$Revision: 1.2 $'),
+    annotation = cms.untracked.string('Configuration/Generator/python/SingleElectronPt10_cfi.py nevts:3'),
+    name = cms.untracked.string('PyReleaseValidation')
+)
+process.maxEvents = cms.untracked.PSet(
+    input = cms.untracked.int32(3)
+)
+
+# Input source
+process.source = cms.Source("EmptySource")
+
+process.options = cms.untracked.PSet(
+
+)
+
+# Output definition
+
+process.RECOSIMoutput = cms.OutputModule("PoolOutputModule",
+    splitLevel = cms.untracked.int32(0),
+    outputCommands = process.RECOSIMEventContent.outputCommands,
+    fileName = cms.untracked.string('SingleElectronPt10_cfi_py_GEN_SIM.root'),
+    dataset = cms.untracked.PSet(
+        filterName = cms.untracked.string(''),
+        dataTier = cms.untracked.string('GEN-SIM')
+    ),
+    SelectEvents = cms.untracked.PSet(
+        SelectEvents = cms.vstring('generation_step')
+    )
+)
+
+# Additional output definition
+
+# Other statements
+process.GlobalTag.globaltag = 'START39_V7HI::All'
+process.generator = cms.EDProducer("FlatRandomPtGunProducer",
+    PGunParameters = cms.PSet(
+        MaxPt = cms.double(10.01),
+        MinPt = cms.double(9.99),
+        PartID = cms.vint32(11),
+        MaxEta = cms.double(2.5),
+        MaxPhi = cms.double(3.14159265359),
+        MinEta = cms.double(-2.5),
+        MinPhi = cms.double(-3.14159265359)
+    ),
+    Verbosity = cms.untracked.int32(0),
+    psethack = cms.string('single electron pt 10'),
+    AddAntiParticle = cms.bool(True),
+    firstRun = cms.untracked.uint32(1)
+)
+
+
+# Path and EndPath definitions
+process.generation_step = cms.Path(process.pgen)
+
+process.simulation_step = cms.Path(process.psim)
+
+process.endjob_step = cms.EndPath(process.endOfProcess)
+
+process.RECOSIMoutput_step = cms.EndPath(process.RECOSIMoutput)
+
+
+# Schedule definition
+process.schedule = cms.Schedule(process.generation_step,process.simulation_step,process.endjob_step,process.RECOSIMoutput_step)
+
+# special treatment in case of production filter sequence
+for path in process.paths: 
+    getattr(process,path)._seq = process.generator*getattr(process,path)._seq
+def customise(process):
+
+    process.generator = cms.EDFilter("CosmicRayGeneratorFilter",
+                                     beammomentum = cms.double(1380),
+                                     targetmomentum = cms.double(-1380),
+                                     beamid = cms.int32(207),
+                                     targetid = cms.int32(207),
+                                     model = cms.int32(1),
+                                     paramFileName = cms.string("/afs/cern.ch/user/c/cbaus/public/Externals/cms.param")
+                                 )
+
+    #Random Seed Generator
+#    process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
+#                                                       generator = cms.PSet(initialSeed = cms.untracked.uint32(123456789),
+#                                                                            engineName = cms.untracked.string('HepJamesRandom'))
+#                                                       )
+                                 
+    process.g4SimHits.Generator.MinEtaCut =-7.0
+    process.g4SimHits.Generator.MaxEtaCut = 5.5
+    process.g4SimHits.CastorSD.minEnergyInGeVforUsingSLibrary = 9999999999                                 
+
+    #Module Tracing
+    process.Timing = cms.Service("Timing")
+
+    # M E S S A G I N G
+    # initialize MessageLogger and output report
+#    process.load("FWCore.MessageLogger.MessageLogger_cfi")
+#    process.MessageLogger = cms.Service("MessageLogger",
+#                                        destinations= cms.untracked.vstring('detailedInfo', 'critical', 'cerr'),
+#                                        critical=cms.untracked.PSet(threshold = cms.untracked.string('ERROR')),
+#                                        detailedInfo=cms.untracked.PSet(threshold = cms.untracked.string('INFO')),
+#                                        cerr=cms.untracked.PSet(threshold = cms.untracked.string('WARNING'))
+#                                        )
+    # to avoid 'too many clusters'
+#    initialStepSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+#    lowPtTripletStepSeeds.ClusterCheckPSet.doClusterCheck = cms.bool(False)
+
+    # avoid 'number of triples exceed maximum'
+#    pixelTracks.OrderedHitsFactoryPSet.GeneratorPSet.maxElement = cms.uint32(0)
+#    initialStepSeeds.OrderedHitsFactoryPSet.GeneratorPSet.maxElement = cms.uint32(0)
+#    lowPtTripletStepSeeds.OrderedHitsFactoryPSet.GeneratorPSet.maxElement = cms.uint32(0)
+
+    return(process)
+
+process = customise(process)

@@ -1,0 +1,21 @@
+___________________________________________________
+
+Interface for generators used in cosmic ray physics  
+___________________________________________________
+
+
+To use this generator add this to the python config file:
+
+    process.generator = cms.EDFilter("CosmicRayGeneratorFilter",
+                                     beammomentum = cms.double(3500),
+                                     targetmomentum = cms.double(-3500),
+                                     beamid = cms.int32(1),
+                                     targetid = cms.int32(1),
+                                     model = cms.int32(1),
+                                     paramFileName = cms.string("/afs/cern.ch/user/c/cbaus/public/Externals/cms.param")
+
+Notes:
+ seed is no longer used
+ for heavy ions, change IDs to 207 (not 208!)
+ momentum is nucleon momentum
+ beam is going to eta minus side

@@ -1,0 +1,14 @@
+<library   name="TotemAlignmentRPRatesPlugins" file="*.cc">
+  <flags   EDM_PLUGIN="1"/>
+  <use   name="FWCore/Framework"/>
+  <use   name="FWCore/ParameterSet"/>
+  <use   name="DataFormats/TotemRPDetId"/>
+  <use   name="Geometry/TotemRPGeometryBuilder"/>
+  <use   name="root"/>
+  <use   name="hepmc"/>
+  <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
+  <use   name="TotemCondFormats/ProtonTransportFunctions"/>
+  <use   name="TotemCondFormats/DataRecord"/>
+  <use   name="SimG4CMS/TotemRPProtTranspPar"/>
+  <use   name="TotemAlignment/RPRates"/>
+</library>

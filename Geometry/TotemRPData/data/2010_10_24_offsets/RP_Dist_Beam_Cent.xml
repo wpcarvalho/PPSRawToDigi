@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DDDefinition xmlns="http://www.cern.ch/cms/DDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.cern.ch/cms/DDL ../../DDLSchema/DDLSchema.xsd">
+	<ConstantsSection label="RP_Dist_Beam_Cent.xml">
+		<Constant name="RP_220_Left_Det_Dist_0" value="7.133*mm"/>
+		<Constant name="RP_220_Left_Det_Dist_1" value="7.142*mm"/>
+		<Constant name="RP_220_Left_Det_Dist_2" value="3.502*mm"/>
+		<Constant name="RP_220_Left_Det_Dist_3" value="4.207*mm"/>
+		<Constant name="RP_220_Left_Det_Dist_4" value="7.309*mm"/>
+		<Constant name="RP_220_Left_Det_Dist_5" value="7.318*mm"/>
+
+		<Constant name="RP_147_Left_Det_Dist_0" value="40.000*mm"/>
+		<Constant name="RP_147_Left_Det_Dist_1" value="40.000*mm"/>
+		<Constant name="RP_147_Left_Det_Dist_2" value="40.000*mm"/>
+		<Constant name="RP_147_Left_Det_Dist_3" value="40.000*mm"/>
+		<Constant name="RP_147_Left_Det_Dist_4" value="40.000*mm"/>
+		<Constant name="RP_147_Left_Det_Dist_5" value="40.000*mm"/>
+
+		<Constant name="RP_220_Right_Det_Dist_0" value="6.898*mm"/>
+		<Constant name="RP_220_Right_Det_Dist_1" value="6.917*mm"/>
+		<Constant name="RP_220_Right_Det_Dist_2" value="4.733*mm"/>
+		<Constant name="RP_220_Right_Det_Dist_3" value="4.366*mm"/>
+		<Constant name="RP_220_Right_Det_Dist_4" value="7.884*mm"/>
+		<Constant name="RP_220_Right_Det_Dist_5" value="7.890*mm"/>
+
+		<Constant name="RP_147_Right_Det_Dist_0" value="40.000*mm"/>
+		<Constant name="RP_147_Right_Det_Dist_1" value="40.000*mm"/>
+		<Constant name="RP_147_Right_Det_Dist_2" value="40.000*mm"/>
+		<Constant name="RP_147_Right_Det_Dist_3" value="40.000*mm"/>
+		<Constant name="RP_147_Right_Det_Dist_4" value="40.000*mm"/>
+		<Constant name="RP_147_Right_Det_Dist_5" value="40.000*mm"/>
+
+	</ConstantsSection>
+</DDDefinition>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DDDefinition xmlns="http://www.cern.ch/cms/DDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.cern.ch/cms/DDL ../../DDLSchema/DDLSchema.xsd">
+	<ConstantsSection label="RP_Dist_Beam_Cent.xml">
+		<Constant name="RP_147_Left_Det_Dist_0" value="40*mm"/>  <!-- could not calculate this value -->
+		<Constant name="RP_147_Left_Det_Dist_1" value="40*mm"/>  <!-- could not calculate this value -->
+		<Constant name="RP_147_Left_Det_Dist_2" value="40*mm"/>  <!-- could not calculate this value -->
+		<Constant name="RP_147_Left_Det_Dist_3" value="40*mm"/>  <!-- could not calculate this value -->
+		<Constant name="RP_147_Left_Det_Dist_4" value="40*mm"/>  <!-- could not calculate this value -->
+		<Constant name="RP_147_Left_Det_Dist_5" value="40*mm"/>  <!-- could not calculate this value -->
+		<Constant name="RP_147_Right_Det_Dist_0" value="40*mm"/>  <!-- could not calculate this value -->
+		<Constant name="RP_147_Right_Det_Dist_1" value="40*mm"/>  <!-- could not calculate this value -->
+		<Constant name="RP_147_Right_Det_Dist_2" value="40*mm"/>  <!-- could not calculate this value -->
+		<Constant name="RP_147_Right_Det_Dist_3" value="40*mm"/>  <!-- could not calculate this value -->
+		<Constant name="RP_147_Right_Det_Dist_4" value="40*mm"/>  <!-- could not calculate this value -->
+		<Constant name="RP_147_Right_Det_Dist_5" value="40*mm"/>  <!-- could not calculate this value -->
+		<Constant name="RP_220_Left_Det_Dist_0" value="+42.792*mm"/> <!-- motor-step reading: +41.768, offset:  +1.024 -->
+		<Constant name="RP_220_Left_Det_Dist_1" value="+40.575*mm"/> <!-- motor-step reading: +41.302, offset:  -0.727 -->
+		<Constant name="RP_220_Left_Det_Dist_2" value="+41.173*mm"/> <!-- motor-step reading: +40.885, offset:  +0.288 -->
+		<Constant name="RP_220_Left_Det_Dist_3" value="+39.838*mm"/> <!-- motor-step reading: +40.851, offset:  -1.013 -->
+		<Constant name="RP_220_Left_Det_Dist_4" value="+42.001*mm"/> <!-- motor-step reading: +40.954, offset:  +1.047 -->
+		<Constant name="RP_220_Left_Det_Dist_5" value="+40.888*mm"/> <!-- motor-step reading: +41.671, offset:  -0.783 -->
+		<Constant name="RP_220_Right_Det_Dist_0" value=" +6.458*mm"/> <!-- motor-step reading:  +6.130, offset:  +0.328 -->
+		<Constant name="RP_220_Right_Det_Dist_1" value=" +6.279*mm"/> <!-- motor-step reading:  +6.572, offset:  -0.293 -->
+		<Constant name="RP_220_Right_Det_Dist_2" value="+41.154*mm"/> <!-- motor-step reading: +41.148, offset:  +0.006 -->
+		<Constant name="RP_220_Right_Det_Dist_3" value="+40.699*mm"/> <!-- motor-step reading: +41.270, offset:  -0.571 -->
+		<Constant name="RP_220_Right_Det_Dist_4" value=" +6.157*mm"/> <!-- motor-step reading:  +5.702, offset:  +0.455 -->
+		<Constant name="RP_220_Right_Det_Dist_5" value=" +5.959*mm"/> <!-- motor-step reading:  +6.463, offset:  -0.504 -->
+	</ConstantsSection>
+</DDDefinition>

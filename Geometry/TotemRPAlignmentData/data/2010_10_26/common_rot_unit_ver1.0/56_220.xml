@@ -1,0 +1,80 @@
+<!--
+Shifts in um, rotations in mrad.
+
+For more details see RPAlignmentCorrections::LoadXMLFile in
+Geometry/TotemRPAlignmentDataFormats/src/RPAlignmentCorrections.cc
+-->
+
+<xml DocumentType="AlignmentDescription">
+	<rp  id=" 120"                                 sh_x="  +22.6" sh_y=" +163.0" sh_x_e="   +0.0" sh_y_e="   +0.0" rot_z="  -0.02" rot_z_e="  +0.17" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1200" sh_r=" +150.4" sh_r_e="   +0.1" sh_x=" -106.4" sh_y=" +106.4" sh_x_e="   -0.1" sh_y_e="   +0.1" rot_z="  +0.02" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1201" sh_r="  +62.3" sh_r_e="   +0.1" sh_x="  +44.1" sh_y="  +44.1" sh_x_e="   +0.0" sh_y_e="   +0.0" rot_z="  +0.02" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1202" sh_r="  +70.5" sh_r_e="   +0.1" sh_x="  -49.9" sh_y="  +49.9" sh_x_e="   -0.0" sh_y_e="   +0.0" rot_z="  +0.28" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1203" sh_r="  +27.4" sh_r_e="   +0.1" sh_x="  +19.3" sh_y="  +19.3" sh_x_e="   +0.0" sh_y_e="   +0.0" rot_z="  -0.20" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1204" sh_r="  +18.9" sh_r_e="   +0.1" sh_x="  -13.4" sh_y="  +13.3" sh_x_e="   -0.0" sh_y_e="   +0.0" rot_z="  +0.70" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1205" sh_r="   -1.8" sh_r_e="   +0.1" sh_x="   -1.3" sh_y="   -1.3" sh_x_e="   +0.0" sh_y_e="   +0.0" rot_z="  -0.51" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1206" sh_r="  -58.2" sh_r_e="   +0.1" sh_x="  +41.2" sh_y="  -41.1" sh_x_e="   -0.0" sh_y_e="   +0.0" rot_z="  +0.67" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1207" sh_r="  -68.8" sh_r_e="   +0.1" sh_x="  -48.7" sh_y="  -48.6" sh_x_e="   +0.0" sh_y_e="   +0.0" rot_z="  -1.24" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1208" sh_r=" -100.9" sh_r_e="   +0.1" sh_x="  +71.4" sh_y="  -71.3" sh_x_e="   -0.0" sh_y_e="   +0.0" rot_z="  +0.75" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1209" sh_r="  -63.3" sh_r_e="   +0.1" sh_x="  -44.8" sh_y="  -44.7" sh_x_e="   +0.0" sh_y_e="   +0.0" rot_z="  -0.48" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+
+	<rp  id=" 121"                                 sh_x=" +257.3" sh_y=" -449.8" sh_x_e="   +0.0" sh_y_e="   +0.0" rot_z="  +8.66" rot_z_e="  +0.18" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1210" sh_r="  -99.8" sh_r_e="   +0.1" sh_x="  -71.2" sh_y="  +69.9" sh_x_e="   +0.1" sh_y_e="   -0.1" rot_z="  +0.16" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1211" sh_r="  -77.7" sh_r_e="   +0.1" sh_x="  +54.5" sh_y="  +55.4" sh_x_e="   -0.1" sh_y_e="   -0.1" rot_z="  -0.58" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1212" sh_r="  -74.6" sh_r_e="   +0.1" sh_x="  -53.2" sh_y="  +52.3" sh_x_e="   +0.1" sh_y_e="   -0.1" rot_z="  +0.16" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1213" sh_r="  -31.2" sh_r_e="   +0.1" sh_x="  +21.8" sh_y="  +22.2" sh_x_e="   -0.1" sh_y_e="   -0.1" rot_z="  -0.46" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1214" sh_r="   +1.1" sh_r_e="   +0.1" sh_x="   +0.8" sh_y="   -0.8" sh_x_e="   +0.1" sh_y_e="   -0.1" rot_z="  +1.97" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1215" sh_r="  -10.8" sh_r_e="   +0.1" sh_x="   +7.6" sh_y="   +7.7" sh_x_e="   -0.1" sh_y_e="   -0.1" rot_z="  -1.30" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1216" sh_r="  +36.2" sh_r_e="   +0.1" sh_x="  +25.8" sh_y="  -25.4" sh_x_e="   +0.1" sh_y_e="   -0.1" rot_z="  -0.03" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1217" sh_r="  +78.0" sh_r_e="   +0.1" sh_x="  -54.7" sh_y="  -55.7" sh_x_e="   -0.1" sh_y_e="   -0.1" rot_z="  +0.42" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1218" sh_r="  +76.6" sh_r_e="   +0.1" sh_x="  +54.7" sh_y="  -53.7" sh_x_e="   +0.1" sh_y_e="   -0.1" rot_z="  +0.47" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1219" sh_r=" +101.5" sh_r_e="   +0.1" sh_x="  -71.2" sh_y="  -72.4" sh_x_e="   -0.1" sh_y_e="   -0.1" rot_z="  -0.69" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+
+	<rp  id=" 122"                                 sh_x=" -304.7" sh_y=" +267.2" sh_x_e="   +0.0" sh_y_e="   +0.0" rot_z="  +2.11" rot_z_e="  +0.18" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1220" sh_r="  +58.6" sh_r_e="   +0.1" sh_x="  +41.4" sh_y="  +41.5" sh_x_e="   +0.0" sh_y_e="   +0.0" rot_z="  -0.32" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1221" sh_r="  +66.5" sh_r_e="   +0.1" sh_x="  +47.2" sh_y="  -46.9" sh_x_e="   +0.0" sh_y_e="   -0.0" rot_z="  +0.43" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1222" sh_r="  +49.9" sh_r_e="   +0.1" sh_x="  +35.2" sh_y="  +35.4" sh_x_e="   +0.0" sh_y_e="   +0.0" rot_z="  -0.26" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1223" sh_r="  +55.3" sh_r_e="   +0.1" sh_x="  +39.2" sh_y="  -39.0" sh_x_e="   +0.0" sh_y_e="   -0.0" rot_z="  +0.97" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1224" sh_r="   +3.7" sh_r_e="   +0.1" sh_x="   +2.6" sh_y="   +2.6" sh_x_e="   +0.0" sh_y_e="   +0.0" rot_z="  -0.98" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1225" sh_r="  -19.2" sh_r_e="   +0.1" sh_x="  -13.6" sh_y="  +13.6" sh_x_e="   +0.0" sh_y_e="   -0.0" rot_z="  +0.13" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1226" sh_r="  -24.9" sh_r_e="   +0.1" sh_x="  -17.6" sh_y="  -17.6" sh_x_e="   +0.0" sh_y_e="   +0.0" rot_z="  -0.55" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1227" sh_r="  -64.7" sh_r_e="   +0.1" sh_x="  -45.9" sh_y="  +45.6" sh_x_e="   +0.0" sh_y_e="   -0.0" rot_z="  +0.41" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1228" sh_r="  -50.0" sh_r_e="   +0.1" sh_x="  -35.3" sh_y="  -35.4" sh_x_e="   +0.0" sh_y_e="   +0.0" rot_z="  -0.72" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1229" sh_r="  -94.4" sh_r_e="   +0.1" sh_x="  -66.9" sh_y="  +66.5" sh_x_e="   +0.0" sh_y_e="   -0.0" rot_z="  +0.81" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+
+	<rp  id=" 123"                                 sh_x=" +426.3" sh_y=" +277.7" sh_x_e="   +0.1" sh_y_e="   +0.1" rot_z="  +2.59" rot_z_e="  +0.18" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1230" sh_r="  +29.5" sh_r_e="   +0.2" sh_x="  +20.8" sh_y="  +20.9" sh_x_e="   +0.2" sh_y_e="   +0.2" rot_z="  -1.01" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1231" sh_r="  +49.2" sh_r_e="   +0.2" sh_x="  +34.9" sh_y="  -34.7" sh_x_e="   +0.2" sh_y_e="   -0.2" rot_z="  +0.70" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1232" sh_r="  +40.9" sh_r_e="   +0.2" sh_x="  +28.8" sh_y="  +29.0" sh_x_e="   +0.2" sh_y_e="   +0.2" rot_z="  -0.41" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1233" sh_r="   +7.2" sh_r_e="   +0.2" sh_x="   +5.1" sh_y="   -5.1" sh_x_e="   +0.2" sh_y_e="   -0.2" rot_z="  -0.31" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1234" sh_r="  +28.9" sh_r_e="   +0.2" sh_x="  +20.4" sh_y="  +20.5" sh_x_e="   +0.2" sh_y_e="   +0.2" rot_z="  -0.70" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1235" sh_r="  -13.7" sh_r_e="   +0.2" sh_x="   -9.7" sh_y="   +9.6" sh_x_e="   +0.2" sh_y_e="   -0.2" rot_z="  +0.50" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1236" sh_r="   -9.7" sh_r_e="   +0.2" sh_x="   -6.9" sh_y="   -6.9" sh_x_e="   +0.2" sh_y_e="   +0.2" rot_z="  -0.37" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1237" sh_r="  -37.9" sh_r_e="   +0.2" sh_x="  -26.9" sh_y="  +26.7" sh_x_e="   +0.2" sh_y_e="   -0.2" rot_z="  +0.40" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1238" sh_r="  -60.2" sh_r_e="   +0.2" sh_x="  -42.5" sh_y="  -42.7" sh_x_e="   +0.2" sh_y_e="   +0.2" rot_z="  +0.34" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1239" sh_r="  -31.1" sh_r_e="   +0.2" sh_x="  -22.0" sh_y="  +21.9" sh_x_e="   +0.2" sh_y_e="   -0.2" rot_z="  +0.76" rot_z_e="  +0.56" sh_z="   +0.0" sh_z_e="   +0.0"/>
+
+	<rp  id=" 124"                                 sh_x=" -328.8" sh_y=" +145.0" sh_x_e="   +0.1" sh_y_e="   +0.1" rot_z="  +0.62" rot_z_e="  +0.17" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1240" sh_r="  +53.4" sh_r_e="   +0.3" sh_x="  -37.8" sh_y="  +37.8" sh_x_e="   -0.2" sh_y_e="   +0.2" rot_z="  -0.63" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1241" sh_r="  +30.1" sh_r_e="   +0.3" sh_x="  +21.3" sh_y="  +21.2" sh_x_e="   +0.2" sh_y_e="   +0.2" rot_z="  -0.63" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1242" sh_r="  +27.7" sh_r_e="   +0.3" sh_x="  -19.6" sh_y="  +19.6" sh_x_e="   -0.2" sh_y_e="   +0.2" rot_z="  -1.28" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1243" sh_r="  +26.7" sh_r_e="   +0.3" sh_x="  +18.9" sh_y="  +18.9" sh_x_e="   +0.2" sh_y_e="   +0.2" rot_z="  -0.39" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1244" sh_r="  +13.8" sh_r_e="   +0.3" sh_x="   -9.8" sh_y="   +9.8" sh_x_e="   -0.2" sh_y_e="   +0.2" rot_z="  +0.29" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1245" sh_r="  +17.1" sh_r_e="   +0.3" sh_x="  +12.1" sh_y="  +12.1" sh_x_e="   +0.2" sh_y_e="   +0.2" rot_z="  +0.50" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1246" sh_r="  -25.4" sh_r_e="   +0.3" sh_x="  +18.0" sh_y="  -18.0" sh_x_e="   -0.2" sh_y_e="   +0.2" rot_z="  +0.23" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1247" sh_r="  -50.4" sh_r_e="   +0.3" sh_x="  -35.6" sh_y="  -35.6" sh_x_e="   +0.2" sh_y_e="   +0.2" rot_z="  +0.22" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1248" sh_r="  -39.0" sh_r_e="   +0.3" sh_x="  +27.6" sh_y="  -27.5" sh_x_e="   -0.2" sh_y_e="   +0.2" rot_z="  +1.03" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1249" sh_r="  -55.2" sh_r_e="   +0.3" sh_x="  -39.0" sh_y="  -39.1" sh_x_e="   +0.2" sh_y_e="   +0.2" rot_z="  +0.66" rot_z_e="  +0.55" sh_z="   +0.0" sh_z_e="   +0.0"/>
+
+	<rp  id=" 125"                                 sh_x="  -17.0" sh_y=" -434.3" sh_x_e="   +0.2" sh_y_e="   +0.2" rot_z=" +11.66" rot_z_e="  +0.18" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1250" sh_r=" -108.6" sh_r_e="   +0.5" sh_x="  -77.5" sh_y="  +76.0" sh_x_e="   +0.3" sh_y_e="   -0.3" rot_z="  -1.63" rot_z_e="  +0.59" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1251" sh_r="  -22.8" sh_r_e="   +0.5" sh_x="  +16.0" sh_y="  +16.3" sh_x_e="   -0.3" sh_y_e="   -0.3" rot_z="  -0.56" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1252" sh_r="  -61.0" sh_r_e="   +0.5" sh_x="  -43.6" sh_y="  +42.6" sh_x_e="   +0.3" sh_y_e="   -0.3" rot_z="  -0.90" rot_z_e="  +0.59" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1253" sh_r="   -4.3" sh_r_e="   +0.5" sh_x="   +3.0" sh_y="   +3.1" sh_x_e="   -0.3" sh_y_e="   -0.3" rot_z="  -0.40" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1254" sh_r="  +17.8" sh_r_e="   +0.5" sh_x="  +12.7" sh_y="  -12.5" sh_x_e="   +0.3" sh_y_e="   -0.3" rot_z="  -0.38" rot_z_e="  +0.59" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1255" sh_r="   -8.3" sh_r_e="   +0.5" sh_x="   +5.8" sh_y="   +5.9" sh_x_e="   -0.3" sh_y_e="   -0.3" rot_z="  +0.16" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1256" sh_r="  +28.1" sh_r_e="   +0.5" sh_x="  +20.1" sh_y="  -19.6" sh_x_e="   +0.3" sh_y_e="   -0.3" rot_z="  +0.16" rot_z_e="  +0.59" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1257" sh_r="  +25.4" sh_r_e="   +0.5" sh_x="  -17.7" sh_y="  -18.2" sh_x_e="   -0.3" sh_y_e="   -0.3" rot_z="  +1.06" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1258" sh_r="  +67.2" sh_r_e="   +0.5" sh_x="  +48.1" sh_y="  -46.9" sh_x_e="   +0.3" sh_y_e="   -0.3" rot_z="  +1.03" rot_z_e="  +0.59" sh_z="   +0.0" sh_z_e="   +0.0"/>
+	<det id="1259" sh_r="  +26.8" sh_r_e="   +0.5" sh_x="  -18.7" sh_y="  -19.2" sh_x_e="   -0.3" sh_y_e="   -0.3" rot_z="  +1.27" rot_z_e="  +0.57" sh_z="   +0.0" sh_z_e="   +0.0"/>
+</xml>

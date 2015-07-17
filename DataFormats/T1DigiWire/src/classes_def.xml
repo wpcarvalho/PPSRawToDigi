@@ -1,0 +1,9 @@
+<lcgdict>
+<class name="T1DigiWire"/>
+<class name="std::vector<T1DigiWire>"/>
+<class name="std::map<T1DetId,std::vector<T1DigiWire> >"/>
+<class name="std::pair<T1DetId,std::vector<T1DigiWire> >"/>
+<class name="TotemDigiCollection<T1DetId,T1DigiWire>"/> 
+<class name="edm::Wrapper<TotemDigiCollection<T1DetId,T1DigiWire>>" splitLevel="0"/> 
+<class name="edm::Wrapper<std::pair<T1DetId,std::vector<T1DigiWire> > >"/>
+</lcgdict>

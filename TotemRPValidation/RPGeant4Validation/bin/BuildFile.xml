@@ -1,0 +1,3 @@
+<use   name="TotemRPValidation/RPGeant4Validation"/>
+<bin   file="RPGeant4Validate.cc" name="RPGeant4Validate">
+</bin>

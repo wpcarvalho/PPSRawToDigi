@@ -1,0 +1,15 @@
+es_source = XMLIdealGeometryESSource {
+ 	vstring geomXMLFiles = {
+		"Geometry/CMSCommonData/data/materials.xml",
+		"Geometry/ForwardCommonData/data/zdcmaterials.xml",
+		"Geometry/ForwardCommonData/data/lumimaterials.xml",
+		"Geometry/ForwardCommonData/data/zdcrotations.xml",
+		"Geometry/ForwardCommonData/data/lumirotations.xml",
+		"Geometry/ForwardCommonData/data/zdc.xml",
+		"Geometry/ForwardCommonData/data/zdclumi.xml",
+		"SimG4CMS/Forward/test/data/CaloUtil.xml",
+		"Geometry/ForwardSimData/data/zdcsens.xml",
+		"Geometry/ForwardSimData/data/zdcProdCuts.xml"
+	}
+	string rootNodeName = "zdc:ZDCWorld"
+}

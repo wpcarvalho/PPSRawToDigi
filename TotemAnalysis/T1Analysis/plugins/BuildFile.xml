@@ -1,0 +1,27 @@
+<library   name="TotemAnalysisT1AnalysisPlugins" file="*.cc">
+  <use   name="FWCore/Framework"/>
+  <use   name="FWCore/ServiceRegistry"/>
+<use   name="clhep"/>
+<use   name="root"/>
+<use   name="boost"/>
+<use   name="DataFormats/Common"/>
+
+<use   name="TotemCondFormats/DataRecord"/>
+
+<use   name="Geometry/TotemRecords"/>
+<use   name="DataFormats/TotemL1Trigger"/>
+
+<use   name="DataFormats/T2Cluster"/>
+<use   name="DataFormats/T2DetId"/>
+<use   name="DataFormats/T1Cluster"/>
+<use   name="DataFormats/T1DetId"/>
+<use   name="Geometry/TotemGeometry"/>
+<use   name="TotemAnalysis/T2Cuts"/>
+<use   name="DataFormats/T2Road"/>
+<use   name="DataFormats/T1Road"/>
+
+
+
+
+  <flags   EDM_PLUGIN="1"/>
+</library>

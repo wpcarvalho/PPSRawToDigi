@@ -1,0 +1,48 @@
+/****************************************************************************
+*
+* This is a part of TOTEM offline software.
+* Authors:
+*   Jan Kašpar (jan.kaspar@gmail.com)
+*
+****************************************************************************/
+
+#ifndef DataDigiProducer_h
+#define DataDigiProducer_h
+
+#include "FWCore/Framework/interface/EDProducer.h"
+
+namespace edm {
+  class ParameterSet;
+  class EventSetup;
+  class Event;
+  class EventID;
+}
+
+namespace Totem {
+  class FramePosition;
+}
+
+
+/**
+ * \brief Converts raw event data to RP digi information.
+**/
+class RPDataDigiProducer : public edm::EDProducer
+{
+  public:
+
+    RPDataDigiProducer(const edm::ParameterSet& conf);
+    virtual  ~RPDataDigiProducer();
+
+    virtual void beginJob(const edm::EventSetup&);
+    virtual void endJob();
+    virtual void produce(edm::Event&, const edm::EventSetup&);
+
+  private:
+    unsigned char verbosity;
+
+    /// whether to throw an exception when the position of data frame is missing from the mapping
+    bool stopOnMissing;
+};
+
+#endif
+

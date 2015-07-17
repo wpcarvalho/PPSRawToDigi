@@ -1,0 +1,10 @@
+<lcgdict>
+<!--  <class name="fastjet::PseudoJet"/>
+  <class name="std::vector<fastjet::PseudoJet>"/>
+  <class name="edm::Wrapper<std::vector<fastjet::PseudoJet> >"/>
+  <class name="edm::Wrapper<fastjet::PseudoJet>"/>
+  -->
+  <class name="PseudoJetVectorWrapper"/>
+  <class name="edm::Wrapper<PseudoJetVectorWrapper>"/>
+</lcgdict>                                                                                                                                                              
+

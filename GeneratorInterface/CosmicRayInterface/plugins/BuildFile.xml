@@ -1,0 +1,4 @@
+<use   name="GeneratorInterface/CosmicRayInterface"/>
+<library   file="*.cc" name="GeneratorInterfaceCosmicRayInterfacePlugins">
+  <flags   EDM_PLUGIN="1"/>
+</library>

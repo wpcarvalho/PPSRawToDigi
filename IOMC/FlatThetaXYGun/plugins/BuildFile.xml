@@ -1,0 +1,12 @@
+<library name="IOMCFlatThetaXYGunPlugins" file="*.cc">
+	<flags EDM_PLUGIN="1"/>
+	<flags cxxflags="-O3 -g3 $(CUSTOM_FLAGS)"/>
+	<use name="FWCore/Framework"/>
+	<use name="FWCore/ParameterSet"/>
+	<use name="FWCore/ServiceRegistry"/>
+	<use name="FWCore/Utilities"/>
+	<use name="SimDataFormats/GeneratorProducts"/>
+	<use name="SimGeneral/HepPDTRecord"/>
+	<use name="hepmc"/>
+	<use name="clhep"/>
+</library>

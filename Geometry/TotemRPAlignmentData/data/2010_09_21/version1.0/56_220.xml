@@ -1,0 +1,80 @@
+<!--
+Shifts in um, rotations in mrad.
+
+For more details see RPAlignmentCorrections::LoadXMLFile in
+Geometry/TotemRPAlignmentDataFormats/src/RPAlignmentCorrections.cc
+-->
+
+<xml DocumentType="AlignmentDescription">
+	<rp  id=" 120"                                 sh_x="  +59.8" sh_y=" -160.0" sh_x_e="   +0.0" sh_y_e="   +0.0"/>
+	<det id="1200" sh_r=" +155.5" sh_r_e="   +0.0" sh_x=" -110.0" sh_y=" +110.0" sh_x_e="   -0.0" sh_y_e="   +0.0"/>
+	<det id="1201" sh_r="  +70.8" sh_r_e="   +0.0" sh_x="  +50.0" sh_y="  +50.0" sh_x_e="   +0.0" sh_y_e="   +0.0"/>
+	<det id="1202" sh_r="  +72.6" sh_r_e="   +0.2" sh_x="  -51.4" sh_y="  +51.4" sh_x_e="   -0.1" sh_y_e="   +0.1"/>
+	<det id="1203" sh_r="  +30.8" sh_r_e="   +0.2" sh_x="  +21.8" sh_y="  +21.8" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1204" sh_r="  +17.1" sh_r_e="   +0.2" sh_x="  -12.1" sh_y="  +12.1" sh_x_e="   -0.1" sh_y_e="   +0.1"/>
+	<det id="1205" sh_r="   -5.0" sh_r_e="   +0.2" sh_x="   -3.5" sh_y="   -3.5" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1206" sh_r="  -62.7" sh_r_e="   +0.2" sh_x="  +44.3" sh_y="  -44.3" sh_x_e="   -0.1" sh_y_e="   +0.1"/>
+	<det id="1207" sh_r="  -82.8" sh_r_e="   +0.2" sh_x="  -58.5" sh_y="  -58.5" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1208" sh_r=" -108.1" sh_r_e="   +0.2" sh_x="  +76.4" sh_y="  -76.4" sh_x_e="   -0.1" sh_y_e="   +0.1"/>
+	<det id="1209" sh_r="  -70.5" sh_r_e="   +0.2" sh_x="  -49.8" sh_y="  -49.8" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+
+	<rp  id=" 121"                                 sh_x=" +121.8" sh_y=" +865.0" sh_x_e="   +0.0" sh_y_e="   +0.0"/>
+	<det id="1210" sh_r=" -100.8" sh_r_e="   +0.6" sh_x="  -71.3" sh_y="  +71.3" sh_x_e="   +0.4" sh_y_e="   -0.4"/>
+	<det id="1211" sh_r="  -79.0" sh_r_e="   +0.6" sh_x="  +55.9" sh_y="  +55.9" sh_x_e="   -0.4" sh_y_e="   -0.4"/>
+	<det id="1212" sh_r="  -72.9" sh_r_e="   +0.6" sh_x="  -51.6" sh_y="  +51.6" sh_x_e="   +0.4" sh_y_e="   -0.4"/>
+	<det id="1213" sh_r="  -31.7" sh_r_e="   +0.6" sh_x="  +22.4" sh_y="  +22.4" sh_x_e="   -0.4" sh_y_e="   -0.4"/>
+	<det id="1214" sh_r="  -14.4" sh_r_e="   +0.6" sh_x="  -10.2" sh_y="  +10.2" sh_x_e="   +0.4" sh_y_e="   -0.4"/>
+	<det id="1215" sh_r="  -12.3" sh_r_e="   +0.6" sh_x="   +8.7" sh_y="   +8.7" sh_x_e="   -0.4" sh_y_e="   -0.4"/>
+	<det id="1216" sh_r="  +43.5" sh_r_e="   +0.6" sh_x="  +30.8" sh_y="  -30.8" sh_x_e="   +0.4" sh_y_e="   -0.4"/>
+	<det id="1217" sh_r="  +81.5" sh_r_e="   +0.6" sh_x="  -57.6" sh_y="  -57.6" sh_x_e="   -0.4" sh_y_e="   -0.4"/>
+	<det id="1218" sh_r="  +82.9" sh_r_e="   +0.6" sh_x="  +58.6" sh_y="  -58.6" sh_x_e="   +0.4" sh_y_e="   -0.4"/>
+	<det id="1219" sh_r=" +102.4" sh_r_e="   +0.6" sh_x="  -72.4" sh_y="  -72.4" sh_x_e="   -0.4" sh_y_e="   -0.4"/>
+
+	<rp  id=" 122"                                 sh_x=" -330.4" sh_y="+1281.3" sh_x_e="   +0.0" sh_y_e="   +0.0"/>
+	<det id="1220" sh_r="  +59.1" sh_r_e="   +0.2" sh_x="  +41.8" sh_y="  +41.8" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1221" sh_r="  +62.6" sh_r_e="   +0.2" sh_x="  +44.3" sh_y="  -44.3" sh_x_e="   +0.1" sh_y_e="   -0.1"/>
+	<det id="1222" sh_r="  +48.4" sh_r_e="   +0.2" sh_x="  +34.2" sh_y="  +34.2" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1223" sh_r="  +55.6" sh_r_e="   +0.2" sh_x="  +39.3" sh_y="  -39.3" sh_x_e="   +0.1" sh_y_e="   -0.1"/>
+	<det id="1224" sh_r="   +7.2" sh_r_e="   +0.2" sh_x="   +5.1" sh_y="   +5.1" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1225" sh_r="  -20.7" sh_r_e="   +0.2" sh_x="  -14.6" sh_y="  +14.6" sh_x_e="   +0.1" sh_y_e="   -0.1"/>
+	<det id="1226" sh_r="  -26.1" sh_r_e="   +0.2" sh_x="  -18.4" sh_y="  -18.4" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1227" sh_r="  -63.1" sh_r_e="   +0.2" sh_x="  -44.6" sh_y="  +44.6" sh_x_e="   +0.1" sh_y_e="   -0.1"/>
+	<det id="1228" sh_r="  -50.9" sh_r_e="   +0.2" sh_x="  -36.0" sh_y="  -36.0" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1229" sh_r="  -88.1" sh_r_e="   +0.2" sh_x="  -62.3" sh_y="  +62.3" sh_x_e="   +0.1" sh_y_e="   -0.1"/>
+
+	<rp  id=" 123"                                 sh_x=" +704.0" sh_y=" +165.0" sh_x_e="   +0.0" sh_y_e="   +0.0"/>
+	<det id="1230" sh_r="  +38.4" sh_r_e="   +0.2" sh_x="  +27.2" sh_y="  +27.2" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1231" sh_r="  +46.3" sh_r_e="   +0.2" sh_x="  +32.8" sh_y="  -32.8" sh_x_e="   +0.1" sh_y_e="   -0.1"/>
+	<det id="1232" sh_r="  +43.2" sh_r_e="   +0.2" sh_x="  +30.5" sh_y="  +30.5" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1233" sh_r="   +1.9" sh_r_e="   +0.2" sh_x="   +1.3" sh_y="   -1.3" sh_x_e="   +0.1" sh_y_e="   -0.1"/>
+	<det id="1234" sh_r="  +32.1" sh_r_e="   +0.2" sh_x="  +22.7" sh_y="  +22.7" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1235" sh_r="  -12.4" sh_r_e="   +0.2" sh_x="   -8.8" sh_y="   +8.8" sh_x_e="   +0.1" sh_y_e="   -0.1"/>
+	<det id="1236" sh_r="  -10.6" sh_r_e="   +0.2" sh_x="   -7.5" sh_y="   -7.5" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1237" sh_r="  -34.8" sh_r_e="   +0.2" sh_x="  -24.6" sh_y="  +24.6" sh_x_e="   +0.1" sh_y_e="   -0.1"/>
+	<det id="1238" sh_r="  -68.9" sh_r_e="   +0.2" sh_x="  -48.7" sh_y="  -48.7" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1239" sh_r="  -23.6" sh_r_e="   +0.2" sh_x="  -16.7" sh_y="  +16.7" sh_x_e="   +0.1" sh_y_e="   -0.1"/>
+
+	<rp  id=" 124"                                 sh_x="   +2.7" sh_y="  +72.1" sh_x_e="   +0.0" sh_y_e="   +0.0"/>
+	<det id="1240" sh_r="  +61.9" sh_r_e="   +0.2" sh_x="  -43.8" sh_y="  +43.8" sh_x_e="   -0.1" sh_y_e="   +0.1"/>
+	<det id="1241" sh_r="  +27.2" sh_r_e="   +0.2" sh_x="  +19.2" sh_y="  +19.2" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1242" sh_r="  +36.6" sh_r_e="   +0.2" sh_x="  -25.8" sh_y="  +25.8" sh_x_e="   -0.1" sh_y_e="   +0.1"/>
+	<det id="1243" sh_r="  +23.9" sh_r_e="   +0.2" sh_x="  +16.9" sh_y="  +16.9" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1244" sh_r="  +12.5" sh_r_e="   +0.2" sh_x="   -8.8" sh_y="   +8.8" sh_x_e="   -0.1" sh_y_e="   +0.1"/>
+	<det id="1245" sh_r="  +22.2" sh_r_e="   +0.2" sh_x="  +15.7" sh_y="  +15.7" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1246" sh_r="  -29.5" sh_r_e="   +0.2" sh_x="  +20.8" sh_y="  -20.8" sh_x_e="   -0.1" sh_y_e="   +0.1"/>
+	<det id="1247" sh_r="  -50.7" sh_r_e="   +0.2" sh_x="  -35.8" sh_y="  -35.8" sh_x_e="   +0.1" sh_y_e="   +0.1"/>
+	<det id="1248" sh_r="  -49.0" sh_r_e="   +0.0" sh_x="  +34.6" sh_y="  -34.6" sh_x_e="   -0.0" sh_y_e="   +0.0"/>
+	<det id="1249" sh_r="  -52.8" sh_r_e="   +0.0" sh_x="  -37.3" sh_y="  -37.3" sh_x_e="   +0.0" sh_y_e="   +0.0"/>
+
+	<rp  id=" 125"                                 sh_x="  +71.5" sh_y=" -435.0" sh_x_e="   +0.0" sh_y_e="   +0.0"/>
+	<det id="1250" sh_r="  -95.3" sh_r_e="   +0.5" sh_x="  -67.4" sh_y="  +67.4" sh_x_e="   +0.4" sh_y_e="   -0.4"/>
+	<det id="1251" sh_r="  -25.9" sh_r_e="   +0.5" sh_x="  +18.3" sh_y="  +18.3" sh_x_e="   -0.4" sh_y_e="   -0.4"/>
+	<det id="1252" sh_r="  -54.6" sh_r_e="   +0.5" sh_x="  -38.6" sh_y="  +38.6" sh_x_e="   +0.4" sh_y_e="   -0.4"/>
+	<det id="1253" sh_r="   -6.5" sh_r_e="   +0.5" sh_x="   +4.6" sh_y="   +4.6" sh_x_e="   -0.4" sh_y_e="   -0.4"/>
+	<det id="1254" sh_r="  +19.6" sh_r_e="   +0.5" sh_x="  +13.9" sh_y="  -13.9" sh_x_e="   +0.4" sh_y_e="   -0.4"/>
+	<det id="1255" sh_r="   -8.2" sh_r_e="   +0.5" sh_x="   +5.8" sh_y="   +5.8" sh_x_e="   -0.4" sh_y_e="   -0.4"/>
+	<det id="1256" sh_r="  +25.2" sh_r_e="   +0.5" sh_x="  +17.8" sh_y="  -17.8" sh_x_e="   +0.4" sh_y_e="   -0.4"/>
+	<det id="1257" sh_r="  +28.6" sh_r_e="   +0.5" sh_x="  -20.3" sh_y="  -20.3" sh_x_e="   -0.4" sh_y_e="   -0.4"/>
+	<det id="1258" sh_r="  +56.2" sh_r_e="   +0.5" sh_x="  +39.7" sh_y="  -39.7" sh_x_e="   +0.4" sh_y_e="   -0.4"/>
+	<det id="1259" sh_r="  +30.9" sh_r_e="   +0.5" sh_x="  -21.8" sh_y="  -21.8" sh_x_e="   -0.4" sh_y_e="   -0.4"/>
+</xml>

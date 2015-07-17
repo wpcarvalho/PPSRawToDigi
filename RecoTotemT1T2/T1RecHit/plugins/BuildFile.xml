@@ -1,0 +1,16 @@
+<library   file="*.cc" name="RecoTotemT1T2T1RecHitPlugins">
+  <use   name="root"/>
+  <use   name="FWCore/Framework"/>
+  <use   name="Geometry/TotemRecords"/>
+  <use   name="DataFormats/TrackingRecHit"/>
+  <use   name="DataFormats/T1RecHit"/>
+  <use   name="DataFormats/T1DigiWire"/>
+  <use   name="DataFormats/T1DigiVfat"/>
+  <use   name="DataFormats/T1Cluster"/>
+  <use   name="DataFormats/Common"/>
+  <use   name="DataFormats/GeometryVector"/>
+  <use   name="Geometry/TotemGeometry"/>
+  <use   name="FWCore/ParameterSet"/>
+  <use   name="boost"/>
+  <flags   EDM_PLUGIN="1"/>
+</library>

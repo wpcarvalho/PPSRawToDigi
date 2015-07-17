@@ -1,0 +1,17 @@
+<use   name="root"/>
+<use   name="DataFormats/Common"/>
+<use   name="FWCore/Framework"/>
+<use   name="FWCore/ParameterSet"/>
+<use   name="FWCore/MessageLogger"/>
+<use   name="Geometry/TotemRecords"/>
+<use   name="DataFormats/T1DigiWire"/>
+<use   name="DataFormats/T1DigiSantiard"/>
+<use   name="DataFormats/T1DigiVfat"/>
+<use   name="DataFormats/T1Cluster"/>
+<use   name="Geometry/TotemGeometry"/>
+<use   name="boost"/>
+<use   name="TotemRawDataLibrary/DataFormats"/>
+<use   name="SimTotem/T1Digitizer"/>
+<use   name="TotemCondFormats/DAQInformation"/>
+<export>
+</export>

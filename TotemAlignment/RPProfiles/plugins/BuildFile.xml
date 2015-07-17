@@ -1,0 +1,9 @@
+<library   name="TotemAlignmentRPProfilesPlugins" file="*.cc">
+  <flags   EDM_PLUGIN="1"/>
+  <use   name="FWCore/Framework"/>
+  <use   name="FWCore/ParameterSet"/>
+  <use   name="DataFormats/TotemRPDetId"/>
+  <use   name="Geometry/TotemRPGeometryBuilder"/>
+  <use   name="TotemAlignment/RPTrackBased"/>
+  <use   name="root"/>
+</library>

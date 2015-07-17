@@ -1,0 +1,7 @@
+<use   name="FWCore/ParameterSet"/>
+<use   name="FWCore/Framework"/>
+<use   name="hepmc"/>
+<use   name="TotemCondFormats/DataRecord"/>
+<use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
+<use   name="RecoTotemRP/RPRomanPotResolutionService"/>
+<flags   EDM_PLUGIN="1"/>

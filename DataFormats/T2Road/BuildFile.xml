@@ -1,0 +1,10 @@
+<use   name="DataFormats/Common"/>
+<use   name="FWCore/Framework"/>
+<use   name="FWCore/MessageLogger"/>
+<use   name="DataFormats/T2Hit"/>
+<use   name="DataFormats/T2Cluster"/>
+<use   name="boost"/>
+<use   name="rootrflx"/>
+<export>
+  <lib   name="1"/>
+</export>

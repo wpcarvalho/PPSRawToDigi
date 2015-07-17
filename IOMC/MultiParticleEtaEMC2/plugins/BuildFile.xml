@@ -1,0 +1,11 @@
+<library   name="IOMCMultiParticleEtaEMC2Plugins" file="*.cc">
+	<flags   EDM_PLUGIN="1"/>
+	<flags   cxxflags="-O3 -g3 $(CUSTOM_FLAGS)"/>
+	<use   name="boost"/>
+	<use   name="FWCore/Framework"/>
+	<use   name="SimDataFormats/GeneratorProducts"/>
+	<use   name="SimGeneral/HepPDTRecord"/>
+	<use   name="clhep"/>
+	<use   name="hepmc"/>
+	<use   name="heppdt"/>
+</library>
