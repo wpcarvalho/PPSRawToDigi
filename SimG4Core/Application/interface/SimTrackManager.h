@@ -77,7 +77,7 @@ public:
   }
   
   void addTkCaloStateInfo(uint32_t t,
-                          const std::pair<math::XYZVectorD,math::XYZTLorentzVectorD>& p)
+			  const std::pair<math::XYZVectorD,math::XYZTLorentzVectorD>& p)
   {
     std::map<uint32_t,std::pair<math::XYZVectorD,math::XYZTLorentzVectorD> >::const_iterator it = 
       mapTkCaloStateInfo.find(t);

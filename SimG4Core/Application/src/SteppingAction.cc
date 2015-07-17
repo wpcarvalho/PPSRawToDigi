@@ -7,7 +7,7 @@
 #include "G4RegionStore.hh"
 #include "G4Track.hh"
 #include "G4UnitsTable.hh"
-#include "G4SystemOfUnits.hh" 
+#include "G4SystemOfUnits.hh"
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
@@ -46,11 +46,11 @@ SteppingAction::SteppingAction(EventAction* e, const edm::ParameterSet & p)
   killByEnergy = false;
   if(ekinVolumes.size() > 0) {
 
-    killByEnergy = true;  
+    killByEnergy = true;
     edm::LogInfo("SimG4CoreApplication") << "SteppingAction::Kill following "
-				         << ekinParticles.size() 
-				         << " particles in " << ekinNames.size()
-				         << " volumes";
+					 << ekinParticles.size()
+					 << " particles in " << ekinNames.size()
+					 << " volumes";
     for (unsigned int i=0; i<ekinParticles.size(); i++) {
       ekinMins[i] *= GeV;
       edm::LogInfo("SimG4CoreApplication") << "SteppingAction::Particle " << i
@@ -60,7 +60,7 @@ SteppingAction::SteppingAction(EventAction* e, const edm::ParameterSet & p)
     }
     for (unsigned int i=0; i<ekinNames.size(); i++) 
       edm::LogInfo("SimG4CoreApplication") << "SteppingAction::Volume[" << i
- 					   << "] = " << ekinNames[i];
+					   << "] = " << ekinNames[i];
   }
 }
 
@@ -89,25 +89,25 @@ void SteppingAction::UserSteppingAction(const G4Step * aStep)
 
     if(ok && killByEnergy) { ok = killLowEnergy(aStep); }
 
-    if (ok) {
+    if(ok) {
 
       G4StepPoint* preStep = aStep->GetPreStepPoint();
       if(isThisVolume(preStep->GetTouchable(),tracker) &&
-         isThisVolume(aStep->GetPostStepPoint()->GetTouchable(),calo)) {
+	 isThisVolume(aStep->GetPostStepPoint()->GetTouchable(),calo)) {
 
-      math::XYZVectorD pos((preStep->GetPosition()).x(),
-                             (preStep->GetPosition()).y(),
-                             (preStep->GetPosition()).z());
+	math::XYZVectorD pos((preStep->GetPosition()).x(),
+			     (preStep->GetPosition()).y(),
+			     (preStep->GetPosition()).z());
 
-        math::XYZTLorentzVectorD mom((preStep->GetMomentum()).x(),
-                                     (preStep->GetMomentum()).y(),
-                                     (preStep->GetMomentum()).z(),
-                                     preStep->GetTotalEnergy());
+	math::XYZTLorentzVectorD mom((preStep->GetMomentum()).x(),
+				     (preStep->GetMomentum()).y(),
+				     (preStep->GetMomentum()).z(),
+				     preStep->GetTotalEnergy());
       
-        uint32_t id = aStep->GetTrack()->GetTrackID();
+	uint32_t id = aStep->GetTrack()->GetTrackID();
       
-        std::pair<math::XYZVectorD,math::XYZTLorentzVectorD> p(pos,mom);
-        eventAction_->addTkCaloStateInfo(id,p);
+	std::pair<math::XYZVectorD,math::XYZTLorentzVectorD> p(pos,mom);
+	eventAction_->addTkCaloStateInfo(id,p);
       }
     }
   }
@@ -156,7 +156,7 @@ bool SteppingAction::catchLongLived(const G4Step * aStep)
   double time = (aStep->GetPostStepPoint()->GetGlobalTime())/nanosecond;
   double tofM = maxTrackTime;
 
-  if (killByTimeAtRegion) {
+  if(killByTimeAtRegion) {
     G4Region* reg = 
       aStep->GetPreStepPoint()->GetPhysicalVolume()->GetLogicalVolume()->GetRegion();
     for (unsigned int i=0; i<maxTimeRegions.size(); i++) {

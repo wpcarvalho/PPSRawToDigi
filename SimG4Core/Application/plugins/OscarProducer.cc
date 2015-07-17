@@ -61,7 +61,7 @@ OscarProducer::OscarProducer(edm::ParameterSet const & p)
 
     usesResource(edm::SharedResourceNames::kGEANT);
     usesResource(edm::SharedResourceNames::kCLHEPRandomEngine);
-    
+
     produces<edm::SimTrackContainer>().setBranchAlias("SimTracks");
     produces<edm::SimVertexContainer>().setBranchAlias("SimVertices");
     produces<edm::PSimHitContainer>("TrackerHitsPixelBarrelLowTof");
@@ -127,9 +127,9 @@ OscarProducer::~OscarProducer()
 
 void OscarProducer::beginRun(const edm::Run & r, const edm::EventSetup & es)
 {
-  // Random number generation not allowed here
-  StaticRandomEngineSetUnset random(nullptr);
-  m_runManager->initG4(es);
+    // Random number generation not allowed here
+    StaticRandomEngineSetUnset random(nullptr);
+    m_runManager->initG4(es);
 }
 
 void OscarProducer::produce(edm::Event & e, const edm::EventSetup & es)
@@ -188,6 +188,7 @@ void OscarProducer::produce(edm::Event & e, const edm::EventSetup & es)
        throw edm::Exception( edm::errors::EventCorruption ) ;
     }
 }
+
 
 StaticRandomEngineSetUnset::StaticRandomEngineSetUnset(edm::StreamID const& streamID) {
 

@@ -90,15 +90,15 @@ void SimTrackManager::saveTrackAndItsBranch(TrackWithHistory * trkWHist)
     }
   trkH->save();
   unsigned int parent = trkH->parentID();
-    
+
   TrackContainer::const_iterator tk_itr = 
     std::lower_bound((*m_trksForThisEvent).begin(),(*m_trksForThisEvent).end(),
-                     parent,SimTrackManager::StrictWeakOrdering());
+		     parent,SimTrackManager::StrictWeakOrdering());
 
   TrackWithHistory * tempTk = *tk_itr;
-  
+
   if (tk_itr!=m_trksForThisEvent->end() && (*tk_itr)->trackID()==parent) { 
-    saveTrackAndItsBranch(tempTk);  
+    saveTrackAndItsBranch(tempTk);
   }
 }
 
@@ -150,7 +150,7 @@ void SimTrackManager::reallyStoreTracks(G4SimEvent * simEvent)
       ig = trkH->genParticleID();
       ivertex = getOrCreateVertex(trkH,iParentID,simEvent);
       std::map<uint32_t,std::pair<math::XYZVectorD,math::XYZTLorentzVectorD> >::const_iterator cit = 
-        mapTkCaloStateInfo.find(trkH->trackID());
+	  mapTkCaloStateInfo.find(trkH->trackID());
       std::pair<math::XYZVectorD,math::XYZTLorentzVectorD> tcinfo;
       if (cit !=  mapTkCaloStateInfo.end()){
         tcinfo = cit->second;
@@ -187,7 +187,7 @@ int SimTrackManager::getOrCreateVertex(TrackWithHistory * trkH, int iParentID,
         { return (((m_vertexMap[parent])[k]).first); }
     }
   }
-  
+
   unsigned int ptype = 0;
   const G4VProcess* pr = trkH->creatorProcess();
   if(pr) { ptype = pr->GetProcessSubType(); }
@@ -213,7 +213,7 @@ void SimTrackManager::cleanTkCaloStateInfoMap()
 
 int SimTrackManager::idSavedTrack (int id) const
 {
-  int idMother = id;  
+  int idMother = id;
   if(id > 0) {
     unsigned int n = idsave.size();
     if(0 < n) {
@@ -275,11 +275,11 @@ void SimTrackManager::fillMotherList()
   }
   /*
   std::cout << "### SimTrackManager::fillMotherList: "
-            << idsave.size() << " saved; ancestor: " << lastHist
-            << "  " << ancestorList.size() << std::endl;
+	    << idsave.size() << " saved; ancestor: " << lastHist
+	    << "  " << ancestorList.size() << std::endl;
   for (unsigned int i = 0; i< idsave.size(); ++i) { 
     std::cout  << " ISV: Track ID = " << (idsave[i]).first 
-               << " Mother ID = " << (idsave[i]).second << std::endl;
+	       << " Mother ID = " << (idsave[i]).second << std::endl;
   }
   */
   for (unsigned int n = lastHist; n < ancestorList.size(); n++) { 
@@ -292,7 +292,7 @@ void SimTrackManager::fillMotherList()
     */
 #ifdef DebugLog
     LogDebug("SimTrackManager")  << "Track ID = " << (ancestorList[n]).first 
-                                 << " Mother ID = " << (ancestorList[n]).second;
+				 << " Mother ID = " << (ancestorList[n]).second;
 #endif
   }
 
@@ -326,11 +326,11 @@ void SimTrackManager::cleanTracksWithHistory(){
   stable_sort(idsave.begin(),idsave.end());
   
 #ifdef DebugLog
-  LogDebug("SimTrackManager") 
+  LogDebug("SimTrackManager")
     << " SimTrackManager::cleanTracksWithHistory knows " << m_trksForThisEvent->size()
     << " tracks with history before branching";
   for (unsigned int it =0;  it <(*m_trksForThisEvent).size(); it++) {
-    LogDebug("SimTrackManager") 
+    LogDebug("SimTrackManager")
       << " 1 - Track in position " << it << " G4 track number "
       << (*m_trksForThisEvent)[it]->trackID()
       << " mother " << (*m_trksForThisEvent)[it]->parentID()
@@ -355,8 +355,8 @@ void SimTrackManager::cleanTracksWithHistory(){
 	  for (unsigned int itr=0; itr<idsave.size(); itr++) { 
 	    if ((idsave[itr]).first == g4ID) { 
 	      (idsave[itr]).second = g4ID; 
-              break; 
-            } 
+	      break;
+	    }
 	  }
         }
       else 

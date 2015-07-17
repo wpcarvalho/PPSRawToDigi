@@ -1,5 +1,5 @@
 // system include files
-#include <iostream> 
+#include <iostream>
 #include <memory>
 #include <vector>
 #include <string>

@@ -11,7 +11,7 @@ class G4SimVertex
 public:
     G4SimVertex() {}
     G4SimVertex(const math::XYZVectorD & ip, double it, int iv, unsigned int typ=0) : 
-	ilv_(ip),itime_(it),itrack_(iv),procType_(typ) {}
+      ilv_(ip),itime_(it),itrack_(iv),procType_(typ) {}
     /// index of the parent (-1 if no parent)
     const math::XYZVectorD & vertexPosition() const { return  ilv_; }
     const double vertexGlobalTime() const     { return  itime_; }

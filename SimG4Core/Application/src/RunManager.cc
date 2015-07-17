@@ -226,7 +226,7 @@ void RunManager::initG4(const edm::EventSetup & es)
 
   // attach sensitive detector
   m_attach = new AttachSD;
- 
+
   std::pair< std::vector<SensitiveTkDetector*>,
     std::vector<SensitiveCaloDetector*> > sensDets = 
     m_attach->create(*world,(*pDD),catalog_,m_p,m_trackManager.get(),m_registry);
@@ -235,11 +235,11 @@ void RunManager::initG4(const edm::EventSetup & es)
   m_sensCaloDets.swap(sensDets.second);
 
   edm::LogInfo("SimG4CoreApplication") << " RunManager: Sensitive Detector "
-                                       << " building finished; found " 
-                                       << m_sensTkDets.size()
-                                       << " Tk type Producers, and " 
-                                       << m_sensCaloDets.size() 
-                                       << " Calo type producers ";
+				       << "building finished; found "
+				       << m_sensTkDets.size()
+                       << " Tk type Producers, and "
+				       << m_sensCaloDets.size()
+				       << " Calo type producers ";
 
   edm::ESHandle<HepPDT::ParticleDataTable> fTable;
   es.get<PDTRecord>().get(fTable);
@@ -314,19 +314,19 @@ void RunManager::produce(edm::Event& inpevt, const edm::EventSetup & es)
   m_simEvent = new G4SimEvent;
   m_simEvent->hepEvent(m_generator->genEvent());
   m_simEvent->weight(m_generator->eventWeight());
-  if (m_generator->genVertex()!=0) {
+  if (m_generator->genVertex() !=0 ) {
     m_simEvent->collisionPoint(
       math::XYZTLorentzVectorD(m_generator->genVertex()->x()/centimeter,
-                               m_generator->genVertex()->y()/centimeter,
+			       m_generator->genVertex()->y()/centimeter,
 			       m_generator->genVertex()->z()/centimeter,
-                               m_generator->genVertex()->t()/second));
+			       m_generator->genVertex()->t()/second));
   }
   if (m_currentEvent->GetNumberOfPrimaryVertex()==0) {
     edm::LogError("SimG4CoreApplication") 
       << " RunManager::produce event " << inpevt.id().event()
       << " with no G4PrimaryVertices \n  Aborting Run" ;
        
-      abortRun(false);
+    abortRun(false);
   } else {
     m_kernel->GetEventManager()->ProcessOneEvent(m_currentEvent);
   }
@@ -356,8 +356,8 @@ G4Event * RunManager::generateEvent(edm::Event & inpevt)
   // required to reset the GenParticle Id for particles transported
   // along the beam pipe
   // to their original value for SimTrack creation
-  resetGenParticleId( inpevt );  
-  
+  resetGenParticleId( inpevt );
+
   if (!m_nonBeam) 
     {
       m_generator->HepMC2G4(HepMCEvt->GetEvent(),evt);
@@ -366,7 +366,7 @@ G4Event * RunManager::generateEvent(edm::Event & inpevt)
     {
       m_generator->nonBeamEvent2G4(HepMCEvt->GetEvent(),evt);
     }
-  
+
   return evt;
 }
 
@@ -401,7 +401,7 @@ void RunManager::abortEvent()
   G4StateManager* stateManager = G4StateManager::GetStateManager();
   stateManager->SetNewState(G4State_GeomClosed);
 
-  return ;
+  return;
 }
 
 void RunManager::initializeUserActions()
@@ -420,7 +420,7 @@ void RunManager::initializeUserActions()
     userEventAction->m_beginOfEventSignal.connect(m_registry.beginOfEventSignal_);
     userEventAction->m_endOfEventSignal.connect(m_registry.endOfEventSignal_);
     eventManager->SetUserAction(userEventAction);
-    
+
     TrackingAction* userTrackingAction = 
       new TrackingAction(userEventAction,m_pTrackingAction);
     userTrackingAction->m_beginOfTrackSignal.connect(m_registry.beginOfTrackSignal_);
@@ -432,13 +432,13 @@ void RunManager::initializeUserActions()
     userSteppingAction->m_g4StepSignal.connect(m_registry.g4StepSignal_);
     eventManager->SetUserAction(userSteppingAction);
     eventManager->SetUserAction(new StackingAction(userEventAction,m_pStackingAction));
-  
+
   } else {
     edm::LogWarning("SimG4CoreApplication") << " RunManager: WARNING : "
-                                            << " No generator; initialized "
-                                            << " only RunAction!";
-    }
-    return;
+					    << "No generator; initialized "
+					    << "only RunAction!";
+  }
+  return;
 }
 
 void RunManager::initializeRun()
@@ -449,7 +449,7 @@ void RunManager::initializeRun()
   if (m_userRunAction!=0) { m_userRunAction->BeginOfRunAction(m_currentRun); }
   m_runAborted = false;
   m_runInitialized = true;
-  return ;
+  return;
 }
  
 void RunManager::terminateRun()

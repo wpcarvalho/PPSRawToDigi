@@ -44,20 +44,20 @@ void TrackingAction::PreUserTrackingAction(const G4Track * aTrack)
   */      
 
   /*
-  if ( aTrack->GetTrackID() == palce_here_the_trackid_of_problematic_tracks  ) {
-    G4UImanager::GetUIpointer()->ApplyCommand("/tracking/verbose 6");
-  } else if ( aTrack->GetTrackID() == place_here_the_trackid_of_following_track_to_donwgrade_the_severity ) {
-    G4UImanager::GetUIpointer()->ApplyCommand("/tracking/verbose 0");
-  }
+    if ( aTrack->GetTrackID() == palce_here_the_trackid_of_problematic_tracks  ) {
+      G4UImanager::GetUIpointer()->ApplyCommand("/tracking/verbose 6");
+    } else if ( aTrack->GetTrackID() == place_here_the_trackid_of_following_track_to_donwgrade_the_severity ) {
+      G4UImanager::GetUIpointer()->ApplyCommand("/tracking/verbose 0");
+    }
   */
   BeginOfTrack bt(aTrack);
   m_beginOfTrackSignal(&bt);
 
   TrackInformation * trkInfo = (TrackInformation *)aTrack->GetUserInformation();
-  if (trkInfo->isPrimary()) {
+  if(trkInfo->isPrimary()) {
     eventAction_->prepareForNewPrimary();
   }
-  /*  
+  /*
     G4cout << "Track " << aTrack->GetTrackID() << " R " 
     << (aTrack->GetVertexPosition()).r() << " Z " 
     << std::abs((aTrack->GetVertexPosition()).z()) << G4endl << "Top Solid " 
@@ -82,8 +82,8 @@ void TrackingAction::PostUserTrackingAction(const G4Track * aTrack)
       currentTrack_->save();
 
       math::XYZVectorD pos((aTrack->GetStep()->GetPostStepPoint()->GetPosition()).x(),
-     		           (aTrack->GetStep()->GetPostStepPoint()->GetPosition()).y(),
-		           (aTrack->GetStep()->GetPostStepPoint()->GetPosition()).z());
+			   (aTrack->GetStep()->GetPostStepPoint()->GetPosition()).y(),
+			   (aTrack->GetStep()->GetPostStepPoint()->GetPosition()).z());
       math::XYZTLorentzVectorD mom;
 
       uint32_t id = aTrack->GetTrackID();
@@ -92,7 +92,7 @@ void TrackingAction::PostUserTrackingAction(const G4Track * aTrack)
       eventAction_->addTkCaloStateInfo(id,p);
 #ifdef DebugLog
       LogDebug("SimTrackManager") << "TrackingAction addTkCaloStateInfo " 
-                                  << id << " of momentum " << mom << " at " << pos;
+				  << id << " of momentum " << mom << " at " << pos;
 #endif
     }
 
@@ -108,12 +108,12 @@ void TrackingAction::PostUserTrackingAction(const G4Track * aTrack)
       eventAction_->addTrack(currentTrack_, true, withAncestor);
 #ifdef DebugLog
       math::XYZVectorD pos((aTrack->GetStep()->GetPostStepPoint()->GetPosition()).x(),
- 		           (aTrack->GetStep()->GetPostStepPoint()->GetPosition()).y(),
-		           (aTrack->GetStep()->GetPostStepPoint()->GetPosition()).z());
+			   (aTrack->GetStep()->GetPostStepPoint()->GetPosition()).y(),
+			   (aTrack->GetStep()->GetPostStepPoint()->GetPosition()).z());
       LogDebug("SimTrackManager") << "TrackingAction addTrack "  
-                                  << currentTrack_->trackID() 
-                                  << " added with " << true << " and " << withAncestor 
-                                  << " at " << pos;
+				  << currentTrack_->trackID()
+				  << " added with " << true << " and " << withAncestor
+				  << " at " << pos;
 #endif
 
     } else {
@@ -121,8 +121,8 @@ void TrackingAction::PostUserTrackingAction(const G4Track * aTrack)
 
 #ifdef DebugLog
       LogDebug("SimTrackManager") << "TrackingAction addTrack " 
-                                  << currentTrack_->trackID() << " added with " 
-                                  << false << " and " << false;
+				  << currentTrack_->trackID() << " added with "
+				  << false << " and " << false;
 #endif
 
       delete currentTrack_;

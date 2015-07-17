@@ -179,9 +179,6 @@ G4ClassificationOfNewTrack StackingAction::ClassifyNewTrack(const G4Track * aTra
                   && aTrack->GetCreatorProcess()->GetProcessType()==fParameterisation
                   && aTrack->GetCreatorProcess()->GetProcessName() == "TotemRPParameterisationProcess" )
                 ) {
-
-
-
  /*
     std::cout << "StackingAction: primary weight= " 
 	      << aTrack->GetWeight() << " "
@@ -200,7 +197,7 @@ G4ClassificationOfNewTrack StackingAction::ClassifyNewTrack(const G4Track * aTra
       }
     }
     */
-  } else if (aTrack->GetTouchable() == 0 ) {
+  } else if (aTrack->GetTouchable() == 0) {
     edm::LogError("SimG4CoreApplication")
       << "StackingAction: no touchable for track " << aTrack->GetTrackID()
       << " from " << aTrack->GetParentID()
@@ -208,7 +205,7 @@ G4ClassificationOfNewTrack StackingAction::ClassifyNewTrack(const G4Track * aTra
     classification = fKill;
   } else {
     int pdg = aTrack->GetDefinition()->GetPDGEncoding();
-    
+
     if (aTrack->GetTrackStatus() == fStopAndKill) { classification = fKill; }
     if (killHeavy && classification != fKill) {
       double ke  = aTrack->GetKineticEnergy()/MeV;
@@ -340,14 +337,14 @@ G4ClassificationOfNewTrack StackingAction::ClassifyNewTrack(const G4Track * aTra
   }
 #ifdef DebugLog
   LogDebug("SimG4CoreApplication") << "StackingAction:Classify Track "
-                  	           << aTrack->GetTrackID() << " Parent " 
+				   << aTrack->GetTrackID() << " Parent "
 				   << aTrack->GetParentID() << " Type "
 				   << aTrack->GetDefinition()->GetParticleName() 
 				   << " K.E. " << aTrack->GetKineticEnergy()/MeV
 				   << " MeV from process/subprocess " 
 				   << aTrack->GetCreatorProcess()->GetProcessType()
 				   << "|"
-                                   << aTrack->GetCreatorProcess()->GetProcessSubType()
+				   <<aTrack->GetCreatorProcess()->GetProcessSubType()
 				   << " as " << classification << " Flag " << flag;
 #endif
 
@@ -491,7 +488,7 @@ int StackingAction::isItPrimaryDecayProductOrConversion(const G4Track * aTrack,
 }
 
 bool StackingAction::rrApplicable(const G4Track * aTrack,
-                                  const G4Track & mother) const
+				  const G4Track & mother) const
 {
   bool flag = true;
   TrackInformationExtractor extractor;

@@ -114,8 +114,8 @@ void ParametrisedEMPhysics::ConstructProcess() {
   G4EmProcessOptions opt;
   const G4int NREG = 6;
   const G4String rname[NREG] = {"EcalRegion", "HcalRegion", "MuonIron",
-			     "PreshowerRegion","CastorRegion",
-			     "DefaultRegionForTheWorld"};
+				"PreshowerRegion","CastorRegion",
+				"DefaultRegionForTheWorld"};
   G4double rrfact[NREG] = { 1.0 };
 
   // Russian roulette for gamma

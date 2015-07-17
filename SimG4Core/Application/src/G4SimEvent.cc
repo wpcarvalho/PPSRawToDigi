@@ -102,8 +102,8 @@ void G4SimEvent::load(edm::SimVertexContainer & c) const
 	// t  = global time
 	// iv = index of the parent in the SimEvent SimTrack container (-1 if no parent)
 	SimVertex v = SimVertex(v3,t,iv,i);
-	v.setProcessType(vtx->processType());
-        v.setEventId(EncodedEventId(0));
+    v.setProcessType(vtx->processType());
+	v.setEventId(EncodedEventId(0));
 	c.push_back(v);
     }
 }
