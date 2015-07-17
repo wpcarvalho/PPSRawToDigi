@@ -11,7 +11,7 @@ class G4Track;
 class G4TrackToParticleID
 {
 public:
-    static int particleID(const G4Track *);
+  static int particleID(const G4Track *);
 };
 
 #endif

@@ -44,7 +44,7 @@ private:
   bool   fEtaCuts;
   bool   fPhiCuts;
   bool   fLeaveScatteredProtons;
-  bool fLeaveOnlyScatteredProtons;
+  bool   fLeaveOnlyScatteredProtons;
 
   double theMinPhiCut;
   double theMaxPhiCut;

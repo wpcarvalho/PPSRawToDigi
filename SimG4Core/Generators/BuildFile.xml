@@ -1,9 +1,9 @@
 <export>
   <lib   name="1"/>
 </export>
+<!--Totem deps-->
 <use   name="DataFormats/Math"/>
 <use   name="hepmc"/>
-
 
 <use   name="FWCore/ParameterSet"/>
 <use   name="FWCore/MessageLogger"/>

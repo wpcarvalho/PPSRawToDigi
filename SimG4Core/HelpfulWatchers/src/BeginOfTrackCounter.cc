@@ -53,4 +53,3 @@ void
 BeginOfTrackCounter::update(const BeginOfTrack*){
    ++m_count;
 }
-

@@ -237,9 +237,7 @@ void Generator::HepMC2G4(const HepMC::GenEvent * evt_orig, G4Event * g4evt)
           << "GenParticle barcode = " << (*vpitr)->barcode() 
           << " rejected as case 0" << std::endl;
         continue;
-      }
-      
-      // Standard case: particles not decayed by the generator
+      }// Standard case: particles not decayed by the generator
       else if( (*vpitr)->status() == 1 && fabs(zimpact) < Z_hector ) {
         if ( !particlePassesPrimaryCuts( p, zimpact ) ) {
           continue ;
@@ -253,7 +251,7 @@ void Generator::HepMC2G4(const HepMC::GenEvent * evt_orig, G4Event * g4evt)
     	  if ( verbose > 2 ) LogDebug("SimG4CoreGenerator") 
             << "GenParticle barcode = " << (*vpitr)->barcode() 
             << " passed case 4" << std::endl;
-       }
+      }
       
       // Decay chain entering exiting the fiducial cylinder defined by theRDecLenCut
       else if((*vpitr)->status() == 2 && r_decay_length > theRDecLenCut  && 
