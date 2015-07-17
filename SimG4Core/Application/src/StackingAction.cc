@@ -300,16 +300,16 @@ G4ClassificationOfNewTrack StackingAction::ClassifyNewTrack(const G4Track * aTra
 	      classification = fKill;
             }
   	  }
-        }  
+        }
       }
 
       if(classification != fKill && killInCaloEfH) {
         int pdgMother = mother->GetDefinition()->GetPDGEncoding();
-        if ( (pdg == 22 || std::abs(pdg) == 11) && 
-             (std::abs(pdgMother) < 11 || std::abs(pdgMother) > 17) && 
+        if ( (pdg == 22 || std::abs(pdg) == 11) &&
+             (std::abs(pdgMother) < 11 || std::abs(pdgMother) > 17) &&
              pdgMother != 22  ) {
           if ( isThisVolume(aTrack->GetTouchable(),calo)) {
-            classification = fKill; 
+            classification = fKill;
           }
         }
       }
@@ -405,7 +405,7 @@ void StackingAction::initPointer() {
   std::vector<G4Region*>::const_iterator rcite;
   for (rcite = rs->begin(); rcite != rs->end(); rcite++) {
     if ((gRusRoEcal < 1.0 || nRusRoEcal < 1.0 || pRusRoEcal < 1.0) && 
-        (*rcite)->GetName() == "EcalRegion") {  
+        (*rcite)->GetName() == "EcalRegion") {
       regionEcal = (*rcite); 
     }
     if ((gRusRoHcal < 1.0 || nRusRoHcal < 1.0 || pRusRoHcal < 1.0) && 
@@ -413,19 +413,19 @@ void StackingAction::initPointer() {
       regionHcal = (*rcite); 
     }
     if ((gRusRoMuonIron < 1.0 || nRusRoMuonIron < 1.0 || pRusRoMuonIron < 1.0) && 
-        (*rcite)->GetName() == "MuonIron") {  
+        (*rcite)->GetName() == "MuonIron") {
       regionMuonIron = (*rcite); 
     }
     if ((gRusRoPreShower < 1.0 || nRusRoPreShower < 1.0 || pRusRoPreShower < 1.0) 
-        && (*rcite)->GetName() == "PreshowerRegion") {  
+        && (*rcite)->GetName() == "PreshowerRegion") {
       regionPreShower = (*rcite); 
     }
     if ((gRusRoCastor < 1.0 || nRusRoCastor < 1.0 || pRusRoCastor < 1.0) && 
-        (*rcite)->GetName() == "CastorRegion") { 
+        (*rcite)->GetName() == "CastorRegion") {
       regionCastor = (*rcite); 
     }
     if ((nRusRoWorld < 1.0 || nRusRoWorld < 1.0 || pRusRoWorld < 1.0) && 
-        (*rcite)->GetName() == "DefaultRegionForTheWorld") {  
+        (*rcite)->GetName() == "DefaultRegionForTheWorld") {
       regionWorld = (*rcite); 
     }
 
@@ -442,7 +442,7 @@ void StackingAction::initPointer() {
     }
   }
   if(0 < tofs.size()) {
-    for (unsigned int i=0; i<tofs.size(); i++) {      
+    for (unsigned int i=0; i<tofs.size(); i++) {
       maxTrackTimes[i] = tofs[i];
       G4String name = "Unknown";
       if (maxTimeRegions[i]) { name = maxTimeRegions[i]->GetName(); }
@@ -469,7 +469,7 @@ bool StackingAction::isThisVolume(const G4VTouchable* touch,
 }
 
 int StackingAction::isItPrimaryDecayProductOrConversion(const G4Track * aTrack,
-							const G4Track & mother) const 
+							const G4Track & mother) const
 {
   int flag = 0;
   TrackInformationExtractor extractor;
@@ -504,13 +504,13 @@ bool StackingAction::rrApplicable(const G4Track * aTrack,
   int genID = motherInfo.genParticlePID();
   double genp = motherInfo.genParticleP();
   std::cout << "Track# " << aTrack->GetTrackID() << "  " 
-            << aTrack->GetDefinition()->GetParticleName()  
-            << "  E(MeV)= " << aTrack->GetKineticEnergy()/MeV 
+            << aTrack->GetDefinition()->GetParticleName()
+            << "  E(MeV)= " << aTrack->GetKineticEnergy()/MeV
             << " mother: " << mother.GetTrackID()
             << "  " << mother.GetDefinition()->GetParticleName()
             << " E(GeV)= " <<  mother.GetKineticEnergy()/GeV
-            << " flag: " << flag << " genID= " << genID 
-            << " p(GeV)= " << genp/GeV << std::endl; 
+            << " flag: " << flag << " genID= " << genID
+            << " p(GeV)= " << genp/GeV << std::endl;
     */
   return flag;
 }

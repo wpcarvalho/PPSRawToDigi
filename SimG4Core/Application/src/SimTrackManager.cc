@@ -20,7 +20,7 @@
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "G4VProcess.hh" 
+#include "G4VProcess.hh"
 
 //#define DebugLog
 
@@ -226,7 +226,7 @@ int SimTrackManager::idSavedTrack (int id) const
         if((idsave[j]).first == idMother) {
           id1 = (idsave[j]).second;
           if(0 == id1 || id1 == idMother) { return id1; }
-          jmax = j - 1; 
+          jmax = j - 1;
           idMother = id1;
           notFound = false;
           break;
@@ -258,7 +258,7 @@ int SimTrackManager::idSavedTrack (int id) const
               return idMother;
             }
           }
-          return 0; 
+          return 0;
         }
       } while (!notFound);
     }
@@ -368,11 +368,11 @@ void SimTrackManager::cleanTracksWithHistory(){
   (*m_trksForThisEvent).resize(num);
   
 #ifdef DebugLog
-  LogDebug("SimTrackManager") 
+  LogDebug("SimTrackManager")
     << " AFTER CLEANING, I GET " << (*m_trksForThisEvent).size()
     << " tracks to be saved persistently";
   for (unsigned int it = 0;  it < (*m_trksForThisEvent).size(); it++) {
-    LogDebug("SimTrackManager") 
+    LogDebug("SimTrackManager")
       << " Track in position " << it
       << " G4 track number " << (*m_trksForThisEvent)[it]->trackID()
       << " mother " << (*m_trksForThisEvent)[it]->parentID()
