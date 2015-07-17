@@ -58,7 +58,7 @@ public:
 			 edm::ParameterSet const & p,
 			 SimTrackManager const* manager);
   virtual ~TotemSD();
-  
+
   virtual bool   ProcessHits(G4Step *,G4TouchableHistory *);
   virtual uint32_t setDetUnitId(G4Step*);
 

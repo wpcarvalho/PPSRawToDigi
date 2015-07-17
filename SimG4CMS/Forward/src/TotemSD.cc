@@ -61,8 +61,7 @@ TotemSD::TotemSD(std::string name,
   hcID(-1), theHC(0), theManager(manager), currentHit(0), theTrack(0), 
   currentPV(0), unitID(0),  previousUnitID(0), preStepPoint(0), 
   postStepPoint(0), eventno(0){
-  
-  
+
   //Add Totem Sentitive Detector Names
   collectionName.insert(name);
 
@@ -114,8 +113,6 @@ TotemSD::~TotemSD() {
 
 bool TotemSD::ProcessHits(G4Step * aStep, G4TouchableHistory * ) {
 
-
-
   if (aStep == NULL) {
     return true;
   } else {
@@ -142,8 +139,6 @@ void TotemSD::Initialize(G4HCofThisEvent * HCE) {
 
   LogDebug("ForwardSim") << "TotemSD : Initialize called for " << name;
 
-  std::cout << std::endl;
-
   theHC = new TotemG4HitCollection(name, collectionName[0]);
   if (hcID<0) 
     hcID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
@@ -166,14 +161,13 @@ void TotemSD::EndOfEvent(G4HCofThisEvent* ) {
 			   << "               " << "theta   " 
 			   << aHit->getThetaAtEntry() << "\n";
 #endif
-
+    Local3DPoint theExitPoint(aHit->getExitPoint().x(),
+			 aHit->getExitPoint().y(),
+			 aHit->getExitPoint().z());
     Local3DPoint Entrata(aHit->getEntryPoint().x(),
 			 aHit->getEntryPoint().y(),
 			 aHit->getEntryPoint().z());
-    Local3DPoint Uscita(aHit->getExitPoint().x(),
-			 aHit->getExitPoint().y(),
-			 aHit->getExitPoint().z());
-    slave->processHits(PSimHit(Entrata,Uscita,
+    slave->processHits(PSimHit(Entrata,theExitPoint,
 			       aHit->getPabs(), aHit->getTof(),
 			       aHit->getEnergyLoss(), aHit->getParticleType(),
 			       aHit->getUnitID(), aHit->getTrackID(),
@@ -269,7 +263,6 @@ void TotemSD::GetStepInfo(G4Step* aStep) {
   ThetaAtEntry = aStep->GetPreStepPoint()->GetPosition().theta();
   PhiAtEntry   = aStep->GetPreStepPoint()->GetPosition().phi();
 
-
   ParentId = theTrack->GetParentID();
   Vx = theTrack->GetVertexPosition().x();
   Vy = theTrack->GetVertexPosition().y();
@@ -319,7 +312,7 @@ bool TotemSD::HitExists() {
 }
 
 void TotemSD::CreateNewHit() {
-  
+
 #ifdef debug
   LogDebug("ForwardSim") << "TotemSD CreateNewHit for"
 			 << " PV "     << currentPV->GetName()

@@ -1,6 +1,8 @@
+<!-- totem deps -->
 <use   name="DataFormats/T1DetId"/>
 <use   name="DataFormats/T2DetId"/>
 <use   name="rootrflx"/>
+
 <use   name="FWCore/PluginManager"/>
 <use   name="SimG4Core/Watcher"/>
 <use   name="SimG4Core/SensitiveDetector"/>
@@ -22,6 +24,3 @@
 <export>
   <lib   name="1"/>
 </export>
-
-
-<!-- <flags   EDM_PLUGIN="1"/> -->

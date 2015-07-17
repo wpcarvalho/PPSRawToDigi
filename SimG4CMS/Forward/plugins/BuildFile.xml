@@ -1,12 +1,10 @@
 <use   name="FWCore/PluginManager"/>
 <use   name="SimG4Core/Watcher"/>
 <use   name="SimG4Core/SensitiveDetector"/>
-
-<use   name="SimG4CMS/Forward"/>
-
 <use   name="SimG4Core/Notification"/>
 <use   name="SimG4Core/Application"/>
 <use   name="SimG4CMS/Calo"/>
+<use   name="SimG4CMS/Forward"/>
 <use   name="DataFormats/Math"/>
 <use   name="SimDataFormats/SimHitMaker"/>
 <use   name="SimDataFormats/CaloHit"/>

@@ -28,6 +28,3 @@ DEFINE_SIMWATCHER (ZdcTestAnalysis);
 DEFINE_SIMWATCHER (DoCastorAnalysis);
 //DEFINE_SIMWATCHER (TotemTestGem);
 DEFINE_SIMWATCHER (BscTest);
-
-
-

@@ -163,7 +163,7 @@ std::vector<ZdcShowerLibrary::Hit> & ZdcShowerLibrary::getHits(G4Step * aStep, b
 }
 
 
-int ZdcShowerLibrary::getEnergyFromLibrary(const G4ThreeVector& hitPoint,const G4ThreeVector& momDir, double energy,
+int ZdcShowerLibrary::getEnergyFromLibrary(const G4ThreeVector& hitPoint, const G4ThreeVector& momDir, double energy,
 					   G4int parCode,HcalZDCDetId::Section section, bool side, int channel){
   int nphotons = -1;
   

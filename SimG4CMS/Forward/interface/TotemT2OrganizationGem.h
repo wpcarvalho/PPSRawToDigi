@@ -38,7 +38,7 @@ public:
   uint32_t         GetUnitID(const G4Step* aStep) const;
 
 private:
-  
+
   // ---------- member data --------------------------------
   bool _needUpdateUnitID;
   bool _needUpdateData;

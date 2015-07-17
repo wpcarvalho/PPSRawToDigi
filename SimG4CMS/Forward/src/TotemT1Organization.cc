@@ -21,28 +21,20 @@
 #include "G4VPhysicalVolume.hh"
 #include "G4VTouchable.hh" 
 
-
-
-
 //
 // constructors and destructor
 //
-TotemT1Organization :: TotemT1Organization() : // _needUpdateUnitID(false),
-//	_needUpdateData(false),
+TotemT1Organization :: TotemT1Organization() :
+//                        _needUpdateUnitID(false),
+//                        _needUpdateData(false),
 						_currentUnitID(-1),
 						_currentPlane(-1),
 						_currentCSC(-1)
-					      //				,	_currentLayer(-1),
-					      //	_currentObjectType(Undefined) 
+//      				 	_currentLayer(-1),
+//                        _currentObjectType(Undefined)
 {
 
   edm::LogInfo("ForwardSim") << "Creating TotemT1Organization";
-
-  
-
-
-
-
 }
 
 TotemT1Organization :: ~TotemT1Organization() {
@@ -59,108 +51,94 @@ uint32_t TotemT1Organization :: GetUnitID(const G4Step* aStep) const {
 
 uint32_t TotemT1Organization :: GetUnitID(const G4Step* aStep) {
 
-//  std::cout << " INSIDE TotemT1Organization :: GetUnitID " << std::endl;
-
-  _currentDetectorPosition = 0; // default value for TestBeam geometry (only one arm, no TotemT1 volume 
-
+  _currentDetectorPosition = 0; // default value for TestBeam geometry (only one arm, no TotemT1 volume
 //  int currLAOT;
   const G4VTouchable* touch = aStep->GetPreStepPoint()->GetTouchable();
   G4VPhysicalVolume* physVol;
   int ii =0;
   G4String temp;
-
   int CSC_type=-1;
 
   for ( ii = 0; ii < touch->GetHistoryDepth(); ii++ ){
     physVol = touch->GetVolume(ii);
 
 
-   LogDebug("ForwardSim")    
-<< "physVol=" << physVol->GetName()
+   LogDebug("ForwardSim") << "physVol=" << physVol->GetName()
 			   << ", level=" << ii  << ", physVol->GetCopyNo()=" 
-			   << physVol->GetCopyNo()
-      ;
+			   << physVol->GetCopyNo();
 
-
-    if(physVol->GetName() == "TotemT1" && 
+    if(physVol->GetName() == "TotemT1" &&
        physVol->GetCopyNo()==1) _currentDetectorPosition = 0;
-    if(physVol->GetName() == "TotemT1" && 
+    if(physVol->GetName() == "TotemT1" &&
        physVol->GetCopyNo()==2) _currentDetectorPosition = 1;
+    if (physVol->GetName().contains("Internal")) {
+        temp = physVol->GetName();
+        if (physVol->GetName().contains("_R_") || physVol->GetName().contains("_L_")) {
+            if (physVol->GetName().contains("Up"))
+                temp.remove(0, 36);
+            if (physVol->GetName().contains("Low"))
+                temp.remove(0, 37);
+        } else {
+            temp.remove(0, 31);
+        }
 
-    
-      
-    if(physVol->GetName().contains("Internal")){
-    
-      temp=physVol->GetName();
-      if(physVol->GetName().contains("_R_") || physVol->GetName().contains("_L_")){
-	if(physVol->GetName().contains("Up"))
-temp.remove(0,36);
-	if(physVol->GetName().contains("Low"))
-temp.remove(0,37);
-      }else{
-      temp.remove(0,31);
-      }
+    temp.remove(1, 4);
+    const char *a = temp.c_str();
+    _currentPlane = a[0] - '0';
+    temp = physVol->GetName();
+    if (physVol->GetName().contains("_R_") || physVol->GetName().contains("_L_")) {
+        if (physVol->GetName().contains("Up"))
+            temp.remove(0, 38);
+        if (physVol->GetName().contains("Low"))
+            temp.remove(0, 39);
+    } else {
+        temp.remove(0, 33);
+    }
 
-      temp.remove(1,4);
-    
-      const char* a = temp.c_str();
-   
+    temp.remove(1, 2);
+    const char *b = temp.c_str();
 
-      _currentPlane = a[0]-'0';
-    
+    CSC_type = b[0] - '0';  // 0 for big, 5 for small ones
+    if (CSC_type == 0) {
+        switch (touch->GetVolume(ii + 1)->GetCopyNo()) {
+            case(1):
+                _currentCSC = 0;
+                break;
+            case(2):
+                _currentCSC = 4;
+                break;
+            case(3):
+                _currentCSC = 3;
+                break;
+            case(4):
+                _currentCSC = 1;
+                break;
 
-      temp=physVol->GetName();
-      if(physVol->GetName().contains("_R_") || physVol->GetName().contains("_L_")){
-	if(physVol->GetName().contains("Up"))
-temp.remove(0,38);
-	if(physVol->GetName().contains("Low"))
-temp.remove(0,39);
-      }else{
-      temp.remove(0,33);
-      }
-   
-      temp.remove(1,2);
-      const char* b= temp.c_str();
- 
-      CSC_type = b[0] - '0';  // 0 for big, 5 for small ones
-      if(CSC_type==0){
-	switch(touch->GetVolume(ii+1)->GetCopyNo()){
-	case(1):
-	  _currentCSC = 0;
-	  break;
-	case(2):
-	  _currentCSC = 4;
-	  break;
-	case(3):
-	  _currentCSC = 3;
-	  break;
-	case(4):
-	  _currentCSC = 1;
-	  break;
+        }
+    }
+    else if (CSC_type == 5) {
+        switch (touch->GetVolume(ii + 1)->GetCopyNo()) {
+            case(1):
+                _currentCSC = 5;
+                break;
+            case(2):
+                _currentCSC = 2;
+                break;
+            case(3):
+                _currentCSC = 3;
+                edm::LogWarning("ForwardSim") <<
+                "Warning: you are probably using TestBeam Geometry! If not check out!";
+                break;
 
-	}
-      }
-      else if(CSC_type==5){
-	switch(touch->GetVolume(ii+1)->GetCopyNo()){
-	case(1):
-	  _currentCSC = 5;
-	  break;
-	case(2):
-	  _currentCSC = 2;
-	  break;
-	case(3):
-	  _currentCSC = 3;
-	edm::LogWarning("ForwardSim") << "Warning: you are probably using TestBeam Geometry! If not check out!" ;
-	  break;
-
-	}
-      }
-      else{  edm::LogError("ForwardSim")
-    << "*******************************************************\n"
-	<< "Error: CSC type neither 0 (big) nor 5 (small)\n"
-	 << "*************************************** \n";
-	return 0;
-      }
+        }
+    }
+    else {
+        edm::LogError("ForwardSim")
+        << "*******************************************************\n"
+        << "Error: CSC type neither 0 (big) nor 5 (small)\n"
+        << "*************************************** \n";
+        return 0;
+    }
     }
 
 

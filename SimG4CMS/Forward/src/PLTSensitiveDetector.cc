@@ -257,5 +257,4 @@ TrackInformation* PLTSensitiveDetector::getOrCreateTrackInformation( const G4Tra
     }
     return info;
   }
-
 }

@@ -59,6 +59,10 @@ TotemTestGem::~TotemTestGem() {
   delete histos;
 }
 
+//
+// member functions
+//
+
 void TotemTestGem::produce(edm::Event& e, const edm::EventSetup&) {
 
   std::auto_ptr<TotemTestHistoClass> product(new TotemTestHistoClass);
@@ -74,7 +78,7 @@ void TotemTestGem::update(const BeginOfJob * job) {
 }
 
 void TotemTestGem::update(const BeginOfEvent * evt) {
-                                                                               
+
   // create tuple object
   tuples = new TotemTestHistoClass();
 
@@ -93,7 +97,6 @@ void TotemTestGem::update(const EndOfEvent * evt) {
   // access to the G4 hit collections 
   G4HCofThisEvent* allHC = (*evt)()->GetHCofThisEvent();
   
-  int ihit = 0;
   for (unsigned int in=0; in<names.size(); in++) {
     int HCid = G4SDManager::GetSDMpointer()->GetCollectionID(names[in]);
     TotemG4HitCollection* theHC = (TotemG4HitCollection*) allHC->GetHC(HCid);
@@ -104,7 +107,7 @@ void TotemTestGem::update(const EndOfEvent * evt) {
       int nentries = theHC->entries();
       LogDebug("ForwardSim") << "TotemTestGem :: " << names[in] << " with "
 			     << nentries << " entries";
-      for (ihit = 0; ihit <nentries; ihit++) {
+      for (int ihit = 0; ihit <nentries; ihit++) {
 	TotemG4Hit* aHit = (*theHC)[ihit];
 
 	int evtnum  = (*evt)()->GetEventID();
@@ -126,8 +129,6 @@ void TotemTestGem::update(const EndOfEvent * evt) {
 	float VPx=aHit->getVPx();
 	float VPy=aHit->getVPy();
 	float VPz=aHit->getVPz();
-
-
 
      histos->set_EVT(evtnum);
 
