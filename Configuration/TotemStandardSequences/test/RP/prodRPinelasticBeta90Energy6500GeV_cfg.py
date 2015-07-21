@@ -27,4 +27,4 @@ process.RP220Reconst.BeamProtTransportSetup = process.BeamProtTransportSetup
 
 process.g4SimHits.Physics.BeamProtTransportSetup = process.BeamProtTransportSetup
 
-process.p1 = cms.Path(process.generator*process.SmearingGenerator*process.g4SimHits*process.mix*process.RPSiDetDigitizer*process.RPClustProd*process.RPHecoHitProd*process.RPSinglTrackCandFind*process.RPSingleTrackCandCollFit*process.RP220Reconst)
+process.p1 = cms.Path(process.generator*process.SmearingGenerator*process.g4SimHits)

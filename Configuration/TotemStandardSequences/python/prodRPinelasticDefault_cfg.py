@@ -51,21 +51,4 @@ process.load("Configuration.TotemCommon.g4SimHits_cfi")
 #process.g4SimHits.Physics.BeamProtTransportSetup = process.BeamProtTransportSetup
 process.g4SimHits.Generator.HepMCProductLabel = 'generator'
 
-
-################## STEP 4 process.mix*process.RPSiDetDigitizer*process.RPClustProd*process.RPHecoHitProd*process.RPSinglTrackCandFind*process.RPSingleTrackCandCollFit
-
-process.load("Configuration.TotemStandardSequences/RP_Digi_and_TrackReconstruction_cfi")
-
-################## STEP 5 process.InelasticReconstruction
-
-# reconstruction
-#process.load("RecoTotemRP.RPInelasticReconstruction.RPRec220_cfi")
-#process.RP220Reconst.BeamProtTransportSetup = process.BeamProtTransportSetup
-
-################## STEP 6 process.RPCC
-
-process.load("L1TriggerTotem.CoincidenceChip.RPCoincidenceProducer_cfi")
-
-
-#process.p1 = cms.Path(process.generator*process.SmearingGenerator*process.g4SimHits*process.mix*process.RPSiDetDigitizer*process.RPClustProd*process.RPHecoHitProd*process.RPSinglTrackCandFind*process.RPSingleTrackCandCollFit*process.RP220Reconst)
 process.outpath = cms.EndPath(process.o1)
