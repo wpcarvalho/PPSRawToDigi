@@ -22,9 +22,6 @@ process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_6500GeV_90_cfi
 process.load("Configuration.TotemCommon.geometryRP_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')
 
-process.load("RecoTotemRP.RPInelasticReconstruction.Rec_6500GeV_beta_90_cfi")
-process.RP220Reconst.BeamProtTransportSetup = process.BeamProtTransportSetup
-
 process.g4SimHits.Physics.BeamProtTransportSetup = process.BeamProtTransportSetup
 
 process.p1 = cms.Path(process.generator*process.SmearingGenerator*process.g4SimHits)

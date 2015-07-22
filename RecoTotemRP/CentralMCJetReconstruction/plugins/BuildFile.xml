@@ -1,6 +1,0 @@
-<library   name="RecoTotemRPCentralMCJetReconstructionPlugins" file="*.cc">
-  <use   name="FWCore/Framework"/>
-  <use   name="FWCore/ServiceRegistry"/>
-  <use   name="RecoTotemRP/CentralMCJetReconstruction"/>
-  <flags   EDM_PLUGIN="1"/>
-</library>
