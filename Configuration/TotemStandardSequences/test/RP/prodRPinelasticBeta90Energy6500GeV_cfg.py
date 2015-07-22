@@ -15,13 +15,11 @@ exec 'process.' + str(process.outpath) + '.fileName = cms.untracked.string("file
 # particle generator paramteres
 process.load("IOMC.FlatProtonLogKsiLogTGun.Beta90Energy6500GeV_cfi")
 
-# optics
-process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_6500GeV_90_cfi")
-
 # G4 geometry
 process.load("Configuration.TotemCommon.geometryRP_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')
 
-process.g4SimHits.Physics.BeamProtTransportSetup = process.BeamProtTransportSetup
+#process.g4SimHits.Physics.BeamProtTransportSetup = process.BeamProtTransportSetup
 
-process.p1 = cms.Path(process.generator*process.SmearingGenerator*process.g4SimHits)
+#process.p1 = cms.Path(process.generator*process.SmearingGenerator*process.g4SimHits)
+process.p1 = cms.Path(process.generator*process.SmearingGenerator)

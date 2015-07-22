@@ -1,5 +1,0 @@
-<use   name="FWCore/ParameterSet"/>
-<use   name="FWCore/Framework"/>
-<use   name="Geometry/TotemRPGeometryBuilder"/>
-<use   name="hepmc"/>
-<flags   EDM_PLUGIN="1"/>

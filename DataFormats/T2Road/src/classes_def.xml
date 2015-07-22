@@ -1,7 +1,0 @@
-<lcgdict>
-  <class name="T2Road"/>
-  <class name="T2RoadCollection"/>
-  <class name="T2RoadCollectionWrapper"/>  	
-  <class name="std::vector<T2Road>"/>   
-  <class name="edm::Wrapper<std::vector<T2Road > >"/>
-</lcgdict>

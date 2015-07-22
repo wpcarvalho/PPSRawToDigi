@@ -1,8 +1,0 @@
-<lcgdict>
-<class name="T1DigiSantiard"/>
-<class name="std::vector<T1DigiSantiard>"/>
-<class name="std::map<T1DetId,std::vector<T1DigiSantiard> >"/>
-<class name="TotemDigiCollection<T1DetId,T1DigiSantiard>"/> 
-<class 
-name="edm::Wrapper<TotemDigiCollection<T1DetId,T1DigiSantiard>>" splitLevel="0"/> 
-</lcgdict>

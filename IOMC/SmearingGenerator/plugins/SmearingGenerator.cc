@@ -47,7 +47,7 @@ SmearingGenerator::SmearingGenerator(const edm::ParameterSet& pSet) :
 		cout << "SmearingGenerator.verbosity="<<verbosity<<endl;
   // initialize random engine
   Service<RandomNumberGenerator> rng;
-  HepRandomEngine &rndEng = rng->getEngine();
+  HepRandomEngine &rndEng = rng->getEngine(LuminosityBlockIndex::invalidLuminosityBlockIndex());
   if (verbosity > 0)
     cout << ">> SmearingGenerator > seed = " << rndEng.getSeed() << endl;
   rand = new RandGauss(rndEng); 

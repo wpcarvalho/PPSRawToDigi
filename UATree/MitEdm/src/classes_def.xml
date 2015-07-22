@@ -1,6 +1,0 @@
-<!-- $Id: classes_def.xml,v 1.15 2009/12/07 22:50:11 loizides Exp $ -->
-
-<lcgdict>
-  <class name="mitedm::EvtSelData"/>
-  <class name="edm::Wrapper<mitedm::EvtSelData>"/>
-</lcgdict>
