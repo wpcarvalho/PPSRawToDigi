@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<DDDefinition xmlns="http://www.cern.ch/cms/DDL"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.cern.ch/cms/DDL ../../../DDLSchema/DDLSchema.xsd">
+  <SpecParSection label="totemt2cuts.xml" eval="true">
+    <SpecPar name="T2_Support_Cuts">
+      <PartSelector path="//TotemT2SupportRodI"/>
+      <PartSelector path="//TotemT2SupportRodO"/>
+      <Parameter name="CMSCutsRegion" value="T2SupportCuts" eval="false"/>
+      <Parameter name="ProdCutsForElectrons" value="10*mm"/>
+      <Parameter name="ProdCutsForPositrons" value="10*mm"/>
+      <Parameter name="ProdCutsForGamma" value="100*mm"/>
+    </SpecPar>
+    <SpecPar name="Ionpump_Cuts">
+      <PartSelector path="//GaugeTubO"/>
+      <PartSelector path="//TubIonA"/>
+      <PartSelector path="//TubIonAB"/>
+      <PartSelector path="//TubIonB"/>
+      <PartSelector path="//BOXA"/>
+      <PartSelector path="//BOXB"/>
+      <Parameter name="CMSCutsRegion" value="IonpumpCuts" eval="false"/>
+      <Parameter name="ProdCutsForElectrons" value="10*mm"/>
+      <Parameter name="ProdCutsForPositrons" value="10*mm"/>
+      <Parameter name="ProdCutsForGamma" value="100*mm"/>
+    </SpecPar>
+    <SpecPar name="Ionpump_Non_dense_materials_cuts">
+      <PartSelector path="//GaugeTubI"/>
+      <PartSelector path="//TubIonAV"/>
+      <PartSelector path="//TubIonABV"/>
+      <PartSelector path="//TubIonBV"/>
+      <PartSelector path="//VBOXA"/>
+      <PartSelector path="//VBOXB"/>
+      <Parameter name="CMSCutsRegion" value="IonpumpNonDenseMaterialsCuts" eval="false"/>
+      <Parameter name="ProdCutsForElectrons" value="50*m"/>
+      <Parameter name="ProdCutsForPositrons" value="50*m"/>
+      <Parameter name="ProdCutsForGamma" value="50*m"/>
+    </SpecPar>
+  </SpecParSection>
+</DDDefinition>

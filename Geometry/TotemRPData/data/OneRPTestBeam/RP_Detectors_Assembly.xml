@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DDDefinition xmlns="http://www.cern.ch/cms/DDL"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.cern.ch/cms/DDL ../../DDLSchema/DDLSchema.xsd">
+    <ConstantsSection label="RP_Detectors_Assembly.xml">
+        <Constant name="RP_Det_Assembly_z"
+            value="2*[RP_Hybrid:RP_Front_Frame_Z]+10*[RP_Hybrid:RP_Separ_Frame_Plane_Thick]+10*[RP_Hybrid:RP_Separ_Spacer_Thick]"/>
+        <Constant name="RP_Det_Dist_From_Window" value="0*mm"/>
+    </ConstantsSection>
+    <PosPartSection label="RP_Detectors_Assembly.xml">
+        <!--Rotated Silicon Detectors inserted-->
+        <PosPart copyNumber="9">
+            <rParent name="RP_Box:RP_box_secondary_vacuum"/>
+            <rChild name="RP_Hybrid:RP_Silicon_Detector"/>
+            <rRotation name="RP_Transformations:RP_45_z_180_y_rot"/>
+            <Translation x="0*mm"
+                y="0*mm"
+                z="40.06*mm"
+            />
+        </PosPart>
+        <PosPart copyNumber="7">
+            <rParent name="RP_Box:RP_box_secondary_vacuum"/>
+            <rChild name="RP_Hybrid:RP_Silicon_Detector"/>
+            <rRotation name="RP_Transformations:RP_45_z_180_y_rot"/>
+            <Translation x="0*mm"
+                y="0*mm"
+                z="31.06*mm"
+            />
+        </PosPart>
+        <PosPart copyNumber="5">
+            <rParent name="RP_Box:RP_box_secondary_vacuum"/>
+            <rChild name="RP_Hybrid:RP_Silicon_Detector"/>
+            <rRotation name="RP_Transformations:RP_45_z_180_y_rot"/>
+            <Translation x="0*mm"
+                y="0*mm"
+                z="22.06*mm"
+            />
+        </PosPart>
+        <PosPart copyNumber="3">
+            <rParent name="RP_Box:RP_box_secondary_vacuum"/>
+            <rChild name="RP_Hybrid:RP_Silicon_Detector"/>
+            <rRotation name="RP_Transformations:RP_45_z_180_y_rot"/>
+            <Translation x="0*mm"
+                y="0*mm"
+                z="13.06*mm"
+            />
+        </PosPart>
+        <PosPart copyNumber="1">
+            <rParent name="RP_Box:RP_box_secondary_vacuum"/>
+            <rChild name="RP_Hybrid:RP_Silicon_Detector"/>
+            <rRotation name="RP_Transformations:RP_45_z_180_y_rot"/>
+            <Translation x="0*mm"
+                y="0*mm"
+                z="4.06*mm"
+            />
+        </PosPart>
+        <!--Silicon Detectors inserted-->
+        <PosPart copyNumber="8">
+            <rParent name="RP_Box:RP_box_secondary_vacuum"/>
+            <rChild name="RP_Hybrid:RP_Silicon_Detector"/>
+            <rRotation name="RP_Transformations:RP_45_z_rot"/>
+            <Translation x="0*mm"
+                y="0*mm"
+                z="36*mm"
+            />
+        </PosPart>
+        <PosPart copyNumber="6">
+            <rParent name="RP_Box:RP_box_secondary_vacuum"/>
+            <rChild name="RP_Hybrid:RP_Silicon_Detector"/>
+            <rRotation name="RP_Transformations:RP_45_z_rot"/>
+            <Translation x="0*mm"
+                y="0*mm"
+                z="27*mm"
+            />
+        </PosPart>
+        <PosPart copyNumber="4">
+            <rParent name="RP_Box:RP_box_secondary_vacuum"/>
+            <rChild name="RP_Hybrid:RP_Silicon_Detector"/>
+            <rRotation name="RP_Transformations:RP_45_z_rot"/>
+            <Translation x="0*mm"
+                y="0*mm"
+                z="18*mm"
+            />
+        </PosPart>
+        <PosPart copyNumber="2">
+            <rParent name="RP_Box:RP_box_secondary_vacuum"/>
+            <rChild name="RP_Hybrid:RP_Silicon_Detector"/>
+            <rRotation name="RP_Transformations:RP_45_z_rot"/>
+            <Translation x="0*mm"
+                y="0*mm"
+                z="9*mm"
+            />
+        </PosPart>
+        <PosPart copyNumber="0">
+            <rParent name="RP_Box:RP_box_secondary_vacuum"/>
+            <rChild name="RP_Hybrid:RP_Silicon_Detector"/>
+            <rRotation name="RP_Transformations:RP_45_z_rot"/>
+            <Translation x="0*mm"
+                y="0*mm"
+                z="0*mm"
+            />
+        </PosPart>
+    </PosPartSection>
+</DDDefinition>

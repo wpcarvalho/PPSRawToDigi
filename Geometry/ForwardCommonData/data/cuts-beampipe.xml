@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<DDDefinition xmlns="http://www.cern.ch/cms/DDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-inst
+ance" xsi:schemaLocation="http://www.cern.ch/cms/DDL ../../DDLSchema/DDLSchema.xsd">
+  <SpecParSection label="regions.xml" eval="true">
+    <SpecPar name="BP-vacuum">
+      <PartSelector path="//BeamVacuum1" />
+      <PartSelector path="//BeamVacuum2" />
+      <PartSelector path="//BeamVacuum3" />
+      <PartSelector path="//BeamVacuum4" />
+      <PartSelector path="//BeamVacuum5" />
+      <PartSelector path="//BeamVacuum6" />
+      <PartSelector path="//BeamVacuum7" />
+      <PartSelector path="//BeamVacuum8" />
+      <PartSelector path="//BeamVacuum9" />
+      <PartSelector path="//BeamVacuum10" />
+      <PartSelector path="//BeamVacuum11" />
+      <PartSelector path="//VTUB" />
+      <PartSelector path="//VBOXA" />
+      <PartSelector path="//VBOXB" />
+      <Parameter name="CMSCutsRegion" value="VacuumBeamPipe" eval="false"/>
+      <Parameter name="ProdCutsForElectrons" value="1000*cm"/>
+      <Parameter name="ProdCutsForPositrons" value="1000*cm"/>
+      <Parameter name="ProdCutsForGamma" value="1000*cm"/>
+  </SpecPar>
+    <SpecPar name="BP-StainlessSteel">
+      <PartSelector path="//BeamTube2" />
+      <PartSelector path="//BeamTube3" />
+      <PartSelector path="//BeamTube4" />
+      <PartSelector path="//BeamTube5" />
+      <PartSelector path="//BeamTube6" />
+      <PartSelector path="//BeamTube7" />
+      <PartSelector path="//BeamTube8" />
+      <PartSelector path="//BeamTube14" />	
+      <PartSelector path="//BeamTube15" />
+      <PartSelector path="//BeamInsert9" />
+      <PartSelector path="//FULLTUB" />
+      <PartSelector path="//BOXA" />
+      <PartSelector path="//BOXB" />
+      <Parameter name="CMSCutsRegion" value="StainlessSteelBeamPipe" eval="false"/>
+      <Parameter name="ProdCutsForElectrons" value="0.00220191*mm"/>
+      <Parameter name="ProdCutsForPositrons" value="8.31152*mm"/>
+      <Parameter name="ProdCutsForGamma" value="124.115*mm"/>
+  </SpecPar>
+    <SpecPar name="BP-Air">
+      <PartSelector path="//BeamAir1" />
+      <PartSelector path="//BeamAir2" />
+      <PartSelector path="//BeamAir3" />
+      <PartSelector path="//BeamAir4" />
+      <PartSelector path="//BeamAir5" />
+      <PartSelector path="//BeamAir6" />
+      <PartSelector path="//BeamAir7" />
+      <PartSelector path="//BeamAir8" />
+      <PartSelector path="//BeamAir9" />
+      <Parameter name="CMSCutsRegion" value="AirBeamPipe" eval="false"/>
+      <Parameter name="ProdCutsForElectrons" value="10000.*mm"/>
+      <Parameter name="ProdCutsForPositrons" value="10000.*mm"/>
+      <Parameter name="ProdCutsForGamma" value="10000.*mm"/>
+  </SpecPar>
+    <SpecPar name="BP-SteelLight">
+      <PartSelector path="//BeamBellow1" />
+      <PartSelector path="//BeamBellow2" />
+      <PartSelector path="//BeamBellow3" />
+      <PartSelector path="//BeamBellow4" />
+      <PartSelector path="//BeamBellow5" />
+      <Parameter name="CMSCutsRegion" value="Steel-lightBeamPipe" eval="false"/>
+      <Parameter name="ProdCutsForElectrons" value="383900.32*mm"/>
+      <Parameter name="ProdCutsForPositrons" value="128.189*mm"/>
+      <Parameter name="ProdCutsForGamma" value="1914.23*mm"/>
+  </SpecPar>
+    <SpecPar name="BP-Copper">
+      <PartSelector path="//BeamInsert8" />
+      <Parameter name="CMSCutsRegion" value="CopperBeamPipe" eval="false"/>
+      <Parameter name="ProdCutsForElectrons" value="21800.909*mm"/>
+      <Parameter name="ProdCutsForPositrons" value="7.66455*mm"/>
+      <Parameter name="ProdCutsForGamma" value="107.682*mm"/>
+  </SpecPar>
+
+
+
+    <SpecPar name="BP-SSteel-after-16m">
+       <PartSelector path="//BeamTube9" />
+      <PartSelector path="//BeamTube10" />
+      <PartSelector path="//BeamTube11" />
+      <Parameter name="CMSCutsRegion" value="SSBeamPipe" eval="false"/>
+      <Parameter name="ProdCutsForElectrons" value="10000.*mm"/>
+      <Parameter name="ProdCutsForPositrons" value="10000.*mm"/>
+      <Parameter name="ProdCutsForGamma" value="10000.*mm"/>
+  </SpecPar>
+
+<!--
+    <SpecPar name="RotShield">
+       <PartSelector path="//RotatedShield01" />
+      <Parameter name="CMSCutsRegion" value="RShield" eval="false"/>
+      <Parameter name="ProdCutsForElectrons" value="0.00226755*mm"/>
+      <Parameter name="ProdCutsForPositrons" value="8.55*mm"/>
+      <Parameter name="ProdCutsForGamma" value="0.248948*mm"/>
+  </SpecPar>
+-->
+ </SpecParSection>
+</DDDefinition>
