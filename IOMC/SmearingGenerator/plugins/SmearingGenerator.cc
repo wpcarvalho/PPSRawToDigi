@@ -45,12 +45,6 @@ SmearingGenerator::SmearingGenerator(const edm::ParameterSet& pSet) :
 {
 	  if (verbosity > 0)
 		cout << "SmearingGenerator.verbosity="<<verbosity<<endl;
-  // initialize random engine
-  Service<RandomNumberGenerator> rng;
-  HepRandomEngine &rndEng = rng->getEngine(LuminosityBlockIndex::invalidLuminosityBlockIndex());
-  if (verbosity > 0)
-    cout << ">> SmearingGenerator > seed = " << rndEng.getSeed() << endl;
-  rand = new RandGauss(rndEng); 
  
   // register fake output
   produces<HepMCProduct>(originalLabel);   
@@ -66,6 +60,11 @@ SmearingGenerator::~SmearingGenerator()
 
 void SmearingGenerator::produce(edm::Event& event, const edm::EventSetup& es)
 {
+  // initialize random engine
+  Service<RandomNumberGenerator> rng;
+  HepRandomEngine &rndEng = rng->getEngine(event.streamID());
+  rand = new RandGauss(rndEng);
+
   // retrieve (the only) HepMCEvent from the event
   edm::Handle<edm::HepMCProduct> mcProd;
   event.getByLabel(modifyLabel, mcProd);  

@@ -67,14 +67,6 @@ ElegentSource::ElegentSource(const ParameterSet& pSet) :
     verbosity
   );
 
-  // set random seed
-  Service<RandomNumberGenerator> rng;
-  CLHEP::HepRandomEngine &rndEng = rng->getEngine(LuminosityBlockIndex::invalidLuminosityBlockIndex());
-  unsigned int seed = rndEng.getSeed();
-  gRandom->SetSeed(seed);
-  if (verbosity > 0)
-    printf(">> ElegentSource > seed = %u\n", seed);
-
   produces<HepMCProduct>();
 }
 
@@ -97,6 +89,15 @@ void ElegentSource::beginJob()
 
 void ElegentSource::produce(edm::Event &e, const edm::EventSetup &es)
 {
+  // set random seed
+  Service<RandomNumberGenerator> rng;
+  CLHEP::HepRandomEngine &rndEng = rng->getEngine(e.streamID());
+  unsigned int seed = rndEng.getSeed();
+  gRandom->SetSeed(seed);
+  if (verbosity > 0)
+    printf(">> ElegentSource > seed = %u\n", seed);
+
+
   // create event structure 
   GenEvent* gEv = new GenEvent();
   gEv->set_event_number(e.id().event());
