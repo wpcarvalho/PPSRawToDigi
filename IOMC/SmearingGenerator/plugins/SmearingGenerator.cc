@@ -64,9 +64,11 @@ SmearingGenerator::~SmearingGenerator()
 void SmearingGenerator::produce(edm::Event& event, const edm::EventSetup& es)
 {
   // initialize random engine
-  Service<RandomNumberGenerator> rng;
-  HepRandomEngine &rndEng = rng->getEngine(event.streamID());
-  rand = new RandGauss(rndEng);
+  if(!rand) {
+    Service<RandomNumberGenerator> rng;
+    HepRandomEngine &rndEng = rng->getEngine(event.streamID());
+    rand = new RandGauss(rndEng);
+  }
 
   // retrieve (the only) HepMCEvent from the event
   edm::Handle<edm::HepMCProduct> mcProd;
