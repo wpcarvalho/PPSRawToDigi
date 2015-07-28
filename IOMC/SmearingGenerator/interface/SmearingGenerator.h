@@ -57,6 +57,9 @@ class SmearingGenerator : public edm::EDProducer
     void ApplyBeamSmearing(HepMC::GenEvent *evt);
     
     CLHEP::RandGauss *rand;                         ///< gaussian random number generator
+
+    edm::EDGetTokenT<edm::HepMCProduct> tokenHepMcProduct; ///token for data consumption
+
 };
 
 #endif

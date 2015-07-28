@@ -1,0 +1,13 @@
+<library   name="TotemCondFormatsProtonTransportFunctionsPlugins" file="*.cc">
+  <flags   EDM_PLUGIN="1"/>
+  <use   name="FWCore/Framework"/>
+  <use   name="FWCore/ParameterSet"/>
+  <use   name="root"/>
+  <use   name="TotemCondFormats/DataRecord"/>
+  <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
+  <!--<use   name="SimG4CMS/TotemRPProtTranspPar"/>-->
+  <use   name="clhep"/>
+  <use   name="Geometry/TotemRecords"/>
+  <!--<use   name="Geometry/TotemRPGeometryBuilder"/>-->
+  <use   name="TotemCondFormats/ProtonTransportFunctions"/>
+</library>

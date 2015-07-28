@@ -1,0 +1,8 @@
+<flags   GENREFLEX_ARGS="--"/>
+<use   name="FWCore/Framework"/>
+<use   name="root"/>
+<use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
+<!--<use   name="SimG4CMS/TotemRPProtTranspPar"/>-->
+<export>
+  <lib   name="1"/>
+</export>

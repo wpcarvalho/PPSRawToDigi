@@ -9,7 +9,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # Configure the output module (save the result in a file)
 process.o1 = cms.OutputModule("PoolOutputModule",
-    outputCommands = cms.untracked.vstring('keep *','drop *_*mix*_*_*', 'drop *_*_TrackerHits*_*', 'drop *_*_*Muon*_*', 'drop *_*_*Ecal*_*', 'drop *_*_*Hcal*_*', 'drop *_*_*Calo*_*', 'drop *_*_*Castor*_*', 'drop *_*_*FP420SI_*', 'drop *_*_*ZDCHITS_*', 'drop *_*_*BSCHits_*', 'drop *_*_*ChamberHits_*', 'drop *_*_*FibreHits_*', 'drop *_*_*WedgeHits_*'),
+    outputCommands = cms.untracked.vstring('keep *'),
     fileName = cms.untracked.string('file:prodRPinelasticBetaXXXEnergyYYYTeV.root')
 )
 
@@ -31,12 +31,11 @@ process.load("Configuration.TotemCommon.RandomNumbers_cfi")
 process.load("IOMC.SmearingGenerator.SmearingGenerator_cfi")
 
 ################## STEP 3 process.g4SimHits
-
 # Magnetic Field, by default we have 3.8T
 process.load("Configuration.StandardSequences.MagneticField_cff")
 
 # G4 simulation & proton transport
-#process.load("Configuration.TotemCommon.g4SimHits_cfi")
-#process.g4SimHits.Generator.HepMCProductLabel = 'generator'
+process.load("Configuration.TotemCommon.g4SimHits_cfi")
+process.g4SimHits.Generator.HepMCProductLabel = 'generator'
 
 process.outpath = cms.EndPath(process.o1)
