@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<DDDefinition xmlns="http://www.cern.ch/cms/DDL"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.cern.ch/cms/DDL ../../DDLSchema/DDLSchema.xsd">
+    <ConstantsSection label="RP_Stations_Assembly.xml">
+        <Constant name="RP_220_Right_Station_Position_z" value="0*mm"/>
+    </ConstantsSection>
+    
+    <PosPartSection label="RP_Stations_Assembly.xml">
+        <PosPart copyNumber="1">
+            <rParent name="TotemRPGlobal:OTOTEM"/>
+            <rChild name="RP_220_Right_Station:RP_220_Right_Station"/>
+            <Translation x="0*mm" y="0*mm" z="0*mm"/>
+        </PosPart>
+    </PosPartSection>
+</DDDefinition>

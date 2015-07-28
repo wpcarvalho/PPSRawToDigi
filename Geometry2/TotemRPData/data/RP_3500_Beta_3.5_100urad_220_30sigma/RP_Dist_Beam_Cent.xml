@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DDDefinition xmlns="http://www.cern.ch/cms/DDL"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.cern.ch/cms/DDL ../../DDLSchema/DDLSchema.xsd">
+    <ConstantsSection label="RP_Dist_Beam_Cent.xml">
+        <Constant name="RP_220_Right_Det_Dist_0" value="30*0.000425948*m"/>
+        <Constant name="RP_220_Right_Det_Dist_1" value="30*0.000425948*m"/>
+        <Constant name="RP_220_Right_Det_Dist_2" value="30*0.000195208*m"/>
+        <Constant name="RP_220_Right_Det_Dist_3" value="30*0.000184809*m"/>
+        <Constant name="RP_220_Right_Det_Dist_4" value="30*0.000442412*m"/>
+        <Constant name="RP_220_Right_Det_Dist_5" value="30*0.000442412*m"/>
+        
+        <Constant name="RP_220_Left_Det_Dist_0" value="30*0.000400201*m"/>
+        <Constant name="RP_220_Left_Det_Dist_1" value="30*0.000400201*m"/>
+        <Constant name="RP_220_Left_Det_Dist_2" value="30*0.000198376*m"/>
+        <Constant name="RP_220_Left_Det_Dist_3" value="30*0.000186761*m"/>
+        <Constant name="RP_220_Left_Det_Dist_4" value="30*0.000413772*m"/>
+        <Constant name="RP_220_Left_Det_Dist_5" value="30*0.000413772*m"/>
+        
+        <Constant name="RP_147_Right_Det_Dist_0" value="100*mm"/>
+        <Constant name="RP_147_Right_Det_Dist_1" value="100*mm"/>
+        <Constant name="RP_147_Right_Det_Dist_2" value="100*mm"/>
+        <Constant name="RP_147_Right_Det_Dist_3" value="100*mm"/>
+        <Constant name="RP_147_Right_Det_Dist_4" value="100*mm"/>
+        <Constant name="RP_147_Right_Det_Dist_5" value="100*mm"/>
+        
+        <Constant name="RP_147_Left_Det_Dist_0" value="100*mm"/>
+        <Constant name="RP_147_Left_Det_Dist_1" value="100*mm"/>
+        <Constant name="RP_147_Left_Det_Dist_2" value="100*mm"/>
+        <Constant name="RP_147_Left_Det_Dist_3" value="100*mm"/>
+        <Constant name="RP_147_Left_Det_Dist_4" value="100*mm"/>
+        <Constant name="RP_147_Left_Det_Dist_5" value="100*mm"/>
+    </ConstantsSection>
+</DDDefinition>
+
