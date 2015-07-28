@@ -52,8 +52,17 @@ process.load("Configuration.StandardSequences.MagneticField_cff")
 process.load("Configuration.TotemCommon.g4SimHits_cfi")
 process.g4SimHits.Physics.BeamProtTransportSetup = process.BeamProtTransportSetup
 process.g4SimHits.Generator.HepMCProductLabel = 'generator'    # The input source for G4 module is connected to "process.source".
-
 process.g4SimHits.G4TrackingManagerVerbosity = cms.untracked.int32(3)
+process.g4SimHits.UseMagneticField = cms.bool(False)
+
+# Use particle table
+process.load("SimGeneral.HepPDTESSource.pdt_cfi")
+
+################## STEP 4 mix pdt_cfi
+
+#process.load("Configuration.TotemStandardSequences/RP_Digi_and_TrackReconstruction_cfi")
+#process.load("Configuration.TotemCommon/mixNoPU_cfi")
+
 
 process.p1 = cms.Path(
 	process.generator
