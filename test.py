@@ -38,7 +38,6 @@ process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_6500GeV_90_cfi
 
 # Smearing
 process.load("IOMC.SmearingGenerator.SmearingGenerator_cfi")
-process.SmearingGenerator.verbosity = 5
 
 ################## STEP 3 process.g4SimHits
 
@@ -50,20 +49,16 @@ process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/
 process.load("Configuration.StandardSequences.MagneticField_cff")
 
 # G4 simulation & proton transport
-#process.load("Configuration.TotemCommon.g4SimHits_cfi")
-#process.g4SimHits.Physics.BeamProtTransportSetup = process.BeamProtTransportSetup
-#process.g4SimHits.Generator.HepMCProductLabel = 'generator'    # The input source for G4 module is connected to "process.source".
+process.load("Configuration.TotemCommon.g4SimHits_cfi")
+process.g4SimHits.Physics.BeamProtTransportSetup = process.BeamProtTransportSetup
+process.g4SimHits.Generator.HepMCProductLabel = 'generator'    # The input source for G4 module is connected to "process.source".
+
+process.g4SimHits.G4TrackingManagerVerbosity = cms.untracked.int32(3)
 
 process.p1 = cms.Path(
 	process.generator
 	*process.SmearingGenerator
-#	*process.g4SimHits
+	*process.g4SimHits
 )
 
 
-process.MessageLogger.categories.extend(["GetManyWithoutRegistration","GetByLabelWithoutRegistration"])
-_messageSettings = cms.untracked.PSet(
-                reportEvery = cms.untracked.int32(1),
-                            optionalPSet = cms.untracked.bool(True),
-                            limit = cms.untracked.int32(10000000)
-                        )
