@@ -48,12 +48,10 @@
 			<rSolid name="VBOXB"/>
 			<rMaterial name="materials:Vacuum"/>
 		</LogicalPart>
-		<!--
-		     <LogicalPart name="PUMP" category="unspecified">
+        <LogicalPart name="PUMP" category="unspecified">
 		     <rSolid name="PUMP"/>
 		     <rMaterial name="materials:Air"/>
 		</LogicalPart>
-		     -->
 	</LogicalPartSection>
 	<RotationSection label="ionpump.xml">
 		<Rotation name="rota11" thetaX="90.0*deg" phiX="0.0*deg" thetaY="101.0*deg" phiY="90.0*deg" thetaZ="11.0*deg" phiZ="90.0*deg"/>
