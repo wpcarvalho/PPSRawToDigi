@@ -12,7 +12,7 @@
 		<Constant name="CMSZ2" value="[cmsextent:CMSZ2]"/>
 		<Constant name="TrackCalorR" value="1.233*m"/>
 		<Constant name="CalorMuonR" value="2.950*m"/>
-                <Constant name="CalorMuonR2" value="2.810*m"/> <!-- added for Muon Phase-2; only diff wrt /data/cms.xml -->
+        <Constant name="CalorMuonR2" value="2.810*m"/> <!-- added for Muon Phase-2; only diff wrt /data/cms.xml -->
 		<Constant name="TrackBeamZ1" value="1.948*m"/>
 		<Constant name="TrackBeamZ2" value="2.935*m"/>
 		<Constant name="TrackBeamR1" value="3.15*cm"/>
@@ -34,7 +34,8 @@
 		<Constant name="TotemMuonR1" value="1.0411*m"/>
 		<Constant name="TotemMuonR2" value="1.1300*m"/>
 		<Constant name="TotemBeamZ1" value="7.9500*m"/>
-		<Constant name="TotemBeamZ2" value="13.381*m"/>
+		<Constant name="TotemBeamZ2WI" value="13.379*m"/>
+		<Constant name="TotemBeamZ2B" value="13.420*m"/>
 		<Constant name="TotemBeamZ3" value="13.439*m"/>
 		<Constant name="TotemBeamZ4" value="13.465*m"/>
 		<Constant name="TotemBeamR1" value="11.785*cm"/>

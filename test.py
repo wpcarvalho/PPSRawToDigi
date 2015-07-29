@@ -53,7 +53,7 @@ process.load("Configuration.TotemCommon.g4SimHits_cfi")
 process.g4SimHits.Physics.BeamProtTransportSetup = process.BeamProtTransportSetup
 process.g4SimHits.Generator.HepMCProductLabel = 'generator'    # The input source for G4 module is connected to "process.source".
 process.g4SimHits.G4TrackingManagerVerbosity = cms.untracked.int32(3)
-process.g4SimHits.UseMagneticField = cms.bool(False)
+process.g4SimHits.UseMagneticField = cms.bool(False) # todo enable magnetic field
 
 # Use particle table
 process.load("SimGeneral.HepPDTESSource.pdt_cfi")
