@@ -25,11 +25,8 @@ process.source = cms.Source("EmptySource")
 # Use random number generator service
 process.load("Configuration.TotemCommon.RandomNumbers_cfi")
 
-# Monte Carlo gun - elastic specific
-energy = "6500"
-import IOMC.Elegent.ElegentSource_cfi
-process.generator = IOMC.Elegent.ElegentSource_cfi.generator
-process.generator.fileName = IOMC.Elegent.ElegentSource_cfi.ElegentDefaultFileName(energy)
+# particle generator paramteres
+process.load("IOMC.FlatProtonLogKsiLogTGun.Beta90Energy6500GeV_cfi")
 
 ################## STEP 2 process.SmearingGenerator
 
@@ -53,7 +50,6 @@ process.load("Configuration.TotemCommon.g4SimHits_cfi")
 process.g4SimHits.Physics.BeamProtTransportSetup = process.BeamProtTransportSetup
 process.g4SimHits.Generator.HepMCProductLabel = 'generator'    # The input source for G4 module is connected to "process.source".
 process.g4SimHits.G4TrackingManagerVerbosity = cms.untracked.int32(3)
-#process.g4SimHits.UseMagneticField = cms.bool(False) # todo enable magnetic field
 
 # Use particle table
 process.load("SimGeneral.HepPDTESSource.pdt_cfi")
