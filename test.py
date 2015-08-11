@@ -31,7 +31,8 @@ process.load("IOMC.FlatProtonLogKsiLogTGun.Beta90Energy6500GeV_cfi")
 ################## STEP 2 process.SmearingGenerator
 
 # declare optics parameters
-process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_6500GeV_90_cfi")
+# use 0p8
+process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_6500GeV_0p8_145urad_cfi")
 
 # Smearing
 process.load("IOMC.SmearingGenerator.SmearingGenerator_cfi")
@@ -40,6 +41,8 @@ process.load("IOMC.SmearingGenerator.SmearingGenerator_cfi")
 
 # Geometry - beta* specific
 process.load("Configuration.TotemCommon.geometryRP_cfi")
+
+# TODO Change to the LowBetaSettings
 process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')
 
 # Magnetic Field, by default we have 3.8T
