@@ -356,7 +356,7 @@ void Generator::HepMC2G4(const HepMC::GenEvent *evt_orig, G4Event *g4evt) {
           toBeAdded = true;
           if (verbose > 2)
             LogDebug("SimG4CoreGenerator")
-            << "GenParticle barcode = " << (*vpitr)->barcode()
+            << "GenParticle barcode = " << (*pitr)->barcode()
             << " passed case 4" << std::endl;
         }
       }
