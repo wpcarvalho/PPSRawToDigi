@@ -27,6 +27,9 @@
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
 #include "DataFormats/GeometryVector/interface/LocalVector.h"
 
+#include "CLHEP/Units/GlobalSystemOfUnits.h"
+#include "CLHEP/Units/GlobalPhysicalConstants.h"
+
 #include "G4SDManager.hh"
 #include "G4Step.hh"
 #include "G4Track.hh"
@@ -37,7 +40,7 @@
 #include <string>
 
 
-Totem_RP_SD::Totem_RP_SD(std::string name, const DDCompactView & cpv, SensitiveDetectorCatalog & clg,
+Totem_RP_SD::Totem_RP_SD(std::string name, const DDCompactView & cpv, const SensitiveDetectorCatalog & clg,
      edm::ParameterSet const & p, const SimTrackManager* manager) : 
   SensitiveTkDetector(name, cpv, clg, p), 
   numberingScheme(0),  
@@ -45,7 +48,7 @@ Totem_RP_SD::Totem_RP_SD(std::string name, const DDCompactView & cpv, SensitiveD
   unitID(0),  preStepPoint(0), postStepPoint(0), eventno(0)
 {
   collectionName.insert(name);
-  
+
   edm::ParameterSet m_Anal = p.getParameter<edm::ParameterSet>("Totem_RP_SD");
   verbosity_ = m_Anal.getParameter<int>("Verbosity");
   

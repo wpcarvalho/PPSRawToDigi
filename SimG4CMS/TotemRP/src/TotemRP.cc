@@ -29,7 +29,6 @@
 #include "G4VProcess.hh"
 #include "G4HCofThisEvent.hh"
 #include "CLHEP/Units/GlobalSystemOfUnits.h"
-#include "CLHEP/Units/GlobalPhysicalConstants.h"
 #include "G4Event.hh"
 #include "G4PrimaryVertex.hh"
 

@@ -42,7 +42,7 @@ class Totem_RP_SD : public SensitiveTkDetector,
     public Observer<const EndOfEvent*>
 {
  public:    
-  Totem_RP_SD(std::string, const DDCompactView &, SensitiveDetectorCatalog &,
+  Totem_RP_SD(std::string, const DDCompactView &, const SensitiveDetectorCatalog &,
     edm::ParameterSet const &,const SimTrackManager*);
   virtual ~Totem_RP_SD();
   
