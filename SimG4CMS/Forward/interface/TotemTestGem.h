@@ -29,17 +29,21 @@
 #include "SimG4Core/Notification/interface/BeginOfJob.h"
 #include "SimG4Core/Notification/interface/BeginOfEvent.h"
 #include "SimG4Core/Notification/interface/EndOfEvent.h"
-#include "SimG4Core/Watcher/interface/SimProducer.h"
+#include "SimG4Core/Watcher/interface/SimWatcher.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-
-#include "SimDataFormats/Forward/interface/TotemTestHistoClass.h"
+#include "FWCore/Framework/interface/Event.h"
+#include "SimG4CMS/Forward/interface/TotemTestHistoManager.h"
+#include "SimG4CMS/Forward/interface/TotemTestHistoClass.h"
 #include "SimG4CMS/Forward/interface/TotemG4Hit.h"
+#include "SimG4CMS/Forward/interface/TotemHisto.h"
 
 class G4Step;
 
-class TotemTestGem : public SimProducer,
-		     public Observer<const BeginOfEvent *>,
-		     public Observer<const EndOfEvent *> {
+class TotemTestGem : public SimWatcher,
+                     public Observer<const BeginOfJob *>,
+                     public Observer<const BeginOfEvent *>,
+                     public Observer<const EndOfEvent *>,
+                     public Observer<const G4Step *> {
 
 public: 
 
@@ -50,19 +54,29 @@ public:
 
 private:
   // observer classes
+  void update(const BeginOfJob * job);
   void update(const BeginOfEvent * evt);
   void update(const EndOfEvent * evt);
+  void update(const G4Step * step);
 
   void clear();
   void fillEvent(TotemTestHistoClass&);
 
 private:
 
-  //Keep parameters and internal memory
+  //Keep parameters to instantiate TotemTestHistoManager later
+  std::string                             fileName;
   std::vector<std::string>                names;
-  int                                     evtnum;
+
+  // Private Tuples
+  std::auto_ptr<TotemTestHistoManager>    tuplesManager;
+  TotemTestHistoClass *                   tuples;
+
+  TotemHisto *histos;
+
+  std::string nomeFile;
   std::vector<TotemG4Hit*>                hits;
- 
+  int                                     evtnum;
 };
 
 #endif

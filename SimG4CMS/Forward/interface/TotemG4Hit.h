@@ -33,8 +33,11 @@
 
 #include "G4VHit.hh"
 #include "DataFormats/Math/interface/Point3D.h"
+#include <CLHEP/Vector/ThreeVector.h>
 #include <boost/cstdint.hpp>
 #include <iostream>
+
+using CLHEP::Hep3Vector;
 
 class TotemG4Hit : public G4VHit {
   
@@ -53,9 +56,17 @@ public:
   void         Draw(){}
   void         Print();
 
-  math::XYZPoint   getEntry() const;
-  void         setEntry(double x, double y, double z)      {entry.SetCoordinates(x,y,z);}
-  
+  Hep3Vector getMeanPosition() const { return MeanPosition; };
+  void setMeanPosition(Hep3Vector a) { MeanPosition = a; };
+
+  Hep3Vector getEntryPoint() const;
+
+  void setEntryPoint(Hep3Vector);
+
+  Hep3Vector getExitPoint() const;
+
+  void setExitPoint(Hep3Vector);
+
   double       getEM() const;
   void         setEM (double e);
   
@@ -96,6 +107,31 @@ public:
   void         setThetaAtEntry(float t);
   void         setPhiAtEntry(float f) ;
 
+  float getPx() const;
+
+  float getPy() const;
+
+  float getPz() const;
+
+  float getVPx() const;
+
+  float getVPy() const;
+
+  float getVPz() const;
+
+  void setPx(float e);
+
+  void setPy(float e);
+
+  void setPz(float e);
+
+  void setVPx(float e);
+
+  void setVPy(float e);
+
+  void setVPz(float e);
+
+
   float        getX() const;
   float        getY() const;
   float        getZ() const;
@@ -114,8 +150,8 @@ public:
   void         setVz(float p);
 
 private:
-  
-  math::XYZPoint   entry;             //Entry point
+
+  Hep3Vector MeanPosition;
   double       elem;              //EnergyDeposit of EM particles
   double       hadr;              //EnergyDeposit of HD particles
   double       theIncidentEnergy; //Energy of the primary particle
@@ -135,8 +171,9 @@ private:
 
   float        theThetaAtEntry;
   float        thePhiAtEntry;
-  math::XYZPoint   theEntryPoint;
-  math::XYZPoint   theExitPoint;
+  Hep3Vector   theEntryPoint;
+  Hep3Vector   theExitPoint;
+  float thePx, thePy, thePz, theVPx, theVPy, theVPz;
 
   int          theParentId;
   float        theVx;
