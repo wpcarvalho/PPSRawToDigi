@@ -13,8 +13,9 @@
  <Constant name="TrackCalorR"  value="1.233*m"/>
  <Constant name="CalorMuonR"   value="2.950*m"/>
  <Constant name="TrackBeamZ1"  value="1.948*m"/>
- <Constant name="TotemBeamZ2WI" value="13.379*m"/>
- <Constant name="TotemBeamZ2B" value="13.420*m"/>
+ <Constant name="TrackBeamZ2"  value="2.935*m"/>
+ <Constant name="TotemBeamZ2WI" value="13.379*m"/> <!-- added by TOTEM -->
+ <Constant name="TotemBeamZ2B" value="13.420*m"/> <!-- added by TOTEM -->
  <Constant name="TrackBeamR1"  value="2.50*cm"/> <!-- 3.10*cm -->
  <Constant name="TrackBeamR2"  value="7.40*cm"/>
  <Constant name="TrackLumiZ1"  value="1.722*m"/>

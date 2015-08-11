@@ -26,8 +26,6 @@
 
 #include "SimG4CMS/Forward/interface/TotemSD.h"
 #include "SimG4CMS/Forward/interface/TotemNumberMerger.h"
-#include "SimG4CMS/Forward/interface/TotemT1NumberingScheme.h"
-#include "SimG4CMS/Forward/interface/TotemT2NumberingSchemeGem.h"
 #include "SimG4CMS/Forward/interface/TotemRPNumberingScheme.h"
 
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
@@ -66,7 +64,7 @@ TotemSD::TotemSD(std::string name, const DDCompactView & cpv,
     << "*                                                     *\n"
     << "* Constructing a TotemSD  with name " << name << "\n"
     << "*                                                     *\n"
-    << "*******************************************************";
+    << "*******************************************************" << std::endl;
 
   slave  = new TrackingSlaveSD(name);
 
@@ -81,13 +79,7 @@ TotemSD::TotemSD(std::string name, const DDCompactView & cpv,
     edm::LogInfo("ForwardSim") << "TotemSD : Assigns SD to LV " << (*it);
   }
 
-  if      (name == "TotemHitsT1") {
-    numberingScheme = dynamic_cast<TotemVDetectorOrganization*>(new TotemT1NumberingScheme(1));
-  } else if (name == "TotemHitsT2Si") {
-    numberingScheme = dynamic_cast<TotemVDetectorOrganization*>(new TotemT2NumberingSchemeGem(3));
-  } else if (name == "TotemHitsT2Gem") {
-    numberingScheme = dynamic_cast<TotemVDetectorOrganization*>(new TotemT2NumberingSchemeGem(4));
-  } else if (name == "TotemHitsRP") {
+  if (name == "TotemHitsRP") {
     numberingScheme = dynamic_cast<TotemVDetectorOrganization*>(new TotemRPNumberingScheme(3));
   } else {
     edm::LogWarning("ForwardSim") << "TotemSD: ReadoutName not supported\n";
@@ -151,15 +143,17 @@ void TotemSD::EndOfEvent(G4HCofThisEvent* ) {
 			   << "               " << "theta   " 
 			   << aHit->getThetaAtEntry() << "\n";
 #endif
-    Local3DPoint theExitPoint(0,0,0);
-    Local3DPoint Entrata(aHit->getEntry().x(),
-			 aHit->getEntry().y(),
-			 aHit->getEntry().z());
-    slave->processHits(PSimHit(Entrata,theExitPoint,
-			       aHit->getPabs(), aHit->getTof(),
-			       aHit->getEnergyLoss(), aHit->getParticleType(),
-			       aHit->getUnitID(), aHit->getTrackID(),
-			       aHit->getThetaAtEntry(),aHit->getPhiAtEntry()));
+    Local3DPoint Entrata(aHit->getEntryPoint().x(),
+                         aHit->getEntryPoint().y(),
+                         aHit->getEntryPoint().z());
+    Local3DPoint Uscita(aHit->getExitPoint().x(),
+                        aHit->getExitPoint().y(),
+                        aHit->getExitPoint().z());
+    slave->processHits(PSimHit(Entrata, Uscita,
+                               aHit->getPabs(), aHit->getTof(),
+                               aHit->getEnergyLoss(), aHit->getParticleType(),
+                               aHit->getUnitID(), aHit->getTrackID(),
+                               aHit->getThetaAtEntry(), aHit->getPhiAtEntry()));
 
   }
   Summarize();
@@ -206,9 +200,14 @@ void TotemSD::GetStepInfo(G4Step* aStep) {
   
   preStepPoint = aStep->GetPreStepPoint(); 
   postStepPoint= aStep->GetPostStepPoint(); 
-  theTrack     = aStep->GetTrack();   
-  //Local3DPoint theEntryPoint = SensitiveDetector::InitialStepPosition(aStep,LocalCoordinates);  
-  //Local3DPoint theExitPoint  = SensitiveDetector::FinalStepPosition(aStep,LocalCoordinates);
+  theTrack     = aStep->GetTrack();
+  Local3DPoint TheEntryPoint = SensitiveDetector::InitialStepPosition(aStep, LocalCoordinates);
+  Local3DPoint TheExitPoint = SensitiveDetector::FinalStepPosition(aStep, LocalCoordinates);
+
+#ifdef _PRINT_HITS_
+    std::cout << "theEntryPoint "<<TheEntryPoint << std::endl;
+    std::cout <<"position "<< preStepPoint->GetPosition()<<std::endl;
+#endif
   hitPoint     = preStepPoint->GetPosition();	
   currentPV    = preStepPoint->GetPhysicalVolume();
 
@@ -222,20 +221,28 @@ void TotemSD::GetStepInfo(G4Step* aStep) {
   tSliceID  = (int) tSlice;
   unitID    = setDetUnitId(aStep);
 #ifdef debug
-  LogDebug("ForwardSim") << "UNITa " << unitID;
+  LogDebug("ForwardSim") << "UNIT ID " << unitID;
 #endif
   primaryID = theTrack->GetTrackID();
 
+  theEntryPoint.setX(TheEntryPoint.x());
+  theEntryPoint.setY(TheEntryPoint.y());
+  theEntryPoint.setZ(TheEntryPoint.z());
+  theExitPoint.setX(TheExitPoint.x());
+  theExitPoint.setY(TheExitPoint.y());
+  theExitPoint.setZ(TheExitPoint.z());
 
   Posizio = hitPoint;
   Pabs    = aStep->GetPreStepPoint()->GetMomentum().mag()/GeV;
   Tof     = aStep->GetPostStepPoint()->GetGlobalTime()/nanosecond;
    
   Eloss   = aStep->GetTotalEnergyDeposit()/GeV;
-  ParticleType = theTrack->GetDefinition()->GetPDGEncoding();      
+  ParticleType = theTrack->GetDefinition()->GetPDGEncoding();
 
-  ThetaAtEntry = aStep->GetPreStepPoint()->GetPosition().theta()/deg;
-  PhiAtEntry   = aStep->GetPreStepPoint()->GetPosition().phi()/deg;
+//  ThetaAtEntry = aStep->GetPreStepPoint()->GetPosition().theta()/deg;
+//  PhiAtEntry   = aStep->GetPreStepPoint()->GetPosition().phi()/deg;
+  ThetaAtEntry = aStep->GetPreStepPoint()->GetPosition().theta();
+  PhiAtEntry = aStep->GetPreStepPoint()->GetPosition().phi();
 
   ParentId = theTrack->GetParentID();
   Vx = theTrack->GetVertexPosition().x();
@@ -326,7 +333,9 @@ void TotemSD::CreateNewHit() {
   currentHit->setThetaAtEntry(ThetaAtEntry);
   currentHit->setPhiAtEntry(PhiAtEntry);
 
-  currentHit->setEntry(Posizio.x(),Posizio.y(),Posizio.z());
+  currentHit->setMeanPosition(Posizio);
+  currentHit->setEntryPoint(theEntryPoint);
+  currentHit->setExitPoint(theExitPoint);
 
   currentHit->setParentId(ParentId);
   currentHit->setVx(Vx);
@@ -356,6 +365,8 @@ void TotemSD::CreateNewHitEvo() {
   currentHit->setPhiAtEntry(PhiAtEntry);
 
   //  LogDebug("ForwardSim") << Posizio.x() << " " << Posizio.y() << " " << Posizio.z();
+  currentHit->setEntryPoint(theEntryPoint);
+  currentHit->setExitPoint(theExitPoint);
 
   currentHit->setParentId(ParentId);
   currentHit->setVx(Vx);
@@ -367,7 +378,7 @@ void TotemSD::CreateNewHitEvo() {
   _PosizioEvo=PosizioEvo(Posizio,Vx,Vy,Vz,Pabs,flagAcc);
 
   if(flagAcc==1){
-    currentHit->setEntry(_PosizioEvo.x(),_PosizioEvo.y(),_PosizioEvo.z());
+    currentHit->setMeanPosition(_PosizioEvo);
 
     // if(flagAcc==1)
     UpdateHit();

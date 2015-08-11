@@ -43,6 +43,9 @@ private:
   bool   fPtransCut;
   bool   fEtaCuts;
   bool   fPhiCuts;
+  bool   fLeaveScatteredProtons;
+  bool   fLeaveOnlyScatteredProtons;
+
   double theMinPhiCut;
   double theMaxPhiCut;
   double theMinEtaCut;
