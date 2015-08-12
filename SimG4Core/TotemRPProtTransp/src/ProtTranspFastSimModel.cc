@@ -17,6 +17,8 @@
 #include "SimG4Core/TotemRPProtTransp/interface/ProtTranspFastSimModel.h"
 
 #include <iostream>
+#include "CLHEP/Units/GlobalSystemOfUnits.h"
+#include "CLHEP/Units/GlobalPhysicalConstants.h"
 #include "G4ThreeVector.hh"
 #include "G4AffineTransform.hh"
 #include "G4DynamicParticle.hh"

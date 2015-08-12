@@ -17,7 +17,7 @@ class TotemRPPhysicsList : public PhysicsList
 {
 public:
     TotemRPPhysicsList(G4LogicalVolumeToDDLogicalPartMap & map, const HepPDT::ParticleDataTable * table_,
-  	      sim::FieldBuilder *fieldBuilder_, const edm::ParameterSet & p);
+  	      sim::ChordFinderSetter *chordFinderSetter_, const edm::ParameterSet & p);
     virtual ~TotemRPPhysicsList();
 private:
     BeamProtTransportSetup * beam_prot_transp_setup_;

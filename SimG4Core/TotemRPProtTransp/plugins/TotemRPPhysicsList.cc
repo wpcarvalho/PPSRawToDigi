@@ -10,20 +10,22 @@
 #include "G4DecayPhysics.hh"
 #include "G4EmExtraPhysics.hh"
 #include "G4IonPhysics.hh"
-#include "G4QStoppingPhysics.hh"
+#include "G4StoppingPhysics.hh"
 #include "G4HadronElasticPhysics.hh" 
 #include "G4NeutronTrackingCut.hh"
+#include "G4HadronicProcessStore.hh"
 
 #include "G4DataQuestionaire.hh"
-#include "HadronPhysicsQGSP.hh"
+#include "G4HadronPhysicsQGSP_FTFP_BERT.hh"
 
 #include "SimG4Core/Physics/interface/PhysicsListFactory.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
  
 TotemRPPhysicsList::TotemRPPhysicsList(G4LogicalVolumeToDDLogicalPartMap & map, const HepPDT::ParticleDataTable * table_,
-	      sim::FieldBuilder *fieldBuilder_, const edm::ParameterSet & p) :
-	      PhysicsList(map, table_, fieldBuilder_, p), beam_prot_transp_setup_(0) {
+	      sim::ChordFinderSetter *chordFinderSetter_, const edm::ParameterSet & p) :
+	      PhysicsList(map, table_, chordFinderSetter_, p), beam_prot_transp_setup_(0) { //todo check sim::FieldBuilder vs sim::ChordFinderSetter
 
+  int  ver     = p.getUntrackedParameter<int>("Verbosity",0);
   G4DataQuestionaire it(photon);
 
   edm::LogInfo("PhysicsList") << "You are using the simulation engine: " 
@@ -32,31 +34,23 @@ TotemRPPhysicsList::TotemRPPhysicsList(G4LogicalVolumeToDDLogicalPartMap & map, 
                               << "\n";
 
   // EM Physics
-    RegisterPhysics( new CMSEmStandardPhysics("standard EM v?",0));
-
+  RegisterPhysics( new CMSEmStandardPhysics(ver));
   // Synchroton Radiation & GN Physics
-  RegisterPhysics(new G4EmExtraPhysics("extra EM"));
-
+  RegisterPhysics(new G4EmExtraPhysics(ver));
   // Decays
-  RegisterPhysics(new G4DecayPhysics("decay"));
-
+  RegisterPhysics(new G4DecayPhysics(ver));
   // Hadron Elastic scattering
-  RegisterPhysics(new G4HadronElasticPhysics("elastic",0,false)); 
-
+  G4HadronicProcessStore::Instance()->SetVerbose(ver);
+  RegisterPhysics(new G4HadronElasticPhysics(ver));
   // Hadron Physics
   G4bool quasiElastic=true;
-  RegisterPhysics(new HadronPhysicsQGSP("hadron",quasiElastic));
-  //RegisterPhysics(new HadronPhysicsQGSP("hadron"));
-
+  RegisterPhysics(new G4HadronPhysicsQGSP_FTFP_BERT(ver, quasiElastic));
   // Stopping Physics
-  RegisterPhysics(new G4QStoppingPhysics("stopping"));
-
+  RegisterPhysics(new G4StoppingPhysics(ver));
   // Ion Physics
-  RegisterPhysics(new G4IonPhysics("ion"));
-
+  RegisterPhysics(new G4IonPhysics(ver));
   // Neutron tracking cut
-  RegisterPhysics( new G4NeutronTrackingCut("Neutron tracking cut", 0));
-
+  RegisterPhysics( new G4NeutronTrackingCut(ver));
   // Custom Physics
   if (beam_prot_transp_setup_==0) beam_prot_transp_setup_ = new BeamProtTransportSetup(p);
   RegisterPhysics(new TotemRPParametrizedPhysics("totem_parametrised_prot_transp"));
