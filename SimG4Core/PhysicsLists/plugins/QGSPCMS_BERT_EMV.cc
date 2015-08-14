@@ -14,10 +14,14 @@
 #include "G4DataQuestionaire.hh"
 #include "G4HadronPhysicsQGSP_BERT.hh"
 
+#include "SimG4Core/TotemRPProtTransp/interface/BeamProtTransportSetup.h"
+#include "SimG4Core/TotemRPProtTransp/interface/TotemRPParametrizedPhysics.h"
+
 QGSPCMS_BERT_EMV::QGSPCMS_BERT_EMV(G4LogicalVolumeToDDLogicalPartMap& map, 
 			   const HepPDT::ParticleDataTable * table_,
 			   sim::ChordFinderSetter *chordFinderSetter_, 
-			   const edm::ParameterSet & p) : PhysicsList(map, table_, chordFinderSetter_, p) {
+			   const edm::ParameterSet & p) : PhysicsList(map, table_, chordFinderSetter_, p),
+                                              beam_prot_transp_setup_(0){
 
   G4DataQuestionaire it(photon);
   
@@ -29,41 +33,42 @@ QGSPCMS_BERT_EMV::QGSPCMS_BERT_EMV(G4LogicalVolumeToDDLogicalPartMap& map,
 			      << "QGSP_BERT_EMV \n Flags for EM Physics "
 			      << emPhys << ", for Hadronic Physics "
 			      << hadPhys << " and tracking cut " << tracking;
+  // EM Physics
+  RegisterPhysics( new G4EmStandardPhysics_option1(ver));
 
-  if (emPhys) {
-    // EM Physics
-    RegisterPhysics( new G4EmStandardPhysics_option1(ver));
-
-    // Synchroton Radiation & GN Physics
-    G4EmExtraPhysics* gn = new G4EmExtraPhysics(ver);
-    RegisterPhysics(gn);
-  }
+  // Synchroton Radiation & GN Physics
+  G4EmExtraPhysics* gn = new G4EmExtraPhysics(ver);
+  RegisterPhysics(gn);
 
   // Decays
   this->RegisterPhysics( new G4DecayPhysics(ver) );
 
-  if (hadPhys) {
-    G4HadronicProcessStore::Instance()->SetVerbose(ver);
+  G4HadronicProcessStore::Instance()->SetVerbose(ver);
 
-    // Hadron Elastic scattering
-    RegisterPhysics( new G4HadronElasticPhysics(ver));
+  // Hadron Elastic scattering
+  RegisterPhysics( new G4HadronElasticPhysics(ver));
 
-    // Hadron Physics
-    RegisterPhysics(  new G4HadronPhysicsQGSP_BERT(ver));
+  // Hadron Physics
+  //todo set G4bool quasiElastic=true;
+  RegisterPhysics(  new G4HadronPhysicsQGSP_BERT(ver));
 
-    // Stopping Physics
-    RegisterPhysics( new G4StoppingPhysics(ver));
+  // Stopping Physics
+  RegisterPhysics( new G4StoppingPhysics(ver));
 
-    // Ion Physics
-    RegisterPhysics( new G4IonPhysics(ver));
+  // Ion Physics
+  RegisterPhysics( new G4IonPhysics(ver));
 
-    // Neutron tracking cut
-    if (tracking) {
-      RegisterPhysics( new G4NeutronTrackingCut(ver));
-    }
-  }
+  // Neutron tracking cut
+  RegisterPhysics( new G4NeutronTrackingCut(ver));
 
-  // Monopoles
-  RegisterPhysics( new CMSMonopolePhysics(table_,chordFinderSetter_,p));
+
+  // Custom Physics
+  if (beam_prot_transp_setup_==0) beam_prot_transp_setup_ = new BeamProtTransportSetup(p);
+  RegisterPhysics(new TotemRPParametrizedPhysics("totem_parametrised_prot_transp"));
 }
 
+QGSPCMS_BERT_EMV::~QGSPCMS_BERT_EMV()
+{
+  if (beam_prot_transp_setup_!=0)
+    delete beam_prot_transp_setup_;
+}
