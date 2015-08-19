@@ -43,6 +43,7 @@ process.load("IOMC.SmearingGenerator.SmearingGenerator_cfi")
 process.load("Configuration.TotemCommon.geometryRP_cfi")
 
 # TODO Change to the LowBetaSettings
+process.load("SimG4CMS.PPS.MYgeometryRP_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')
 
 # Magnetic Field, by default we have 3.8T
@@ -146,6 +147,9 @@ process.VolumeBasedMagneticFieldESProducer = cms.ESProducer("VolumeBasedMagnetic
 #process.load("Configuration.TotemStandardSequences/RP_Digi_and_TrackReconstruction_cfi")
 #process.load("Configuration.TotemCommon/mixNoPU_cfi")
 
+process.g4SimHits.PPSSD = cms.PSet(
+ Verbosity = cms.untracked.int32(1)
+)
 
 process.p1 = cms.Path(
 	process.generator

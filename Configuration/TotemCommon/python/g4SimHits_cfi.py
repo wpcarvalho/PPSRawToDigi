@@ -64,16 +64,16 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
             type = cms.string('SimTracer'),
             SimTracer = cms.PSet(verbose = cms.bool(True)),
         ),
-#        cms.PSet( # HINT: TOTEM specific
-#            type = cms.string('TotemRP'),
-#            TotemRP = cms.PSet(
-#                Names = cms.vstring('TotemHitsRP'),
-#                FileName = cms.string('TotemTestRP_Hits.root'),
-#                RPDebugFileName = cms.string('TotemDebugRP.root'),
-#                FileNameOLD = cms.string('TotemTestRP_Hits_Old.root'),
-#                Verbosity = cms.bool(True)
-#            )
-#        )
+       cms.PSet( # HINT: TOTEM specific
+           type = cms.string('TotemRP'),
+           TotemRP = cms.PSet(
+               Names = cms.vstring('TotemHitsRP'),
+               FileName = cms.string('TotemTestRP_Hits.root'),
+               RPDebugFileName = cms.string('TotemDebugRP.root'),
+               FileNameOLD = cms.string('TotemTestRP_Hits_Old.root'),
+               Verbosity = cms.bool(True)
+           )
+       )
     ),
     HepMCProductLabel = cms.InputTag("generator"),
     theLHCTlinkTag = cms.InputTag("LHCTransport"),
@@ -439,6 +439,9 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
         BirkC1 = cms.double(0.013),
         BirkC3 = cms.double(1.75),
         BirkC2 = cms.double(0.0568)
+    ),
+    Totem_RP_SD = cms.PSet( # HINT: TOTEM specific
+        Verbosity = cms.int32(0)
     )
 )
 
@@ -447,3 +450,5 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
 ## Change the HFShowerLibrary file used for Run 2
 ##
 eras.run2_common.toModify( g4SimHits.HFShowerLibrary, FileName = 'SimG4CMS/Calo/data/HFShowerLibrary_npmt_noatt_eta4_16en_v3.root' )
+
+
