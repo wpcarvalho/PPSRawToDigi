@@ -431,15 +431,6 @@ void RunManagerMTWorker::produce(const edm::Event& inpevt, const edm::EventSetup
     kernel->GetEventManager()->ProcessOneEvent(m_tls->currentEvent.get());
   }
 
-  edm::LogError("Location:\n")
-    << " X =" << m_simEvent -> g4vertex(1).vertexPosition().x() << "\n"
-    << " Y = " << m_simEvent -> g4vertex(1).vertexPosition().y() << "\n"
-    << " Z = " << m_simEvent -> g4vertex(1).vertexPosition().z() << "\n\n";
-  edm::LogError("Track:\n")
-    << " X =" << m_simEvent -> g4track(1).trackerSurfacePosition().x() << "\n"
-    << " Y = " << m_simEvent -> g4track(1).trackerSurfacePosition().y() << "\n"
-    << " Z = " << m_simEvent -> g4track(1).trackerSurfacePosition().z() << "\n\n";
-    
   edm::LogInfo("SimG4CoreApplication")
     << " RunManagerMTWorker: saved : Event  " << inpevt.id().event() 
     << " stream id " << inpevt.streamID()
