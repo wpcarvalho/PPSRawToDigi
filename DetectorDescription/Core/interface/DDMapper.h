@@ -230,7 +230,7 @@ std::vector<std::pair<K,V> > DDMapper<K,V>::all(const std::string & name, const 
 	      break;
 	    }
 	  }	  
-	 //std::cout << std::endl; 
+	 //std::cout << std::endl;
        }
      }  
   }

@@ -43,6 +43,10 @@
 
 #include "TFile.h"
 
+#include "G4NistManager.hh"
+#include "G4RegionStore.hh"
+#include <stdlib.h>
+#include <thread>
 
 using namespace edm;
 using namespace std;
@@ -60,15 +64,15 @@ BeamProtTransportSetup::BeamProtTransportSetup(const edm::ParameterSet & p) :
 
   edm::ParameterSet m_BeamProtTran = p.getParameter<edm::ParameterSet>("BeamProtTransportSetup");
   verbosity_ = m_BeamProtTran.getParameter<bool>("Verbosity");
-  
+
   std::cout<<"!!!!!!!!!!!!!!!!!!!!!!!!! BeamProtTransportSetup::BeamProtTransportSetup !!!!!!!!!!!!!!!"<<std::endl;;
-  
+
   Beam_IP_150_R_LV = NULL;
   Beam_IP_150_L_LV = NULL;
-  
+
   model_ip_150_r = NULL;
   model_ip_150_l = NULL;
-  
+
   Beam_IP_150_R_LV_Name = "Beam_IP_150_R";
   Beam_IP_150_L_LV_Name = "Beam_IP_150_L";
 
@@ -82,9 +86,9 @@ void BeamProtTransportSetup::FindLogicalVolumes()
   //Finding correct G4LogicalVolume for parameterisation
 //  ConcreteG4LogicalVolumeToDDLogicalPartMapper::Vector vec =
 //  G4LogicalVolumeToDDLogicalPartMapper::instance()->all("volumes");
-   
+
   edm::LogInfo("TotemRP") << "TotemRP::Proton parameterisation initialization begin !!";
-  
+
   G4LogicalVolumeStore * theStore = G4LogicalVolumeStore::GetInstance();
   G4LogicalVolumeStore::const_iterator it;
   for (it = theStore->begin(); it != theStore->end(); it++)
@@ -93,13 +97,13 @@ void BeamProtTransportSetup::FindLogicalVolumes()
 
     if (v->GetName()==Beam_IP_150_R_LV_Name)
     {
-      edm::LogInfo("TotemRP") << "TotemRP::Parameterization being initialized for "<< 
+      edm::LogInfo("TotemRP") << "TotemRP::Parameterization being initialized for "<<
           v->GetName();
       Beam_IP_150_R_LV = v;
     }
     else if (v->GetName()==Beam_IP_150_L_LV_Name)
     {
-      edm::LogInfo("TotemRP") << "TotemRP::Parameterization being initialized for "<< 
+      edm::LogInfo("TotemRP") << "TotemRP::Parameterization being initialized for "<<
           v->GetName();
       Beam_IP_150_L_LV = v;
     }
@@ -147,30 +151,35 @@ void BeamProtTransportSetup::BuildTransportModels(const edm::ParameterSet & p)
   }
     
   edm::LogInfo("TotemRP")<<"Parameterizations read from file, pointers:"<<aprox_ip_150_r<<" "<<aprox_ip_150_l<<" "<<std::endl;
-  
-  if(aprox_ip_150_r && aprox_ip_150_l 
-      && Beam_IP_150_R_LV && Beam_IP_150_L_LV)
+
+  if(aprox_ip_150_r && aprox_ip_150_l && Beam_IP_150_R_LV && Beam_IP_150_L_LV)
   {
 #ifdef G4V7
-    model_ip_150_r = new ProtTranspFastSimModel(Beam_IP_150_R_LV_Name, 
+    model_ip_150_r = new ProtTranspFastSimModel(Beam_IP_150_R_LV_Name,
         Beam_IP_150_R_LV, *aprox_ip_150_r, model_ip_150_r_zmin, model_ip_150_r_zmax, verbosity_);
-        
-    model_ip_150_l = new ProtTranspFastSimModel(Beam_IP_150_L_LV_Name, 
+
+    model_ip_150_l = new ProtTranspFastSimModel(Beam_IP_150_L_LV_Name,
         Beam_IP_150_L_LV, *aprox_ip_150_l, model_ip_150_l_zmin, model_ip_150_l_zmax, verbosity_);
 #else
     G4ProductionCuts *dummyPC = new G4ProductionCuts();
     G4Region *region_ip_150_r = new G4Region(Beam_IP_150_R_LV_Name);
     region_ip_150_r->SetProductionCuts(dummyPC);
     Beam_IP_150_R_LV->SetRegion(region_ip_150_r);
-    region_ip_150_r->AddRootLogicalVolume(Beam_IP_150_R_LV);
-    model_ip_150_r = new ProtTranspFastSimModel(Beam_IP_150_R_LV_Name, 
+  edm::LogInfo("TotemRP")<<"k7";
+//  edm::LogInfo("TotemRP")<<"k8 " << Beam_IP_150_R_LV->GetNoDaughters() << std::endl;
+//  edm::LogInfo("TotemRP")<<"k9 " << Beam_IP_150_R_LV->GetMaterial() << std::endl;
+//  edm::LogInfo("TotemRP")<<"k10 " << Beam_IP_150_R_LV->GetDaughter(0) << std::endl;
+  region_ip_150_r->AddRootLogicalVolume(Beam_IP_150_R_LV);
+  edm::LogInfo("TotemRP")<<"k8" <<std::endl;
+    region_ip_150_r->SetProductionCuts(dummyPC);
+    model_ip_150_r = new ProtTranspFastSimModel(Beam_IP_150_R_LV_Name,
         region_ip_150_r, *aprox_ip_150_r, model_ip_150_r_zmin, model_ip_150_r_zmax, verbosity_);
-        
+
     G4Region *region_ip_150_l = new G4Region(Beam_IP_150_L_LV_Name);
     region_ip_150_l->SetProductionCuts(dummyPC);
     Beam_IP_150_L_LV->SetRegion(region_ip_150_l);
     region_ip_150_l->AddRootLogicalVolume(Beam_IP_150_L_LV);
-    model_ip_150_l = new ProtTranspFastSimModel(Beam_IP_150_L_LV_Name, 
+    model_ip_150_l = new ProtTranspFastSimModel(Beam_IP_150_L_LV_Name,
         region_ip_150_l, *aprox_ip_150_l, model_ip_150_l_zmin, model_ip_150_l_zmax, verbosity_);
 #endif
 

@@ -15,16 +15,19 @@
 #include "G4HadronPhysicsQGSP_BERT.hh"
 
 #include "SimG4Core/TotemRPProtTransp/interface/BeamProtTransportSetup.h"
+#include "SimG4Core/TotemRPProtTransp/interface/LogicalVolumeStoreFix.h"
 #include "SimG4Core/TotemRPProtTransp/interface/TotemRPParametrizedPhysics.h"
+
+#include "G4LogicalVolumeStore.hh"
+#include <thread>
 
 QGSPCMS_BERT_EMV::QGSPCMS_BERT_EMV(G4LogicalVolumeToDDLogicalPartMap& map, 
 			   const HepPDT::ParticleDataTable * table_,
 			   sim::ChordFinderSetter *chordFinderSetter_, 
-			   const edm::ParameterSet & p) : PhysicsList(map, table_, chordFinderSetter_, p),
-                                              beam_prot_transp_setup_(0){
+			   const edm::ParameterSet & p) : PhysicsList(map, table_, chordFinderSetter_, p){
 
   G4DataQuestionaire it(photon);
-  
+
   int  ver     = p.getUntrackedParameter<int>("Verbosity",0);
   bool emPhys  = p.getUntrackedParameter<bool>("EMPhysics",true);
   bool hadPhys = p.getUntrackedParameter<bool>("HadPhysics",true);
@@ -61,10 +64,12 @@ QGSPCMS_BERT_EMV::QGSPCMS_BERT_EMV(G4LogicalVolumeToDDLogicalPartMap& map,
   // Neutron tracking cut
   RegisterPhysics( new G4NeutronTrackingCut(ver));
 
+  // Monopoles
+//  RegisterPhysics( new CMSMonopolePhysics(table_,chordFinderSetter_,p));
 
   // Custom Physics
-  if (beam_prot_transp_setup_==0) beam_prot_transp_setup_ = new BeamProtTransportSetup(p);
-  RegisterPhysics(new TotemRPParametrizedPhysics("totem_parametrised_prot_transp"));
+  LogicalVolumeStoreFix::copyToSingleton(G4LogicalVolumeStore::GetInstance());
+  RegisterPhysics(new TotemRPParametrizedPhysics("totem_parametrised_prot_transp", p));
 }
 
 QGSPCMS_BERT_EMV::~QGSPCMS_BERT_EMV()

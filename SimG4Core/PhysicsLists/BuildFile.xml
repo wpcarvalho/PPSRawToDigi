@@ -9,3 +9,5 @@
 <use   name="heppdt"/>
 <use   name="boost"/>
 #<use   name="expat"/>
+
+<use   name="SimG4Core/TotemRPProtTransp"/>

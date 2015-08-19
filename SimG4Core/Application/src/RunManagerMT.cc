@@ -55,6 +55,14 @@
 #include <memory>
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
+#include "SimG4Core/Application/interface/VolumeRegistrationNotifier.h"
+#include "G4LogicalVolumeStore.hh"
+#include "G4RegionStore.hh"
+
+#include "G4Material.hh"
+#include "G4SDManager.hh"
+#include "G4NistManager.hh"
+#include "G4Box.hh"
 
 RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
       m_managerInitialized(false), 
@@ -65,10 +73,10 @@ RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
       m_RestorePhysicsTables(p.getParameter<bool>("RestorePhysicsTables")),
       m_pField(p.getParameter<edm::ParameterSet>("MagneticField")),
       m_pPhysics(p.getParameter<edm::ParameterSet>("Physics")),
-      m_pRunAction(p.getParameter<edm::ParameterSet>("RunAction")),      
+      m_pRunAction(p.getParameter<edm::ParameterSet>("RunAction")),
       m_G4Commands(p.getParameter<std::vector<std::string> >("G4Commands")),
       m_fieldBuilder(nullptr)
-{    
+{
   m_currentRun = 0;
   G4RunManagerKernel *kernel = G4MTRunManagerKernel::GetRunManagerKernel();
   if(!kernel) m_kernel = new G4MTRunManagerKernel();
@@ -83,22 +91,45 @@ RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
   m_RegionFile = p.getUntrackedParameter<std::string>("FileNameRegions","");
 }
 
-RunManagerMT::~RunManagerMT() 
+RunManagerMT::~RunManagerMT()
 {
   if(!m_runTerminated) { terminateRun(); }
   G4StateManager::GetStateManager()->SetNewState(G4State_Quit);
   G4GeometryManager::GetInstance()->OpenGeometry();
 }
 
-void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF, 
+void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF,
 			  const HepPDT::ParticleDataTable *fPDGTable)
 {
   if (m_managerInitialized) return;
-  
+
+  // Get nist material manager
+  G4NistManager* nistManager = G4NistManager::Instance();
+  // Build materials
+  G4Material* air   = nistManager->FindOrBuildMaterial("G4_AIR");
+  // Build box
+  G4double fExperimentalHall_x=1000.*cm;
+  G4double fExperimentalHall_y=1000.*cm;
+  G4double fExperimentalHall_z=1000.*cm;
+  G4Box* fExperimentalHall_box = new G4Box("expHall_box",              // World Volume
+                                    fExperimentalHall_x,        // x size
+                                    fExperimentalHall_y,        // y size
+                                    fExperimentalHall_z);       // z size
+
   // DDDWorld: get the DDCV from the ES and use it to build the World
   G4LogicalVolumeToDDLogicalPartMap map_;
   m_world.reset(new DDDWorld(pDD, map_, m_catalog, m_check));
   m_registry.dddWorldSignal_(m_world.get());
+
+
+  // LogicalVoluem
+  G4LogicalVolume* fExperimentalHall_log = new G4LogicalVolume(fExperimentalHall_box,
+                                              air,
+                                              "expHall_log",
+                                              0,       //opt: fieldManager
+                                              0,       //opt: SensitiveDetector
+                                              0);      //opt: UserLimits
+  edm::LogInfo("SimG4CoreApplication") << "name: " << fExperimentalHall_log->GetName();
 
   // setup the magnetic field
   if (m_pUseMagneticField)
@@ -123,12 +154,12 @@ void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF,
   if (physicsMaker.get()==0) {
     throw SimG4Exception("Unable to find the Physics list requested");
   }
-  m_physicsList = 
+  m_physicsList =
     physicsMaker->make(map_,fPDGTable,m_chordFinderSetter.get(),m_pPhysics,m_registry);
 
-  PhysicsList* phys = m_physicsList.get(); 
-  if (phys==0) { 
-    throw SimG4Exception("Physics list construction failed!"); 
+  PhysicsList* phys = m_physicsList.get();
+  if (phys==0) {
+    throw SimG4Exception("Physics list construction failed!");
   }
 
   // adding GFlash, Russian Roulette for eletrons and gamma, 
