@@ -55,6 +55,7 @@
 #include <thread>
 #include <sstream>
 
+#include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
 
 // from https://hypernews.cern.ch/HyperNews/CMS/get/edmFramework/3302/2.html
 namespace {
@@ -141,8 +142,10 @@ RunManagerMTWorker::RunManagerMTWorker(const edm::ParameterSet& iConfig, edm::Co
   m_pTrackingAction(iConfig.getParameter<edm::ParameterSet>("TrackingAction")),
   m_pSteppingAction(iConfig.getParameter<edm::ParameterSet>("SteppingAction")),
   m_pCustomUIsession(iConfig.getUntrackedParameter<edm::ParameterSet>("CustomUIsession")),
+  m_useMeasuredGeom(iConfig.getUntrackedParameter<bool>("UseMeasuredGeometryRecord",false)),
   m_p(iConfig)
 {
+  edm::LogInfo("SimG4CoreApplication") << "m_useMeasuredGeom Worker: " << m_useMeasuredGeom;
   initializeTLS();
 }
 
@@ -215,7 +218,10 @@ void RunManagerMTWorker::initializeThread(const RunManagerMT& runManagerMaster, 
   // Get DDCompactView, or would it be better to get the object from
   // runManagerMaster instead of EventSetup in here?
   edm::ESTransientHandle<DDCompactView> pDD;
-  es.get<IdealGeometryRecord>().get(pDD);
+  if(m_useMeasuredGeom)
+    es.get<MeasuredGeometryRecord>().get(pDD);
+  else
+    es.get<IdealGeometryRecord>().get(pDD);
 
   // setup the magnetic field
   if (m_pUseMagneticField)

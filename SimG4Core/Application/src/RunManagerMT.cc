@@ -64,6 +64,8 @@
 #include "G4NistManager.hh"
 #include "G4Box.hh"
 
+#include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
+
 RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
       m_managerInitialized(false), 
       m_runTerminated(false),
@@ -71,12 +73,15 @@ RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
       m_PhysicsTablesDir(p.getParameter<std::string>("PhysicsTablesDirectory")),
       m_StorePhysicsTables(p.getParameter<bool>("StorePhysicsTables")),
       m_RestorePhysicsTables(p.getParameter<bool>("RestorePhysicsTables")),
+      m_useMeasuredGeom(p.getUntrackedParameter<bool>("UseMeasuredGeometryRecord",false)),
       m_pField(p.getParameter<edm::ParameterSet>("MagneticField")),
       m_pPhysics(p.getParameter<edm::ParameterSet>("Physics")),
       m_pRunAction(p.getParameter<edm::ParameterSet>("RunAction")),
       m_G4Commands(p.getParameter<std::vector<std::string> >("G4Commands")),
       m_fieldBuilder(nullptr)
 {
+ edm::LogInfo("SimG4CoreApplication") << "m_useMeasuredGeom MT: " << m_useMeasuredGeom;
+
   m_currentRun = 0;
   G4RunManagerKernel *kernel = G4MTRunManagerKernel::GetRunManagerKernel();
   if(!kernel) m_kernel = new G4MTRunManagerKernel();
