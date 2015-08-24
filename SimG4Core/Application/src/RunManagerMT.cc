@@ -126,6 +126,8 @@ void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF,
   m_world.reset(new DDDWorld(pDD, map_, m_catalog, m_check));
   m_registry.dddWorldSignal_(m_world.get());
 
+  edm::LogInfo("PhysicsList") << "jj0.1" << G4TransportationManager::GetTransportationManager();
+  edm::LogInfo("PhysicsList") << "jj0.2" << G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
 
   // LogicalVoluem
   G4LogicalVolume* fExperimentalHall_log = new G4LogicalVolume(fExperimentalHall_box,

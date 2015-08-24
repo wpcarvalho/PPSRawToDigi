@@ -20,6 +20,8 @@
 
 #include "G4LogicalVolumeStore.hh"
 #include <thread>
+#include "G4RunManagerKernel.hh"
+#include "G4VPhysicalVolume.hh"
 
 QGSPCMS_BERT_EMV::QGSPCMS_BERT_EMV(G4LogicalVolumeToDDLogicalPartMap& map, 
 			   const HepPDT::ParticleDataTable * table_,
@@ -68,8 +70,10 @@ QGSPCMS_BERT_EMV::QGSPCMS_BERT_EMV(G4LogicalVolumeToDDLogicalPartMap& map,
 //  RegisterPhysics( new CMSMonopolePhysics(table_,chordFinderSetter_,p));
 
   // Custom Physics
-  LogicalVolumeStoreFix::copyToSingleton(G4LogicalVolumeStore::GetInstance());
-  RegisterPhysics(new TotemRPParametrizedPhysics("totem_parametrised_prot_transp", p));
+  LogicalVolumeStoreFix::copyToSingleton(G4LogicalVolumeStore::GetInstance(),
+                                         G4RunManagerKernel::GetRunManagerKernel());
+  if (beam_prot_transp_setup_ == 0) beam_prot_transp_setup_ = new BeamProtTransportSetup(p);
+  RegisterPhysics(new TotemRPParametrizedPhysics());
 }
 
 QGSPCMS_BERT_EMV::~QGSPCMS_BERT_EMV()

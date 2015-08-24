@@ -6,10 +6,12 @@
 #define SRC_AAA_H
 
 #include "G4LogicalVolumeStore.hh"
+#include "G4RunManagerKernel.hh"
+#include "G4VPhysicalVolume.hh"
 
 class LogicalVolumeStoreFix {
 public:
-    static void copyToSingleton(G4LogicalVolumeStore* theStore);
+    static void copyToSingleton(G4LogicalVolumeStore* theStore, G4RunManagerKernel* theKernel);
 };
 
 

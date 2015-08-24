@@ -42,6 +42,10 @@ process.load("IOMC.SmearingGenerator.SmearingGenerator_cfi")
 # Geometry - beta* specific
 process.load("Configuration.TotemCommon.geometryRP_cfi")
 
+# misalignments
+process.load("TotemAlignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
+process.TotemRPIncludeAlignments.MisalignedFiles = cms.vstring()
+
 # TODO Change to the LowBetaSettings
 process.load("SimG4CMS.PPS.MYgeometryRP_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')

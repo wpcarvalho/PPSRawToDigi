@@ -12,7 +12,7 @@
 class TotemRPParametrizedPhysics : public G4VPhysicsConstructor
 {
 public:
-        TotemRPParametrizedPhysics(std::string name, const edm::ParameterSet & p);
+        TotemRPParametrizedPhysics();
         virtual ~TotemRPParametrizedPhysics();
         virtual void ConstructParticle();
         virtual void ConstructProcess();
@@ -20,7 +20,6 @@ public:
 protected:
         static G4ThreadLocal bool fInitialized;
         std::string processDefFilePath;
-        edm::ParameterSet parameters;
 };
 
 #endif  //SimG4Core_TotemRPProtTransp_TotemRPParametrizedPhysics_h__
