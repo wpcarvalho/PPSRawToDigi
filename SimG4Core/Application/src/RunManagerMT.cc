@@ -55,7 +55,6 @@
 #include <memory>
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
-#include "SimG4Core/Application/interface/VolumeRegistrationNotifier.h"
 #include "G4LogicalVolumeStore.hh"
 #include "G4RegionStore.hh"
 
