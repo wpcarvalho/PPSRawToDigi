@@ -19,9 +19,4 @@ void LogicalVolumeStoreFix::copyToSingleton(G4LogicalVolumeStore* theStore, G4Ru
         G4LogicalVolume * v = *it;
         G4LogicalVolumeStore::GetInstance()->Register(v);
     }
-//    edm::LogInfo("PhysicsList") << "q44";
-//    G4VPhysicalVolume* world = theKernel->GetCurrentWorld();
-//    edm::LogInfo("PhysicsList") << "q55" << world << " " << G4RunManagerKernel::GetRunManagerKernel() ;
-//    G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking()->SetWorldVolume(world);
-//    edm::LogInfo("PhysicsList") << "q66";
 }

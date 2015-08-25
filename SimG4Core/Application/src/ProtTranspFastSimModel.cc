@@ -14,7 +14,7 @@
 //#define G4V7
 #define DEBUG 0
 
-#include "SimG4Core/TotemRPProtTransp/interface/ProtTranspFastSimModel.h"
+#include "SimG4Core/Application/interface/ProtTranspFastSimModel.h"
 
 #include <iostream>
 #include "CLHEP/Units/GlobalSystemOfUnits.h"

@@ -65,8 +65,13 @@
 
 #include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
 
+#include "SimG4Core/Application/interface/BeamProtTransportSetup.h"
+#include "SimG4Core/TotemRPProtTransp/interface/LogicalVolumeStoreFix.h"
+#include "G4FastSimulationManagerProcess.hh"
+#include "SimG4Core/Application/interface/TotemRPParametrizedPhysics.h"
+
 RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
-      m_managerInitialized(false), 
+      m_managerInitialized(false),
       m_runTerminated(false),
       m_pUseMagneticField(p.getParameter<bool>("UseMagneticField")),
       m_PhysicsTablesDir(p.getParameter<std::string>("PhysicsTablesDirectory")),
@@ -107,35 +112,10 @@ void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF,
 {
   if (m_managerInitialized) return;
 
-  // Get nist material manager
-  G4NistManager* nistManager = G4NistManager::Instance();
-  // Build materials
-  G4Material* air   = nistManager->FindOrBuildMaterial("G4_AIR");
-  // Build box
-  G4double fExperimentalHall_x=1000.*cm;
-  G4double fExperimentalHall_y=1000.*cm;
-  G4double fExperimentalHall_z=1000.*cm;
-  G4Box* fExperimentalHall_box = new G4Box("expHall_box",              // World Volume
-                                    fExperimentalHall_x,        // x size
-                                    fExperimentalHall_y,        // y size
-                                    fExperimentalHall_z);       // z size
-
   // DDDWorld: get the DDCV from the ES and use it to build the World
   G4LogicalVolumeToDDLogicalPartMap map_;
   m_world.reset(new DDDWorld(pDD, map_, m_catalog, m_check));
   m_registry.dddWorldSignal_(m_world.get());
-
-  edm::LogInfo("PhysicsList") << "jj0.1" << G4TransportationManager::GetTransportationManager();
-  edm::LogInfo("PhysicsList") << "jj0.2" << G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
-
-  // LogicalVoluem
-  G4LogicalVolume* fExperimentalHall_log = new G4LogicalVolume(fExperimentalHall_box,
-                                              air,
-                                              "expHall_log",
-                                              0,       //opt: fieldManager
-                                              0,       //opt: SensitiveDetector
-                                              0);      //opt: UserLimits
-  edm::LogInfo("SimG4CoreApplication") << "name: " << fExperimentalHall_log->GetName();
 
   // setup the magnetic field
   if (m_pUseMagneticField)
@@ -170,7 +150,11 @@ void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF,
 
   // adding GFlash, Russian Roulette for eletrons and gamma, 
   // step limiters on top of any Physics Lists
-  phys->RegisterPhysics(new ParametrisedEMPhysics("EMoptions",m_pPhysics));
+  phys->RegisterPhysics(new ParametrisedEMPhysics("EMoptions", m_pPhysics));
+
+  //Adding Totem proton transport
+  if (beam_prot_transp_setup_ == 0) beam_prot_transp_setup_ = new BeamProtTransportSetup(m_pPhysics);
+  phys->RegisterPhysics(new TotemRPParametrizedPhysics("totem_parametrised_prot_transp", m_pPhysics));
 
   m_physicsList->ResetStoredInAscii();
   if (m_RestorePhysicsTables) {

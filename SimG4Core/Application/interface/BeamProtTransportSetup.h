@@ -17,7 +17,7 @@
 //#define G4V7
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "SimG4Core/TotemRPProtTransp/interface/ProtTranspFastSimModel.h"
+#include "SimG4Core/Application/interface/ProtTranspFastSimModel.h"
 #include "FWCore/Framework/interface/ESWatcher.h"
 
 #include "G4String.hh"

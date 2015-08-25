@@ -14,8 +14,8 @@
 //#define G4V7
 #define DEBUG 0
 
-#include "SimG4Core/TotemRPProtTransp/interface/ProtTranspFastSimModel.h"
-#include "SimG4Core/TotemRPProtTransp/interface/BeamProtTransportSetup.h"
+#include "SimG4Core/Application/interface/ProtTranspFastSimModel.h"
+#include "SimG4Core/Application/interface/BeamProtTransportSetup.h"
 #include "TotemCondFormats/DataRecord/interface/ProtonTransportRcd.h"
 #include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
 #include "TotemCondFormats/DataRecord/interface/BeamOpticsParamsRcd.h"
@@ -55,6 +55,8 @@
 #include "CLHEP/Units/GlobalSystemOfUnits.h"
 #include "CLHEP/Units/GlobalPhysicalConstants.h"
 
+#include "G4FastSimulationManagerProcess.hh"
+
 using namespace edm;
 using namespace std;
 
@@ -90,61 +92,27 @@ BeamProtTransportSetup::BeamProtTransportSetup(const edm::ParameterSet & p) :
 
 void BeamProtTransportSetup::FindLogicalVolumes()
 {
-  //Finding correct G4LogicalVolume for parameterisation
-//  ConcreteG4LogicalVolumeToDDLogicalPartMapper::Vector vec =
-//  G4LogicalVolumeToDDLogicalPartMapper::instance()->all("volumes");
-
   edm::LogInfo("TotemRP") << "TotemRP::Proton parameterisation initialization begin !!";
 
-// todo uncomment after fixing logical volumes
-//  G4LogicalVolumeStore * theStore = G4LogicalVolumeStore::GetInstance();
-//  G4LogicalVolumeStore::const_iterator it;
-//  for (it = theStore->begin(); it != theStore->end(); it++)
-//  {
-//    G4LogicalVolume * v = *it;
-//
-//    if (v->GetName()==Beam_IP_150_R_LV_Name)
-//    {
-//      edm::LogInfo("TotemRP") << "TotemRP::Parameterization being initialized for "<<
-//          v->GetName();
-//      Beam_IP_150_R_LV = v;
-//    }
-//    else if (v->GetName()==Beam_IP_150_L_LV_Name)
-//    {
-//      edm::LogInfo("TotemRP") << "TotemRP::Parameterization being initialized for "<<
-//          v->GetName();
-//      Beam_IP_150_L_LV = v;
-//    }
-//  }
+  G4LogicalVolumeStore * theStore = G4LogicalVolumeStore::GetInstance();
+  G4LogicalVolumeStore::const_iterator it;
+  for (it = theStore->begin(); it != theStore->end(); it++)
+  {
+      G4LogicalVolume * v = *it;
 
- //todo remove!, temporary workaround
-  // Get nist material manager
-  G4NistManager* nistManager = G4NistManager::Instance();
-  // Build materials
-  G4Material* air   = nistManager->FindOrBuildMaterial("G4_AIR");
-  // Build box
-  G4Box* fExperimentalHall_box = new G4Box("expHall_box",   // World Volume
-                                           1000.*cm,        // x size
-                                           1000.*cm,        // y size
-                                           1000.*cm);       // z size
-  G4Box* fExperimentalHall_box2 = new G4Box("expHall_box2",   // World Volume
-                                           1000.*cm,        // x size
-                                           1000.*cm,        // y size
-                                           1000.*cm);       // z size
-
-  // LogicalVoluem
-  Beam_IP_150_R_LV = new G4LogicalVolume(fExperimentalHall_box,
-                                                               air,
-                                                               Beam_IP_150_R_LV_Name,
-                                                               0,       //opt: fieldManager
-                                                               0,       //opt: SensitiveDetector
-                                                               0);      //opt: UserLimits
-  Beam_IP_150_L_LV = new G4LogicalVolume(fExperimentalHall_box2,
-                                                               air,
-                                                               Beam_IP_150_L_LV_Name,
-                                                               0,       //opt: fieldManager
-                                                               0,       //opt: SensitiveDetector
-                                                               0);      //opt: UserLimits
+    if (v->GetName()==Beam_IP_150_R_LV_Name)
+    {
+      edm::LogInfo("TotemRP") << "TotemRP::Parameterization being initialized for "<<
+          v->GetName();
+      Beam_IP_150_R_LV = v;
+    }
+    else if (v->GetName()==Beam_IP_150_L_LV_Name)
+    {
+      edm::LogInfo("TotemRP") << "TotemRP::Parameterization being initialized for "<<
+          v->GetName();
+      Beam_IP_150_L_LV = v;
+    }
+  }
 }
 
 
@@ -202,7 +170,7 @@ void BeamProtTransportSetup::BuildTransportModels(const edm::ParameterSet & p)
     G4Region *region_ip_150_r = new G4Region(Beam_IP_150_R_LV_Name);
     region_ip_150_r->SetProductionCuts(dummyPC);
     Beam_IP_150_R_LV->SetRegion(region_ip_150_r);
-  region_ip_150_r->AddRootLogicalVolume(Beam_IP_150_R_LV);
+    region_ip_150_r->AddRootLogicalVolume(Beam_IP_150_R_LV);
     region_ip_150_r->SetProductionCuts(dummyPC);
     model_ip_150_r = new ProtTranspFastSimModel(Beam_IP_150_R_LV_Name,
         region_ip_150_r, *aprox_ip_150_r, model_ip_150_r_zmin, model_ip_150_r_zmax, verbosity_);
