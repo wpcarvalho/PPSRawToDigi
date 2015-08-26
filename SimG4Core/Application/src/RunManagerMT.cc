@@ -66,7 +66,6 @@
 #include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
 
 #include "SimG4Core/Application/interface/BeamProtTransportSetup.h"
-#include "SimG4Core/TotemRPProtTransp/interface/LogicalVolumeStoreFix.h"
 #include "G4FastSimulationManagerProcess.hh"
 #include "SimG4Core/Application/interface/TotemRPParametrizedPhysics.h"
 
