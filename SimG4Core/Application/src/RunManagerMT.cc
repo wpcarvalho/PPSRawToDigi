@@ -55,18 +55,9 @@
 #include <memory>
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
-#include "G4LogicalVolumeStore.hh"
-#include "G4RegionStore.hh"
-
-#include "G4Material.hh"
-#include "G4SDManager.hh"
-#include "G4NistManager.hh"
-#include "G4Box.hh"
 
 #include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
-
 #include "SimG4Core/Application/interface/BeamProtTransportSetup.h"
-#include "G4FastSimulationManagerProcess.hh"
 #include "SimG4Core/Application/interface/TotemRPParametrizedPhysics.h"
 
 RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
@@ -83,8 +74,6 @@ RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
       m_G4Commands(p.getParameter<std::vector<std::string> >("G4Commands")),
       m_fieldBuilder(nullptr)
 {
- edm::LogInfo("SimG4CoreApplication") << "m_useMeasuredGeom MT: " << m_useMeasuredGeom;
-
   m_currentRun = 0;
   G4RunManagerKernel *kernel = G4MTRunManagerKernel::GetRunManagerKernel();
   if(!kernel) m_kernel = new G4MTRunManagerKernel();

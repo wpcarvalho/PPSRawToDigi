@@ -2,6 +2,7 @@
 <use   name="Geometry/TotemRecords"/>
 <use   name="SimDataFormats/CaloHit"/>
 <use   name="SimDataFormats/TrackingHit"/>
+<use   name="SimG4Core/TotemRPProtTransp"/>
 
 <use   name="DataFormats/Common"/>
 <use   name="DataFormats/Math"/>
@@ -29,8 +30,6 @@
 <use   name="geant4core"/>
 <use   name="hepmc"/>
 <use   name="heppdt"/>
-
-<use   name="SimG4Core/TotemRPProtTransp"/>
 
 <export>
   <lib   name="1"/>
