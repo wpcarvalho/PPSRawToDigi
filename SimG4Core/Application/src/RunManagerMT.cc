@@ -55,20 +55,37 @@
 #include <memory>
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
+#include "G4LogicalVolumeStore.hh"
+#include "G4RegionStore.hh"
+
+#include "G4Material.hh"
+#include "G4SDManager.hh"
+#include "G4NistManager.hh"
+#include "G4Box.hh"
+
+#include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
+
+#include "SimG4Core/Application/interface/BeamProtTransportSetup.h"
+#include "SimG4Core/TotemRPProtTransp/interface/LogicalVolumeStoreFix.h"
+#include "G4FastSimulationManagerProcess.hh"
+#include "SimG4Core/Application/interface/TotemRPParametrizedPhysics.h"
 
 RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
-      m_managerInitialized(false), 
+      m_managerInitialized(false),
       m_runTerminated(false),
       m_pUseMagneticField(p.getParameter<bool>("UseMagneticField")),
       m_PhysicsTablesDir(p.getParameter<std::string>("PhysicsTablesDirectory")),
       m_StorePhysicsTables(p.getParameter<bool>("StorePhysicsTables")),
       m_RestorePhysicsTables(p.getParameter<bool>("RestorePhysicsTables")),
+      m_useMeasuredGeom(p.getUntrackedParameter<bool>("UseMeasuredGeometryRecord",false)),
       m_pField(p.getParameter<edm::ParameterSet>("MagneticField")),
       m_pPhysics(p.getParameter<edm::ParameterSet>("Physics")),
-      m_pRunAction(p.getParameter<edm::ParameterSet>("RunAction")),      
+      m_pRunAction(p.getParameter<edm::ParameterSet>("RunAction")),
       m_G4Commands(p.getParameter<std::vector<std::string> >("G4Commands")),
       m_fieldBuilder(nullptr)
-{    
+{
+ edm::LogInfo("SimG4CoreApplication") << "m_useMeasuredGeom MT: " << m_useMeasuredGeom;
+
   m_currentRun = 0;
   G4RunManagerKernel *kernel = G4MTRunManagerKernel::GetRunManagerKernel();
   if(!kernel) m_kernel = new G4MTRunManagerKernel();
@@ -83,18 +100,18 @@ RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
   m_RegionFile = p.getUntrackedParameter<std::string>("FileNameRegions","");
 }
 
-RunManagerMT::~RunManagerMT() 
+RunManagerMT::~RunManagerMT()
 {
   if(!m_runTerminated) { terminateRun(); }
   G4StateManager::GetStateManager()->SetNewState(G4State_Quit);
   G4GeometryManager::GetInstance()->OpenGeometry();
 }
 
-void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF, 
+void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF,
 			  const HepPDT::ParticleDataTable *fPDGTable)
 {
   if (m_managerInitialized) return;
-  
+
   // DDDWorld: get the DDCV from the ES and use it to build the World
   G4LogicalVolumeToDDLogicalPartMap map_;
   m_world.reset(new DDDWorld(pDD, map_, m_catalog, m_check));
@@ -123,17 +140,21 @@ void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF,
   if (physicsMaker.get()==0) {
     throw SimG4Exception("Unable to find the Physics list requested");
   }
-  m_physicsList = 
+  m_physicsList =
     physicsMaker->make(map_,fPDGTable,m_chordFinderSetter.get(),m_pPhysics,m_registry);
 
-  PhysicsList* phys = m_physicsList.get(); 
-  if (phys==0) { 
-    throw SimG4Exception("Physics list construction failed!"); 
+  PhysicsList* phys = m_physicsList.get();
+  if (phys==0) {
+    throw SimG4Exception("Physics list construction failed!");
   }
 
   // adding GFlash, Russian Roulette for eletrons and gamma, 
   // step limiters on top of any Physics Lists
-  phys->RegisterPhysics(new ParametrisedEMPhysics("EMoptions",m_pPhysics));
+  phys->RegisterPhysics(new ParametrisedEMPhysics("EMoptions", m_pPhysics));
+
+  //Adding Totem proton transport
+  if (beam_prot_transp_setup_ == 0) beam_prot_transp_setup_ = new BeamProtTransportSetup(m_pPhysics);
+  phys->RegisterPhysics(new TotemRPParametrizedPhysics("totem_parametrised_prot_transp", m_pPhysics));
 
   m_physicsList->ResetStoredInAscii();
   if (m_RestorePhysicsTables) {

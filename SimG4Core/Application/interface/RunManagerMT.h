@@ -14,6 +14,8 @@
 
 #include <memory>
 
+#include "SimG4Core/Application/interface/BeamProtTransportSetup.h"
+
 namespace CLHEP {
   class HepJamesRandom;
 }
@@ -120,6 +122,7 @@ private:
   bool m_StorePhysicsTables;
   bool m_RestorePhysicsTables;
   bool m_check;
+  bool m_useMeasuredGeom;
   edm::ParameterSet m_pField;
   edm::ParameterSet m_pPhysics; 
   edm::ParameterSet m_pRunAction;      
@@ -135,6 +138,8 @@ private:
   std::string m_FieldFile;
   std::string m_WriteFile;
   std::string m_RegionFile;
+
+  BeamProtTransportSetup * beam_prot_transp_setup_;
 };
 
 #endif

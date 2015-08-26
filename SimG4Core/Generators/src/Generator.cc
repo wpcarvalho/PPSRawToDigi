@@ -269,9 +269,24 @@ void Generator::HepMC2G4(const HepMC::GenEvent *evt_orig, G4Event *g4evt) {
         << " ptot(GeV)= " << ptot
         << " pz(GeV)= " << pz;
 
+      // Only scattered protons are left
+      if ((*pitr)->pdg_id() != 2212 && fLeaveOnlyScatteredProtons) {
+        if (verbose > 2)
+          LogDebug("SimG4CoreGenerator")
+          << "GenParticle barcode = " << (*pitr)->barcode()
+          << " rejected as case 0" << std::endl;
+        continue;
+      }
+      else if (status == 1 && (*pitr)->pdg_id() == 2212 && fLeaveScatteredProtons) {
+        toBeAdded = true;
+        if (verbose > 2)
+          LogDebug("SimG4CoreGenerator")
+          << "GenParticle barcode = " << (*pitr)->barcode()
+          << " passed case 4" << std::endl;
+      }
       // Particles of status 1 trasnported along the beam pipe for forward 
       // detectors (HECTOR) always pass to Geant4 without cuts 
-      if (1 == status &&
+      else if (1 == status &&
           fabs(zimpact) >= Z_hector && rimpact2 <= theDecRCut2) {
         toBeAdded = true;
         if (verbose > 2)
@@ -279,17 +294,8 @@ void Generator::HepMC2G4(const HepMC::GenEvent *evt_orig, G4Event *g4evt) {
           << "GenParticle barcode = " << (*pitr)->barcode()
           << " passed case 3";
       } else {
-
-        // Only scattered protons are left
-        if ((*pitr)->pdg_id() != 2212 && fLeaveOnlyScatteredProtons) {
-          if (verbose > 2)
-            LogDebug("SimG4CoreGenerator")
-            << "GenParticle barcode = " << (*pitr)->barcode()
-            << " rejected as case 0" << std::endl;
-          continue;
-        }
           // Standard case: particles not decayed by the generator
-        else if (1 == status &&
+        if (1 == status &&
                  (fabs(zimpact) < Z_hector || rimpact2 > theDecRCut2)) {
 
           // Ptot cut for all particles
@@ -351,13 +357,6 @@ void Generator::HepMC2G4(const HepMC::GenEvent *evt_orig, G4Event *g4evt) {
             << "GenParticle barcode = " << (*pitr)->barcode()
             << " passed case 2"
             << " decay_length(cm)= " << decay_length / cm;
-        }
-        else if (status == 1 && (*pitr)->pdg_id() == 2212 && fLeaveScatteredProtons) {
-          toBeAdded = true;
-          if (verbose > 2)
-            LogDebug("SimG4CoreGenerator")
-            << "GenParticle barcode = " << (*pitr)->barcode()
-            << " passed case 4" << std::endl;
         }
       }
       if (toBeAdded) {
