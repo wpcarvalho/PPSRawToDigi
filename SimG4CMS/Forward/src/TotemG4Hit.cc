@@ -26,7 +26,7 @@ TotemG4Hit::TotemG4Hit(): MeanPosition(0), theEntryPoint(0), theExitPoint(0) {
   hadr              = 0.;
   theIncidentEnergy = 0.;
   theTrackID        = -1;
-  theUnitID         =  0;
+  theUnitID         = 0;
   theTimeSlice      = 0.;
 
   theX              = 0.;

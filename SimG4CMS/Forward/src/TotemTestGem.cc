@@ -45,13 +45,13 @@ TotemTestGem::TotemTestGem(const edm::ParameterSet &p) :
     edm::ParameterSet m_Anal = p.getParameter<edm::ParameterSet>("TotemTestGem");
     names = m_Anal.getParameter < std::vector < std::string > > ("Names");
     fileName = m_Anal.getParameter<std::string>("FileName");
-    nomeFile = m_Anal.getParameter<std::string>("FileNameOLD");
+    fileNameOld = m_Anal.getParameter<std::string>("FileNameOLD");
 
     edm::LogInfo("ForwardSim") << "TotemTestGem:: Initialised as observer of "
     << "begin of job, begin/end events and of G4step";
     edm::LogInfo("HcalSim") << "TotemTestGem:===>>>  Book user"
     << " Histograms and Root tree";
-    histos = new TotemHisto(nomeFile);
+    histos = new TotemHisto(fileNameOld);
     std::cout << " New TOTEMHISTO Object created " << std::endl;
 }
 

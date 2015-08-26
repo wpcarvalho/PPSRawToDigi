@@ -112,8 +112,8 @@ private:
   G4ThreeVector               hitPoint;
 
   G4ThreeVector               Posizio;
-  G4ThreeVector theEntryPoint;
-  G4ThreeVector theExitPoint;
+  G4ThreeVector               theEntryPoint;
+  G4ThreeVector               theExitPoint;
   float                       Pabs;
   float                       Tof;
   float                       Eloss;	
