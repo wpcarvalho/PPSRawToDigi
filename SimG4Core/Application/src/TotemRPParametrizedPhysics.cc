@@ -51,6 +51,7 @@ TotemRPParametrizedPhysics::~TotemRPParametrizedPhysics() {
 
 void TotemRPParametrizedPhysics::ConstructParticle()
 {
+  edm::LogInfo("TotemRPParametrizedPhysics") << "ConstructParticle";
   G4LeptonConstructor pLeptonConstructor;
   pLeptonConstructor.ConstructParticle();
 
@@ -69,6 +70,8 @@ void TotemRPParametrizedPhysics::ConstructParticle()
 
 void TotemRPParametrizedPhysics::ConstructProcess()
 {
+  edm::LogInfo("TotemRPParametrizedPhysics") << "ConstructProcess";
+
   G4FastSimulationManagerProcess * theFastSimulationManagerProcess =
     new G4FastSimulationManagerProcess("TotemRPParameterisationProcess", fParameterisation);
 

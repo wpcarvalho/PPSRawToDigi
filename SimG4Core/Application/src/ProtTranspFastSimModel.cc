@@ -10,10 +10,6 @@
 * $Date: 2009/11/16 16:54:43 $
 *
 ****************************************************************************/
-
-//#define G4V7
-#define DEBUG 0
-
 #include "SimG4Core/Application/interface/ProtTranspFastSimModel.h"
 
 #include <iostream>
@@ -25,6 +21,7 @@
 #include "G4ParticleMomentum.hh"
 #include "G4Proton.hh"
 #include "G4Track.hh"
+#include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 using namespace std;
 
@@ -36,9 +33,10 @@ ProtTranspFastSimModel::ProtTranspFastSimModel(G4String ModelVolumeName,
      : G4VFastSimulationModel(ModelVolumeName, envelope), modelName_(ModelVolumeName),
      approximator_(approx), zin_(zin), zout_(zout),
     verbosity_(verbosity)
-{ 
+{
+  verbosity_ = true;
   if(verbosity_)
-    std::cout<<"ProtTranspFastSimModel created for volume "<<ModelVolumeName<<std::endl;
+    edm::LogInfo("ProtTranspFastSimModel")<<"ProtTranspFastSimModel created for volume "<<ModelVolumeName<<std::endl;
     
   if(ModelVolumeName == "Beam_IP_150_R")
     transport_region_ = BEAM_IP_150_R;
@@ -53,8 +51,8 @@ void ProtTranspFastSimModel::DoIt(const G4FastTrack& track, G4FastStep& step)
 {
   if(verbosity_)
   {
-    std::cout<<">> ProtTranspFastSimModel::DoIt"<<std::endl;
-    cout << "\tstep info: " << endl;
+    edm::LogInfo("ProtTranspFastSimModel")<<">> ProtTranspFastSimModel::DoIt"<<std::endl;
+    edm::LogInfo("ProtTranspFastSimModel") << "\tstep info: " << endl;
     step.DumpInfo();
   }
 
@@ -71,26 +69,26 @@ void ProtTranspFastSimModel::DoIt(const G4FastTrack& track, G4FastStep& step)
   
   if(verbosity_)
   {
-    std::cout<<"\tin_loc_pos:"<<in_loc_pos<<"\n\tin_loc_mom:"<<in_loc_mom<<
+    edm::LogInfo("ProtTranspFastSimModel")<<"\tin_loc_pos:"<<in_loc_pos<<"\n\tin_loc_mom:"<<in_loc_mom<<
       "\n\tin_glob_pos:"<<in_glob_pos<<"\n\tin_glob_mom:"<<in_glob_mom<<std::endl;
   }
 
   if(IsBeamPipeProton(track))
   {
     if(verbosity_)
-      std::cout<<"!!!! Is a BeamPipe Proton"<<std::endl;
+      edm::LogInfo("ProtTranspFastSimModel")<<"!!!! Is a BeamPipe Proton"<<std::endl;
       
     if(!Transport(track, step))
     {
       if(verbosity_)
-        std::cout<<"!!!! Transport failed, aperture limits"<<std::endl;
+        edm::LogInfo("ProtTranspFastSimModel")<<"!!!! Transport failed, aperture limits"<<std::endl;
       KillParticleAndSecondaries(track, step);
     }
   }
   else
   {
     if(verbosity_)
-      std::cout<<"!!!! Is not a BeamPipe Proton, to be killed"<<std::endl;
+      edm::LogInfo("ProtTranspFastSimModel")<<"!!!! Is not a BeamPipe Proton, to be killed"<<std::endl;
     KillParticleAndSecondaries(track, step);
   }
 //  double step_length = TMath::Abs(zout_-zin_)*m;
@@ -138,10 +136,8 @@ void ProtTranspFastSimModel::KillParticleAndSecondaries(const G4FastTrack& fastT
 
 bool ProtTranspFastSimModel::Transport(const G4FastTrack& track, G4FastStep& step)
 {
-  if(verbosity_) {
-    cout.precision(25);
-    cout<<"===== BEGIN Transport " << GetName() << "=================="<<endl;
-  }
+  if(verbosity_)
+    edm::LogInfo("ProtTranspFastSimModel")<<"===== BEGIN Transport " << GetName() << "=================="<<endl;
 
   // the global and local coordinates in case of the beam parametrized area are the same
   G4ThreeVector in_pos = Unsmear_z_position(track);
@@ -149,9 +145,9 @@ bool ProtTranspFastSimModel::Transport(const G4FastTrack& track, G4FastStep& ste
   //in_mom = track.GetPrimaryTrack()->GetDynamicParticle()->GetPrimaryParticle()->GetMomentum()
 
   if(verbosity_) {
-    cout << "input" << endl;
-    cout << "\tposition: " << in_pos << endl;
-    cout << "\tmomentum: " << in_mom << endl;
+    edm::LogInfo("ProtTranspFastSimModel") << "input" << endl;
+    edm::LogInfo("ProtTranspFastSimModel") << "\tposition: " << in_pos << endl;
+    edm::LogInfo("ProtTranspFastSimModel") << "\tmomentum: " << in_mom << endl;
   }
 
   double in_position[3];
@@ -167,12 +163,12 @@ bool ProtTranspFastSimModel::Transport(const G4FastTrack& track, G4FastStep& ste
   in_momentum[2] = in_mom.z()/GeV;
   
   if(verbosity_) {
-    std::cout<<"before transport"<<std::endl;
-    std::cout<<"\tposition: " << in_position[0] << ", " << in_position[1] << ", " << in_position[2] <<std::endl;
-    std::cout<<"\tmomentum: " << in_momentum[0] << ", " << in_momentum[1] << ", " << in_momentum[2] <<std::endl;
+    edm::LogInfo("ProtTranspFastSimModel")<<"before transport"<<std::endl;
+    edm::LogInfo("ProtTranspFastSimModel")<<"\tposition: " << in_position[0] << ", " << in_position[1] << ", " << in_position[2] <<std::endl;
+    edm::LogInfo("ProtTranspFastSimModel")<<"\tmomentum: " << in_momentum[0] << ", " << in_momentum[1] << ", " << in_momentum[2] <<std::endl;
     
     /* TODO, E might not be 7TeV !!!
-    std::cout<<"\tin state: MADThx="<<in_momentum[0]/7000
+    edm::LogInfo("ProtTranspFastSimModel")<<"\tin state: MADThx="<<in_momentum[0]/7000
     <<", MADThy="<<in_momentum[1]/7000
     <<", xi="<<(fabs(in_momentum[2])-7000)/7000.0<<std::endl;
     */
@@ -183,23 +179,23 @@ bool ProtTranspFastSimModel::Transport(const G4FastTrack& track, G4FastStep& ste
 
   if(!tracked) {
     if(verbosity_) {
-      cout << "* proton not tracked" << endl;
-    cout<<"===== END Transport " << GetName() << "===================="<<endl;
+      edm::LogInfo("ProtTranspFastSimModel") << "* proton not tracked" << endl;
+    edm::LogInfo("ProtTranspFastSimModel")<<"===== END Transport " << GetName() << "===================="<<endl;
     }
     return false;
   }
 
   if(verbosity_) {
-    std::cout<<"after transport"<<std::endl;
-    std::cout<<"\tposition: " << out_position[0] << ", " << out_position[1] << ", " << out_position[2] <<std::endl;
-    std::cout<<"\tmomentum: " << out_momentum[0] << ", " << out_momentum[1] << ", " << out_momentum[2] <<std::endl;
+    edm::LogInfo("ProtTranspFastSimModel")<<"after transport"<<std::endl;
+    edm::LogInfo("ProtTranspFastSimModel")<<"\tposition: " << out_position[0] << ", " << out_position[1] << ", " << out_position[2] <<std::endl;
+    edm::LogInfo("ProtTranspFastSimModel")<<"\tmomentum: " << out_momentum[0] << ", " << out_momentum[1] << ", " << out_momentum[2] <<std::endl;
   }
       
   if(out_position[0]*out_position[0]+out_position[1]*out_position[1]>
       beampipe_aperture_radius*beampipe_aperture_radius) {
     if(verbosity_) {
-      cout << "* proton ouside beampipe" << endl;
-      cout<<"===== END Transport " << GetName() << "===================="<<endl;
+      edm::LogInfo("ProtTranspFastSimModel") << "* proton ouside beampipe" << endl;
+      edm::LogInfo("ProtTranspFastSimModel")<<"===== END Transport " << GetName() << "===================="<<endl;
     }
     return false;
   }
@@ -208,9 +204,9 @@ bool ProtTranspFastSimModel::Transport(const G4FastTrack& track, G4FastStep& ste
   G4ThreeVector out_mom(out_momentum[0]*GeV, out_momentum[1]*GeV, out_momentum[2]*GeV);
 
   if(verbosity_) {
-    cout << "output" << endl;
-    cout << "\tposition: " << out_pos << endl;
-    cout << "\tmomentum: " << out_mom << endl;
+    edm::LogInfo("ProtTranspFastSimModel") << "output" << endl;
+    edm::LogInfo("ProtTranspFastSimModel") << "\tposition: " << out_pos << endl;
+    edm::LogInfo("ProtTranspFastSimModel") << "\tmomentum: " << out_mom << endl;
   }
 
 
@@ -247,8 +243,8 @@ bool ProtTranspFastSimModel::Transport(const G4FastTrack& track, G4FastStep& ste
 //  out_track->SetParentID(parent_id);
   
   if(verbosity_) {
-    std::cout<<"* Proton transported successfully"<<std::endl;
-    cout<<"===== END Transport " << GetName() << "===================="<<endl;
+    edm::LogInfo("ProtTranspFastSimModel")<<"* Proton transported successfully"<<std::endl;
+    edm::LogInfo("ProtTranspFastSimModel")<<"===== END Transport " << GetName() << "===================="<<endl;
   }
   
   return true;
@@ -257,22 +253,22 @@ bool ProtTranspFastSimModel::Transport(const G4FastTrack& track, G4FastStep& ste
 
 G4ThreeVector ProtTranspFastSimModel::Unsmear_z_position(const G4FastTrack& track)
 {
-  //if(verbosity_) std::cout<<">> ProtTranspFastSimModel::Unsmear_z_position"<<std::endl;
+  edm::LogInfo("ProtTranspFastSimModel")<<"Unsmear_z_position"<<std::endl;
   
   G4ThreeVector registered_pos;
   if(transport_region_ == BEAM_IP_150_R || transport_region_ == BEAM_IP_150_L)
   { 
-    //if(verbosity_) std::cout<<"\tBEAM_IP_150_R || BEAM_IP_150_L"<<std::endl;
+    edm::LogInfo("ProtTranspFastSimModel")<<"BEAM_IP_150_R || BEAM_IP_150_L";
     registered_pos = track.GetPrimaryTrack()->GetVertexPosition();
   }
   else
   {
-    //if(verbosity_) std::cout<<"\tNOT A BEAM_IP_150_R || BEAM_IP_150_L"<<std::endl;
+    edm::LogInfo("ProtTranspFastSimModel")<<"NOT A BEAM_IP_150_R || BEAM_IP_150_L";
     registered_pos = track.GetPrimaryTrackLocalPosition();
   }
   
   double dist = registered_pos.z() - zin_*m;
-  //if(verbosity_) std::cout<<"\tz distance to normalize position: "<<dist<<std::endl;
+  edm::LogInfo("ProtTranspFastSimModel")<<"z distance to normalize position: "<<dist;
   
   G4ThreeVector dir = track.GetPrimaryTrackLocalDirection();
   dir = dir/dir.z();
