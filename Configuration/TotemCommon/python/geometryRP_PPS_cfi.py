@@ -47,14 +47,8 @@ XMLIdealGeometryESSource = cms.ESSource("XMLIdealGeometryESSource",
         'Geometry/TotemRPData/data/RP_Detectors_Assembly.xml', 
         'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_000.xml',
         'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_001.xml',
-#        'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_002.xml',
-
         'Geometry/PPSCommonData/data/PPS_Tracker_Assembly_Box_Real_002.xml',
         'Geometry/PPSCommonData/data/PPS_Tracker_Assembly_Box_Real_003.xml',
-
-
-
-#        'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_003.xml',
         'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_004.xml',
         'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_005.xml',
         'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_020.xml',
@@ -65,13 +59,8 @@ XMLIdealGeometryESSource = cms.ESSource("XMLIdealGeometryESSource",
         'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_025.xml',
         'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_100.xml',
         'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_101.xml',
-#        'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_102.xml',
-#        'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_103.xml',
-
         'Geometry/PPSCommonData/data/PPS_Tracker_Assembly_Box_Real_102.xml',
         'Geometry/PPSCommonData/data/PPS_Tracker_Assembly_Box_Real_103.xml',
-                      
-#
         'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_104.xml',
         'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_105.xml',
         'Geometry/TotemRPData/data/RP_Detectors_Assembly/RP_Detectors_Assembly_120.xml',
@@ -92,14 +81,9 @@ XMLIdealGeometryESSource = cms.ESSource("XMLIdealGeometryESSource",
         'Geometry/TotemRPData/data/RP_Cuts_Per_Region.xml', 
         'Geometry/TotemRPData/data/TotemRPGlobal.xml', 
         'Geometry/TotemRPData/data/RP_Param_Beam_Region.xml',
-
-######
         'Geometry/PPSCommonData/data/ppstrackerMaterials.xml',
         'Geometry/PPSCommonData/data/PPSTrackerModule.xml',
         'Geometry/PPSSimData/data/PPSTrackersens.xml'),
-
-
-
     rootNodeName = cms.string('TotemRPGlobal:OTOTEM')
 )
 

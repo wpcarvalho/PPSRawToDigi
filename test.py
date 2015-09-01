@@ -31,7 +31,6 @@ process.load("IOMC.FlatProtonLogKsiLogTGun.Beta90Energy6500GeV_cfi")
 ################## STEP 2 process.SmearingGenerator
 
 # declare optics parameters
-# use 0p8
 process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_6500GeV_0p8_145urad_cfi")
 
 # Smearing
@@ -40,15 +39,13 @@ process.load("IOMC.SmearingGenerator.SmearingGenerator_cfi")
 ################## STEP 3 process.g4SimHits
 
 # Geometry - beta* specific
-process.load("Configuration.TotemCommon.geometryRP_cfi")
+process.load("Configuration.TotemCommon.geometryRP_PPS_cfi")
+# TODO Change to the LowBetaSettings
+process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')
 
 # misalignments
 process.load("TotemAlignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.MisalignedFiles = cms.vstring()
-
-# TODO Change to the LowBetaSettings
-process.load("SimG4CMS.PPS.MYgeometryRP_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')
 
 # Magnetic Field, by default we have 3.8T
 process.load("Configuration.StandardSequences.MagneticField_cff")

@@ -16,10 +16,10 @@ exec 'process.' + str(process.outpath) + '.fileName = cms.untracked.string("file
 process.load("IOMC.FlatProtonLogKsiLogTGun.Beta90Energy6500GeV_cfi")
 
 # optics
-process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_6500GeV_90_cfi")
+process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_6500GeV_0p8_145urad_cfi")
 
 # G4 geometry
-process.load("SimG4CMS.PPS.MYgeometryRP_cfi")
+process.load("Configuration.TotemCommon.geometryRP_PPS_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')
 
 process.load("RecoTotemRP.RPInelasticReconstruction.Rec_6500GeV_beta_90_cfi")
@@ -32,7 +32,15 @@ process.g4SimHits.PPSSD = cms.PSet(
  Verbosity = cms.untracked.int32(0)
 )
 
-
-process.p1 = cms.Path(process.generator*process.SmearingGenerator*process.g4SimHits*process.mix
-#*process.RPSiDetDigitizer*process.RPClustProd*process.RPHecoHitProd*process.RPSinglTrackCandFind*process.RPSingleTrackCandCollFit*process.RP220Reconst
+process.p1 = cms.Path(
+    process.generator*
+    process.SmearingGenerator*
+    process.g4SimHits*
+    process.mix
+#    process.RPSiDetDigitizer*
+#    process.RPClustProd*
+#    process.RPHecoHitProd*
+#    process.RPSinglTrackCandFind*
+#    process.RPSingleTrackCandCollFit*
+#    process.RP220Reconst
 )
