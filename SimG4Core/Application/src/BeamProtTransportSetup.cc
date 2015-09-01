@@ -62,7 +62,7 @@ using namespace edm;
 using namespace std;
 
 
-BeamProtTransportSetup* BeamProtTransportSetup::instance = NULL;
+G4ThreadLocal BeamProtTransportSetup* instance = 0;
 
 
 BeamProtTransportSetup::BeamProtTransportSetup(const edm::ParameterSet & p) :
@@ -158,29 +158,22 @@ void BeamProtTransportSetup::BuildTransportModels(const edm::ParameterSet & p)
 
   if(aprox_ip_150_r && aprox_ip_150_l && Beam_IP_150_R_LV && Beam_IP_150_L_LV)
   {
-#ifdef G4V7
-    model_ip_150_r = new ProtTranspFastSimModel(Beam_IP_150_R_LV_Name,
-        Beam_IP_150_R_LV, *aprox_ip_150_r, model_ip_150_r_zmin, model_ip_150_r_zmax, verbosity_);
-
-    model_ip_150_l = new ProtTranspFastSimModel(Beam_IP_150_L_LV_Name,
-        Beam_IP_150_L_LV, *aprox_ip_150_l, model_ip_150_l_zmin, model_ip_150_l_zmax, verbosity_);
-#else
+    G4RegionStore* regionStore = G4RegionStore::GetInstance();
     G4ProductionCuts *dummyPC = new G4ProductionCuts();
-    G4Region *region_ip_150_r = new G4Region(Beam_IP_150_R_LV_Name);
-    region_ip_150_r->SetProductionCuts(dummyPC);
+
+    G4Region *region_ip_150_r = regionStore->FindOrCreateRegion(Beam_IP_150_R_LV_Name);
     Beam_IP_150_R_LV->SetRegion(region_ip_150_r);
     region_ip_150_r->AddRootLogicalVolume(Beam_IP_150_R_LV);
     region_ip_150_r->SetProductionCuts(dummyPC);
     model_ip_150_r = new ProtTranspFastSimModel(Beam_IP_150_R_LV_Name,
         region_ip_150_r, *aprox_ip_150_r, model_ip_150_r_zmin, model_ip_150_r_zmax, verbosity_);
 
-    G4Region *region_ip_150_l = new G4Region(Beam_IP_150_L_LV_Name);
+    G4Region *region_ip_150_l = regionStore->FindOrCreateRegion(Beam_IP_150_L_LV_Name);
     region_ip_150_l->SetProductionCuts(dummyPC);
     Beam_IP_150_L_LV->SetRegion(region_ip_150_l);
     region_ip_150_l->AddRootLogicalVolume(Beam_IP_150_L_LV);
     model_ip_150_l = new ProtTranspFastSimModel(Beam_IP_150_L_LV_Name,
         region_ip_150_l, *aprox_ip_150_l, model_ip_150_l_zmin, model_ip_150_l_zmax, verbosity_);
-#endif
 
     edm::LogInfo("BeamProtTransportSetup") << "Fast transport models have been initialized. ";
   }

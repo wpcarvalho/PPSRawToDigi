@@ -22,7 +22,7 @@
 #include "G4RotationMatrix.hh"
 
 #include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
-
+#include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 /**
  *\brief A proton transport model.
@@ -41,7 +41,7 @@ class ProtTranspFastSimModel : public G4VFastSimulationModel
     virtual G4bool ModelTrigger(const G4FastTrack &) {return true;};
     virtual G4bool IsApplicable(const G4ParticleDefinition&) {return true;};
     virtual void DoIt(const G4FastTrack&, G4FastStep&);
-  
+
   private:
     G4String modelName_;
     LHCOpticsApproximator approximator_;

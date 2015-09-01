@@ -51,7 +51,6 @@ void ProtTranspFastSimModel::DoIt(const G4FastTrack& track, G4FastStep& step)
 {
   if(verbosity_)
   {
-    edm::LogInfo("ProtTranspFastSimModel")<<">> ProtTranspFastSimModel::DoIt"<<std::endl;
     edm::LogInfo("ProtTranspFastSimModel") << "\tstep info: " << endl;
     step.DumpInfo();
   }

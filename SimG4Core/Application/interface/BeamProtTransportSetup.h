@@ -40,10 +40,7 @@ class ProtonTransportRcd;
 **/
 class BeamProtTransportSetup
 {
-  public:
-    /// the only instance of BeamProtTransportSetup
-    static BeamProtTransportSetup *instance;
-
+public:
     BeamProtTransportSetup(edm::ParameterSet const & p);
     ~BeamProtTransportSetup();
 

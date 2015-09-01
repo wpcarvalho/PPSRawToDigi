@@ -59,6 +59,10 @@
 #include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
 #include "SimG4Core/Application/interface/BeamProtTransportSetup.h"
 #include "SimG4Core/Application/interface/TotemRPParametrizedPhysics.h"
+#include "G4TransportationManager.hh"
+#include "G4Navigator.hh"
+#include "G4VPhysicalVolume.hh"
+#include "G4RegionStore.hh"
 
 RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
       m_managerInitialized(false),
@@ -136,12 +140,11 @@ void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF,
     throw SimG4Exception("Physics list construction failed!");
   }
 
-  // adding GFlash, Russian Roulette for eletrons and gamma, 
+  // adding GFlash, Russian Roulette for eletrons and gamma,
   // step limiters on top of any Physics Lists
   phys->RegisterPhysics(new ParametrisedEMPhysics("EMoptions", m_pPhysics));
 
   //Adding Totem proton transport
-  if (beam_prot_transp_setup_ == 0) beam_prot_transp_setup_ = new BeamProtTransportSetup(m_pPhysics);
   phys->RegisterPhysics(new TotemRPParametrizedPhysics("totem_parametrised_prot_transp", m_pPhysics));
 
   m_physicsList->ResetStoredInAscii();

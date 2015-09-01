@@ -16,7 +16,6 @@ public:
   virtual void ConstructProcess();
 
 private:
-
   edm::ParameterSet theParSet;
 
 };
