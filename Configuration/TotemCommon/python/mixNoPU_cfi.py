@@ -1,7 +1,5 @@
 import FWCore.ParameterSet.Config as cms
 
-# pileup - niech Valentina wytłumaczy
-
 # this is a minimum configuration of the Mixing module,
 # to run it in the zero-pileup mode
 #

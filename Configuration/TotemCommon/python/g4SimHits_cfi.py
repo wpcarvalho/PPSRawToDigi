@@ -62,20 +62,20 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
     UseMeasuredGeometryRecord = cms.untracked.bool(True),  # HINT: TOTEM specific
     FileNameRegions = cms.untracked.string(''),
     Watchers = cms.VPSet(
-        cms.PSet( # HINT: TOTEM specific
-            type = cms.string('SimTracer'),
-            SimTracer = cms.PSet(verbose = cms.bool(True)),
-        ),
-       cms.PSet( # HINT: TOTEM specific
-           type = cms.string('TotemRP'),
-           TotemRP = cms.PSet(
-               Names = cms.vstring('TotemHitsRP'),
-               FileName = cms.string('TotemTestRP_Hits.root'),
-               RPDebugFileName = cms.string('TotemDebugRP.root'),
-               FileNameOLD = cms.string('TotemTestRP_Hits_Old.root'),
-               Verbosity = cms.bool(True)
-           )
-       )
+#        cms.PSet( # HINT: TOTEM specific
+#            type = cms.string('SimTracer'),
+#            SimTracer = cms.PSet(verbose = cms.bool(True)),
+#        ),
+#       cms.PSet( # HINT: TOTEM specific
+#           type = cms.string('TotemRP'),
+#           TotemRP = cms.PSet(
+#               Names = cms.vstring('TotemHitsRP'),
+#               FileName = cms.string('TotemTestRP_Hits.root'),
+#               RPDebugFileName = cms.string('TotemDebugRP.root'),
+#               FileNameOLD = cms.string('TotemTestRP_Hits_Old.root'),
+#               Verbosity = cms.bool(True)
+#           )
+#       )
     ),
     HepMCProductLabel = cms.InputTag("generator"),
     theLHCTlinkTag = cms.InputTag("LHCTransport"),

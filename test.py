@@ -59,6 +59,10 @@ process.g4SimHits.G4TrackingManagerVerbosity = cms.untracked.int32(3)
 # Use particle table
 process.load("SimGeneral.HepPDTESSource.pdt_cfi")
 
+process.g4SimHits.PPSSD = cms.PSet(
+ Verbosity = cms.untracked.int32(1)
+)
+
 ################## Step 3 - Magnetic field configuration
 
 process.magfield = cms.ESSource("XMLIdealGeometryESSource",
@@ -145,17 +149,23 @@ process.VolumeBasedMagneticFieldESProducer = cms.ESProducer("VolumeBasedMagnetic
 
 ################## STEP 4 mix pdt_cfi
 
-#process.load("Configuration.TotemStandardSequences/RP_Digi_and_TrackReconstruction_cfi")
-#process.load("Configuration.TotemCommon/mixNoPU_cfi")
+process.load("Configuration.TotemCommon.mixNoPU_cfi")
 
-process.g4SimHits.PPSSD = cms.PSet(
- Verbosity = cms.untracked.int32(1)
-)
+# Use particle table
+process.load("SimGeneral.HepPDTESSource.pdt_cfi")
+
+################## STEP 5 RPDigiProducer
+
+process.load("SimTotem.RPDigiProducer.RPSiDetConf_cfi")
+
+####
 
 process.p1 = cms.Path(
 	process.generator
 	*process.SmearingGenerator
 	*process.g4SimHits
+	*process.mix
+#	*process.RPSiDetDigitizer
 )
 
 
