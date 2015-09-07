@@ -90,6 +90,8 @@ class RPDigiProducer : public edm::EDProducer {
        * channels work ok (by default we do not simulate dead channels)
        */
       bool simulateDeadChannels;
+
+      edm::EDGetTokenT<CrossingFrame<PSimHit>> tokenCrossingFrameTotemRP;
 };
 
 
