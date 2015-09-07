@@ -57,7 +57,7 @@
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 #include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
-#include "SimG4Core/Application/interface/TotemRPParametrizedPhysics.h"
+#include "SimG4Core/Application/interface/TotemRPProtonTransportPhysics.h"
 #include "G4TransportationManager.hh"
 #include "G4Navigator.hh"
 #include "G4VPhysicalVolume.hh"
@@ -144,7 +144,7 @@ void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF,
   phys->RegisterPhysics(new ParametrisedEMPhysics("EMoptions", m_pPhysics));
 
   //Adding Totem proton transport
-  phys->RegisterPhysics(new TotemRPParametrizedPhysics("totem_parametrised_prot_transp", m_pPhysics));
+  phys->RegisterPhysics(new TotemRPProtonTransportPhysics("totem_parametrised_prot_transp", m_pPhysics));
 
   m_physicsList->ResetStoredInAscii();
   if (m_RestorePhysicsTables) {
