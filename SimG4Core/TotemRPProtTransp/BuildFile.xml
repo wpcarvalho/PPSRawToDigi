@@ -1,10 +1,4 @@
-<use   name="FWCore/ParameterSet"/>
 <use   name="SimG4CMS/TotemRPProtTranspPar"/>
-<use   name="geant4"/>
-<use   name="SimG4Core/Geometry"/>
-<use   name="FWCore/ServiceRegistry"/>
-<use   name="FWCore/MessageLogger"/>
-<use   name="root"/>
 <use   name="TotemCondFormats/DataRecord"/>
 <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
 <export>
