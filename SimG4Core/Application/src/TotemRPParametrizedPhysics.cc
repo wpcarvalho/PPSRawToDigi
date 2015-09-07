@@ -39,11 +39,11 @@
 #include "G4SystemOfUnits.hh"
 #include "G4UAtomicDeexcitation.hh"
 #include "G4LossTableManager.hh"
-#include "SimG4Core/Application/interface/BeamProtTransportSetup.h"
+#include "SimG4Core/Application/interface/TotemRPProtonTransportSetup.h"
 
 
 G4ThreadLocal G4FastSimulationManagerProcess* theFastSimulationManagerProcess = 0;
-G4ThreadLocal BeamProtTransportSetup* beam_prot_transp_setup_ = 0;
+G4ThreadLocal TotemRPProtonTransportSetup* proton_transport_setup = 0;
 
 TotemRPParametrizedPhysics::TotemRPParametrizedPhysics(std::string name,
 					     const edm::ParameterSet & p) 
@@ -77,8 +77,8 @@ void TotemRPParametrizedPhysics::ConstructProcess()
 {
   edm::LogInfo("TotemRPParametrizedPhysics") << "ConstructProcess";
 
-  if(beam_prot_transp_setup_ == 0)
-    beam_prot_transp_setup_ = new BeamProtTransportSetup(theParSet);
+  if(proton_transport_setup == 0)
+    proton_transport_setup = new TotemRPProtonTransportSetup(theParSet);
 
   if(theFastSimulationManagerProcess ==0)
     theFastSimulationManagerProcess =

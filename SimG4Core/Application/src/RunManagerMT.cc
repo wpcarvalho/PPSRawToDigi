@@ -57,7 +57,6 @@
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 #include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
-#include "SimG4Core/Application/interface/BeamProtTransportSetup.h"
 #include "SimG4Core/Application/interface/TotemRPParametrizedPhysics.h"
 #include "G4TransportationManager.hh"
 #include "G4Navigator.hh"
