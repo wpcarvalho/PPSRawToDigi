@@ -10,10 +10,9 @@
 * $Date: 2009/12/07 12:50:56 $
 *
 ****************************************************************************/
-#include "SimG4Core/Application/interface/ProtTranspFastSimModel.h"
+#include "SimG4Core/Application/interface/TotemRPProtonTransportModel.h"
 #include "SimG4Core/Application/interface/TotemRPProtonTransportSetup.h"
 #include "TotemCondFormats/DataRecord/interface/ProtonTransportRcd.h"
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
 #include "TotemCondFormats/DataRecord/interface/BeamOpticsParamsRcd.h"
 #include "TotemCondFormats/DataRecord/interface/ProtonTransportRcd.h"
 #include "TotemCondFormats/BeamOpticsParamsObjects/interface/BeamOpticsParams.h"
@@ -140,7 +139,7 @@ void TotemRPProtonTransportSetup::BuildTransportModels() {
     Beam_IP_150_R_LV->SetRegion(region_ip_150_r);
     region_ip_150_r->AddRootLogicalVolume(Beam_IP_150_R_LV);
     region_ip_150_r->SetProductionCuts(dummyPC);
-    model_ip_150_r = new ProtTranspFastSimModel(Beam_IP_150_R_LV_Name,
+    model_ip_150_r = new TotemRPProtonTransportModel(Beam_IP_150_R_LV_Name,
                                                 region_ip_150_r, *aprox_ip_150_r, model_ip_150_r_zmin,
                                                 model_ip_150_r_zmax, verbosity);
 
@@ -148,7 +147,7 @@ void TotemRPProtonTransportSetup::BuildTransportModels() {
     region_ip_150_l->SetProductionCuts(dummyPC);
     Beam_IP_150_L_LV->SetRegion(region_ip_150_l);
     region_ip_150_l->AddRootLogicalVolume(Beam_IP_150_L_LV);
-    model_ip_150_l = new ProtTranspFastSimModel(Beam_IP_150_L_LV_Name,
+    model_ip_150_l = new TotemRPProtonTransportModel(Beam_IP_150_L_LV_Name,
                                                 region_ip_150_l, *aprox_ip_150_l, model_ip_150_l_zmin,
                                                 model_ip_150_l_zmax, verbosity);
 

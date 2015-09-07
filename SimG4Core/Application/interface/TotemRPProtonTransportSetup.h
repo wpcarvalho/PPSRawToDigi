@@ -17,36 +17,37 @@
 //#define G4V7
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "SimG4Core/Application/interface/ProtTranspFastSimModel.h"
+#include "SimG4Core/Application/interface/TotemRPProtonTransportModel.h"
 #include "FWCore/Framework/interface/ESWatcher.h"
 
 #include "G4String.hh"
 #include "G4ThreeVector.hh"
 
 namespace edm {
-  class EventSetup;
-  class Run;
+    class EventSetup;
+
+    class Run;
 }
 
 class ProtonTransportRcd;
 
 /**
  * \brief Singleton class to build and maintain proton transport infrastructure.
- * Creates fast simulation model for fast proton transport (ProtTranspFastSimModel)
+ * Creates fast simulation model for fast proton transport (TotemRPProtonTransportModel)
  * for the following beam pipe segments:
  *  - Beam_IP_150_R
  *  - Beam_IP_150_L
  * defined in detector xml description
 **/
-class TotemRPProtonTransportSetup
-{
+class TotemRPProtonTransportSetup {
 public:
-    TotemRPProtonTransportSetup(edm::ParameterSet const & p);
+    TotemRPProtonTransportSetup(edm::ParameterSet const &p);
+
     ~TotemRPProtonTransportSetup();
 
     void UpdateSetup(const edm::EventSetup &);
 
-  private:
+private:
     edm::ParameterSet parameters;
     bool verbosity;
     std::string model_root_file;
@@ -68,11 +69,13 @@ public:
     LHCOpticsApproximator *aprox_ip_150_r = nullptr;
     LHCOpticsApproximator *aprox_ip_150_l = nullptr;
 
-    ProtTranspFastSimModel *model_ip_150_r = nullptr;
-    ProtTranspFastSimModel *model_ip_150_l = nullptr;
+    TotemRPProtonTransportModel *model_ip_150_r = nullptr;
+    TotemRPProtonTransportModel *model_ip_150_l = nullptr;
 
     void FindLogicalVolumes();
+
     void ReadParametrization();
+
     void BuildTransportModels();
 };
 
