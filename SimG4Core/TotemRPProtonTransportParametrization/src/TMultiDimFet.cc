@@ -56,7 +56,6 @@ TMultiDimFet* TMultiDimFet::fgInstance = 0;
 //____________________________________________________________________
 TMultiDimFet::TMultiDimFet()
 {
-//   std::cout<<"TMultiDimFet::TMultiDimFet() entered"<<std::endl;
    // Empty CTOR. Do not use
    fMeanQuantity            = 0;
    fMaxQuantity             = 0;
@@ -81,123 +80,17 @@ TMultiDimFet::TMultiDimFet()
 
    fIsUserFunction          = kFALSE;
 
-   //fPowers                  = 0;
-   //fMaxPowers               = 0;
-   //fMaxPowersFinal          = 0;
-
    fHistograms              = 0;
    fHistogramMask           = 0;
-   //fPowerIndex              = 0;
-   //fFunctionCodes           = 0;
-
-   //fQuantity(0);
-   //fVariables(0);
-   //fMaxVariables(0);
-   //fMinVariables(0);
-   //fMeanVariables(0);
 
    fFitter                  = 0;
    fgInstance               = 0;
-//   std::cout<<"TMultiDimFet::TMultiDimFet() left"<<std::endl;
 }
-
-/*
-TMultiDimFet::TMultiDimFet(const TMultiDimFet &in)
-{
-   std::cout<<"TMultiDimFet::TMultiDimFet(const TMultiDimFet &in) entered"<<std::endl;
-
-   if(this==&in)
-     return;
-
-   fMeanQuantity = in.fMeanQuantity;         // Mean of dependent quantity
-
-   fMaxQuantity = 0.0;          //! Max value of dependent quantity
-   fMinQuantity = 0.0;          //! Min value of dependent quantity
-   fSumSqQuantity = 0.0;        //! SumSquare of dependent quantity
-   fSumSqAvgQuantity = 0.0;     //! Sum of squares away from mean
-
-   fNVariables = in.fNVariables;           // Number of independent variables
-
-   fMaxVariables.ResizeTo(in.fMaxVariables.GetLwb(), in.fMaxVariables.GetUpb());
-   fMaxVariables = in.fMaxVariables;         // max value of independent variables
-
-   fMinVariables.ResizeTo(in.fMinVariables.GetLwb(), in.fMinVariables.GetUpb());
-   fMinVariables = in.fMinVariables;         // min value of independent variables
-
-   fSampleSize = 0;           //! Size of training sample
-   fTestSampleSize = 0;       //! Size of test sample
-   fMinAngle = 1;             //! Min angle for acepting new function
-   fMaxAngle = 0.0;             //! Max angle for acepting new function
-
-   fMaxTerms = in.fMaxTerms;             // Max terms expected in final expr.
-
-   fMinRelativeError = 0.0;     //! Min relative error accepted
-   fMaxPowers = 0;            //! [fNVariables] maximum powers
-   fPowerLimit = 1;           //! Control parameter
-
-   fMaxFunctions = in.fMaxFunctions;         // max number of functions
-
-   fFunctionCodes = 0;        //! [fMaxFunctions] acceptance code
-   fMaxStudy = 0;             //! max functions to study
-   fMaxPowersFinal = 0;       //! [fNVariables] maximum powers from fit;
-
-   fMaxFunctionsTimesNVariables = in.fMaxFunctionsTimesNVariables;  // fMaxFunctionsTimesNVariables
-   std::cout<<"here 01"<<std::endl;
-   std::cout<<in.fMaxFunctionsTimesNVariables<<std::endl;
-   fPowers = new Int_t[in.fMaxFunctionsTimesNVariables];
-   std::cout<<"here 02"<<std::endl;
-   std::cout<<in.fMaxFunctionsTimesNVariables<<std::endl;
-   for(int i=0; i<in.fMaxFunctionsTimesNVariables; i++)
-     fPowers[i] = in.fPowers[i];
-   std::cout<<"here 03"<<std::endl;
-
-   std::cout<<"here 04, fMaxTerms="<<fMaxTerms<<std::endl;
-   std::cout<<in.fMaxTerms<<std::endl;
-   fPowerIndex = new Int_t[in.fMaxTerms];
-   for(int i=0; i<in.fMaxTerms; i++)
-     fPowerIndex[i] = in.fPowerIndex[i];           // [fMaxTerms] Index of accepted powers
-
-   std::cout<<"here 05"<<std::endl;
-
-   fMaxResidual = 0.0;          //! Max redsidual value
-   fMinResidual = 0.0;          //! Min redsidual value
-   fMaxResidualRow = 0;       //! Row giving max residual
-   fMinResidualRow = 0;       //! Row giving min residual
-   fSumSqResidual = 0.0;        //! Sum of Square residuals
-
-   fNCoefficients = in.fNCoefficients;        // Dimension of model coefficients
-
-   std::cout<<"here 06"<<std::endl;
-   fCoefficients.ResizeTo(in.fCoefficients.GetLwb(), in.fCoefficients.GetUpb());
-   fCoefficients = in.fCoefficients;         // Vector of the final coefficients
-
-   fRMS = 0.0;                  //! Root mean square of fit
-   fChi2 = 0.0;                 //! Chi square of fit
-   fParameterisationCode = 0; //! Exit code of parameterisation
-   fError = 0.0;                //! Error from parameterization
-   fTestError = 0.0;            //! Error from test
-   fPrecision = 0.0;            //! Relative precision of param
-   fTestPrecision = 0.0;        //! Relative precision of test
-   fCorrelationCoeff = 0.0;     //! Multi Correlation coefficient
-   fTestCorrelationCoeff = 0.0; //! Multi Correlation coefficient
-   fHistograms = 0;           //! List of histograms
-   fHistogramMask = 0;        //! Bit pattern of hisograms used
-   fFitter = 0;            //! Fit object (MINUIT)
-
-   fPolyType = in.fPolyType;             // Type of polynomials to use
-   fShowCorrelation = in.fShowCorrelation;      // print correlation matrix
-   fIsUserFunction = in.fIsUserFunction;       // Flag for user defined function
-   fIsVerbose = in.fIsVerbose;            //
-   std::cout<<"TMultiDimFet::TMultiDimFet(const TMultiDimFet &in) left"<<std::endl;
-}
-*/
 
 const TMultiDimFet &TMultiDimFet::operator=(const TMultiDimFet &in)
 {
-//   std::cout<<"TMultiDimFet &TMultiDimFet::operator=(const TMultiDimFet &in) entered"<<std::endl;
    if(this==&in)
    {
-//     std::cout<<" TMultiDimFet &TMultiDimFet::operator=, this==&in"<<std::endl;
      return in;
    }
 
@@ -236,7 +129,6 @@ const TMultiDimFet &TMultiDimFet::operator=(const TMultiDimFet &in)
    fMaxPowersFinal.clear();       //! [fNVariables] maximum powers from fit;
 
    fMaxFunctionsTimesNVariables = in.fMaxFunctionsTimesNVariables;  // fMaxFunctionsTimesNVariables
-//   std::cout<<fMaxFunctionsTimesNVariables;
    fPowers = in.fPowers;
 
    fPowerIndex = in.fPowerIndex;           // [fMaxTerms] Index of accepted powers
@@ -269,7 +161,6 @@ const TMultiDimFet &TMultiDimFet::operator=(const TMultiDimFet &in)
    fShowCorrelation = in.fShowCorrelation;      // print correlation matrix
    fIsUserFunction = in.fIsUserFunction;       // Flag for user defined function
    fIsVerbose = in.fIsVerbose;            //
-//   std::cout<<"TMultiDimFet &TMultiDimFet::operator=(const TMultiDimFet &in) left"<<std::endl;
    return in;
 }
 
@@ -340,13 +231,7 @@ TMultiDimFet::TMultiDimFet(Int_t dimension,
    fHistograms             = 0;
    fHistogramMask          = 0;
 
-   //fPowerIndex             = 0;
-   //fFunctionCodes          = 0;
-
-   //fPowers                 = 0;
-   //fMaxPowers              = new Int_t[dimension];
    fMaxPowers.resize(dimension);
-   //fMaxPowersFinal         = new Int_t[dimension];
    fMaxPowersFinal.resize(dimension);
    fFitter                 = 0;
 }
@@ -355,17 +240,6 @@ TMultiDimFet::TMultiDimFet(Int_t dimension,
 //____________________________________________________________________
 TMultiDimFet::~TMultiDimFet()
 {
-   // Destructor
-/*   if(fPowers)
-     delete [] fPowers;
-   if(fMaxPowers)
-     delete [] fMaxPowers;
-   if(fMaxPowersFinal)
-     delete [] fMaxPowersFinal;
-   if(fPowerIndex)
-     delete [] fPowerIndex;
-   if(fFunctionCodes)
-     delete [] fFunctionCodes;*/
    if (fHistograms) fHistograms->Clear("nodelete");
      delete fHistograms;
 }
@@ -586,8 +460,6 @@ void TMultiDimFet::Clear(Option_t *option)
 
    // Functions
    fFunctions.Zero();
-   //for (i = 0; i < fMaxTerms; i++)  fPowerIndex[i]    = 0;
-   //for (i = 0; i < fMaxTerms; i++)  fFunctionCodes[i] = 0;
    fMaxFunctions                 = 0;
    fMaxStudy                     = 0;
    fMaxFunctionsTimesNVariables  = 0;
@@ -686,24 +558,13 @@ void TMultiDimFet::ZeroDoubiousCoefficients(double error)
   for (int i = 0; i < fNCoefficients; i++)
   {
     m.insert(std::pair<double, int>(TMath::Abs(fCoefficients(i)), i));
-    //std::cout<<fCoefficients(i)<<" "<<i<<std::endl;
   }
-
-  //std::cout<<std::endl;
-
-  //for(cmt::iterator it = m.begin(); it!=m.end(); ++it)
- // {
-  //  std::cout<<"inside map "<<it->first<<" "<<it->second<<std::endl;
-  //}
-
- // std::cout<<std::endl;
 
   double del_error_abs=0;
   int deleted_terms_count=0;
 
   for(cmt::iterator it = m.begin(); it!=m.end() && del_error_abs<error; ++it)
   {
-//    std::cout<<"entered "<<TMath::Abs(it->first)+del_error_abs<<" "<<error<<std::endl;
     if(TMath::Abs(it->first)+del_error_abs<error)
     {
       fCoefficients(it->second)=0.0;
@@ -800,8 +661,6 @@ void TMultiDimFet::FindParameterization(double precision)
    MakeCandidates();
    MakeParameterization();
    MakeCoefficients();
-//   MakeCoefficientErrors();
-//   MakeCorrelation();
    ReducePolynomial(precision);
 }
 
@@ -871,9 +730,7 @@ void TMultiDimFet::Fit(Option_t *option)
          startVal, startErr, 0, 0);
    }
 
-   // arglist[0]           = 0;
    args                 = 1;
-   // fFitter->ExecuteCommand("SET PRINT",arglist,args);
    fFitter->ExecuteCommand("MIGRAD",arglist,args);
 
    for (i = 0; i < fNCoefficients; i++) {
@@ -984,7 +841,6 @@ void TMultiDimFet::MakeCandidates()
    Int_t *order = new Int_t[fMaxFunctions];
    for (i = 0; i < fMaxFunctions; i++)
       order[i] = i;
-   //fPowers = new Int_t[fMaxFunctions * fNVariables];
    fPowers.resize(fMaxFunctions * fNVariables);
 
    for (i = 0; i < fMaxFunctions; i++) {
@@ -1019,7 +875,6 @@ void TMultiDimFet::MakeCandidates()
 }
 
 
-//____________________________________________________________________
 Double_t TMultiDimFet::MakeChi2(const Double_t* coeff)
 {
    // Calculate Chi square over either the test sample. The optional
@@ -1086,8 +941,6 @@ void TMultiDimFet::MakeCode(const char* filename, Option_t *option)
 }
 
 
-
-//____________________________________________________________________
 void TMultiDimFet::MakeCoefficientErrors()
 {
    // PRIVATE METHOD:
@@ -1272,7 +1125,6 @@ void TMultiDimFet::MakeCorrelation()
             xjNorm  += (fVariables(l) - fMeanVariables(j))
                * (fVariables(l) - fMeanVariables(j));
          }
-         //fCorrelationMatrix(i+1,j) = xidotXj / TMath::Sqrt(xiNorm * xjNorm);
          fCorrelationMatrix(i,j+1) = xidotXj / TMath::Sqrt(xiNorm * xjNorm);
       }
    }
@@ -1607,9 +1459,7 @@ void TMultiDimFet::MakeParameterization()
    fOrthCurvatureMatrix.ResizeTo(fMaxTerms,fMaxTerms);
    fFunctions = 1;
 
-   //fFunctionCodes = new Int_t[fMaxFunctions];
    fFunctionCodes.resize(fMaxFunctions);
-   //fPowerIndex    = new Int_t[fMaxTerms];
    fPowerIndex.resize(fMaxTerms);
    Int_t l;
    for (l=0;l<fMaxFunctions;l++) fFunctionCodes[l] = 0;
@@ -2240,7 +2090,6 @@ void TMultiDimFet::SetPowers(const Int_t* powers, Int_t terms)
    fMaxTerms       = terms;
    fMaxStudy       = terms;
    fMaxFunctionsTimesNVariables = fMaxFunctions * fNVariables;
-   //fPowers         = new Int_t[fMaxFunctions * fNVariables];
    fPowers.resize(fMaxFunctions * fNVariables);
    Int_t i, j;
    for (i = 0; i < fMaxFunctions; i++)

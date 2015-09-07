@@ -1,8 +1,8 @@
 <!-- Totem deps -->
 <use   name="Geometry/TotemRecords"/>
+<use   name="SimG4Core/TotemRPProtonTransportParametrization"/>
 <use   name="SimDataFormats/CaloHit"/>
 <use   name="SimDataFormats/TrackingHit"/>
-<use   name="SimG4Core/TotemRPProtonTransportParametrization"/>
 
 <use   name="DataFormats/Common"/>
 <use   name="DataFormats/Math"/>

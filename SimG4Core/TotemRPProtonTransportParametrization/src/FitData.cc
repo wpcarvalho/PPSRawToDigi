@@ -60,18 +60,13 @@ void FitData::readIn(std::string name){
   this->dataIn.ResizeTo(6,n);
 
   std::cout << n << " particles incoming" << std::endl;
- // std::cout << " plik " << name << " k = " << k << std::endl;
 
   for (i = 0; i < k-1; i++){
        getline(ifs1,ln1);
-  //     std::cout << ln1 << std::endl;
   }
 
   for (i = 0; i < this->inSize; i++){
        getline(ifs1,ln1);
-     //  if( i < 10 ){
-	//	std::cout << ln1 << std::endl;
-      // }
        sscanf (ln1.c_str (), form1.c_str (), &x1, &px1, &y1, &py1, &pt1);
        (this->dataIn)[0][i] = 0;
        (this->dataIn)[1][i] = x1;
@@ -87,7 +82,6 @@ void FitData::readIn(std::string name){
 void FitData::readOut(std::string name, std::string section){
   int k = 0;
   short int m = 0 , n = 0;
-//   std::cout << "Scoring plane id:" << section << " Out root filename:" << name << std::endl;
 
   std::ifstream ifs;
   ifs.open(name.c_str());
@@ -121,17 +115,12 @@ void FitData::readOut(std::string name, std::string section){
     k++;
   }
 
-  //sscanf (ln1.c_str (), "%*s %*hd %*hd %hd %hd %s", &x1, &px1, &ln3);
-  //std::cout << ln1 << std::endl;
-  //std::cout << x1 << "|" << px1 << "|" << ln3 << std::endl;
-
   Int_t notFound = 1;
 
   while( ifs.good() && !ifs.eof() && notFound){
      if( ln1[0] == '#' ){
         sscanf (ln1.c_str (), "%*s %*d %*d %hd %hd %s", &m, &n, ln2);
         if( ln2 == section ){
-//             std::cout << m << "|" << n << "|" << ln1 << std::endl;
              this->outSize = m;
              std::cout << m << " particles outcoming" << std::endl;
              notFound = 0;
@@ -146,7 +135,6 @@ void FitData::readOut(std::string name, std::string section){
   this->dataOut.ResizeTo(6,m);
 
   for (i = 0; i < this->outSize; i++){
-//       std::cout << "i = " << i << std::endl;
        sscanf (ln1.c_str (), form1.c_str (), &n, &x1, &px1, &y1, &py1, &pt1);
        (this->dataOut)[0][i] = n;
        (this->dataOut)[1][i] = x1;
@@ -155,7 +143,6 @@ void FitData::readOut(std::string name, std::string section){
        (this->dataOut)[4][i] = py1;
        (this->dataOut)[5][i] = pt1;
        (this->dataIn)[0][n-1] = n;
-//       std::cout << n << " " << (this->dataOut)[0][i] << std::endl;
        getline(ifs,ln1);
   }
 
@@ -167,7 +154,6 @@ void FitData::readAdditionalScoringPlane(std::string name, const std::string &se
 {
   int k = 0;
   short int m = 0 , n = 0;
-//   std::cout << "Scoring plane id:" << section << " Out root filename:" << name << std::endl;
 
   std::ifstream ifs;
   ifs.open(name.c_str());
@@ -201,17 +187,12 @@ void FitData::readAdditionalScoringPlane(std::string name, const std::string &se
     k++;
   }
 
-  //sscanf (ln1.c_str (), "%*s %*hd %*hd %hd %hd %s", &x1, &px1, &ln3);
-  //std::cout << ln1 << std::endl;
-  //std::cout << x1 << "|" << px1 << "|" << ln3 << std::endl;
-
   Int_t notFound = 1;
 
   while( ifs.good() && !ifs.eof() && notFound){
      if( ln1[0] == '#' ){
         sscanf (ln1.c_str (), "%*s %*d %*d %hd %hd %s", &m, &n, ln2);
         if( ln2 == section ){
-//             std::cout << m << "|" << n << "|" << ln1 << std::endl;
              this->outSize = m;
              std::cout << m << " particles outcoming" << std::endl;
              notFound = 0;
@@ -230,7 +211,6 @@ void FitData::readAdditionalScoringPlane(std::string name, const std::string &se
   curr_data_set->ResizeTo(6,m);
 
   for (i = 0; i < this->outSize; i++){
-//       std::cout << "i = " << i << std::endl;
        sscanf (ln1.c_str (), form1.c_str (), &n, &x1, &px1, &y1, &py1, &pt1);
        (*curr_data_set)[0][i] = n;
        (*curr_data_set)[1][i] = x1;
@@ -238,7 +218,6 @@ void FitData::readAdditionalScoringPlane(std::string name, const std::string &se
        (*curr_data_set)[3][i] = y1;
        (*curr_data_set)[4][i] = py1;
        (*curr_data_set)[5][i] = pt1;
-//       std::cout << n << " " << (this->dataOut)[0][i] << std::endl;
        getline(ifs,ln1);
   }
 
@@ -299,11 +278,9 @@ void FitData::readLost(std::string name)
   ifs1.open(name.c_str());
 
   std::cout << n << " particles lost" << std::endl;
- // std::cout << " plik " << name << " k = " << k << std::endl;
 
   for (i = 0; i < k-1; i++){
        getline(ifs1,ln1);
-  //     std::cout << ln1 << std::endl;
   }
 
   lost_particle part;
@@ -311,14 +288,9 @@ void FitData::readLost(std::string name)
 
   for (i = 0; i < this->lostSize; i++){
        getline(ifs1,ln1);
-     //  if( i < 10 ){
-	//	std::cout << ln1 << std::endl;
-      // }
        sscanf (ln1.c_str (), form1.c_str (), &part.part_id, &part.x1, &part.px1, &part.y1, &part.py1, &part.pt1, &part.s, element);
        element[strlen(element)-1]=0;
        part.element = element;
-//       std::cout<<part.part_id<<" "<<part.x1<<" "<<part.px1<<" "<<part.y1<<" "<<part.py1<<" "<<part.pt1<<" "<<part.s<<" "<<part.element<<std::endl;
-
        (this->dataLost).push_back(part);
   }
 
@@ -347,7 +319,6 @@ void FitData::writeOut(std::string name){
   std::string form2 = "%hd %le %le %le %le %le";
   char ln2[200];
   ofs.open (name.c_str(), std::ios_base::app);
-//  std::cout<< this->outSize << std::endl;
   for (i = 0; i < this->outSize; i++){
        sprintf (ln2, form2.c_str (), (Int_t)(this->dataOut)[0][i], (this->dataOut)[1][i], (this->dataOut)[2][i], (this->dataOut)[3][i], (this->dataOut)[4][i],(this->dataOut)[5][i]);
        ofs << ln2 << std::endl;
@@ -491,8 +462,6 @@ int FitData::AppendRootFile(TTree *inp_tree, std::string data_prefix)
     //read interplane branches
     for(inter_planes_iterator it = inter_planes.begin(); it!=inter_planes.end(); it++)
     {
-//      std::cout<<(*it->second.data).GetNcols() <<" "<< (*it->second.data).GetNrows() <<std::endl;
-//      std::cout<<(*it->second.data)[0][it->second.cur_index] <<" "<< in_part_number <<std::endl;
       while( (*it->second.data)[0][it->second.cur_index] != in_part_number)
       {
         it->second.cur_index++;

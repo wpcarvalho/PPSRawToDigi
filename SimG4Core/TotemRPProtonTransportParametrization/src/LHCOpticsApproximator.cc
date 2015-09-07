@@ -38,7 +38,6 @@ LHCOpticsApproximator::LHCOpticsApproximator(std::string name, std::string title
   y_parametrisation(5, polynom_type, "k"),
   theta_y_parametrisation(5, polynom_type, "k")
 {
-//  std::cout<<"LHCOpticsApproximator(std::string name, std::string title, TMultiDimFet::EMDFPolyType polynom_type) entered"<<std::endl;
   this->SetName(name.c_str());
   this->SetTitle(title.c_str());
   Init();
@@ -52,18 +51,15 @@ LHCOpticsApproximator::LHCOpticsApproximator(std::string name, std::string title
 
   nominal_beam_momentum_ = nominal_beam_momentum;
   nominal_beam_energy_ = TMath::Sqrt(nominal_beam_momentum_*nominal_beam_momentum_ + 0.938272029*0.938272029);
-//  std::cout<<"LHCOpticsApproximator(std::string name, std::string title, TMultiDimFet::EMDFPolyType polynom_type) left"<<std::endl;
 }
 
 
 LHCOpticsApproximator::LHCOpticsApproximator()
 {
-//  std::cout<<"LHCOpticsApproximator::LHCOpticsApproximator() entered"<<std::endl;
   Init();
   beam = lhcb1;
   nominal_beam_momentum_ = 7000;
   nominal_beam_energy_ = TMath::Sqrt(nominal_beam_momentum_*nominal_beam_momentum_ + 0.938272029*0.938272029);
-//  std::cout<<"LHCOpticsApproximator::LHCOpticsApproximator() left"<<std::endl;
 }
 
 
@@ -100,14 +96,12 @@ double LHCOpticsApproximator::ParameterOutOfRangePenalty(double in[],
     {
       double dist = TMath::Abs( ((*min_var)(i)-in_corrected[i])/((*max_var)(i)-(*min_var)(i)) );
       res += 8*(TMath::Exp(dist)-1.0);
-      //res += 8*dist;
       in_corrected[i] = (*min_var)(i);
     }
     else if(in_corrected[i]>(*max_var)(i))
     {
       double dist = TMath::Abs( ( in_corrected[i]-(*max_var)(i) )/((*max_var)(i)-(*min_var)(i)) );
       res += 8*(TMath::Exp(dist)-1.0);
-      //res += 8*dist;
       in_corrected[i] = (*max_var)(i);
     }
   }
@@ -121,12 +115,10 @@ bool LHCOpticsApproximator::Transport(const double *in, double *out,
     return false;
 
   bool res = CheckInputRange(in);
-  //std::cout<<"CheckInputRange: "<<res<<std::endl;
   double in_corrected[5];
 
   if(beam==lhcb1 || !invert_beam_coord_sytems)
   {
-    //std::cout << ">> LHCOpticsApproximator::Transport > thx and x NOT inverted" << std::endl;
     in_corrected[0] = in[0];
     in_corrected[1] = in[1];
     in_corrected[2] = in[2];
@@ -140,7 +132,6 @@ bool LHCOpticsApproximator::Transport(const double *in, double *out,
   }
   else
   {
-    //std::cout << ">> LHCOpticsApproximator::Transport > thx and x inverted" << std::endl;
     in_corrected[0] = -in[0];
     in_corrected[1] = -in[1];
     in_corrected[2] = in[2];
@@ -153,30 +144,13 @@ bool LHCOpticsApproximator::Transport(const double *in, double *out,
     out[4] = in[4];
   }
 
-  /*
-  std::cout<<"#### raw par. input:"<<std::endl;
-  std::cout<<"(vx, vy)=("<<in_corrected[0]<<","<<in_corrected[2]<<")"<<std::endl;
-  std::cout<<"(madthxx, madthxy)=("<<in_corrected[1]<<","<<in_corrected[3]<<")"<<std::endl;
-  std::cout<<"xi="<<in_corrected[4]<<std::endl;
-
-  std::cout<<"#### raw par. output:"<<std::endl;
-  std::cout<<"(vx, vy)=("<<x_parametrisation.Eval(in)<<","<<y_parametrisation.Eval(in)<<")"<<std::endl;
-  std::cout<<"(madthxx, madthxy)=("<<theta_x_parametrisation.Eval(in)<<","<<theta_y_parametrisation.Eval(in)<<")"<<std::endl;
-  std::cout<<"xi="<<out[4]<<std::endl;
-  */
-
-  //std::cout<<"apertures_.size() : "<<apertures_.size()<<std::endl;
   if(check_apertures)
   {
-    //std::cout << ">> LHCOpticsApproximator::Transport > Checking apertures" << std::endl;
     for(unsigned int i=0; i<apertures_.size(); i++)
     {
-      //std::cout<<"aperture "<<i<<" checked : ";
       res = res && apertures_[i].CheckAperture(in);
-      //std::cout<<"++++  "<<i<<" "<<res<<std::endl;
     }
   }
-  //std::cout<<"accepted: "<<res<<std::endl;
   return res;
 }
 
@@ -189,7 +163,6 @@ bool LHCOpticsApproximator::Transport2D(const double *in, double *out,
     return false;
 
   bool res = CheckInputRange(in);
-//  std::cout<<"CheckInputRange: "<<res<<std::endl;
   double in_corrected[5];
 
   if(beam==lhcb1 || !invert_beam_coord_sytems)
@@ -213,18 +186,13 @@ bool LHCOpticsApproximator::Transport2D(const double *in, double *out,
     out[1] = y_parametrisation.Eval(in_corrected);
   }
 
-//  std::cout<<"apertures_.size() : "<<apertures_.size()<<std::endl;
   if(check_apertures)
   {
-//    std::cout<<"Checking apertures =============="<<std::endl;
     for(unsigned int i=0; i<apertures_.size(); i++)
     {
-//      std::cout<<"aperture "<<i<<" checked : ";
       res = res && apertures_[i].CheckAperture(in);
-//      std::cout<<"++++  "<<i<<" "<<res<<std::endl;
     }
   }
-//  std::cout<<"accepted: "<<res<<std::endl;
   return res;
 }
 
@@ -247,7 +215,6 @@ bool LHCOpticsApproximator::Transport_m_GeV(double in_pos[3], double in_momentum
   in[3] = in_momentum[1]/nominal_beam_momentum_;
   in[4] = (part_mom-nominal_beam_momentum_)/nominal_beam_momentum_;
 
-//  std::cout<<"!!!!!!!  thx and x will be inverted!!!"<<std::endl;
   bool res = Transport(in, out, check_apertures, true);
 
   out_pos[0] = out[0];
@@ -295,7 +262,6 @@ bool LHCOpticsApproximator::Transport(const MadKinematicDescriptor *in,
 
 LHCOpticsApproximator::LHCOpticsApproximator(const LHCOpticsApproximator &org) : TNamed(org), x_parametrisation(org.x_parametrisation), theta_x_parametrisation(org.theta_x_parametrisation), y_parametrisation(org.y_parametrisation), theta_y_parametrisation(org.theta_y_parametrisation)
 {
-//  std::cout<<"LHCOpticsApproximator::LHCOpticsApproximator(const LHCOpticsApproximator &org) entered"<<std::endl;
     Init();
     s_begin_ = org.s_begin_;
     s_end_ = org.s_end_;
@@ -304,7 +270,6 @@ LHCOpticsApproximator::LHCOpticsApproximator(const LHCOpticsApproximator &org) :
     beam = org.beam;
     nominal_beam_energy_ = org.nominal_beam_energy_;
     nominal_beam_momentum_ = org.nominal_beam_momentum_;
-//  std::cout<<"LHCOpticsApproximator::LHCOpticsApproximator(const LHCOpticsApproximator &org) left"<<std::endl;
 }
 
 
@@ -494,9 +459,6 @@ void LHCOpticsApproximator::SetTermsManually(TMultiDimFet &approximator, variabl
   //put terms of shape:
   //1,0,0,0,t    0,1,0,0,t    0,2,0,0,t    0,3,0,0,t    0,0,0,0,t
   //t: 0,1,...,max_degree
-//  int total_terms = 5*(max_degree+1);
-//  int table_size = total_terms*5;
-//  Int_t powers[table_size];
 
   std::vector<Int_t> term_literals;
   term_literals.reserve(5000);
@@ -643,7 +605,6 @@ void LHCOpticsApproximator::SetTermsManually(TMultiDimFet &approximator, variabl
     term_literals.push_back(0), term_literals.push_back(0), term_literals.push_back(2), term_literals.push_back(1), term_literals.push_back(1);
   }
 
-  //Int_t powers[term_literals.size()];
   std::vector<Int_t> powers;
   powers.resize(term_literals.size());
 
@@ -797,16 +758,10 @@ void LHCOpticsApproximator::TestAperture(TTree *inp_tree, TTree *out_tree)  //x,
   for(Long64_t i=0; i<entries; i++)
   {
     inp_tree->GetEntry(i);
-//    for(int j=0; j<7; j++)
-//      std::cout<<entry[j]<<" ";
-//    std::cout<<std::endl;
 
     //Don't invert the coordinate systems, appertures are defined in the
     //coordinate system of the beam - perhaps to be changed
     bool res = Transport(entry, parametrization_out, true, false);
-//    for(int j=0; j<5; j++)
-//      std::cout<<parametrization_out[j]<<" ";
-//    std::cout<<"TestAperture "<<res<<std::endl;
 
     if( res )
       entry[6] = 1.0;
@@ -814,8 +769,6 @@ void LHCOpticsApproximator::TestAperture(TTree *inp_tree, TTree *out_tree)  //x,
       entry[6] = 0.0;
 
     out_tree->Fill();
-//    if(ind++>300)
-//      exit(0);
   }
 }
 
@@ -1020,7 +973,6 @@ bool LHCOpticsApproximator::CheckInputRange(const double *in, bool invert_beam_c
   for(int i=0; i<5; i++)
   {
     res = res && in_corrected[i]>=(*min_var)(i) && in_corrected[i]<=(*max_var)(i);
-    //std::cout<<"test range: " << (*min_var)(i) << " < " << in_corrected[i] << " < " << (*max_var)(i) <<std::endl;
   }
   return res;
 }
@@ -1031,8 +983,6 @@ void LHCOpticsApproximator::AddRectEllipseAperture(const LHCOpticsApproximator &
   apertures_.push_back(LHCApertureApproximator(in, rect_x, rect_y, r_el_x, r_el_y, LHCApertureApproximator::RECTELLIPSE));
 }
 
-
-//////////////////////////////////////////////////////////////////
 
 LHCApertureApproximator::LHCApertureApproximator()
 {
@@ -1055,35 +1005,14 @@ bool LHCApertureApproximator::CheckAperture(const double *in, bool invert_beam_c
 {
   double out[5];
   bool result = Transport(in, out, false, invert_beam_coord_sytems);
-  //std::cout<<"in apreture: "<<out[0]<<" "<<out[1]<<" "<<out[2]<<" "<<out[3]<<" "<<out[4]<<std::endl;
-  //std::cout<<rect_x_<<", "<<rect_y_<<", "<<r_el_x_<<", "<<r_el_y_<<", "<<ap_type_<<std::endl;
 
-  //std::cout<<"LHCApertureApproximator::CheckAperture(double *in)  //x, thx. y, thy, ksi"<<std::endl;
   if(ap_type_==RECTELLIPSE)
   {
-    //std::cout<<"before cond. checked: "<<result<<std::endl;
     result = result && out[0]<rect_x_ && out[0]>-rect_x_ && out[2]<rect_y_ && out[2]>-rect_y_ &&
         ( out[0]*out[0]/(r_el_x_*r_el_x_) + out[2]*out[2]/(r_el_y_*r_el_y_) < 1 );
-    //std::cout<<"LHCApertureApproximator::CheckAperture(double *in)  //x, thx. y, thy, ksi"<<std::endl;
-    //std::cout<<"after cond. checked: "<<result<<std::endl;
   }
   return result;
 }
-
-/*
-bool LHCApertureApproximator::CheckAperture(MadKinematicDescriptor *in)  //x, thx. y, thy, ksi
-{
-  MadKinematicDescriptor out;
-  bool result = Transport(in, &out);
-  if(ap_type_==RECTELLIPSE)
-  {
-
-    result = result && out.x<rect_x_ && out.x>-rect_x_ && out.y<rect_y_ && out.y>-rect_y_ &&
-        ( out.x*out.x/(r_el_x_*r_el_x_) + out.y*out.y/(r_el_y_*r_el_y_) < 1 );
-  }
-  return result;
-}
-*/
 
 void LHCOpticsApproximator::PrintOpticalFunctions()
 {

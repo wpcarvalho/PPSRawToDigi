@@ -429,33 +429,6 @@ void MADParamGenerator::DeleteApertureTestFiles(const Parametisation_configurati
 }
 
 
-/*
-  std::string base_conf_file;
-  std::string out_conf_file;
-  std::string from_marker_name;
-  double from_marker_s_pos;
-  bool define_from;
-  std::string to_marker_name;
-  double to_marker_s_pos;
-  bool define_to;
-  bool aperture_limit;
-  int tot_entries_no;
-
-  int number_of_part_per_sample;
-  double x_min;
-  double x_max;
-  double theta_x_min;
-  double theta_x_max;
-  double y_min;
-  double y_max;
-  double theta_y_min;
-  double theta_y_max;
-  double ksi_min;
-  double ksi_max;
-
-  std::string root_file_name;
-  std::string out_prefix;*/
-
 int MADParamGenerator::BuildSample(const Parametisation_configuration &conf, std::string sample_file_name, bool recloss, bool compare_apert)
 {
   ClearWorkingFiles(conf, sample_file_name);
@@ -755,7 +728,6 @@ void MADParamGenerator::MakeParametrization(int id, bool generate_samples)
     this->GenerateTestingData(conf);
     this->GenerateApertureTestingData(conf);
   }
-//  exit(0);
 
   std::string name = conf.optics_parametrisation_name;
   LHCOpticsApproximator approximator(name, name, conf.polynomials_type, conf.beam, conf.nominal_beam_energy);

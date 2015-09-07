@@ -58,8 +58,6 @@ RPXMLConfig::~RPXMLConfig ()
   XMLString::release (&this->config_string);
 }
 
-
-
 // -------------------------------------------------------
 // Read & write
 // -------------------------------------------------------
@@ -74,7 +72,6 @@ RPXMLConfig::save ()
 void
 RPXMLConfig::save (const std::string filename)
 {
-//   XMLFormatTarget *myForm = new LocalFileFormatTarget(filename.c_str());
   XMLFormatTarget *myForm = new StdOutFormatTarget ();
   writer->writeNode (myForm, *doc);
 }
@@ -127,7 +124,6 @@ RPXMLConfig::read (const std::string filename)
 
 }
 
-
 // -------------------------------------------------------
 // Getters & setters
 // -------------------------------------------------------
@@ -142,7 +138,6 @@ std::string RPXMLConfig::getFilename ()
 {
   return this->fileName;
 }
-
 
 // -------------------------------------------------------
 // First level access
