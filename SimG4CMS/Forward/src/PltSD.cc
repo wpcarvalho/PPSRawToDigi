@@ -334,7 +334,6 @@ TrackInformation* PltSD::getOrCreateTrackInformation( const G4Track* gTrack) {
     if (temp == 0){
         edm::LogError("PltSD") <<" ERROR: no G4VUserTrackInformation available";
         abort();
-        return NULL;
     }else{
         TrackInformation* info = dynamic_cast<TrackInformation*>(temp);
         if (info == 0){

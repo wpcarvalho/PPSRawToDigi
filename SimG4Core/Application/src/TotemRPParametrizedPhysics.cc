@@ -39,6 +39,11 @@
 #include "G4SystemOfUnits.hh"
 #include "G4UAtomicDeexcitation.hh"
 #include "G4LossTableManager.hh"
+#include "SimG4Core/Application/interface/BeamProtTransportSetup.h"
+
+
+G4ThreadLocal G4FastSimulationManagerProcess* theFastSimulationManagerProcess = 0;
+G4ThreadLocal BeamProtTransportSetup* beam_prot_transp_setup_ = 0;
 
 TotemRPParametrizedPhysics::TotemRPParametrizedPhysics(std::string name,
 					     const edm::ParameterSet & p) 
@@ -51,6 +56,7 @@ TotemRPParametrizedPhysics::~TotemRPParametrizedPhysics() {
 
 void TotemRPParametrizedPhysics::ConstructParticle()
 {
+  edm::LogInfo("TotemRPParametrizedPhysics") << "ConstructParticle";
   G4LeptonConstructor pLeptonConstructor;
   pLeptonConstructor.ConstructParticle();
 
@@ -69,8 +75,14 @@ void TotemRPParametrizedPhysics::ConstructParticle()
 
 void TotemRPParametrizedPhysics::ConstructProcess()
 {
-  G4FastSimulationManagerProcess * theFastSimulationManagerProcess =
-    new G4FastSimulationManagerProcess("TotemRPParameterisationProcess", fParameterisation);
+  edm::LogInfo("TotemRPParametrizedPhysics") << "ConstructProcess";
+
+  if(beam_prot_transp_setup_ == 0)
+    beam_prot_transp_setup_ = new BeamProtTransportSetup(theParSet);
+
+  if(theFastSimulationManagerProcess ==0)
+    theFastSimulationManagerProcess =
+          new G4FastSimulationManagerProcess("TotemRPParameterisationProcess", fParameterisation);
 
   aParticleIterator->reset();
 

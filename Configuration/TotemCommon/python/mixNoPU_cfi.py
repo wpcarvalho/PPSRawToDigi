@@ -1,7 +1,5 @@
 import FWCore.ParameterSet.Config as cms
 
-# pileup - niech Valentina wytłumaczy
-
 # this is a minimum configuration of the Mixing module,
 # to run it in the zero-pileup mode
 #
@@ -114,8 +112,7 @@ mix = cms.EDProducer("MixingModule",
 mix.mixObjects.mixSH.crossingFrames = cms.untracked.vstring('MuonCSCHits',
 'MuonDTHits',
 'MuonRPCHits',
-'TotemHitsT1',
-'TotemHitsT2Gem',
-'TotemHitsRP')
+'TotemHitsRP',
+'PPSTrackerHits')
 
 

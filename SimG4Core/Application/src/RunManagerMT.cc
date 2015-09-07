@@ -55,20 +55,14 @@
 #include <memory>
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
-#include "G4LogicalVolumeStore.hh"
-#include "G4RegionStore.hh"
-
-#include "G4Material.hh"
-#include "G4SDManager.hh"
-#include "G4NistManager.hh"
-#include "G4Box.hh"
 
 #include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
-
 #include "SimG4Core/Application/interface/BeamProtTransportSetup.h"
-#include "SimG4Core/TotemRPProtTransp/interface/LogicalVolumeStoreFix.h"
-#include "G4FastSimulationManagerProcess.hh"
 #include "SimG4Core/Application/interface/TotemRPParametrizedPhysics.h"
+#include "G4TransportationManager.hh"
+#include "G4Navigator.hh"
+#include "G4VPhysicalVolume.hh"
+#include "G4RegionStore.hh"
 
 RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
       m_managerInitialized(false),
@@ -84,8 +78,6 @@ RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
       m_G4Commands(p.getParameter<std::vector<std::string> >("G4Commands")),
       m_fieldBuilder(nullptr)
 {
- edm::LogInfo("SimG4CoreApplication") << "m_useMeasuredGeom MT: " << m_useMeasuredGeom;
-
   m_currentRun = 0;
   G4RunManagerKernel *kernel = G4MTRunManagerKernel::GetRunManagerKernel();
   if(!kernel) m_kernel = new G4MTRunManagerKernel();
@@ -148,12 +140,11 @@ void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF,
     throw SimG4Exception("Physics list construction failed!");
   }
 
-  // adding GFlash, Russian Roulette for eletrons and gamma, 
+  // adding GFlash, Russian Roulette for eletrons and gamma,
   // step limiters on top of any Physics Lists
   phys->RegisterPhysics(new ParametrisedEMPhysics("EMoptions", m_pPhysics));
 
   //Adding Totem proton transport
-  if (beam_prot_transp_setup_ == 0) beam_prot_transp_setup_ = new BeamProtTransportSetup(m_pPhysics);
   phys->RegisterPhysics(new TotemRPParametrizedPhysics("totem_parametrised_prot_transp", m_pPhysics));
 
   m_physicsList->ResetStoredInAscii();

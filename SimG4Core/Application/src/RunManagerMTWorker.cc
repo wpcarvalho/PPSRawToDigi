@@ -145,7 +145,6 @@ RunManagerMTWorker::RunManagerMTWorker(const edm::ParameterSet& iConfig, edm::Co
   m_useMeasuredGeom(iConfig.getUntrackedParameter<bool>("UseMeasuredGeometryRecord",false)),
   m_p(iConfig)
 {
-  edm::LogInfo("SimG4CoreApplication") << "m_useMeasuredGeom Worker: " << m_useMeasuredGeom;
   initializeTLS();
 }
 

@@ -56,12 +56,13 @@
 #include "CLHEP/Units/GlobalPhysicalConstants.h"
 
 #include "G4FastSimulationManagerProcess.hh"
+#include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 using namespace edm;
 using namespace std;
 
 
-BeamProtTransportSetup* BeamProtTransportSetup::instance = NULL;
+G4ThreadLocal BeamProtTransportSetup* instance = 0;
 
 
 BeamProtTransportSetup::BeamProtTransportSetup(const edm::ParameterSet & p) :
@@ -73,8 +74,6 @@ BeamProtTransportSetup::BeamProtTransportSetup(const edm::ParameterSet & p) :
 
   edm::ParameterSet m_BeamProtTran = p.getParameter<edm::ParameterSet>("BeamProtTransportSetup");
   verbosity_ = m_BeamProtTran.getParameter<bool>("Verbosity");
-
-  std::cout<<"!!!!!!!!!!!!!!!!!!!!!!!!! BeamProtTransportSetup::BeamProtTransportSetup !!!!!!!!!!!!!!!"<<std::endl;;
 
   Beam_IP_150_R_LV = NULL;
   Beam_IP_150_L_LV = NULL;
@@ -92,7 +91,7 @@ BeamProtTransportSetup::BeamProtTransportSetup(const edm::ParameterSet & p) :
 
 void BeamProtTransportSetup::FindLogicalVolumes()
 {
-  edm::LogInfo("TotemRP") << "TotemRP::Proton parameterisation initialization begin !!";
+  edm::LogInfo("BeamProtTransportSetup") << "Proton parameterisation initialization begin !!";
 
   G4LogicalVolumeStore * theStore = G4LogicalVolumeStore::GetInstance();
   G4LogicalVolumeStore::const_iterator it;
@@ -102,13 +101,13 @@ void BeamProtTransportSetup::FindLogicalVolumes()
 
     if (v->GetName()==Beam_IP_150_R_LV_Name)
     {
-      edm::LogInfo("TotemRP") << "TotemRP::Parameterization being initialized for "<<
+      edm::LogInfo("BeamProtTransportSetup") << "Parameterization being initialized for "<<
           v->GetName();
       Beam_IP_150_R_LV = v;
     }
     else if (v->GetName()==Beam_IP_150_L_LV_Name)
     {
-      edm::LogInfo("TotemRP") << "TotemRP::Parameterization being initialized for "<<
+      edm::LogInfo("BeamProtTransportSetup") << "Parameterization being initialized for "<<
           v->GetName();
       Beam_IP_150_L_LV = v;
     }
@@ -132,10 +131,10 @@ void BeamProtTransportSetup::BuildTransportModels(const edm::ParameterSet & p)
   std::string fileName = std::string(cmsswPath) + std::string("/src/") + param_root_file;
   
   TFile *f = TFile::Open(fileName.c_str(),"read");
-  edm::LogInfo("TotemRP")<<"Root file opened, pointer:"<<f<<std::endl;
+  edm::LogInfo("BeamProtTransportSetup")<<"Root file opened, pointer:"<<f<<std::endl;
   if(!f)
   {
-    std::cout<<"BeamProtTransportSetup: File "<<fileName<<" not found. Exiting."<<std::endl;
+    edm::LogError("BeamProtTransportSetup")<<"BeamProtTransportSetup: File "<<fileName<<" not found. Exiting."<<std::endl;
     exit(0);
   }
   
@@ -144,55 +143,47 @@ void BeamProtTransportSetup::BuildTransportModels(const edm::ParameterSet & p)
   
   if(aprox_ip_150_r == NULL)
   {
-    std::cout<<"BeamProtTransportSetup: Parameterisation "<<model_ip_150_r_name<<" missing in file "<<fileName<<std::endl;
-    std::cout<<"Job stopped!!"<<std::endl;
+    edm::LogError("BeamProtTransportSetup")<<"BeamProtTransportSetup: Parameterisation "<<model_ip_150_r_name<<" missing in file "<<fileName<<std::endl;
+    edm::LogError("BeamProtTransportSetup")<<"Job stopped!!"<<std::endl;
     exit(0);
   }
   if(aprox_ip_150_l == NULL)
   {
-    std::cout<<"BeamProtTransportSetup: Parameterisation "<<model_ip_150_l_name<<" missing in file "<<fileName<<std::endl;
-    std::cout<<"Job stopped!!"<<std::endl;
+    edm::LogError("BeamProtTransportSetup")<<"BeamProtTransportSetup: Parameterisation "<<model_ip_150_l_name<<" missing in file "<<fileName<<std::endl;
+    edm::LogError("BeamProtTransportSetup")<<"Job stopped!!"<<std::endl;
     exit(0);
   }
     
-  edm::LogInfo("TotemRP")<<"Parameterizations read from file, pointers:"<<aprox_ip_150_r<<" "<<aprox_ip_150_l<<" "<<std::endl;
+  edm::LogInfo("BeamProtTransportSetup")<<"Parameterizations read from file, pointers:"<<aprox_ip_150_r<<" "<<aprox_ip_150_l<<" "<<std::endl;
 
   if(aprox_ip_150_r && aprox_ip_150_l && Beam_IP_150_R_LV && Beam_IP_150_L_LV)
   {
-#ifdef G4V7
-    model_ip_150_r = new ProtTranspFastSimModel(Beam_IP_150_R_LV_Name,
-        Beam_IP_150_R_LV, *aprox_ip_150_r, model_ip_150_r_zmin, model_ip_150_r_zmax, verbosity_);
-
-    model_ip_150_l = new ProtTranspFastSimModel(Beam_IP_150_L_LV_Name,
-        Beam_IP_150_L_LV, *aprox_ip_150_l, model_ip_150_l_zmin, model_ip_150_l_zmax, verbosity_);
-#else
+    G4RegionStore* regionStore = G4RegionStore::GetInstance();
     G4ProductionCuts *dummyPC = new G4ProductionCuts();
-    G4Region *region_ip_150_r = new G4Region(Beam_IP_150_R_LV_Name);
-    region_ip_150_r->SetProductionCuts(dummyPC);
+
+    G4Region *region_ip_150_r = regionStore->FindOrCreateRegion(Beam_IP_150_R_LV_Name);
     Beam_IP_150_R_LV->SetRegion(region_ip_150_r);
     region_ip_150_r->AddRootLogicalVolume(Beam_IP_150_R_LV);
     region_ip_150_r->SetProductionCuts(dummyPC);
     model_ip_150_r = new ProtTranspFastSimModel(Beam_IP_150_R_LV_Name,
         region_ip_150_r, *aprox_ip_150_r, model_ip_150_r_zmin, model_ip_150_r_zmax, verbosity_);
 
-    G4Region *region_ip_150_l = new G4Region(Beam_IP_150_L_LV_Name);
+    G4Region *region_ip_150_l = regionStore->FindOrCreateRegion(Beam_IP_150_L_LV_Name);
     region_ip_150_l->SetProductionCuts(dummyPC);
     Beam_IP_150_L_LV->SetRegion(region_ip_150_l);
     region_ip_150_l->AddRootLogicalVolume(Beam_IP_150_L_LV);
     model_ip_150_l = new ProtTranspFastSimModel(Beam_IP_150_L_LV_Name,
         region_ip_150_l, *aprox_ip_150_l, model_ip_150_l_zmin, model_ip_150_l_zmax, verbosity_);
-#endif
 
-    edm::LogInfo("TotemRP") << "TotemRP::Fast transport models have been initialized. ";
+    edm::LogInfo("BeamProtTransportSetup") << "Fast transport models have been initialized. ";
   }
   else
   {
-    edm::LogError("TotemRP") << "TotemRP::Fast transport models failed to be initialized\nLHCApproximators: " <<
+    edm::LogError("BeamProtTransportSetup") << "Fast transport models failed to be initialized\nLHCApproximators: " <<
 		aprox_ip_150_r << ", " << aprox_ip_150_l << ", " << 
 		"\nBeam volumes: " << Beam_IP_150_R_LV << ", " << Beam_IP_150_L_LV << ", ";
 	// TODO this causes segmentation fault
-	throw cms::Exception("TotemRP") << "TotemRP::Fast transport models failed to be initialized.";
-//	exit(1);
+	throw cms::Exception("TotemRP") << "Fast transport models failed to be initialized.";
   }
   f->Close();
 }
@@ -200,10 +191,6 @@ void BeamProtTransportSetup::BuildTransportModels(const edm::ParameterSet & p)
 
 BeamProtTransportSetup::~BeamProtTransportSetup()
 {
-#if DEBUG > 0
-  printf(">> ~BeamProtTransportSetup\n");
-#endif
-
   if(model_ip_150_r) delete model_ip_150_r;
   if(model_ip_150_l) delete model_ip_150_l;
 }

@@ -63,18 +63,16 @@ private:
   void fillEvent(TotemTestHistoClass&);
 
 private:
-
   //Keep parameters to instantiate TotemTestHistoManager later
   std::string                             fileName;
   std::vector<std::string>                names;
 
   // Private Tuples
   std::auto_ptr<TotemTestHistoManager>    tuplesManager;
-  TotemTestHistoClass *                   tuples;
+  TotemTestHistoClass*                    tuples;
 
-  TotemHisto *histos;
-
-  std::string nomeFile;
+  TotemHisto*                             histos;
+  std::string                             fileNameOld;
   std::vector<TotemG4Hit*>                hits;
   int                                     evtnum;
 };

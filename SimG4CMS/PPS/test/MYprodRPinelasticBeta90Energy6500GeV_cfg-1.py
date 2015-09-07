@@ -19,7 +19,7 @@ process.load("IOMC.FlatProtonLogKsiLogTGun.Beta90Energy6500GeV_cfi")
 process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_6500GeV_90_cfi")
 
 # G4 geometry
-process.load("SimG4CMS.PPS.MYgeometryRP_cfi")
+process.load("Configuration.TotemCommon.geometryRP_PPS_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')
 
 process.load("RecoTotemRP.RPInelasticReconstruction.Rec_6500GeV_beta_90_cfi")
