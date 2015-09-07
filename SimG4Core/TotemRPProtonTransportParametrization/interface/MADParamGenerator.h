@@ -1,5 +1,5 @@
-#ifndef SimG4CMS_TotemRPProtTranspPar_MADParamGenerator_H
-#define SimG4CMS_TotemRPProtTranspPar_MADParamGenerator_H
+#ifndef SimG4Core_TotemRPProtonTransportParametrization_MADParamGenerator_H
+#define SimG4Core_TotemRPProtonTransportParametrization_MADParamGenerator_H
 
 
 #include <string>
@@ -9,9 +9,9 @@
 #include "TFile.h"
 
 
-#include "SimG4CMS/TotemRPProtTranspPar/interface/TMultiDimFet.h"
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
-#include "SimG4CMS/TotemRPProtTranspPar/interface/RPXMLConfig.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/TMultiDimFet.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/RPXMLConfig.h"
 
 struct Parametisation_aperture_configuration;
 
@@ -157,4 +157,4 @@ class MADParamGenerator
 //#insert_particles#
 //#output_mad_file#
 
-#endif  //SimG4CMS_TotemRPProtTranspPar_MADParamGenerator_H
+#endif  //SimG4Core_TotemRPProtonTransportParametrization_MADParamGenerator_H

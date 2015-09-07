@@ -4,8 +4,8 @@
 * $Date: 2007/05/16 15:44:50 $
 **********************************************************/
 
-#ifndef SimG4CMS_TotemRPProtTranspPar_RPXMLConfig_H
-#define SimG4CMS_TotemRPProtTranspPar_RPXMLConfig_H
+#ifndef SimG4Core_TotemRPProtonTransportParametrization_RPXMLConfig_H
+#define SimG4Core_TotemRPProtonTransportParametrization_RPXMLConfig_H
 
 //#include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/dom/DOM.hpp>
@@ -128,4 +128,4 @@ private:
 };
 
 
-#endif  //SimG4CMS_TotemRPProtTranspPar_RPXMLConfig_H
+#endif  //SimG4Core_TotemRPProtonTransportParametrization_RPXMLConfig_H

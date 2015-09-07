@@ -14,7 +14,7 @@
 #include "TotemCondFormats/ProtonTransportFunctions/interface/ProtonTransportFunctions.h"
 #include "TotemCondFormats/BeamOpticsParamsObjects/interface/BeamOpticsParams.h"
 #include "FWCore/Utilities/interface/typelookup.h"
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "FWCore/Utilities/interface/Exception.h"
 
 #include "TFile.h"

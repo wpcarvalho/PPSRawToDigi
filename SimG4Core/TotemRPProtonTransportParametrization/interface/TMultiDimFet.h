@@ -14,8 +14,8 @@
 *
 ****************************************************************************/
 
-#ifndef SimG4CMS_TotemRPProtTranspPar_TMultiDimFet_H
-#define SimG4CMS_TotemRPProtTranspPar_TMultiDimFet_H
+#ifndef SimG4Core_TotemRPProtonTransportParametrization_TMultiDimFet_H
+#define SimG4Core_TotemRPProtonTransportParametrization_TMultiDimFet_H
 
 #ifndef ROOT_TNamed
 #include "TNamed.h"
@@ -233,5 +233,5 @@ public:
 
    ClassDef(TMultiDimFet,1) // Multi dimensional fit class
 };
-#endif  //SimG4CMS_TotemRPProtTranspPar_TMultiDimFet_H
+#endif  //SimG4Core_TotemRPProtonTransportParametrization_TMultiDimFet_H
 

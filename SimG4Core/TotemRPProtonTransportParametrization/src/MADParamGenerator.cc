@@ -1,9 +1,9 @@
-#include "SimG4CMS/TotemRPProtTranspPar/interface/MADParamGenerator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/MADParamGenerator.h"
 #include "TTimeStamp.h"
 #include "TRandom.h"
 #include "TNtupleD.h"
 
-#include "SimG4CMS/TotemRPProtTranspPar/interface/FitData.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/FitData.h"
 
 void MADParamGenerator::GenerateMADConfFile(const std::string &base_conf_file, const std::string &out_conf_file, const std::string &from_marker_name, double from_marker_s_pos, bool define_from, const std::string &to_marker_name, double to_marker_s_pos, bool define_to, int particles_number, bool aperture_limit, std::vector<std::string> scoring_planes, const std::string &beam)
 {

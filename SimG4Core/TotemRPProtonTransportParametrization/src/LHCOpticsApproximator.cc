@@ -1,4 +1,4 @@
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include <vector>
 #include <iostream>
 #include "TROOT.h"

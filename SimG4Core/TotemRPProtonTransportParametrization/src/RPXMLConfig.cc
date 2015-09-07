@@ -4,7 +4,7 @@
 * $Date: 2007/05/16 15:44:49 $
 **********************************************************/
 
-#include "SimG4CMS/TotemRPProtTranspPar/interface/RPXMLConfig.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/RPXMLConfig.h"
 
 // -------------------------------------------------------
 // Class RPXMLConfig

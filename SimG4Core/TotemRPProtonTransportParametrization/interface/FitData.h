@@ -4,8 +4,8 @@
 * $Date: 2007/05/16 15:44:49 $
 **********************************************************/
 
-#ifndef SimG4CMS_TotemRPProtTranspPar_FitData_h
-#define SimG4CMS_TotemRPProtTranspPar_FitData_h
+#ifndef SimG4Core_TotemRPProtonTransportParametrization_FitData_h
+#define SimG4Core_TotemRPProtonTransportParametrization_FitData_h
 
 #include <iostream>
 #include <fstream>
@@ -84,4 +84,4 @@ Int_t lostSize;
 };
 
 
-#endif  //SimG4CMS_TotemRPProtTranspPar_FitData_h
+#endif  //SimG4Core_TotemRPProtonTransportParametrization_FitData_h

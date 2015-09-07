@@ -21,7 +21,7 @@
 #include "G4TwoVector.hh"
 #include "G4RotationMatrix.hh"
 
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 /**
