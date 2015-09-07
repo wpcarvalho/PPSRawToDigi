@@ -12,10 +12,6 @@
 ****************************************************************************/
 #include "SimG4Core/Application/interface/TotemRPProtonTransportModel.h"
 #include "SimG4Core/Application/interface/TotemRPProtonTransportSetup.h"
-#include "TotemCondFormats/DataRecord/interface/ProtonTransportRcd.h"
-#include "TotemCondFormats/DataRecord/interface/BeamOpticsParamsRcd.h"
-#include "TotemCondFormats/DataRecord/interface/ProtonTransportRcd.h"
-#include "TotemCondFormats/BeamOpticsParamsObjects/interface/BeamOpticsParams.h"
 #include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
 
 #include "SimG4Core/Geometry/interface/G4LogicalVolumeToDDLogicalPartMap.h" 

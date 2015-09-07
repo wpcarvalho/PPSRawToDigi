@@ -1,6 +1,4 @@
 <use   name="SimG4CMS/TotemRPProtTranspPar"/>
-<use   name="TotemCondFormats/DataRecord"/>
-<use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
 <export>
   <lib   name="1"/>
 </export>
