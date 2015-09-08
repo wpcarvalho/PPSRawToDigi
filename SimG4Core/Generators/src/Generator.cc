@@ -99,7 +99,8 @@ Generator::~Generator()
   delete fLumiFilter;
 }
 
-void Generator::HepMC2G4(const HepMC::GenEvent *evt_orig, G4Event *g4evt) {
+void Generator::HepMC2G4(const HepMC::GenEvent * evt_orig, G4Event * g4evt)
+{
 
   HepMC::GenEvent *evt = new HepMC::GenEvent(*evt_orig);
 
@@ -127,9 +128,9 @@ void Generator::HepMC2G4(const HepMC::GenEvent *evt_orig, G4Event *g4evt) {
   if (verbose > 0) {
     evt->print(G4cout);
     LogDebug("SimG4CoreGenerator") << "Primary Vertex = ("
-    << vtx_->x() << ","
-    << vtx_->y() << ","
-    << vtx_->z() << ")";
+	  << vtx_->x() << ","
+	  << vtx_->y() << ","
+	  << vtx_->z() << ")";
   }
 
   unsigned int ng4vtx = 0;
@@ -148,14 +149,14 @@ void Generator::HepMC2G4(const HepMC::GenEvent *evt_orig, G4Event *g4evt) {
         qvtx = true;
         if (verbose > 2)
           LogDebug("SimG4CoreGenerator")
-          << "GenVertex barcode = " << (*vitr)->barcode()
-          << " selected for GenParticle barcode = " << (*pitr)->barcode();
+            << "GenVertex barcode = " << (*vitr)->barcode()
+            << " selected for GenParticle barcode = " << (*pitr)->barcode();
         break;
       }
-        // The selection is made considering if the partcile with status = 2
-        // have the end_vertex with a radius greater than the radius of beampipe
-        // cilinder (no requirement on the Z of the vertex is applyed).
-        // Status 104 (metastable R-hadrons in Pythia8) is treated the same way.
+      // The selection is made considering if the partcile with status = 2
+      // have the end_vertex with a radius greater than the radius of beampipe
+      // cilinder (no requirement on the Z of the vertex is applyed).
+      // Status 104 (metastable R-hadrons in Pythia8) is treated the same way.
       else if (2 == (*pitr)->status() || 104 == (*pitr)->status()) {
 
         if ((*pitr)->end_vertex() != 0) {
@@ -166,9 +167,9 @@ void Generator::HepMC2G4(const HepMC::GenEvent *evt_orig, G4Event *g4evt) {
             qvtx = true;
             if (verbose > 2)
               LogDebug("SimG4CoreGenerator")
-              << "GenVertex barcode = " << (*vitr)->barcode()
-              << " selected for GenParticle barcode = "
-              << (*pitr)->barcode() << " radius = " << std::sqrt(r_dd);
+                << "GenVertex barcode = " << (*vitr)->barcode()
+                << " selected for GenParticle barcode = "
+                << (*pitr)->barcode() << " radius = " << std::sqrt(r_dd);
             break;
           }
         } else {
@@ -260,29 +261,29 @@ void Generator::HepMC2G4(const HepMC::GenEvent *evt_orig, G4Event *g4evt) {
 
       if (verbose > 2)
         LogDebug("SimG4CoreGenerator")
-        << "Processing GenParticle barcode= " << (*pitr)->barcode()
-        << " pdg= " << (*pitr)->pdg_id()
-        << " status= " << (*pitr)->status()
-        << " st= " << status
-        << " rimpact(cm)= " << std::sqrt(rimpact2) / cm
-        << " zimpact(cm)= " << zimpact / cm
-        << " ptot(GeV)= " << ptot
-        << " pz(GeV)= " << pz;
+          << "Processing GenParticle barcode= " << (*pitr)->barcode()
+          << " pdg= " << (*pitr)->pdg_id()
+          << " status= " << (*pitr)->status()
+          << " st= " << status
+          << " rimpact(cm)= " << std::sqrt(rimpact2) / cm
+          << " zimpact(cm)= " << zimpact / cm
+          << " ptot(GeV)= " << ptot
+          << " pz(GeV)= " << pz;
 
       // Only scattered protons are left
       if ((*pitr)->pdg_id() != 2212 && fLeaveOnlyScatteredProtons) {
         if (verbose > 2)
           LogDebug("SimG4CoreGenerator")
-          << "GenParticle barcode = " << (*pitr)->barcode()
-          << " rejected as case 0" << std::endl;
+            << "GenParticle barcode = " << (*pitr)->barcode()
+            << " rejected as case 0" << std::endl;
         continue;
       }
       else if (status == 1 && (*pitr)->pdg_id() == 2212 && fLeaveScatteredProtons) {
         toBeAdded = true;
         if (verbose > 2)
           LogDebug("SimG4CoreGenerator")
-          << "GenParticle barcode = " << (*pitr)->barcode()
-          << " passed case 4" << std::endl;
+            << "GenParticle barcode = " << (*pitr)->barcode()
+            << " passed case 4" << std::endl;
       }
       // Particles of status 1 trasnported along the beam pipe for forward 
       // detectors (HECTOR) always pass to Geant4 without cuts 
@@ -291,8 +292,8 @@ void Generator::HepMC2G4(const HepMC::GenEvent *evt_orig, G4Event *g4evt) {
         toBeAdded = true;
         if (verbose > 2)
           LogDebug("SimG4CoreGenerator")
-          << "GenParticle barcode = " << (*pitr)->barcode()
-          << " passed case 3";
+            << "GenParticle barcode = " << (*pitr)->barcode()
+            << " passed case 3";
       } else {
           // Standard case: particles not decayed by the generator
         if (1 == status &&
@@ -342,8 +343,8 @@ void Generator::HepMC2G4(const HepMC::GenEvent *evt_orig, G4Event *g4evt) {
           toBeAdded = true;
           if (verbose > 2)
             LogDebug("SimG4CoreGenerator")
-            << "GenParticle barcode = " << (*pitr)->barcode()
-            << " passed case 1";
+              << "GenParticle barcode = " << (*pitr)->barcode()
+              << " passed case 1";
 
           // Decay chain outside the fiducial cylinder defined by theRDecLenCut
           // are used for Geant4 tracking with predefined decay channel
@@ -354,9 +355,9 @@ void Generator::HepMC2G4(const HepMC::GenEvent *evt_orig, G4Event *g4evt) {
           toBeAdded = true;
           if (verbose > 2)
             LogDebug("SimG4CoreGenerator")
-            << "GenParticle barcode = " << (*pitr)->barcode()
-            << " passed case 2"
-            << " decay_length(cm)= " << decay_length / cm;
+              << "GenParticle barcode = " << (*pitr)->barcode()
+              << " passed case 2"
+              << " decay_length(cm)= " << decay_length / cm;
         }
       }
       if (toBeAdded) {

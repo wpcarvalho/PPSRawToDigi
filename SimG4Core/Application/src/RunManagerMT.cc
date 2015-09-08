@@ -24,6 +24,7 @@
 #include "SimG4Core/Notification/interface/CurrentG4Track.h"
 #include "SimG4Core/Application/interface/G4RegionReporter.h"
 #include "SimG4Core/Application/interface/CMSGDMLWriteStructure.h"
+#include "SimG4Core/Application/interface/TotemRPProtonTransportPhysics.h"
 
 #include "DetectorDescription/Core/interface/DDCompactView.h"
 
@@ -55,13 +56,6 @@
 #include <memory>
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
-
-#include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
-#include "SimG4Core/Application/interface/TotemRPProtonTransportPhysics.h"
-#include "G4TransportationManager.hh"
-#include "G4Navigator.hh"
-#include "G4VPhysicalVolume.hh"
-#include "G4RegionStore.hh"
 
 RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
       m_managerInitialized(false),
