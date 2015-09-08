@@ -41,10 +41,9 @@
 
 TotemTestGem::TotemTestGem(const edm::ParameterSet &p) :
         parameters(p.getParameter<edm::ParameterSet>("TotemTestGem")),
-        tuplesManager(0),
-        histos(0),
-        names(parameters.getParameter < std::vector < std::string > > ("Names")),
         fileName(parameters.getParameter<std::string>("FileName")),
+        names(parameters.getParameter < std::vector < std::string > > ("Names")),
+        tuplesManager(0),
         fileNameOld(parameters.getParameter<std::string>("FileNameOLD")) {
     edm::LogInfo("ForwardSim") << "TotemTestGem:: Initialised as observer of "
     << "begin of job, begin/end events and of G4step";
