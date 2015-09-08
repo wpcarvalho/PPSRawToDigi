@@ -12,7 +12,6 @@
 ****************************************************************************/
 #include "SimG4Core/Application/interface/TotemRPProtonTransportModel.h"
 #include "SimG4Core/Application/interface/TotemRPProtonTransportSetup.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
 
 #include "SimG4Core/Geometry/interface/G4LogicalVolumeToDDLogicalPartMap.h" 
 #include "DetectorDescription/Core/interface/DDName.h"
