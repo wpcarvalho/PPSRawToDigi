@@ -33,9 +33,9 @@
 
 #include "G4VHit.hh"
 #include "DataFormats/Math/interface/Point3D.h"
-#include <CLHEP/Vector/ThreeVector.h>
 #include <boost/cstdint.hpp>
 #include <iostream>
+#include <CLHEP/Vector/ThreeVector.h>
 
 using CLHEP::Hep3Vector;
 

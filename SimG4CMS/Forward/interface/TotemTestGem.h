@@ -45,8 +45,7 @@ class TotemTestGem : public SimWatcher,
                      public Observer<const EndOfEvent *>,
                      public Observer<const G4Step *> {
 
-public: 
-
+public:
   TotemTestGem(const edm::ParameterSet &p);
   virtual ~TotemTestGem();
 
@@ -63,6 +62,8 @@ private:
   void fillEvent(TotemTestHistoClass&);
 
 private:
+  edm::ParameterSet                       parameters;
+
   //Keep parameters to instantiate TotemTestHistoManager later
   std::string                             fileName;
   std::vector<std::string>                names;
