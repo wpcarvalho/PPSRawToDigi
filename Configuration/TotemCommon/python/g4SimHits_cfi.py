@@ -231,9 +231,9 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
         EkinThresholds          = cms.vdouble(),
         EkinParticles           = cms.vstring()
     ),
-#    Totem_RP_SD = cms.PSet( # HINT: TOTEM specific
-#        Verbosity = cms.int32(0)
-#    ),
+    Totem_RP_SD = cms.PSet( # HINT: TOTEM specific
+        Verbosity = cms.int32(0)
+    ),
     TrackerSD = cms.PSet(
         ZeroEnergyLoss = cms.bool(False),
         PrintHits = cms.bool(False),
@@ -442,9 +442,6 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
         BirkC3 = cms.double(1.75),
         BirkC2 = cms.double(0.0568)
     ),
-    Totem_RP_SD = cms.PSet( # HINT: TOTEM specific
-        Verbosity = cms.int32(0)
-    )
 )
 
 

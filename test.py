@@ -15,9 +15,7 @@ process.o1 = cms.OutputModule("PoolOutputModule",
 process.outpath = cms.EndPath(process.o1)
 
 # Configure if you want to detail or simple log information.
-# LoggerMax -- detail log info output including: errors.log, warnings.log, infos.log, debugs.log
-# LoggerMin -- simple log info output to the standard output (e.g. screen)
-process.load("Configuration.TotemCommon.LoggerMax_cfi")
+process.load("FWCore.MessageLogger.MessageLogger_cfi")
 
 ################## STEP 1 - process.generator
 process.source = cms.Source("EmptySource")

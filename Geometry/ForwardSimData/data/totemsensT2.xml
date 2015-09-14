@@ -13,14 +13,14 @@
 			<Parameter name="CMSCutsRegion" value="TotemT2Region" eval="false"/>
 			<Parameter name="ProdCutsForElectrons" value="1*mm"/>
 			<Parameter name="ProdCutsForPositrons" value="1*mm"/>
-			<Parameter name="ProdCutsForGamma" value="1*mm"/> <!-- in TOTEM 7_0_4 there was 10mm-->
+			<Parameter name="ProdCutsForGamma" value="1*mm"/>
 		</SpecPar>
 		<SpecPar name="TotemT2SensitivePart">
 			<PartSelector path="//TotemT2gem_driftspace7r"/>
 			<Parameter name="CMSCutsRegion" value="TotemT2SensitiveRegion" eval="false"/>
 			<Parameter name="ProdCutsForElectrons" value="1*mm"/>
 			<Parameter name="ProdCutsForPositrons" value="1*mm"/>
-			<Parameter name="ProdCutsForGamma" value="1*mm"/> <!-- in TOTEM 7_0_4 there was 10mm-->
+			<Parameter name="ProdCutsForGamma" value="1*mm"/>
 		</SpecPar>
 	</SpecParSection>
 </DDDefinition>
