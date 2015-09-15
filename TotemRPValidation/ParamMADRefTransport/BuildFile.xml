@@ -1,0 +1,23 @@
+<use   name="root"/>
+<use   name="boost"/>
+<use   name="rootminuit2"/>
+<use   name="clhep"/>
+<use   name="FWCore/Framework"/>
+<use   name="FWCore/ParameterSet"/>
+<use   name="FWCore/MessageLogger"/>
+<use   name="DataFormats/Common"/>
+<use   name="DataFormats/TotemRPDataTypes"/>
+<use   name="DataFormats/TotemRPDetId"/>
+<use   name="Geometry/TotemRPDetTopology"/>
+<use   name="Geometry/TotemRPGeometryBuilder"/>
+<use   name="Geometry/TotemRecords"/>
+<use   name="RecoTotemRP/RPRecoDataFormats"/>
+<use   name="RecoTotemRP/RPTrackCandidateFitter"/>
+<use   name="SimG4CMS/TotemRPProtTranspPar"/>
+<use   name="SimG4Core/Notification"/>
+<use   name="SimDataFormats/GeneratorProducts"/>
+<use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
+<use   name="TotemCondFormats/DataRecord"/>
+<export>
+  <lib   name="1"/>
+</export>
