@@ -4,18 +4,20 @@ process = cms.Process("TDTestElastic")
 
 # Specify the maximum events to simulate
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(10)
 )
 
 # Configure the output module (save the result in a file)
 process.o1 = cms.OutputModule("PoolOutputModule",
-    outputCommands = cms.untracked.vstring('keep *'),
+    outputCommands = cms.untracked.vstring('keep *','drop *_*mix*_*_*', 'drop *_*_*Muon*_*', 'drop *_*_*Ecal*_*', 'drop *_*_*Hcal*_*', 'drop *_*_*Calo*_*', 'drop *_*_*Castor*_*', 'drop *_*_*FP420SI_*', 'drop *_*_*ZDCHITS_*', 'drop *_*_*BSCHits_*', 'drop *_*_*ChamberHits_*', 'drop *_*_*FibreHits_*', 'drop *_*_*WedgeHits_*','drop Sim*_*_*_*','drop edm*_*_*_*'),
     fileName = cms.untracked.string('file:test.root')
 )
 process.outpath = cms.EndPath(process.o1)
 
 # Configure if you want to detail or simple log information.
-process.load("FWCore.MessageLogger.MessageLogger_cfi")
+# LoggerMax -- detail log info output including: errors.log, warnings.log, infos.log, debugs.log
+# LoggerMin -- simple log info output to the standard output (e.g. screen)
+process.load("Configuration.TotemCommon.LoggerMax_cfi")
 
 ################## STEP 1 - process.generator
 process.source = cms.Source("EmptySource")

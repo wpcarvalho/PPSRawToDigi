@@ -113,7 +113,6 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
         #        and turn ON DummyEMPhysics
         #
         type = cms.string('SimG4Core/Physics/QGSP_BERT_EML'),
-        #type = cms.string('SimG4Core/Physics/TotemRPPhysicsList'),  # HINT: TOTEM specific
         DummyEMPhysics = cms.bool(False),
         CutsPerRegion = cms.bool(True),
         CutsOnProton  = cms.untracked.bool(True),
