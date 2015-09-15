@@ -135,6 +135,8 @@ void PPSSD::Initialize(G4HCofThisEvent * HCE) {
   LogDebug("PPSSim") << "PPSSD : Initialize called for " << name;
 
   theHC = new PPSG4HitCollection(name, collectionName[0]);
+  G4SDManager::GetSDMpointer()->AddNewCollection(name, collectionName[0]);
+
   if (hcID<0) 
     hcID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
   HCE->AddHitsCollection(hcID, theHC);
