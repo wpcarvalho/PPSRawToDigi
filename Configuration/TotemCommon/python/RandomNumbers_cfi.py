@@ -3,6 +3,7 @@ import FWCore.ParameterSet.Config as cms
 RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
     g4SimHits = cms.PSet(initialSeed = cms.untracked.uint32(9876)),
     SimG4Object = cms.PSet(initialSeed =cms.untracked.uint32(9876)),
+    RPSiDetDigitizer = cms.PSet(initialSeed =cms.untracked.uint32(137137)),
     sourceSeed = cms.PSet(initialSeed =cms.untracked.uint32(98765)),
     generator = cms.PSet(initialSeed = cms.untracked.uint32(98766)),
     SmearingGenerator = cms.PSet(initialSeed =cms.untracked.uint32(3849)),
