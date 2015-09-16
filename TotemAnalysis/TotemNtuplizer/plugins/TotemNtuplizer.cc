@@ -10,13 +10,13 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/EventSetup.h"
 
 #include "TotemAnalysis/TotemNtuplizer/interface/Ntuplizer.h"
 #include "TotemAnalysis/TotemNtuplizer/interface/RawMetaDataNtuplizer.h"
 #include "TotemAnalysis/TotemNtuplizer/interface/TriggerDataNtuplizer.h"
 #include "TotemAnalysis/TotemNtuplizer/interface/RPNtuplizer.h"
 #include "TotemCondFormats/DataRecord/interface/BeamOpticsParamsRcd.h"
-#include "FWCore/Framework/interface/ESHandle.h"
 
 #include "TTree.h"
 #include "TFile.h"

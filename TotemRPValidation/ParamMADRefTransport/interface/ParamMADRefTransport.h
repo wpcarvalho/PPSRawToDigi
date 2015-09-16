@@ -3,7 +3,7 @@
 #include "TVector2.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
 
 #include "FWCore/Framework/interface/Event.h"

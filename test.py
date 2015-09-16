@@ -158,14 +158,26 @@ process.load("SimGeneral.HepPDTESSource.pdt_cfi")
 
 process.load("SimTotem.RPDigiProducer.RPSiDetConf_cfi")
 
-####
+################## STEP 6 process.TotemNtuplizer
+
+process.load("TotemAnalysis.TotemNtuplizer.TotemNtuplizer_cfi")
+process.TotemNtuplizer.outputFileName = "test.ntuple.root"
+process.TotemNtuplizer.RawEventLabel = 'source'
+process.TotemNtuplizer.RPReconstructedProtonCollectionLabel = cms.InputTag('RP220Reconst')
+process.TotemNtuplizer.RPReconstructedProtonPairCollectionLabel = cms.InputTag('RP220Reconst')
+process.TotemNtuplizer.RPMulFittedTrackCollectionLabel = cms.InputTag("RPMulTrackNonParallelCandCollFit")
+process.TotemNtuplizer.includeDigi = cms.bool(True)
+process.TotemNtuplizer.includePatterns = cms.bool(True)
+
+########
 
 process.p1 = cms.Path(
 	process.generator
 	*process.SmearingGenerator
 	*process.g4SimHits
 	*process.mix
-#	*process.RPSiDetDigitizer
+	*process.RPSiDetDigitizer
+	*process.TotemNtuplizer
 )
 
 

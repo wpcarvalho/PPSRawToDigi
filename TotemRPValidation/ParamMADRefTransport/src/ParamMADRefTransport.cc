@@ -159,7 +159,7 @@ bool ParamMADRefTransport::MADXTeoreticalRPTransversePosition(RPId id, double vx
           double px, double py, double pz, 
           TVector2& rp_position, bool include_apertures)
 {
-  if(pz>0 && id<100 || pz<0 && id>=100)
+  if((pz>0 && id<100) || (pz<0 && id>=100))
     return false;
     
   TVector3 prot_dir_z(px/pz, py/pz, 1.0);

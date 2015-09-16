@@ -11,6 +11,7 @@
 <use   name="DataFormats/Common"/>
 <use   name="DataFormats/TotemRPDataTypes"/>
 <use   name="DataFormats/TotemRPDetId"/>
+<use   name="DataFormats/TotemL1Trigger"/>
 <use   name="Geometry/TotemRPDetTopology"/>
 <use   name="Geometry/TotemRPGeometryBuilder"/>
 <use   name="Geometry/TotemRecords"/>
