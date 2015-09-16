@@ -40,6 +40,7 @@ process.load("IOMC.SmearingGenerator.SmearingGenerator_cfi")
 
 # Geometry - beta* specific
 process.load("Configuration.TotemCommon.geometryRP_PPS_cfi")
+
 # TODO Change to the LowBetaSettings
 process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')
 

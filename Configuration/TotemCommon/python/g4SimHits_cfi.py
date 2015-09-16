@@ -396,6 +396,11 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
         BranchHAD = cms.untracked.string('hadParticles.'),
         Verbosity = cms.untracked.bool(False)
     ),
+    PPS_Timing_SD = cms.PSet(
+        Verbosity = cms.untracked.int32(0)
+    ),
+
+
     TotemSD = cms.PSet(
         Verbosity = cms.untracked.int32(0)
     ),
