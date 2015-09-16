@@ -158,7 +158,11 @@ process.load("SimGeneral.HepPDTESSource.pdt_cfi")
 
 process.load("SimTotem.RPDigiProducer.RPSiDetConf_cfi")
 
-################## STEP 6 process.TotemNtuplizer
+################## STEP 6 reco
+
+process.load("Configuration.TotemStandardSequences.RP_Digi_and_TrackReconstruction_cfi")
+
+################## STEP 7 TotemNtuplizer
 
 process.load("TotemAnalysis.TotemNtuplizer.TotemNtuplizer_cfi")
 process.TotemNtuplizer.outputFileName = "test.ntuple.root"
@@ -177,7 +181,13 @@ process.p1 = cms.Path(
 	*process.g4SimHits
 	*process.mix
 	*process.RPSiDetDigitizer
+	*process.RPClustProd
+	*process.RPHecoHitProd
+	*process.RPSinglTrackCandFind
+	*process.RPSingleTrackCandCollFit
+#	*process.RP220Reconst
 	*process.TotemNtuplizer
+
 )
 
 
