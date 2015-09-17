@@ -12,7 +12,7 @@
 #define _Totem_OptoRxVFATFrameCollection_h_
 
 #include "TotemRawDataLibrary/DataFormats/interface/VFATFrameCollection.h"
-#include "TotemRawDataLibrary/DataFormats/interface/OldVFATFrame.h"
+#include "TotemRawDataLibrary/DataFormats/interface/VFATFrame.h"
 
 #include <map>
 
@@ -20,8 +20,6 @@ namespace Totem {
 
 /**
  * An implementation of the VFAT frame collection optimized for OptoRx-formatted data.
- * 
- * \ingroup TotemRawDataLibrary
 **/
 class OptoRxVFATFrameCollection : public VFATFrameCollection
 {
@@ -30,7 +28,7 @@ class OptoRxVFATFrameCollection : public VFATFrameCollection
     struct GOHBlock {
       bool valid;                 ///< whether this block contains valid data
       static unsigned int size;   ///< the size
-      OldVFATFrame *buffer;          ///< pointer to the VFATFrame array of size `size'
+      VFATFrame *buffer;          ///< pointer to the VFATFrame array of size `size'
       VFATFrame::word** dataPtrs; ///< array of pointers to the data blocks within the VFAT frames
 
       GOHBlock();
@@ -68,15 +66,15 @@ class OptoRxVFATFrameCollection : public VFATFrameCollection
     virtual std::string GetClassName() const
       { return "OptoRxVFATFrameCollection"; }
     
-    const OldVFATFrame* GetFrameByID(unsigned int ID) const;
-    const OldVFATFrame* GetFrameByIndex(FramePosition index) const;
+    const VFATFrame* GetFrameByID(unsigned int ID) const;
+    const VFATFrame* GetFrameByIndex(FramePosition index) const;
     
     virtual unsigned int Size() const;
 
     virtual bool Empty() const
       { return (Size() == 0); }
     
-    /// empties the data collection
+    /// Empties the data collection.
     /// use rather the Invalidate method unless you really wish to free the memory
     void Clear()
       { data.clear(); }

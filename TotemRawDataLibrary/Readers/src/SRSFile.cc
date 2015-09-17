@@ -1,15 +1,6 @@
-/****************************************************************************
-*
-* This is a part of the TOTEM testbeam/monitoring software.
-* This is a part of the TOTEM offline software.
-* Authors: 
-*   Jan Kašpar (jan.kaspar@gmail.com)
-*    
-****************************************************************************/
-
 #include "TotemRawDataLibrary/DataFormats/interface/CommonDef.h"
-#include "TotemRawDataLibrary/Readers/interface/VMEBFile.h"
-#include "TotemRawDataLibrary/Readers/interface/VME2File.h"
+#include "TotemRawDataLibrary/Readers/interface/SRSFile.h"
+//#include "TotemRawDataLibrary/Readers/interface/VME2File.h"
 
 // the RunII version
 #include "TotemRawDataLibrary/DAQA/interface/event_3_14.h"
@@ -21,24 +12,24 @@ using namespace std;
 
 namespace Totem {
 
-const unsigned int VMEBFile::eventHeaderSize = sizeof(eventHeaderStruct);
+const unsigned int SRSFile::eventHeaderSize = sizeof(eventHeaderStruct);
 
 
 //----------------------------------------------------------------------------------------------------
 
-VMEBFile::VMEBFile() : dataPtr(NULL), dataPtrSize(0), infile(NULL)
+SRSFile::SRSFile() : dataPtr(NULL), dataPtrSize(0), infile(NULL)
 {
 #ifdef DEBUG
-  printf(">> VMEBFile::VMEBFile \n");
+  printf(">> SRSFile::SRSFile \n");
 #endif
 }
 
 //----------------------------------------------------------------------------------------------------
 
-VMEBFile::~VMEBFile()
+SRSFile::~SRSFile()
 {
 #ifdef DEBUG
-  printf(">> VMEBFile::~VMEBFile, this = %p, dataPtr = %p\n", (void *) this, dataPtr);
+  printf(">> SRSFile::~SRSFile, this = %p, dataPtr = %p\n", (void *) this, dataPtr);
 #endif
 
   Close();
@@ -49,23 +40,19 @@ VMEBFile::~VMEBFile()
 
 //----------------------------------------------------------------------------------------------------
 
-DataFile::OpenStatus VMEBFile::Open(const std::string &fn)
+DataFile::OpenStatus SRSFile::Open(const std::string &fn)
 {
-  // check if the source is a VMEB File
+  // check if the source is a SRS File
   size_t dotPos = fn.rfind('.');
   string extension = (dotPos == string::npos) ? "" : fn.substr(dotPos);
-  if (extension.compare(".vmeb") != 0)
+  if (extension.compare(".srs") != 0) //todo check!
     return osWrongFormat;
 
   infile = StorageFile::CreateInstance(fn);
-  if(!infile) {
-    return osCannotOpen;
-  }
-
   infile->OpenFile();
 
   if (!infile->IsOpened()) {
-    infile->PrintError("Error while opening file in VMEBFile::Open");
+    infile->PrintError("Error while opening file in SRSFile::Open");
     return osCannotOpen;
   }
 
@@ -84,21 +71,21 @@ DataFile::OpenStatus VMEBFile::Open(const std::string &fn)
 
 //----------------------------------------------------------------------------------------------------
 
-DataFile::OpenStatus VMEBFile::Open(StorageFile *storageFile)
+DataFile::OpenStatus SRSFile::Open(StorageFile *storageFile)
 {
   std::string fn = storageFile->GetURLPath();
 
-  // check if the source is a VMEB File
+  // check if the source is a SRS File
   size_t dotPos = fn.rfind('.');
   string extension = (dotPos == string::npos) ? "" : fn.substr(dotPos);
-  if (extension.compare(".vmeb") != 0)
+  if (extension.compare(".srs") != 0) //todo check!
     return osWrongFormat;
 
   infile = storageFile;
   infile->OpenFile();
 
   if (!infile->IsOpened()) {
-    infile->PrintError("Error while opening file in VMEBFile::Open");
+    infile->PrintError("Error while opening file in SRSFile::Open");
     return osCannotOpen;
   }
 
@@ -117,15 +104,15 @@ DataFile::OpenStatus VMEBFile::Open(StorageFile *storageFile)
 
 //----------------------------------------------------------------------------------------------------
 
-void VMEBFile::Close()
+void SRSFile::Close()
 {
 #ifdef DEBUG
-  printf(">> VMEBFile::Close, this = %p", (void*) this);
+  printf(">> SRSFile::Close, this = %p", (void*) this);
 #endif
   
   if (infile && infile->CloseFile() == EOF)
   {
-    ERROR("VMEBFile::Close") << "Cannot close the file." << c_endl;
+    ERROR("SRSFile::Close") << "Cannot close the file." << c_endl;
     delete infile;
   } else {
 	  infile=NULL;
@@ -134,10 +121,10 @@ void VMEBFile::Close()
 
 //----------------------------------------------------------------------------------------------------
 
-unsigned char VMEBFile::ReadToBuffer(unsigned int bytesToRead, unsigned int offset)
+unsigned char SRSFile::ReadToBuffer(unsigned int bytesToRead, unsigned int offset)
 {
 #ifdef DEBUG
-  printf(">> VMEBFile::ReadToBuffer(%u, %u), this = %p, dataPtr = %p, dataPtrSize = %u\n", 
+  printf(">> SRSFile::ReadToBuffer(%u, %u), this = %p, dataPtr = %p, dataPtrSize = %u\n",
       bytesToRead, offset, (void*) this, dataPtr, dataPtrSize);
 #endif
 
@@ -148,7 +135,7 @@ unsigned char VMEBFile::ReadToBuffer(unsigned int bytesToRead, unsigned int offs
       newPtr = new char[bytesToRead+offset];
     }
     catch (bad_alloc& ba) {
-      ERROR("VMEBFile::ReadToBuffer") << "Cannot allocate buffer large enough." << c_endl;
+      ERROR("SRSFile::ReadToBuffer") << "Cannot allocate buffer large enough." << c_endl;
       return 2;
     }
 
@@ -171,7 +158,7 @@ unsigned char VMEBFile::ReadToBuffer(unsigned int bytesToRead, unsigned int offs
 
   if (bytesRead != bytesToRead && !(bytesRead == 0 && eofFlag)) 
   {
-    ERROR("VMEBFile::ReadToBuffer") << "Reading from file to buffer failed. Only " << bytesRead
+    ERROR("SRSFile::ReadToBuffer") << "Reading from file to buffer failed. Only " << bytesRead
   			      << " B read from " << bytesToRead << " B." << c_endl;
     return 1;
   }
@@ -180,10 +167,10 @@ unsigned char VMEBFile::ReadToBuffer(unsigned int bytesToRead, unsigned int offs
 }
 //----------------------------------------------------------------------------------------------------
 
-unsigned char VMEBFile::GetNextEvent(RawEvent* event)
+unsigned char SRSFile::GetNextEvent(RawEvent* event)
 {
 #ifdef DEBUG
-  printf(">> VMEBFile::GetNextEvent, this = %p\n", (void*)this);
+  printf(">> SRSFile::GetNextEvent, this = %p\n", (void*)this);
   printf("\teventHeaderSize = %u\n", eventHeaderSize);
 #endif
 
@@ -200,13 +187,13 @@ unsigned char VMEBFile::GetNextEvent(RawEvent* event)
 
     // check the sanity of header data
     if (eventHeader->eventMagic != EVENT_MAGIC_NUMBER) {
-      ERROR("VMEBFile::GetNextEvent") << "Event magic check failed (" << hex << eventHeader->eventMagic << "!=" << EVENT_MAGIC_NUMBER << dec << "). Exiting." << c_endl;
+      ERROR("SRSFile::GetNextEvent") << "Event magic check failed (" << hex << eventHeader->eventMagic << "!=" << EVENT_MAGIC_NUMBER << dec << "). Exiting." << c_endl;
       return 1;
     }
 
     unsigned int N = eventHeader->eventSize;
     if (N<eventHeaderSize) {
-      ERROR("VMEBFile::GetNextEvent") << "Event size (" << N << ") smaller than header size (" << eventHeaderSize << "). Exiting." << c_endl;
+      ERROR("SRSFile::GetNextEvent") << "Event size (" << N << ") smaller than header size (" << eventHeaderSize << "). Exiting." << c_endl;
       return 1;
     }
 
@@ -237,7 +224,7 @@ unsigned char VMEBFile::GetNextEvent(RawEvent* event)
   // process the buffer
   OptoRxVFATFrameCollection *oc = (OptoRxVFATFrameCollection *) event->frames;
   oc->Invalidate();
-  unsigned int errorCounter = ProcessVMEBEvent(dataPtr, oc, event);
+  unsigned int errorCounter = ProcessSRSEvent(dataPtr, oc, event);
 
 #ifdef DEBUG
   printf("* %u, %u, %u\n",
@@ -249,7 +236,7 @@ unsigned char VMEBFile::GetNextEvent(RawEvent* event)
 
   if (errorCounter > 0)
   {
-    ERROR("VMEBFile::GetNextEvent") << errorCounter << " GOH blocks have failed consistency checks in event "
+    ERROR("SRSFile::GetNextEvent") << errorCounter << " GOH blocks have failed consistency checks in event "
       << event->dataEventNumber << "." << c_endl;
     corruptedEventCounter++;
   }
@@ -263,13 +250,13 @@ unsigned char VMEBFile::GetNextEvent(RawEvent* event)
 
 //----------------------------------------------------------------------------------------------------
 
-unsigned int VMEBFile::ProcessVMEBEvent(char *ptr, OptoRxVFATFrameCollection *oc, RawEvent *event)
+unsigned int SRSFile::ProcessSRSEvent(char *ptr, OptoRxVFATFrameCollection *oc, RawEvent *event)
 {
   eventHeaderStruct *eventHeader = (eventHeaderStruct *) ptr;
   bool superEvent = TEST_ANY_ATTRIBUTE(eventHeader->eventTypeAttribute, ATTR_SUPER_EVENT);
 
 #ifdef DEBUG
-  printf(">> VMEBFile::ProcessVMEBEvent\n");
+  printf(">> SRSFile::ProcessVMEBEvent\n");
 
   printf("\teventSize = %i\n", eventHeader->eventSize);
   printf("\teventMagic = %i\n", eventHeader->eventMagic);
@@ -322,7 +309,7 @@ unsigned int VMEBFile::ProcessVMEBEvent(char *ptr, OptoRxVFATFrameCollection *oc
 
 //----------------------------------------------------------------------------------------------------
 
-unsigned int VMEBFile::ProcessSubEvent(char *ptr, OptoRxVFATFrameCollection *oc, RawEvent *event)
+unsigned int SRSFile::ProcessSubEvent(char *ptr, OptoRxVFATFrameCollection *oc, RawEvent *event)
 {
   eventHeaderStruct *eventHeader = (eventHeaderStruct *) ptr;
 
@@ -362,7 +349,7 @@ unsigned int VMEBFile::ProcessSubEvent(char *ptr, OptoRxVFATFrameCollection *oc,
     equipmentHeaderStruct *eq = (equipmentHeaderStruct *) (ptr + offset);
     equipmentSizeType equipmentHeaderStructSize = sizeof(equipmentHeaderStruct);
     signed long payloadSize = eq->equipmentSize - equipmentHeaderStructSize;
-    unsigned long long *payloadPtr = (unsigned long long *)(ptr + offset + equipmentHeaderStructSize);
+    unsigned long long *payloadPtr = (unsigned long long *)(ptr + offset + equipmentHeaderStructSize + 4); //TODO CHECK - because 32 bits - 0xFAFAFAFA
 
 #ifdef DEBUG 
     printf("\t\t\tequipmentSize = %u\n", eq->equipmentSize);
@@ -374,21 +361,18 @@ unsigned int VMEBFile::ProcessSubEvent(char *ptr, OptoRxVFATFrameCollection *oc,
     printf("\t\t\t\t\tpayload ptr = %p\n", (void*) payloadPtr);
 #endif
 
-    if (payloadSize > 0) {
+    if (payloadSize > 0)
+    {
       payloadSize /= 8; // bytes -> words
 
-      switch (eq->equipmentType) {
-        case etOptoRxOld:
+      switch (eq->equipmentType)
+      {
         case etOptoRx:
-          errorCounter += VME2File::ProcessOptoRxFrame(payloadPtr, payloadSize, oc, event);
-          break;
-
-        case etLoneG:
-          ProcessLoneGFrame(payloadPtr, payloadSize, event);
+          errorCounter += SRSFile::ProcessOptoRxFrame(payloadPtr, payloadSize, oc, event);
           break;
 
         default:
-          ERROR("VMEBFile::ProcessSubEvent") << "Unknown equipment type: " << eq->equipmentType << ". Skipping." << c_endl;
+          ERROR("SRSFile::ProcessSubEvent") << "Unknown equipment type: " << eq->equipmentType << ". Skipping." << c_endl;
       }
     } 
 
@@ -404,21 +388,21 @@ unsigned int VMEBFile::ProcessSubEvent(char *ptr, OptoRxVFATFrameCollection *oc,
 
 //----------------------------------------------------------------------------------------------------
 
-unsigned char VMEBFile::GetEvent(unsigned long n, RawEvent *event)
+unsigned char SRSFile::GetEvent(unsigned long n, RawEvent *event)
 {
   if (n >= positions.size()) {
-    ERROR("VMEBFile::GetEvent") << "Requested event number (" << n
+    ERROR("SRSFile::GetEvent") << "Requested event number (" << n
       << ") is larger than event count (" << positions.size() << ")." << c_endl;
     return 1;  
   }
 
   if (!infile) {
-    ERROR("VMEBFile::GetEvent") << "No file open." << c_endl;
+    ERROR("SRSFile::GetEvent") << "No file open." << c_endl;
     return 1;
   }
 
   if (infile->Seek(positions[n])) {
-    ERROR("VMEBFile::GetEvent") << "Seek to pos " << positions[n] << " unsuccessful (ftell="
+    ERROR("SRSFile::GetEvent") << "Seek to pos " << positions[n] << " unsuccessful (ftell="
       << infile->CurrentPosition() << ")." << c_endl;
     return 1;
   }
@@ -428,7 +412,7 @@ unsigned char VMEBFile::GetEvent(unsigned long n, RawEvent *event)
 
 //----------------------------------------------------------------------------------------------------
 
-void VMEBFile::Rewind()
+void SRSFile::Rewind()
 {
   infile->Seek(0);
 
@@ -439,37 +423,157 @@ void VMEBFile::Rewind()
 
 //----------------------------------------------------------------------------------------------------
 
-unsigned int VMEBFile::ProcessLoneGFrame(VMEBFile::word *buf, signed long size, RawEvent *ev)
+unsigned int SRSFile::ProcessOptoRxFrame(SRSFile::word *buf, unsigned int frameSize,
+  OptoRxVFATFrameCollection *fc, RawEvent *event)
 {
-  if (size != 5) {
-    ERROR("VMEBFile::ProcessLoneGFrame") << "Wrong LoneG frame size: " << size << " (shall be 5)." << c_endl;
+    // get OptoRx metadata
+    unsigned long long head = buf[0];
+    unsigned int OptoRxId = (head >> 8) & 0xFFF;
+    unsigned long BX = (head >> 20) & 0xFFF;
+    unsigned long LV1 = (head >> 32) & 0xFFFFFF;
+
+    // save metadata to event
+    if (event)
+    {
+        OptoRxMetaData &md = event->optoRxMetaData[OptoRxId];
+        md.BX = BX;
+        md.LV1 = LV1;
+    }
+
+    // TODO set appropriate value for LoneG OptoRxId
+    if (OptoRxId == 0x29c)
+    {
+        return ProcessLoneGFrame(buf + 2, frameSize - 4, event);
+    }
+
+    // process standard (VFAT) OptoRx data
+    OptoRxVFATFrameCollection::IteratorType block = fc->InsertOptoRxBlock(OptoRxId);
+    unsigned int subFrames = (frameSize - 2) / 194;
+
+    #ifdef DEBUG
+      printf(">> SRSFile::ProcessOptoRxFrame > OptoRxId = %u, BX = %lu, LV1 = %lu, frameSize = %u, subFrames = %u)\n",
+        OptoRxId, BX, LV1, frameSize, subFrames);
+    #endif
+
+    unsigned int errorCounter = 0;
+
+    // process all sub-frames
+    for (unsigned int r = 0; r < subFrames; ++r)
+    {
+        for (unsigned int c = 0; c < 4; ++c)
+        {
+            unsigned int head = (buf[1 + 194 * r] >> (16 * c)) & 0xFFFF;
+            unsigned int foot = (buf[194 + 194 * r] >> (16 * c)) & 0xFFFF;
+
+            #ifdef DEBUG
+                printf(">>>> r = %i, c = %i: S = %i, BOF = %i, EOF = %i, ID = %i, ID' = %i\n", r, c, head & 0x1, head >> 12, foot >> 12, (head >> 8) & 0xF, (foot >> 8) & 0xF);
+            #endif
+
+            // stop if this GOH is NOT active
+            if ((head & 0x1) == 0)
+                continue;
+
+            #ifdef DEBUG
+                printf("\tHeader active (%04x -> %x).\n", head, head & 0x1);
+            #endif
+
+            // check structure
+            if (head >> 12 != 0x4 || foot >> 12 != 0xB || ((head >> 8) & 0xF) != ((foot >> 8) & 0xF))
+            {
+                //stringstream ss;
+                char ss[200];
+                if (head >> 12 != 0x4) sprintf(ss, "\n\tHeader is not 0x4 as expected (%x).", head);
+                //ss << "\n\tHeader is not 0x4 as expected (" << hex << head << dec << ").";
+                if (foot >> 12 != 0xB) sprintf(ss, "\n\tFooter is not 0xB as expected (%x).", foot);
+                //ss << "\n\tFooter is not 0xB as expected (" << hex << foot << dec << ").";
+                if (((head >> 8) & 0xF) != ((foot >> 8) & 0xF))
+                    sprintf(ss, "\n\tIncompatible GOH IDs in header (%x) and footer (%x).", ((head >> 8) & 0xF),
+                            ((foot >> 8) & 0xF));
+                //ss << "\n\tIncompatible GOH IDs in header ("
+                //<< hex << ((head >> 8) & 0xF) << ") and footer ("
+                //<< ((foot >> 8) & 0xF) << dec << ").";
+
+                ERROR("SRSFile::ProcessOptoRxFrame") << "Wrong payload structure (in GOH block row " << r <<
+                " and column " << c
+                << ") in OptoRx frame ID " << OptoRxId << ". GOH block omitted." << ss << c_endl;
+
+                errorCounter++;
+                continue;
+            }
+
+            unsigned int goh = (head >> 8) & 0xF;
+            VFATFrame::word **dataPtrs = fc->ValidateGOHBlock(block, goh);
+
+            #ifdef DEBUG
+                printf(">>>> transposing GOH block at prefix: %i, dataPtrs = %p\n", OptoRxId*192 + goh*16, dataPtrs);
+            #endif
+
+            // deserialization
+            for (int i = 0; i < 192; i++)
+            {
+                int iword = 11 - i / 16;  // number of current word (11...0)
+                int ibit = 15 - i % 16;   // number of current bit (15...0)
+                unsigned int w = (buf[i + 2 + 194 * r] >> (16 * c)) & 0xFFFF;
+
+                // Fill the current bit of the current word of all VFAT frames
+                for (int idx = 0; idx < 16; idx++)
+                    if (w & (1 << idx))
+                        dataPtrs[idx][iword] |= (1 << ibit);
+            }
+        }
+    }
+
+    return errorCounter;
+}
+
+//----------------------------------------------------------------------------------------------------
+
+unsigned int SRSFile::ProcessLoneGFrame(SRSFile::word *oBuf, signed long size, RawEvent *ev)
+{
+  if (size != 20)
+  {
+    ERROR("SRSFile::ProcessLoneGFrame") << "Wrong LoneG frame size: " << size << " (shall be 20)." << c_endl;
     return 1;
   }
 
   if (!ev)
     return 0;
 
+  // buffer mapping: OptoRx buffer --> LoneG buffer
+  SRSFile::word buf[5];
+  for (unsigned int i = 0; i < 5; i++)
+    buf[i] = 0;
+
+  for (unsigned int i = 0; i < 20; i++)
+  {
+      int row = i / 4;
+      int col = i % 4;
+      buf[row] |= (oBuf[i] & 0xFFFF) << (col * 16);
+  }
+
   ev->triggerData.type = (buf[0] >> 56) & 0xF;
   ev->triggerData.event_num = (buf[0] >> 32) & 0xFFFFFF;
   ev->triggerData.bunch_num = (buf[0] >> 20) & 0xFFF;
   ev->triggerData.src_id = (buf[0] >> 8) & 0xFFF;
+
   ev->triggerData.orbit_num = (buf[1] >> 32) & 0xFFFFFFFF;
   ev->triggerData.revision_num = (buf[1] >> 24) & 0xFF;
+
   ev->triggerData.run_num = (buf[2] >> 32) & 0xFFFFFFFF;
   ev->triggerData.trigger_num = (buf[2] >> 0) & 0xFFFFFFFF;
+
   ev->triggerData.inhibited_triggers_num = (buf[3] >> 32) & 0xFFFFFFFF;
   ev->triggerData.input_status_bits = (buf[3] >> 0) & 0xFFFFFFFF;
 
-
 #ifdef DEBUG
-  printf(">> VMEBFile::ProcessLoneGFrame > size = %li\n", size);
-  printf("\ttype = %i, event number = %u, bunch number = %u, id = %u\n",
+  printf(">> SRSFile::ProcessLoneGFrame > size = %li\n", size);
+  printf("\ttype = %x, event number = %x, bunch number = %x, id = %x\n",
     ev->triggerData.type, ev->triggerData.event_num, ev->triggerData.bunch_num, ev->triggerData.src_id);
-  printf("\torbit number = %u, revision = %u\n",
+  printf("\torbit number = %x, revision = %x\n",
     ev->triggerData.orbit_num, ev->triggerData.revision_num);
-  printf("\trun number = %u, trigger number = %u\n",
+  printf("\trun number = %x, trigger number = %x\n",
     ev->triggerData.run_num, ev->triggerData.trigger_num);
-  printf("\tinhibited triggers = %u, input status bits = %u\n",
+  printf("\tinhibited triggers = %x, input status bits = %x\n",
     ev->triggerData.inhibited_triggers_num, ev->triggerData.input_status_bits);
 #endif
 

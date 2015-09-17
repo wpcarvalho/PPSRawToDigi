@@ -19,10 +19,7 @@
 namespace Totem {
 
 /**
- * \ingroup TotemRawDataLibrary
- * \brief Generic collection of VFAT frames.
- * 
- * An abstract class defining the interface.
+ * Interface class for VFAT-frame collections.
 **/
 class VFATFrameCollection 
 {

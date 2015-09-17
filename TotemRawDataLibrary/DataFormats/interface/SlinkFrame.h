@@ -29,7 +29,6 @@ class VFATFrameCollection;
 #define SLINK_FRAME_SIZE (SLINK_HEADER_SIZE+VFAT_FRAME_BIT_SIZE*NUMBER_OF_VFATS+SLINK_FOOTER_SIZE)
 
 /**
- * \ingroup TotemRawDataLibrary
  * Structure for a Slink frame.
  * 
  * Decodes a S-link frame into VFAT frames, see DecodeVFATFrames() method.

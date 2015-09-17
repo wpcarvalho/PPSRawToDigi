@@ -1,14 +1,6 @@
 <lcgdict>
-    <class name="Totem::OldVFATFrame"/>
-    <class name="std::vector<Totem::OldVFATFrame>"/>
-
-    <class name="Totem::RawVFATFrame"/>
-    <class name="std::vector<Totem::RawVFATFrame>"/>
-
-    <class name="Totem::ClusterizationVFATFrame"/>
-    <class name="std::vector<Totem::ClusterizationVFATFrame>"/>
-
-    <class name="Totem::OptoRxSupplementalData"/>
+    <class name="Totem::VFATFrame"/>
+    <class name="std::vector<Totem::VFATFrame>"/>
 
     <class name="Totem::RawEvent">
         <field name="frames" transient="true"/>

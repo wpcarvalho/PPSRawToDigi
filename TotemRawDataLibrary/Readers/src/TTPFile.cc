@@ -11,13 +11,7 @@
 #include "TotemRawDataLibrary/Readers/interface/TTPFile.h"
 
 #include <cstdlib>
-
-#ifdef USE_CASTOR
-  #include "shift.h"
-  // undefine these below, to be able to include standard c++ library headers.
-  //#undef min
-  //#undef log
-#endif
+#include <cstring>
 
 namespace Totem {
 
@@ -37,23 +31,21 @@ TTPFile::~TTPFile()
 
 DataFile::OpenStatus TTPFile::Open(const std::string &fn)
 {
-  // try to open
-#ifdef USE_CASTOR
-  file = rfio_fopen64(const_cast<char*>(fn.c_str()), const_cast<char*>("rb"));
-#else
-  file = fopen64(fn.c_str(), "rb");
-#endif
+  file = StorageFile::CreateInstance(fn);
+  if(!file) {
+    return osCannotOpen;
+  }
 
-  if (!file)
+  // try to open
+  file->OpenFile();
+
+  if (!file->IsOpened())
     return osCannotOpen;
 
   // check header
   char header[7]; header[6] = 0;
-#ifdef USE_CASTOR
-  rfio_fread(header, sizeof(char), 6, file);
-#else
-  fread(header, sizeof(char), 6, file);
-#endif
+  file->ReadData(header, sizeof(char), 6);
+
   if (strcmp(header, "TTP001"))
     return osWrongFormat;
   
@@ -65,15 +57,37 @@ DataFile::OpenStatus TTPFile::Open(const std::string &fn)
 
 //----------------------------------------------------------------------------------------------------
 
-void TTPFile::Close()
+DataFile::OpenStatus TTPFile::Open(StorageFile *storageFile)
 {
-  if (file) {
-#ifdef USE_CASTOR
-    rfio_fclose(file);
-#else
-    fclose(file);    
-#endif
-    file = NULL;
+  std::string fn = storageFile->GetURLPath();
+
+  file = storageFile;
+
+  // try to open
+  file->OpenFile();
+
+  if (!file->IsOpened())
+    return osCannotOpen;
+
+  // check header
+  char header[7]; header[6] = 0;
+  file->ReadData(header, sizeof(char), 6);
+
+  if (strcmp(header, "TTP001"))
+    return osWrongFormat;
+
+  this->filename = (char*)malloc(sizeof(char)*fn.size()+1);
+  strcpy(this->filename, fn.c_str());
+
+  return osOK;
+}
+
+//----------------------------------------------------------------------------------------------------
+
+void TTPFile::Close() {
+  if(file && file->IsOpened()) {
+    file->CloseFile();
+    delete file;
   }
 }
 
@@ -82,11 +96,7 @@ void TTPFile::Close()
 unsigned char TTPFile::GetNextEvent(RawEvent *event)
 {
   // remember file position
-#ifdef USE_CASTOR
-  int pos = rfio_ftell(file);
-#else
-  int pos = ftell(file);
-#endif
+  int pos = (int) file->CurrentPosition();
 
   unsigned char r = ReadOneEvent(event);
   if (r > 0) {
@@ -118,22 +128,12 @@ Reads one event from current position of the stream. Return values are
 unsigned char TTPFile::ReadOneEvent(RawEvent *event)
 {
   // read frame count
-  unsigned short nFrames;  
-#ifdef USE_CASTOR
-  rfio_fread(&nFrames,sizeof(char), sizeof(nFrames),file);
-#else
-  fread(&nFrames,sizeof(char), sizeof(nFrames),file);
-#endif
+  unsigned short nFrames;
+  file->ReadData(&nFrames, sizeof(char), sizeof(nFrames));
 
-  int flagEof;
-  int flagError;
-#ifdef USE_CASTOR
-  flagEof = rfio_feof(file);
-  flagError = rfio_ferror(file);
-#else
-  flagEof = feof(file);
-  flagError = ferror(file);
-#endif
+  int flagEof = file->CheckEOF();
+  int flagError = file->CheckError();
+
 
   if (flagEof || flagError)
     return 1;
@@ -149,22 +149,15 @@ unsigned char TTPFile::ReadOneEvent(RawEvent *event)
   sc->Clear();
 
   // read frames to event
-  for (unsigned short i = 0; i < nFrames; i++) {
-    OldVFATFrame *fp = sc->InsertEmptyFrame(i);
-#ifdef USE_CASTOR
-    rfio_fread(const_cast<short unsigned int*>(fp->getData()), sizeof(char), sizeof(VFATFrame), file);
-#else
-    fread(const_cast<short unsigned int*>(fp->getData()), sizeof(char), sizeof(VFATFrame), file);
-#endif
+  for (unsigned short i = 0; i < nFrames; i++)
+  {
+    VFATFrame *fp = sc->InsertEmptyFrame(i);
+    file->ReadData(const_cast<short unsigned int *>(fp->getData()), sizeof(char), sizeof(VFATFrame));
   }
 
-#ifdef USE_CASTOR
-  flagEof = rfio_feof(file);
-  flagError = rfio_ferror(file);
-#else
-  flagEof = feof(file);
-  flagError = ferror(file);
-#endif
+  flagEof = file->CheckEOF();
+  flagError = file->CheckError();
+
   return (flagEof || flagError) ? 2 : 0;
 }
 
@@ -177,7 +170,7 @@ unsigned char TTPFile::GetEvent(unsigned long idx, RawEvent *event)
 
   // this clears error flags, necessary to to make any operations with the file
 
-  Myfseek(file, positions[idx], SEEK_SET);
+  file->Seek(positions[idx]);
   ReadOneEvent(event);
   return 0;
 }
@@ -187,7 +180,7 @@ unsigned char TTPFile::GetEvent(unsigned long idx, RawEvent *event)
 void TTPFile::Rewind()
 {
   // clear file's error flags and seek to the beginning
-  Myfseek(file, 6, SEEK_SET);
+  file->Seek(6);
 
   // reset status
   indexStatus = isNotIndexed;
@@ -204,30 +197,11 @@ void TTPFile::StartIndexing()
 
 //----------------------------------------------------------------------------------------------------
 
-// myfseek function, eliminating bug with shift library
-int TTPFile::Myfseek(FILE* stream, long int offset, int origin) {
-#ifdef USE_CASTOR
-  if (rfio_feof(stream)) 
-    Reopen();  
-  else rfio_fseek(stream, offset, origin);
-#else
-  return fseek(stream, offset, origin);
-#endif
-  return 1;
-}
-
-//----------------------------------------------------------------------------------------------------
-
 unsigned int TTPFile::Reopen()
 {
-#ifdef USE_CASTOR
-  rfio_fclose(file);
-  file = rfio_fopen(filename, const_cast<char*>("rb"));
-#else
-  fclose(file);
-  file = fopen(filename, "rb");
-#endif
-  if (!file) {
+  file->CloseFile();
+  file->OpenFile();
+  if (!file->IsOpened()) {
       ERROR("TPPFile::Reopen") << "Could not reopen file `" << filename << "'." << c_endl;
     return 1;
   }

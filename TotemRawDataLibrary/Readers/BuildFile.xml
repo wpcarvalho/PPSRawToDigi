@@ -1,6 +1,7 @@
 <use name="TotemRawDataLibrary/DataFormats"/>
-
-<flags cxxflags="-O3 -g3 $(CUSTOM_FLAGS)"/>
+<use name="xrootd"/>
+<flags cxxflags="-O3 -g3 $(CUSTOM_FLAGS) -lXrdPosix -lXrdPosixPreload"/>
+<flags cppdefines="USE_XROOTD=1"/>
 
 <use name="castor"/>
 <flags cppdefines="USE_CASTOR=1"/>
