@@ -1,0 +1,10 @@
+<use name="TotemRawDataLibrary/DataFormats"/>
+
+<flags cxxflags="-O3 -g3 $(CUSTOM_FLAGS)"/>
+
+<use name="castor"/>
+<flags cppdefines="USE_CASTOR=1"/>
+
+<export>
+	<lib name="1"/>
+</export>
