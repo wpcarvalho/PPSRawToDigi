@@ -64,6 +64,7 @@ RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
       m_PhysicsTablesDir(p.getParameter<std::string>("PhysicsTablesDirectory")),
       m_StorePhysicsTables(p.getParameter<bool>("StorePhysicsTables")),
       m_RestorePhysicsTables(p.getParameter<bool>("RestorePhysicsTables")),
+      m_TransportParticlesThroughWholeBeampipe(p.getParameter<bool>("TransportParticlesThroughWholeBeampipe")),
       m_pField(p.getParameter<edm::ParameterSet>("MagneticField")),
       m_pPhysics(p.getParameter<edm::ParameterSet>("Physics")),
       m_pRunAction(p.getParameter<edm::ParameterSet>("RunAction")),
@@ -137,7 +138,8 @@ void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF,
   phys->RegisterPhysics(new ParametrisedEMPhysics("EMoptions", m_pPhysics));
 
   //Adding Totem proton transport
-  phys->RegisterPhysics(new TotemRPProtonTransportPhysics("totem_parametrised_prot_transp", m_pPhysics));
+  if(m_TransportParticlesThroughWholeBeampipe)
+    phys->RegisterPhysics(new TotemRPProtonTransportPhysics("totem_parametrised_prot_transp", m_pPhysics));
 
   m_physicsList->ResetStoredInAscii();
   if (m_RestorePhysicsTables) {

@@ -1,0 +1,7 @@
+<lcgdict>
+   <class pattern="emd::Wrapper<*>"/>
+   <class name="RPCCBits"/>
+   <class name="edm::Wrapper<RPCCBits>"/>
+   <class name="std::vector<RPCCBits>"/>
+   <class name="edm::Wrapper<std::vector<RPCCBits> >"/>
+</lcgdict>
