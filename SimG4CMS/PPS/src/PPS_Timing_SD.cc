@@ -49,7 +49,7 @@
 #include <string>
 
 
-PPS_Timing_SD::PPS_Timing_SD(std::string name, const DDCompactView & cpv, SensitiveDetectorCatalog & clg,
+PPS_Timing_SD::PPS_Timing_SD(std::string name, const DDCompactView & cpv, const SensitiveDetectorCatalog & clg,
      edm::ParameterSet const & p, const SimTrackManager* manager) : 
   SensitiveTkDetector(name, cpv, clg, p), 
   numberingScheme(0),  

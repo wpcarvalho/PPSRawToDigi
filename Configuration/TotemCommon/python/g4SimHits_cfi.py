@@ -397,7 +397,7 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
         Verbosity = cms.untracked.bool(False)
     ),
     PPS_Timing_SD = cms.PSet(
-        Verbosity = cms.untracked.int32(0)
+        Verbosity = cms.int32(0)
     ),
 
 

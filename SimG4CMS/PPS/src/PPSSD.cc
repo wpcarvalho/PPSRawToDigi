@@ -51,10 +51,10 @@
  * SimTrackManager const*
  */
 PPSSD::PPSSD(std::string name,
-		DDCompactView const & cpv,
-		 SensitiveDetectorCatalog & clg,
-		 edm::ParameterSet const & p,
-		 SimTrackManager const* manager) :
+             DDCompactView const &cpv,
+             const SensitiveDetectorCatalog &clg,
+             edm::ParameterSet const &p,
+             SimTrackManager const *manager) :
   SensitiveTkDetector(name, cpv, clg, p), numberingScheme(0), name(name),
   hcID(-1), theHC(0), theManager(manager), currentHit(0), theTrack(0), 
   currentPV(0), unitID(0),  previousUnitID(0), preStepPoint(0), 
