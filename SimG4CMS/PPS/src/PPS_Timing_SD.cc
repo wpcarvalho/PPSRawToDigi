@@ -125,15 +125,17 @@ PPS_Timing_SD::~PPS_Timing_SD()
 }
 
 void PPS_Timing_SD::Initialize(G4HCofThisEvent * HCE) {
-  LogDebug("PP_Timing_SD") << "PP_Timing_SD : Initialize called for " << name;
+    LogDebug("PP_Timing_SD") << "PP_Timing_SD : Initialize called for " << name;
 
-std::cout << "PPS_Timing_SD: Initialize called for:   " << name<<std::endl<<std::endl<<std::endl;
-  theHC = new PPS_Timing_G4HitCollection(name, collectionName[0]);
-  if (hcID<0) 
-    hcID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
-  HCE->AddHitsCollection(hcID, theHC);
-theTrackSwitchVecF.push_back(-1);
-theTrackSwitchVecS.push_back(-1);
+    std::cout << "PPS_Timing_SD: Initialize called for:   " << name << std::endl << std::endl << std::endl;
+    theHC = new PPS_Timing_G4HitCollection(name, collectionName[0]);
+    G4SDManager::GetSDMpointer()->AddNewCollection(name, collectionName[0]);
+
+    if (hcID < 0)
+        hcID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
+    HCE->AddHitsCollection(hcID, theHC);
+    theTrackSwitchVecF.push_back(-1);
+    theTrackSwitchVecS.push_back(-1);
 
 }
 
