@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("TDTestElastic")
+process = cms.Process("TestFlatGun")
 
 # Specify the maximum events to simulate
 process.maxEvents = cms.untracked.PSet(
@@ -65,6 +65,7 @@ process.g4SimHits.PPSSD = cms.PSet(
 )
 
 ################## Step 3 - Magnetic field configuration
+# todo declare in standard way (not as hardcoded raw config)
 
 process.magfield = cms.ESSource("XMLIdealGeometryESSource",
     geomXMLFiles = cms.vstring('Geometry/CMSCommonData/data/normal/cmsextent.xml',
