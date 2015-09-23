@@ -1,5 +1,5 @@
 #include "RecoTotemRP/RPInverseParameterization/interface/RPInverse2SidedParameterization.h"
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHitDebug.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include <cassert>
@@ -166,7 +166,7 @@ double RPInverse2SidedParameterization::ElasticReconstrChi2Contrib(const std::ve
 }
 
 
-void RPInverse2SidedParameterization::PrintFittedHitsInfo(ostream &o)
+void RPInverse2SidedParameterization::PrintFittedHitsInfo(std::ostream &o)
 {
   hits_at_rp_type::const_iterator it = hits_at_rp_.begin();
   hits_at_rp_type::const_iterator end = hits_at_rp_.end();

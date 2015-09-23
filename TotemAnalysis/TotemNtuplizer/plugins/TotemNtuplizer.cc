@@ -10,15 +10,13 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/EventSetup.h"
 
 #include "TotemAnalysis/TotemNtuplizer/interface/Ntuplizer.h"
 #include "TotemAnalysis/TotemNtuplizer/interface/RawMetaDataNtuplizer.h"
 #include "TotemAnalysis/TotemNtuplizer/interface/TriggerDataNtuplizer.h"
 #include "TotemAnalysis/TotemNtuplizer/interface/RPNtuplizer.h"
-#include "TotemAnalysis/TotemNtuplizer/interface/T2Ntuplizer.h"
-#include "TotemAnalysis/TotemNtuplizer/interface/T1Ntuplizer.h"
 #include "TotemCondFormats/DataRecord/interface/BeamOpticsParamsRcd.h"
-#include "FWCore/Framework/interface/ESHandle.h"
 
 #include "TTree.h"
 #include "TFile.h"
@@ -80,10 +78,6 @@ TotemNtuplizer::TotemNtuplizer(const edm::ParameterSet &ps) :
   
   rp_ntupl_ = new RPNtuplizer(ps);
   workers.push_back(rp_ntupl_);
-  
-  // TODO: uncomment
-  //workers.push_back(new T2Ntuplizer(ps));
-  //workers.push_back(new T1Ntuplizer(ps));
   
   branchCreated = false;
 }

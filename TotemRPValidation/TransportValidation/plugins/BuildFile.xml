@@ -1,8 +1,0 @@
-<library   name="TotemRPValidationTransportValidationPlugins" file="*.cc">
-  <use   name="TotemRPValidation/TransportValidation"/>
-  <use   name="FWCore/Framework"/>
-  <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
-  <use   name="TotemCondFormats/ProtonTransportFunctions"/>
-  <use   name="TotemCondFormats/DataRecord"/>
-  <flags   EDM_PLUGIN="1"/>
-</library>

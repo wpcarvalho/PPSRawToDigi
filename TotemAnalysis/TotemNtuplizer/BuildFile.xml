@@ -3,24 +3,16 @@
 <use   name="FWCore/PluginManager"/>
 <use   name="clhep"/>
 <use   name="root"/>
-<use   name="DataFormats/TotemRPDataTypes"/>
 <use   name="DataFormats/Common"/>
+<use   name="DataFormats/TotemRPDataTypes"/>
 <use   name="DataFormats/TotemRPDetId"/>
+<use   name="DataFormats/TotemL1Trigger"/>
 <use   name="RecoTotemRP/RPRecoDataFormats"/>
 <use   name="RecoTotemRP/RPRomanPotResolutionService"/>
 <use   name="TotemCondFormats/DataRecord"/>
 <use   name="Geometry/TotemRPGeometryBuilder"/>
 <use   name="Geometry/TotemRecords"/>
-<use   name="DataFormats/TotemL1Trigger"/>
 <use   name="SimDataFormats/GeneratorProducts"/>
-<use   name="DataFormats/T2Cluster"/>
-<use   name="DataFormats/T2DetId"/>
-<use   name="DataFormats/T1Cluster"/>
-<use   name="DataFormats/T1DetId"/>
-<use   name="Geometry/TotemGeometry"/>
-<use   name="TotemAnalysis/T2Cuts"/>
-<use   name="DataFormats/T2Road"/>
-<use   name="DataFormats/T1Road"/>
 <use   name="fastjet"/>
 <export>
   <lib   name="1"/>

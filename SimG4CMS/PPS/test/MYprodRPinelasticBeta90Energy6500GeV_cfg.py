@@ -6,7 +6,7 @@ process.setName_("prodRPinelasticBeta90Energy6500GeV")
 
 # Specify the maximum events to simulate
 process.maxEvents = cms.untracked.PSet(
-  input = cms.untracked.int32(100)
+  input = cms.untracked.int32(20)
 )
 
 # Specify the output filename
@@ -19,7 +19,11 @@ process.load("IOMC.FlatProtonLogKsiLogTGun.Beta90Energy6500GeV_cfi")
 process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_6500GeV_90_cfi")
 
 # G4 geometry
+#process.load("SimG4CMS.PPS.MYgeometryRP_cfi")
+#process.load("justlbarswithwindowbothsidewithboxes_cfi")
 process.load("SimG4CMS.PPS.MYgeometryRP_cfi")
+#process.load("justlbarswithwindowbothside_cfi")
+
 process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')
 
 process.load("RecoTotemRP.RPInelasticReconstruction.Rec_6500GeV_beta_90_cfi")
@@ -31,6 +35,7 @@ process.g4SimHits.Physics.BeamProtTransportSetup = process.BeamProtTransportSetu
 process.g4SimHits.PPSSD = cms.PSet(
  Verbosity = cms.untracked.int32(0)
 )
+
 
 
 process.p1 = cms.Path(process.generator*process.SmearingGenerator*process.g4SimHits*process.mix

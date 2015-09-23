@@ -97,7 +97,7 @@ RPRecoProtMADXVariables RPReconstructedProton::GetMADXVariables() const
   return var;
 }
 
-ostream &operator<<(ostream &out, const RPReconstructedProton &prot)
+std::ostream &operator<<(std::ostream &out, const RPReconstructedProton &prot)
 {
   return out;
 }

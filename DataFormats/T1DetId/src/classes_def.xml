@@ -1,5 +1,0 @@
-<lcgdict>
-   <class name="T1DetId"/>
-   <class name="std::pair<T1DetId,std::pair<unsigned int,unsigned int> >"/>
-   <class name="edm::Wrapper<std::pair<T1DetId,std::pair<unsigned int,unsigned int> > >"/>
-</lcgdict>

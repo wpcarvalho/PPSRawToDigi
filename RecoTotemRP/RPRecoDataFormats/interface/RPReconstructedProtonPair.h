@@ -140,7 +140,7 @@ class RPReconstructedProtonPair
     static void Fill5DimReconstructionVectorLeft(const std::vector<double> &vect, std::vector<double> &par);
     static void Fill5DimReconstructionVectorRight(const std::vector<double> &vect, std::vector<double> &par);
     
-    friend ostream &operator<<(ostream &out, const RPReconstructedProtonPair &prot);
+    friend std::ostream &operator<<(std::ostream &out, const RPReconstructedProtonPair &prot);
     
   private:
     void ZeroData();
@@ -158,6 +158,6 @@ class RPReconstructedProtonPair
 //    static const double p0_;
 };
 
-ostream &operator<<(ostream &out, const RPReconstructedProtonPair &prot);
+std::ostream &operator<<(std::ostream &out, const RPReconstructedProtonPair &prot);
 
 #endif

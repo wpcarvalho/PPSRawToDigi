@@ -20,14 +20,12 @@
 #include "SimG4Core/Notification/interface/TrackInformation.h"
 #include "SimG4Core/Notification/interface/G4TrackToParticleID.h"
 #include "SimG4Core/Physics/interface/G4ProcessTypeEnumerator.h"
-
+ 
 #include "SimDataFormats/TrackingHit/interface/UpdatablePSimHit.h"
 #include "SimDataFormats/SimHitMaker/interface/TrackingSlaveSD.h"
 
 #include "SimG4CMS/Forward/interface/TotemSD.h"
 #include "SimG4CMS/Forward/interface/TotemNumberMerger.h"
-#include "SimG4CMS/Forward/interface/TotemT1NumberingScheme.h"
-#include "SimG4CMS/Forward/interface/TotemT2NumberingSchemeGem.h"
 #include "SimG4CMS/Forward/interface/TotemRPNumberingScheme.h"
 
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
@@ -41,38 +39,27 @@
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
 
-// #define _PRINT_HITS_
 
 //
 // constructors and destructor
-/*
- * std::string,
- * DDCompactView const&,
- * SensitiveDetectorCatalog&,
- * edm::ParameterSet const&,
- * SimTrackManager const*
- */
-TotemSD::TotemSD(std::string name,
-		DDCompactView const & cpv,
-		 SensitiveDetectorCatalog & clg, 
-		 edm::ParameterSet const & p,
-		 SimTrackManager const* manager) :
+//
+TotemSD::TotemSD(std::string name, const DDCompactView & cpv,
+		 const SensitiveDetectorCatalog & clg,
+		 edm::ParameterSet const & p, const SimTrackManager* manager) :
   SensitiveTkDetector(name, cpv, clg, p), numberingScheme(0), name(name),
   hcID(-1), theHC(0), theManager(manager), currentHit(0), theTrack(0), 
   currentPV(0), unitID(0),  previousUnitID(0), preStepPoint(0), 
   postStepPoint(0), eventno(0){
-  
-  
+
   //Add Totem Sentitive Detector Names
   collectionName.insert(name);
 
   //Parameters
   edm::ParameterSet m_p = p.getParameter<edm::ParameterSet>("TotemSD");
   int verbn = m_p.getUntrackedParameter<int>("Verbosity");
-  verbn = 10000;
+ 
   SetVerboseLevel(verbn);
-//  LogDebug("ForwardSim") 
-  std::cout 
+  LogDebug("ForwardSim") 
     << "*******************************************************\n"
     << "*                                                     *\n"
     << "* Constructing a TotemSD  with name " << name << "\n"
@@ -84,21 +71,15 @@ TotemSD::TotemSD(std::string name,
   //
   // Now attach the right detectors (LogicalVolumes) to me
   //
-  std::vector<std::string> lvNames = clg.logicalNames(name);
+  const std::vector<std::string>& lvNames = clg.logicalNames(name);
   this->Register();
-  for (std::vector<std::string>::iterator it=lvNames.begin();  
+  for (std::vector<std::string>::const_iterator it=lvNames.begin();
        it !=lvNames.end(); it++) {
     this->AssignSD(*it);
     edm::LogInfo("ForwardSim") << "TotemSD : Assigns SD to LV " << (*it);
   }
 
-  if      (name == "TotemHitsT1") {
-    numberingScheme = dynamic_cast<TotemVDetectorOrganization*>(new TotemT1NumberingScheme());
-  } else if (name == "TotemHitsT2Si") {
-    numberingScheme = dynamic_cast<TotemVDetectorOrganization*>(new TotemT2NumberingSchemeGem(3));
-  } else if (name == "TotemHitsT2Gem") {
-    numberingScheme = dynamic_cast<TotemVDetectorOrganization*>(new TotemT2NumberingSchemeGem(4));
-  } else if (name == "TotemHitsRP") {
+  if (name == "TotemHitsRP") {
     numberingScheme = dynamic_cast<TotemVDetectorOrganization*>(new TotemRPNumberingScheme(3));
   } else {
     edm::LogWarning("ForwardSim") << "TotemSD: ReadoutName not supported\n";
@@ -113,8 +94,6 @@ TotemSD::~TotemSD() {
 }
 
 bool TotemSD::ProcessHits(G4Step * aStep, G4TouchableHistory * ) {
-
-
 
   if (aStep == NULL) {
     return true;
@@ -142,8 +121,6 @@ void TotemSD::Initialize(G4HCofThisEvent * HCE) {
 
   LogDebug("ForwardSim") << "TotemSD : Initialize called for " << name;
 
-  std::cout << std::endl;
-
   theHC = new TotemG4HitCollection(name, collectionName[0]);
   if (hcID<0) 
     hcID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
@@ -166,18 +143,17 @@ void TotemSD::EndOfEvent(G4HCofThisEvent* ) {
 			   << "               " << "theta   " 
 			   << aHit->getThetaAtEntry() << "\n";
 #endif
-
-    Local3DPoint Entrata(aHit->getEntryPoint().x(),
-			 aHit->getEntryPoint().y(),
-			 aHit->getEntryPoint().z());
-    Local3DPoint Uscita(aHit->getExitPoint().x(),
-			 aHit->getExitPoint().y(),
-			 aHit->getExitPoint().z());
-    slave->processHits(PSimHit(Entrata,Uscita,
-			       aHit->getPabs(), aHit->getTof(),
-			       aHit->getEnergyLoss(), aHit->getParticleType(),
-			       aHit->getUnitID(), aHit->getTrackID(),
-			       aHit->getThetaAtEntry(),aHit->getPhiAtEntry()));
+    Local3DPoint Enter(aHit->getEntryPoint().x(),
+                         aHit->getEntryPoint().y(),
+                         aHit->getEntryPoint().z());
+    Local3DPoint Exit(aHit->getExitPoint().x(),
+                        aHit->getExitPoint().y(),
+                        aHit->getExitPoint().z());
+    slave->processHits(PSimHit(Enter, Exit,
+                               aHit->getPabs(), aHit->getTof(),
+                               aHit->getEnergyLoss(), aHit->getParticleType(),
+                               aHit->getUnitID(), aHit->getTrackID(),
+                               aHit->getThetaAtEntry(), aHit->getPhiAtEntry()));
 
   }
   Summarize();
@@ -224,16 +200,12 @@ void TotemSD::GetStepInfo(G4Step* aStep) {
   
   preStepPoint = aStep->GetPreStepPoint(); 
   postStepPoint= aStep->GetPostStepPoint(); 
-  theTrack     = aStep->GetTrack();   
-  Local3DPoint TheEntryPoint = SensitiveDetector::InitialStepPosition(aStep,LocalCoordinates);  
-  Local3DPoint TheExitPoint = SensitiveDetector::FinalStepPosition(aStep,LocalCoordinates);  
-  
-#ifdef _PRINT_HITS_
-    std::cout << "theEntryPoint "<<TheEntryPoint << std::endl;
-    std::cout <<"position "<< preStepPoint->GetPosition()<<std::endl;
-  //Local3DPoint theExitPoint  = SensitiveDetector::FinalStepPosition(aStep,LocalCoordinates);
-#endif
-  hitPoint     = preStepPoint->GetPosition();	
+  theTrack     = aStep->GetTrack();
+  Local3DPoint TheEntryPoint = SensitiveDetector::InitialStepPosition(aStep, LocalCoordinates);
+  Local3DPoint TheExitPoint = SensitiveDetector::FinalStepPosition(aStep, LocalCoordinates);
+  LogDebug("ForwardSim") << "theEntryPoint " << TheEntryPoint;
+  LogDebug("ForwardSim") << "position " << preStepPoint->GetPosition();
+  hitPoint     = preStepPoint->GetPosition();
   currentPV    = preStepPoint->GetPhysicalVolume();
 
   // double weight = 1; 
@@ -250,25 +222,22 @@ void TotemSD::GetStepInfo(G4Step* aStep) {
 #endif
   primaryID = theTrack->GetTrackID();
 
-  theEntryPoint.setX( TheEntryPoint.x()); 
-  theEntryPoint.setY( TheEntryPoint.y()); 
-  theEntryPoint.setZ( TheEntryPoint.z());
-  theExitPoint.setX( TheExitPoint.x()); 
-  theExitPoint.setY( TheExitPoint.y()); 
-  theExitPoint.setZ( TheExitPoint.z());
+  theEntryPoint.setX(TheEntryPoint.x());
+  theEntryPoint.setY(TheEntryPoint.y());
+  theEntryPoint.setZ(TheEntryPoint.z());
+  theExitPoint.setX(TheExitPoint.x());
+  theExitPoint.setY(TheExitPoint.y());
+  theExitPoint.setZ(TheExitPoint.z());
 
   Posizio = hitPoint;
   Pabs    = aStep->GetPreStepPoint()->GetMomentum().mag()/GeV;
   Tof     = aStep->GetPostStepPoint()->GetGlobalTime()/nanosecond;
    
   Eloss   = aStep->GetTotalEnergyDeposit()/GeV;
-  ParticleType = theTrack->GetDefinition()->GetPDGEncoding();      
+  ParticleType = theTrack->GetDefinition()->GetPDGEncoding();
 
-//  ThetaAtEntry = aStep->GetPreStepPoint()->GetPosition().theta()/deg;
-//  PhiAtEntry   = aStep->GetPreStepPoint()->GetPosition().phi()/deg;
   ThetaAtEntry = aStep->GetPreStepPoint()->GetPosition().theta();
-  PhiAtEntry   = aStep->GetPreStepPoint()->GetPosition().phi();
-
+  PhiAtEntry = aStep->GetPreStepPoint()->GetPosition().phi();
 
   ParentId = theTrack->GetParentID();
   Vx = theTrack->GetVertexPosition().x();
@@ -319,7 +288,7 @@ bool TotemSD::HitExists() {
 }
 
 void TotemSD::CreateNewHit() {
-  
+
 #ifdef debug
   LogDebug("ForwardSim") << "TotemSD CreateNewHit for"
 			 << " PV "     << currentPV->GetName()
@@ -338,6 +307,7 @@ void TotemSD::CreateNewHit() {
     LogDebug("ForwardSim") << " daughter of part. " << theTrack->GetParentID();
   }
 
+  cout  << " and created by " ;
   if (theTrack->GetCreatorProcess()!=NULL)
     LogDebug("ForwardSim") << theTrack->GetCreatorProcess()->GetProcessName() ;
   else 
@@ -375,6 +345,7 @@ void TotemSD::CreateNewHit() {
 void TotemSD::CreateNewHitEvo() {
 
 // LogDebug("ForwardSim") << "INSIDE CREATE NEW HIT EVO ";
+
   currentHit = new TotemG4Hit;
   currentHit->setTrackID(primaryID);
   currentHit->setTimeSlice(tSlice);
@@ -388,8 +359,7 @@ void TotemSD::CreateNewHitEvo() {
   currentHit->setThetaAtEntry(ThetaAtEntry);
   currentHit->setPhiAtEntry(PhiAtEntry);
 
-  //  LogDebug("ForwardSim") << Posizio.x() << " " << Posizio.y() << " " << Posizio.z();
- currentHit->setEntryPoint(theEntryPoint);
+  currentHit->setEntryPoint(theEntryPoint);
   currentHit->setExitPoint(theExitPoint);
 
   currentHit->setParentId(ParentId);
@@ -401,16 +371,12 @@ void TotemSD::CreateNewHitEvo() {
   int flagAcc=0;
   _PosizioEvo=PosizioEvo(Posizio,Vx,Vy,Vz,Pabs,flagAcc);
 
-  if(flagAcc==1){
+  if(flagAcc==1) {
     currentHit->setMeanPosition(_PosizioEvo);
-
-    // if(flagAcc==1)
     UpdateHit();
-  
     StoreHit(currentHit);
   }
-  // LogDebug("ForwardSim") << "STORED HIT IN: " << unitID;
-}	 
+}
  
 G4ThreeVector TotemSD::PosizioEvo(const G4ThreeVector& Pos, double vx, double vy,
 				  double vz, double pabs, int& accettanza) {
@@ -420,12 +386,7 @@ G4ThreeVector TotemSD::PosizioEvo(const G4ThreeVector& Pos, double vx, double vy
   double ThetaX=atan((Pos.x()-vx)/(Pos.z()-vz));                 
   double ThetaY=atan((Pos.y()-vy)/(Pos.z()-vz));                
   double X_at_0 =(vx-((Pos.x()-vx)/(Pos.z()-vz))*vz)/1000.;   
-  double Y_at_0 =(vy-((Pos.y()-vy)/(Pos.z()-vz))*vz)/1000.;  
-  
-  //  double temp_evo_X;
-  //  double temp_evo_Y;
-  //  double temp_evo_Z;
-  //  temp_evo_Z = fabs(Pos.z())/Pos.z()*220000.; 
+  double Y_at_0 =(vy-((Pos.y()-vy)/(Pos.z()-vz))*vz)/1000.;
  
   //csi=-dp/d
   double csi = fabs((7000.-pabs)/7000.);
@@ -453,9 +414,7 @@ G4ThreeVector TotemSD::PosizioEvo(const G4ThreeVector& Pos, double vx, double vy
   double pipelim[][2]={{0.026,0.026},{0.04,0.04},{0.0226,0.0177},{0.04,0.04}};
   
   
-  for(int j=0; j<no_rp ; j++)  { 
-    //y=Ly*thetay+vy*y0
-    //x=Lx*thetax+vx*x0-csi*D   
+  for(int j=0; j<no_rp ; j++)  {
     y_par[j]=ThetaY*(leffy[j][0]+leffy[j][1]*csi)+(avy[j][0]+avy[j][1]*csi)*Y_at_0;
     x_par[j]=ThetaX*(leffx[j][0]+leffx[j][1]*csi)+(avx[j][0]+avx[j][1]*csi)*X_at_0-
       csi*(ddx[j][0]+(ddx[j][1]+ddx[j][2]*ThetaX)*csi+ddx[j][3]*ThetaX);
@@ -489,51 +448,20 @@ G4ThreeVector TotemSD::PosizioEvo(const G4ThreeVector& Pos, double vx, double vy
     }
     
   }
-/*
-  LogDebug("ForwardSim") << "\n"
-			 << "ACCETTANZA: "<<accettanza << "\n" 
-			 << "CSI: "<< csi << "\n"
-			 << "Theta_X: " << ThetaX << "\n"
-			 << "Theta_Y: " << ThetaY << "\n"
-			 << "X_at_0: "<< X_at_0 << "\n"
-			 << "Y_at_0: "<< Y_at_0 << "\n" 
-			 << "x_par[3]: "<< x_par[3] << "\n"
-			 << "y_par[3]: "<< y_par[3] << "\n"
-			 << "pos " << Pos.x() << " " << Pos.y() << " " 
-			 << Pos.z() << "\n" << "V "<< vx << " " << vy << " "
-			 << vz << "\n"
-*/
-// --------------
   return PosEvo;
 }
  
 
 void TotemSD::UpdateHit() {
-  //
   if (Eloss > 0.) {
-    //  currentHit->addEnergyDeposit(edepositEM,edepositHAD);
-
 #ifdef debug
     LogDebug("ForwardSim") << "G4TotemT1SD updateHit: add eloss " << Eloss 
 			   << "\nCurrentHit=" << currentHit
 			   << ", PostStepPoint=" 
 			   << postStepPoint->GetPosition();
 #endif
-
     currentHit->setEnergyLoss(Eloss);
-  }  
-  //  if(PostStepPoint->GetPhysicalVolume() != CurrentPV){
-  //  currentHit->setExitPoint(SetToLocal(postStepPoint->GetPosition()));
-  // Local3DPoint exit=currentHit->exitPoint();
-/*
-#ifdef debug
-  LogDebug("ForwardSim") << "G4TotemT1SD updateHit: exit point " 
-			 << exit.x() << " " << exit.y() << " " << exit.z();
-//  LogDebug("ForwardSim") << "Energy deposit in Unit " << unitID << " em " << edepositEM/MeV
-// << " hadronic " << edepositHAD/MeV << " MeV";
-#endif
-*/
-
+  }
   // buffer for next steps:
   tsID           = tSliceID;
   primID         = primaryID;

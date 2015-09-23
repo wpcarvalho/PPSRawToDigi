@@ -193,7 +193,7 @@ void TotemRPIncludeAlignments::setIntervalFor(const edm::eventsetup::EventSetupR
     time_t unixTime = iosv.time().unixTime();
     char timeStr[50];
     strftime(timeStr, 50, "%F %T", localtime(&unixTime));
-    printf("\trun=%u, event=%u, UNIX timestamp=%lu (%s)\n", iosv.eventID().run(), iosv.eventID().event(), unixTime, timeStr);
+    printf("\trun=%u, event=%llu, UNIX timestamp=%lu (%s)\n", iosv.eventID().run(), iosv.eventID().event(), unixTime, timeStr);
   }
 
   // determine what sequence and corrections should be used

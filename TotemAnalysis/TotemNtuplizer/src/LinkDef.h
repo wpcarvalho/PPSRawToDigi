@@ -1,9 +1,7 @@
 #include "TotemAnalysis/TotemNtuplizer/interface/RawDataFormats.h"
 #include "TotemAnalysis/TotemNtuplizer/interface/TriggerDataFormats.h"
 #include "TotemAnalysis/TotemNtuplizer/interface/RPRootTrackInfo.h"
-//#include "TotemAnalysis/T2MakeNtples/interface/T2Event.h"
-#include "TotemAnalysis/TotemNtuplizer/interface/T1Event.h"
-#include "TotemAnalysis/TotemNtuplizer/interface/T2Event.h"
+
 
 
 #ifdef __CINT__
@@ -32,8 +30,5 @@
 #pragma link C++ class std::vector<RPRootDumpJet>;
 #pragma link C++ class RPRootDumpJetInfo;
 #pragma link C++ class RPRootDiffMassInfo;
-
-#pragma link C++ class T2Event+;
-#pragma link C++ class T1Event+;
 
 #endif

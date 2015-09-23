@@ -11,17 +11,11 @@
 // $Id: TotemTestHistoClass.cc,v 1.1.1.1 2007/05/16 15:44:30 hniewiad Exp $
 //
 
-// system include files
 #include <iostream>
 #include <cmath>
 
-// user include files
 #include "SimG4CMS/Forward/interface/TotemTestHistoClass.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
-
-//
-// constructors and destructor
-//
 
 TotemTestHistoClass::TotemTestHistoClass() : evt(0), hits(0) {}
 
@@ -30,7 +24,6 @@ TotemTestHistoClass::~TotemTestHistoClass() {}
 void TotemTestHistoClass::fillHit(int uID, int pType, int tID, int pID, 
 				  float eLoss, float pAbs, float vX, float vY,
 				  float vZ, float x, float y, float z) {
-
   TotemTestHistoClass::Hit h;
   h.UID   = uID;
   h.Ptype = pType;

@@ -270,7 +270,7 @@ void StraightTrackAlignment::Begin(const EventSetup &es)
 void StraightTrackAlignment::ProcessEvent(const Event& event, const EventSetup&)
 {
   if (verbosity > 9)
-    printf("\n---------- StraightTrackAlignment::ProcessEvent > event %i\n", event.id().event());
+    printf("\n---------- StraightTrackAlignment::ProcessEvent > event %llu\n", event.id().event());
   
   // -------------------- STEP 1: get hits from selected RPs
   Handle< RPTrackCandidateCollection > trackColl;

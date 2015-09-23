@@ -193,11 +193,11 @@ void ProcessLog(unsigned int i)
     fgets(buf, 200, f);
     
     char *p = NULL;
-    if (p = strstr(buf, "events total")) {
+    if ((p = strstr(buf, "events total"))) {
       eventsTotal->SetPoint(eventsTotal->GetN(), i, atoi(p + 15));
     }
     
-    if (p = strstr(buf, "events selected")) {
+    if ((p = strstr(buf, "events selected"))) {
       eventsSelected->SetPoint(eventsSelected->GetN(), i, atoi(p + 18));
     }
   }
@@ -232,7 +232,7 @@ int main(void)
   try {
     DIR *dp_t = opendir(".");
     dirent *de_t;
-    while (de_t = readdir(dp_t)) {
+    while ((de_t = readdir(dp_t))) {
       if (!IsRegDir(de_t))
         continue;
       printf("%s\n", de_t->d_name);
@@ -240,7 +240,7 @@ int main(void)
       chdir(de_t->d_name);
       DIR *dp_a = opendir(".");
       dirent *de_a;
-      while (de_a = readdir(dp_a)) {
+      while ((de_a = readdir(dp_a))) {
         if (!IsRegDir(de_a))
           continue;
         printf("  %s\n", de_a->d_name);
@@ -248,7 +248,7 @@ int main(void)
         chdir(de_a->d_name);
         DIR *dp_s = opendir(".");
         dirent *de_s;
-        while (de_s = readdir(dp_s)) {
+        while ((de_s = readdir(dp_s))) {
           if (!IsRegDir(de_s))
             continue;
           printf("    %s\n", de_s->d_name);
@@ -258,7 +258,7 @@ int main(void)
           chdir(de_s->d_name);
           DIR *dp_i = opendir(".");
           dirent *de_i;
-          while (de_i = readdir(dp_i)) {
+          while ((de_i = readdir(dp_i))) {
             if (!IsRegDir(de_i))
               continue;
             //printf("      %s\n", de_i->d_name);

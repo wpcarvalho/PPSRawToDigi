@@ -37,6 +37,8 @@ class ElegentSource : public edm::EDProducer
     Elegent::Generator* generator;
 
     virtual void produce(edm::Event&, const edm::EventSetup&);
+  private:
+    const UInt_t DEFAULT_SEED = 65539;
 };
 
 
@@ -67,14 +69,6 @@ ElegentSource::ElegentSource(const ParameterSet& pSet) :
     verbosity
   );
 
-  // set random seed
-  Service<RandomNumberGenerator> rng;
-  CLHEP::HepRandomEngine &rndEng = rng->getEngine();
-  unsigned int seed = rndEng.getSeed();
-  gRandom->SetSeed(seed);
-  if (verbosity > 0)
-    printf(">> ElegentSource > seed = %u\n", seed);
-
   produces<HepMCProduct>();
 }
 
@@ -97,6 +91,16 @@ void ElegentSource::beginJob()
 
 void ElegentSource::produce(edm::Event &e, const edm::EventSetup &es)
 {
+  // initialize random seed
+  if(gRandom->GetSeed() == DEFAULT_SEED) {
+    Service<RandomNumberGenerator> rng;
+    CLHEP::HepRandomEngine &rndEng = rng->getEngine(e.streamID());
+    unsigned int seed = rndEng.getSeed();
+    gRandom->SetSeed(seed);
+    if (verbosity > 0)
+      printf(">> ElegentSource > seed = %u\n", seed);
+  }
+
   // create event structure 
   GenEvent* gEv = new GenEvent();
   gEv->set_event_number(e.id().event());

@@ -1,4 +1,0 @@
-<use   name="root"/>
-<use   name="TotemRPValidation/ValidationTools"/>
-<bin   file="test.cc" name="ValidationTest">
-</bin>

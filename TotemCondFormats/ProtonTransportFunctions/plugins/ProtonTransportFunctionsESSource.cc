@@ -24,7 +24,7 @@
 #include "TotemCondFormats/DataRecord/interface/ProtonTransportRcd.h"
 #include "TotemCondFormats/BeamOpticsParamsObjects/interface/BeamOpticsParams.h"
 #include "TotemCondFormats/ProtonTransportFunctions/interface/ProtonTransportFunctions.h"
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 
@@ -138,12 +138,12 @@ void ProtonTransportFunctionsESSource::LoadIdealFunctions(const ProtonTransportR
     unsigned int unit = atoi(full.substr(21, 1).c_str());
     if (unit != 1 && unit != 2) continue;
 
-    unsigned int arm = 2 - atoi(full.substr(27, 1).c_str());  // to standard 
+    unsigned int arm = 2 - atoi(full.substr(27, 1).c_str());  // to standard
     if (arm != 0 && arm != 1) continue;
 
     //printf("> st %i, pos %i, unit %i, arm %i\n", st, pos, unit, arm);
 
-    // name OK, add the object 
+    // name OK, add the object
     LHCOpticsApproximator *optFun = (LHCOpticsApproximator *) key->ReadObj();
     fCount++;
 
@@ -156,7 +156,7 @@ void ProtonTransportFunctionsESSource::LoadIdealFunctions(const ProtonTransportR
     if (unit == 2 && pos == 1) data.InitFunction(RPId + 3, optFun);
     if (unit == 2 && pos == 0) data.InitFunction(RPId + 4, optFun);
     if (unit == 2 && pos == 0) data.InitFunction(RPId + 5, optFun);
-    
+
     // add symmetric links to the RP->functions map, if permitted
     if (!maySymmetrize)
       continue;
@@ -174,10 +174,10 @@ void ProtonTransportFunctionsESSource::LoadIdealFunctions(const ProtonTransportR
     if (unit == 1 && pos == 1) data.InitFunction(RPId + 2, optFun);
     if (unit == 2 && pos == 1) data.InitFunction(RPId + 3, optFun);
     if (unit == 2 && pos == 0) data.InitFunction(RPId + 4, optFun);
-    if (unit == 2 && pos == 0) data.InitFunction(RPId + 5, optFun); 
+    if (unit == 2 && pos == 0) data.InitFunction(RPId + 5, optFun);
   }
 
-  
+
   if (verbosity)
     printf(">> ProtonTransportFunctionsESSource::LoadIdealFunctions : %u optical functions read, mapped to %lu RPs\n",
         fCount, data.functionMap.size());

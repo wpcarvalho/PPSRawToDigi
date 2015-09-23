@@ -13,17 +13,17 @@ from Configuration.TotemCommon.mixNoPU_cfi import *
 
 # RP Strip digitization
 from SimTotem.RPDigiProducer.RPSiDetConf_cfi import *
-#RPSiDetDigitizer.RPVerbosity = 1
+# RPSiDetDigitizer.RPVerbosity = 1
 
 from RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi import *
-#RPClustProd.Verbosity = 1
+# RPClustProd.Verbosity = 1
 
 from RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi import *
-#RPHecoHitProd.Verbosity = 1
+# RPHecoHitProd.Verbosity = 1
 
 from RecoTotemRP.RPSingleCandidateTrackFinder.RPSingleTrackCandFindConf_cfi import *
-#RPSinglTrackCandFind.Verbosity = 1
+# RPSinglTrackCandFind.Verbosity = 1
 
 from RecoTotemRP.RPTrackCandidateCollectionFitter.RPSingleTrackCandCollFitted_cfi import *
-#RPSingleTrackCandCollFit.Verbosity = 1
+# RPSingleTrackCandCollFit.Verbosity = 1
 

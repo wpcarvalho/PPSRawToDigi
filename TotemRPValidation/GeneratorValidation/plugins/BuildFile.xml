@@ -1,6 +1,0 @@
-<library name="TotemRPValidationGeneratorValidationPlugins" file="*.cc">
-  <use name="FWCore/Framework"/>
-  <use name="root"/>
-  <use name="SimDataFormats/GeneratorProducts"/>
-  <flags EDM_PLUGIN="1"/>
-</library>

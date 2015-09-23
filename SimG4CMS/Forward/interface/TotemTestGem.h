@@ -40,13 +40,12 @@
 class G4Step;
 
 class TotemTestGem : public SimWatcher,
-		     public Observer<const BeginOfJob *>,
-		     public Observer<const BeginOfEvent *>,
-		     public Observer<const EndOfEvent *>,
-		     public Observer<const G4Step *> {
+                     public Observer<const BeginOfJob *>,
+                     public Observer<const BeginOfEvent *>,
+                     public Observer<const EndOfEvent *>,
+                     public Observer<const G4Step *> {
 
-public: 
-
+public:
   TotemTestGem(const edm::ParameterSet &p);
   virtual ~TotemTestGem();
 
@@ -58,10 +57,12 @@ private:
   void update(const BeginOfEvent * evt);
   void update(const EndOfEvent * evt);
   void update(const G4Step * step);
-  
+
   void clear();
   void fillEvent(TotemTestHistoClass&);
 
+private:
+  edm::ParameterSet                       parameters;
 
   //Keep parameters to instantiate TotemTestHistoManager later
   std::string                             fileName;
@@ -69,14 +70,12 @@ private:
 
   // Private Tuples
   std::auto_ptr<TotemTestHistoManager>    tuplesManager;
-  TotemTestHistoClass *                   tuples;
- 
-  TotemHisto *histos;
+  TotemTestHistoClass*                    tuples;
 
-  std::string nomeFile;
+  TotemHisto*                             histos;
+  std::string                             fileNameOld;
   std::vector<TotemG4Hit*>                hits;
   int                                     evtnum;
-
 };
 
 #endif

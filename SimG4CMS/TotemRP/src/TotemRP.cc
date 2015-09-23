@@ -28,8 +28,7 @@
 #include "G4Track.hh"
 #include "G4VProcess.hh"
 #include "G4HCofThisEvent.hh"
-#include "CLHEP/Units/SystemOfUnits.h"
-#include "CLHEP/Units/PhysicalConstants.h"
+#include "CLHEP/Units/GlobalSystemOfUnits.h"
 #include "G4Event.hh"
 #include "G4PrimaryVertex.hh"
 
@@ -769,101 +768,109 @@ void TotemRP::update(const EndOfEvent * evt)
   for (unsigned int in=0; in<names.size(); in++)
   {
     int HCRPid = G4SDManager::GetSDMpointer()->GetCollectionID(names[in]);
-    Totem_RP_G4HitCollection* theHC_RP = (Totem_RP_G4HitCollection*) allHC->GetHC(HCRPid);
-    if(verbosity_)
-      LogDebug("TotemRP") << "TotemRP :: Hit Collection for " <<names[in]
-         << " of ID " << HCRPid << " is obtained at " << theHC_RP;
-  
-    G4int nentriesRP = 0;
-    nentriesRP = theHC_RP->entries();
-    
-    if(HCRPid >= 0 && theHC_RP > 0 && nentriesRP>0)
+    if(HCRPid == -1)
     {
-      for(ihit = 0; ihit <nentriesRP; ihit++)
+
+
+    }
+    else
+    {
+      Totem_RP_G4HitCollection* theHC_RP = (Totem_RP_G4HitCollection*) allHC->GetHC(HCRPid);
+      if(verbosity_)
+        LogDebug("TotemRP") << "TotemRP :: Hit Collection for " <<names[in]
+           << " of ID " << HCRPid << " is obtained at " << theHC_RP;
+
+      G4int nentriesRP = 0;
+      nentriesRP = theHC_RP->entries();
+
+      if(HCRPid >= 0 && theHC_RP > 0 && nentriesRP>0)
       {
-        Totem_RP_G4Hit* aHit = (*theHC_RP)[ihit];
-        
-        int evtnum = (*evt)()->GetEventID();
-        //edm::LogInfo("TotemRP")<<"event no: "<<evtnum<<std::endl;
-  
-        int UID = aHit->getUnitID();
-        int Ptype = aHit->getParticleType();
-        int TID = aHit->getTrackID();
-        int PID = aHit->getParentId();
-        double ELoss =  aHit->getEnergyLoss();
-        double PABS =  aHit->getPabs();
-        double x = aHit->getEntry().x();
-        double y = aHit->getEntry().y();
-        double z = aHit->getEntry().z();
-        double lx = aHit->getLocalEntry().x();
-        double ly = aHit->getLocalEntry().y();
-        double lz = aHit->getLocalEntry().z();
-        
-        double x_ex = aHit->getExit().x();
-        double y_ex = aHit->getExit().y();
-        double z_ex = aHit->getExit().z();
-        double lx_ex = aHit->getLocalExit().x();
-        double ly_ex = aHit->getLocalExit().y();
-        double lz_ex = aHit->getLocalExit().z();
-        
-        double vx = aHit->getVx();
-        double vy = aHit->getVy();
-        double vz = aHit->getVz();
-        
-        double p_x = aHit->get_p_x();
-        double p_y = aHit->get_p_y();
-        double p_z = aHit->get_p_z();
-  
-        int prim_vert_id = -1;
-        
-        if(PID!=0)
+        for(ihit = 0; ihit <nentriesRP; ihit++)
         {
-          G4ThreeVector myPoint(vx, vy, vz);
-          G4Navigator* theNavigator = G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
-          G4VPhysicalVolume* myVolume = theNavigator->LocateGlobalPointAndSetup(myPoint);
-          prim_vert_id = PhysicalDetMap[myVolume->GetName()];
+          Totem_RP_G4Hit* aHit = (*theHC_RP)[ihit];
+
+          int evtnum = (*evt)()->GetEventID();
+          //edm::LogInfo("TotemRP")<<"event no: "<<evtnum<<std::endl;
+
+          int UID = aHit->getUnitID();
+          int Ptype = aHit->getParticleType();
+          int TID = aHit->getTrackID();
+          int PID = aHit->getParentId();
+          double ELoss =  aHit->getEnergyLoss();
+          double PABS =  aHit->getPabs();
+          double x = aHit->getEntry().x();
+          double y = aHit->getEntry().y();
+          double z = aHit->getEntry().z();
+          double lx = aHit->getLocalEntry().x();
+          double ly = aHit->getLocalEntry().y();
+          double lz = aHit->getLocalEntry().z();
+
+          double x_ex = aHit->getExit().x();
+          double y_ex = aHit->getExit().y();
+          double z_ex = aHit->getExit().z();
+          double lx_ex = aHit->getLocalExit().x();
+          double ly_ex = aHit->getLocalExit().y();
+          double lz_ex = aHit->getLocalExit().z();
+
+          double vx = aHit->getVx();
+          double vy = aHit->getVy();
+          double vz = aHit->getVz();
+
+          double p_x = aHit->get_p_x();
+          double p_y = aHit->get_p_y();
+          double p_z = aHit->get_p_z();
+
+          int prim_vert_id = -1;
+
+          if(PID!=0)
+          {
+            G4ThreeVector myPoint(vx, vy, vz);
+            G4Navigator* theNavigator = G4TransportationManager::GetTransportationManager()->GetNavigatorForTracking();
+            G4VPhysicalVolume* myVolume = theNavigator->LocateGlobalPointAndSetup(myPoint);
+            prim_vert_id = PhysicalDetMap[myVolume->GetName()];
+          }
+
+          histos->set_EVT(evtnum);
+
+          TotRPDetId det_id((uint32_t)UID);
+          histos->set_UID(det_id.DetectorDecId());
+
+          histos->set_Ptype(Ptype) ;
+          histos->set_TID(TID) ;
+          histos->set_PID(PID);
+          histos->set_ELoss(ELoss) ;
+          histos->set_PABS(PABS) ;
+          histos->set_VX(vx);
+          histos->set_VY(vy) ;
+          histos->set_VZ(vz);
+
+          histos->set_X(x);
+          histos->set_Y(y);
+          histos->set_Z(z);
+          histos->set_Loc_X(lx);
+          histos->set_Loc_Y(ly);
+          histos->set_Loc_Z(lz);
+          histos->set_X_Exit(x_ex);
+          histos->set_Y_Exit(y_ex);
+          histos->set_Z_Exit(z_ex);
+          histos->set_Loc_X_Exit(lx_ex);
+          histos->set_Loc_Y_Exit(ly_ex);
+          histos->set_Loc_Z_Exit(lz_ex);
+          histos->set_p_x(p_x);
+          histos->set_p_y(p_y);
+          histos->set_p_z(p_z);
+          histos->set_prim_ver_id(prim_vert_id);
+          histos->fillNtuple();
+
+          tuples->fillHit(UID, Ptype, TID, PID, ELoss, PABS, p_x, p_y, p_z, vx, vy, vz,
+          x, y, z, lx, ly, lz, x_ex, y_ex, z_ex, lx_ex, ly_ex, lz_ex, prim_vert_id);
+
+    //  void fillHit(int UID_, int Ptype_, int TID_, int PID_, double ELoss_, double PABS_,
+    //    double p_x_, double p_y_, double p_z_, double vx_, double vy_, double vz_, double x_,
+    //    double y_, double z_, double lx_, double ly_, double lz_,
+    //    double x_ex_, double y_ex_, double z_ex_, double lx_ex_, double ly_ex_, double lz_ex_
+    //    int prim_vert_id_);
         }
-      
-        histos->set_EVT(evtnum);
-      
-        TotRPDetId det_id((uint32_t)UID);
-        histos->set_UID(det_id.DetectorDecId());
-        
-        histos->set_Ptype(Ptype) ;
-        histos->set_TID(TID) ;
-        histos->set_PID(PID);
-        histos->set_ELoss(ELoss) ;
-        histos->set_PABS(PABS) ;
-        histos->set_VX(vx);
-        histos->set_VY(vy) ;
-        histos->set_VZ(vz);
-        
-        histos->set_X(x);
-        histos->set_Y(y);
-        histos->set_Z(z);
-        histos->set_Loc_X(lx);
-        histos->set_Loc_Y(ly);
-        histos->set_Loc_Z(lz);
-        histos->set_X_Exit(x_ex);
-        histos->set_Y_Exit(y_ex);
-        histos->set_Z_Exit(z_ex);
-        histos->set_Loc_X_Exit(lx_ex);
-        histos->set_Loc_Y_Exit(ly_ex);
-        histos->set_Loc_Z_Exit(lz_ex);
-        histos->set_p_x(p_x);
-        histos->set_p_y(p_y);
-        histos->set_p_z(p_z);
-        histos->set_prim_ver_id(prim_vert_id);
-        histos->fillNtuple();
-        
-        tuples->fillHit(UID, Ptype, TID, PID, ELoss, PABS, p_x, p_y, p_z, vx, vy, vz, 
-        x, y, z, lx, ly, lz, x_ex, y_ex, z_ex, lx_ex, ly_ex, lz_ex, prim_vert_id);
-          
-  //  void fillHit(int UID_, int Ptype_, int TID_, int PID_, double ELoss_, double PABS_, 
-  //    double p_x_, double p_y_, double p_z_, double vx_, double vy_, double vz_, double x_, 
-  //    double y_, double z_, double lx_, double ly_, double lz_, 
-  //    double x_ex_, double y_ex_, double z_ex_, double lx_ex_, double ly_ex_, double lz_ex_
-  //    int prim_vert_id_);
       }
     }
   }

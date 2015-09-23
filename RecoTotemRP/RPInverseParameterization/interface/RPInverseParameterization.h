@@ -12,7 +12,7 @@
 
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
 #include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHitDebug.h"
@@ -70,7 +70,7 @@ class RPInverseParameterization : public ROOT::Minuit2::FCNBase/*, public TMVA::
         //output: returns fitted values and corresponding error matrix
     void Verbosity(int ver) {verbosity_ = ver;}
     int Verbosity() {return verbosity_;}
-    void PrintFittedHitsInfo(ostream &o);
+    void PrintFittedHitsInfo(std::ostream &o);
     
   private:
     void InitializeFit(RPReconstructedProton &rec_proton);

@@ -167,7 +167,7 @@ void GeometryInfoModule::PrintGeometry(const TotemRPGeometry &geometry, const ed
   time_t unixTime = event.time().unixTime();
   char timeStr[50];
   strftime(timeStr, 50, "%F %T", localtime(&unixTime));
-  printf(">> GeometryInfoModule::PrintGeometry\n\tnew %s geometry found in run=%u, event=%u, UNIX timestamp=%lu (%s)\n",
+  printf(">> GeometryInfoModule::PrintGeometry\n\tnew %s geometry found in run=%u, event=%llu, UNIX timestamp=%lu (%s)\n",
     geometryType.c_str(), event.id().run(), event.id().event(), unixTime, timeStr);
 
   // RP geometry

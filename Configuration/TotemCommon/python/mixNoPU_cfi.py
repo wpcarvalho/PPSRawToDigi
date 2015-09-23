@@ -112,8 +112,7 @@ mix = cms.EDProducer("MixingModule",
 mix.mixObjects.mixSH.crossingFrames = cms.untracked.vstring('MuonCSCHits',
 'MuonDTHits',
 'MuonRPCHits',
-'TotemHitsT1',
-'TotemHitsT2Gem',
-'TotemHitsRP')
+'TotemHitsRP',
+'PPSTrackerHits')
 
 

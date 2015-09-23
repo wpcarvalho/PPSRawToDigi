@@ -32,9 +32,10 @@
 // user include files
 
 #include "G4VHit.hh"
-#include <CLHEP/Vector/ThreeVector.h>
+#include "DataFormats/Math/interface/Point3D.h"
 #include <boost/cstdint.hpp>
 #include <iostream>
+#include <CLHEP/Vector/ThreeVector.h>
 
 using CLHEP::Hep3Vector;
 
@@ -55,14 +56,15 @@ public:
   void         Draw(){}
   void         Print();
 
-  Hep3Vector   getMeanPosition() const {return MeanPosition;};
-  void         setMeanPosition(Hep3Vector a) {MeanPosition = a;};
+  Hep3Vector   getMeanPosition() const { return MeanPosition; };
+  void         setMeanPosition(Hep3Vector a) { MeanPosition = a; };
 
   Hep3Vector   getEntryPoint() const;
-  void         setEntryPoint(Hep3Vector );
+  void         setEntryPoint(Hep3Vector);
+
   Hep3Vector   getExitPoint() const;
   void         setExitPoint(Hep3Vector);
-  
+
   double       getEM() const;
   void         setEM (double e);
   
@@ -102,19 +104,22 @@ public:
 
   void         setThetaAtEntry(float t);
   void         setPhiAtEntry(float f) ;
- float getPx() const;
-  float getPy() const;
-  float getPz() const;
-  float getVPx() const;
-  float getVPy() const;
-  float getVPz() const;
 
- void setPx(float e)      ;
- void setPy(float e)      ;
- void setPz(float e)      ;
- void setVPx(float e)      ;
- void setVPy(float e)      ;
- void setVPz(float e)      ;
+  float        getPx() const;
+  float        getPy() const;
+  float        getPz() const;
+  float        getVPx() const;
+  float        getVPy() const;
+  float        getVPz() const;
+
+  void         setPx(float e);
+  void         setPy(float e);
+  void         setPz(float e);
+  void         setVPx(float e);
+  void         setVPy(float e);
+  void         setVPz(float e);
+
+
   float        getX() const;
   float        getY() const;
   float        getZ() const;
@@ -132,13 +137,7 @@ public:
   void         setVy(float p);
   void         setVz(float p);
 
-
-
 private:
-  /*
-  Hep3Vector   entry;          
-  Hep3Vector   exit;
-  */
   Hep3Vector   MeanPosition;
   double       elem;              //EnergyDeposit of EM particles
   double       hadr;              //EnergyDeposit of HD particles
@@ -147,7 +146,6 @@ private:
                                   //particle
   uint32_t     theUnitID;         //Totem Unit Number
   double       theTimeSlice;      //Time Slice Identification
-
 
   float        theX;
   float        theY;
@@ -161,7 +159,14 @@ private:
   float        thePhiAtEntry;
   Hep3Vector   theEntryPoint;
   Hep3Vector   theExitPoint;
-  float thePx,thePy,thePz,theVPx,theVPy,theVPz;
+
+  float        thePx;
+  float        thePy;
+  float        thePz;
+  float        theVPx;
+  float        theVPy;
+  float        theVPz;
+
   int          theParentId;
   float        theVx;
   float        theVy;

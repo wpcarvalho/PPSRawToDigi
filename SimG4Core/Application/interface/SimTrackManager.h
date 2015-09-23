@@ -71,13 +71,13 @@ public:
     idsave.push_back(thePair);
     if (inHistory) { m_trksForThisEvent->push_back(iTrack); }
     if (withAncestor) { 
-      std::pair<int,int> thisPair(iTrack->trackID(),0);
-      ancestorList.push_back(thisPair);
+      std::pair<int,int> thisPair(iTrack->trackID(),0); 
+      ancestorList.push_back(thisPair); 
     }
   }
   
   void addTkCaloStateInfo(uint32_t t,
-                          const std::pair<math::XYZVectorD,math::XYZTLorentzVectorD>& p)
+			  const std::pair<math::XYZVectorD,math::XYZTLorentzVectorD>& p)
   {
     std::map<uint32_t,std::pair<math::XYZVectorD,math::XYZTLorentzVectorD> >::const_iterator it = 
       mapTkCaloStateInfo.find(t);
@@ -91,8 +91,8 @@ public:
   }
   int giveMotherNeeded(int i) const { 
     int theResult = 0;
-    for (unsigned int itr=0; itr<idsave.size(); itr++) {
-      if ((idsave[itr]).first == i) { theResult = (idsave[itr]).second; break; }
+    for (unsigned int itr=0; itr<idsave.size(); itr++) { 
+      if ((idsave[itr]).first == i) { theResult = (idsave[itr]).second; break; } 
     }
     return theResult ; 
   }
@@ -105,14 +105,14 @@ public:
     }
     return flag;
   }
-  void setLHCTransportLink( const edm::LHCTransportLinkContainer * thisLHCTlink ) {
-    theLHCTlink = thisLHCTlink;
+  void setLHCTransportLink( const edm::LHCTransportLinkContainer * thisLHCTlink ) { 
+    theLHCTlink = thisLHCTlink; 
   }
 
 private:
   // stop default
-  SimTrackManager(const SimTrackManager&);
-  const SimTrackManager& operator=(const SimTrackManager&);
+  SimTrackManager(const SimTrackManager&);   
+  const SimTrackManager& operator=(const SimTrackManager&); 
   
   void saveTrackAndItsBranch(TrackWithHistory *);
   int  getOrCreateVertex(TrackWithHistory *,int,G4SimEvent * simEvent);

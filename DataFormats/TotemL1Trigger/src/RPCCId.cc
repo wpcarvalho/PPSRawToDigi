@@ -10,7 +10,6 @@
  *
  ****************************************************************************/
 
-
 #include "DataFormats/TotemL1Trigger/interface/RPCCId.h"
 #include "FWCore/Utilities/interface/Exception.h"
 

@@ -59,7 +59,7 @@ void RPReconstructedProtonPair::ZeroData()
 //  return ksi;
 //}
 
-ostream &operator<<(ostream &out, const RPReconstructedProtonPair &prot)
+std::ostream &operator<<(std::ostream &out, const RPReconstructedProtonPair &prot)
 {
   out<<"Vertex:"<<std::endl;
   out<<"X="<<prot.X3D()<<std::endl;

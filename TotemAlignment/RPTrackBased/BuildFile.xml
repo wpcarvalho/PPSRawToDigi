@@ -3,7 +3,6 @@
 <use   name="rootgraphics"/>
 <use   name="DataFormats/TotemRPDetId"/>
 <use   name="Geometry/TotemRPGeometryBuilder"/>
-<use   name="SimG4CMS/TotemRPProtTranspPar"/>
 <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
 <use   name="TotemCondFormats/ProtonTransportFunctions"/>
 <use   name="TotemAlignment/RPDataFormats"/>

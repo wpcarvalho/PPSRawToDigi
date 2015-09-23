@@ -18,19 +18,8 @@ TotemNtuplizer = cms.EDAnalyzer("TotemNtuplizer",
     RPReconstructedProtonCollectionLabel = cms.InputTag("ElasticReconstruction"),
     RPReconstructedProtonPairCollectionLabel = cms.InputTag("ElasticReconstruction"),
 
-    T2PadClusterCollectionLabel = cms.InputTag("T2MCl", "T2PadClusters"),
-    T2StripClusterCollectionLabel = cms.InputTag("T2MCl", "T2StripClusters"),
-    HitLabel = cms.InputTag("T2Hits", "T2Hits"),
-    T2PadDigiCollectionLabel = cms.InputTag("T2Digis", "T2PadDigi"),
-    T2StripDigiCollectionLabel = cms.InputTag("T2Digis", "T2StripDigi"),
-    TrackLabel = cms.InputTag("T2TrackColl3", "T2TrackColl"),
-
     RoadLabel = cms.string('NewRoadFinder'),
-    T1TrackLabel = cms.string('t1tracks2'),
-    T1DigiWireCollectionLabel = cms.InputTag("T1Digis", "T1DigiWire"),
-    T1DigiVfatCollectionLabel= cms.InputTag("T1Digis", "T1DigiVfat"),
-    T1RecHit2DCollectionLabel = cms.InputTag("t1rechit")
-    
+
 
 #    primaryProtons = cms.bool(True),
 #    primaryJets = cms.bool(True),

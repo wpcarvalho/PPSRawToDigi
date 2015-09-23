@@ -1,5 +1,5 @@
 #include "RecoTotemRP/RPInelasticReconstruction/interface/RPPrimaryVertexInelasticReconstruction.h"
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonCollection.h"
 #include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"

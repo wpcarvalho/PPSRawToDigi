@@ -4,12 +4,12 @@
 #include "DataFormats/GeometryVector/interface/LocalVector.h"
 #include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
 
-RPLinearChargeDivider::RPLinearChargeDivider(const edm::ParameterSet &params,  CLHEP::HepRandomEngine& eng, 
+RPLinearChargeDivider::RPLinearChargeDivider(const edm::ParameterSet &params,  CLHEP::HepRandomEngine& eng,
     RPDetId det_id) : params_(params), rndEngine(eng) , _det_id(det_id)
 {
   verbosity_ = params.getParameter<int>("RPVerbosity");
 
-  fluctuate = new SiG4UniversalFluctuation(rndEngine);
+  fluctuate = new SiG4UniversalFluctuation();
 
     // Run APV in peak instead of deconvolution mode, which degrades the 
   // time resolution.
@@ -123,7 +123,7 @@ void RPLinearChargeDivider::FluctuateEloss(int pid, double particleMomentum,
     //    double deltaCutoff = deltaCut.value(); // the cutoff is sometimes redefined inside, so fix it.
     double deltaCutoff = deltaCut_;
     de = fluctuate->SampleFluctuations(particleMomentum*1000, particleMass, 
-        deltaCutoff, segmentLength, segmentEloss)/1000; //convert to GeV
+        deltaCutoff, segmentLength, segmentEloss, &(rndEngine))/1000; //convert to GeV
     elossVector[i].Energy()=de;
     sum+=de;
   }

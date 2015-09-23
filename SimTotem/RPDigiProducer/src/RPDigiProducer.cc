@@ -46,18 +46,12 @@ RPDigiProducer::RPDigiProducer(const edm::ParameterSet& conf) :
 	produces<edm::DetSetVector<RPStripDigi> > ();
 	produces<edm::DetSetVector<RPDetTrigger> > ();
 
+	// register data to consume
+	tokenCrossingFrameTotemRP = consumes<CrossingFrame<PSimHit>>(edm::InputTag("mix"));
+
 	RP_hit_containers_.clear();
 	RP_hit_containers_ = conf.getParameter<std::vector<std::string> > ("ROUList");
 	verbosity_ = conf.getParameter<int> ("RPVerbosity");
-
-	edm::Service < edm::RandomNumberGenerator > rng;
-	if (!rng.isAvailable()) {
-		throw cms::Exception("Configuration") << "This class requires the RandomNumberGeneratorService\n"
-			"which is not present in the configuration file.  You must add the service\n"
-			"in the configuration file or remove the modules that require it.";
-	}
-
-	rndEngine = &(rng->getEngine());
 
 	simulateDeadChannels = false;
 	if (conf.exists("simulateDeadChannels")) { //check if "simulateDeadChannels" variable is defined in configuration file
@@ -96,15 +90,24 @@ void RPDigiProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) 
 	 iSetup.get<SetupRecord>().get(pSetup);
 	 */
 
+	// initialize random engine
+	if(!rndEngine) {
+		Service<RandomNumberGenerator> rng;
+		if (!rng.isAvailable()) {
+			throw cms::Exception("Configuration") << "This class requires the RandomNumberGeneratorService\n"
+					"which is not present in the configuration file.  You must add the service\n"
+					"in the configuration file or remove the modules that require it.";
+		}
+		rndEngine = &(rng->getEngine(iEvent.streamID()));
+	}
+
 	// Step A: Get Inputs
 	edm::Handle<CrossingFrame<PSimHit> > cf;
-	//    iEvent.getByType(cf);
-	const std::string subdet("g4SimHitsTotemHitsRP");
-	iEvent.getByLabel("mix", subdet, cf);
+//	iEvent.getByToken(tokenCrossingFrameTotemRP, cf);
+	iEvent.getByLabel("mix", "g4SimHitsTotemHitsRP", cf);
 
 	if (verbosity_) {
-		std::cout << "\n\n=================== Starting SimHit access, subdet " << subdet
-		        << "  ===================" << std::endl;
+		std::cout << "\n\n=================== Starting SimHit access" << "  ===================" << std::endl;
 
 		std::auto_ptr<MixCollection<PSimHit> > col(
 		        new MixCollection<PSimHit> (cf.product(), std::pair<int, int>(-0, 0)));

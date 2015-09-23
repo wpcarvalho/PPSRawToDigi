@@ -1,6 +1,0 @@
-<use   name="FWCore/Framework"/>
-<use   name="root"/>
-<use   name="SimDataFormats/GeneratorProducts"/>
-<export>
-  <lib   name="1"/>
-</export>

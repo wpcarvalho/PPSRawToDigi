@@ -38,27 +38,24 @@ using namespace edm;
 
 //----------------------------------------------------------------------------------------------------
 
-SmearingGenerator::SmearingGenerator(const edm::ParameterSet& pSet) : 
+SmearingGenerator::SmearingGenerator(const edm::ParameterSet& pSet) :
   verbosity(pSet.getUntrackedParameter<unsigned int>("verbosity", 1)),
   modifyLabel(pSet.getParameter<string>("modifyLabel")),
   originalLabel(pSet.getParameter<string>("originalLabel"))
 {
-	  if (verbosity > 0)
-		cout << "SmearingGenerator.verbosity="<<verbosity<<endl;
-  // initialize random engine
-  Service<RandomNumberGenerator> rng;
-  HepRandomEngine &rndEng = rng->getEngine();
   if (verbosity > 0)
-    cout << ">> SmearingGenerator > seed = " << rndEng.getSeed() << endl;
-  rand = new RandGauss(rndEng); 
- 
+    cout << "SmearingGenerator.verbosity="<<verbosity<<endl;
+
+  // register data to consume
+  tokenHepMcProduct = consumes<edm::HepMCProduct>(modifyLabel);
+
   // register fake output
-  produces<HepMCProduct>(originalLabel);   
+  produces<HepMCProduct>(originalLabel);
 }
 
 //----------------------------------------------------------------------------------------------------
 
-SmearingGenerator::~SmearingGenerator() 
+SmearingGenerator::~SmearingGenerator()
 {
 }
 
@@ -66,20 +63,27 @@ SmearingGenerator::~SmearingGenerator()
 
 void SmearingGenerator::produce(edm::Event& event, const edm::EventSetup& es)
 {
+  // initialize random engine
+  if(!rand) {
+    Service<RandomNumberGenerator> rng;
+    HepRandomEngine &rndEng = rng->getEngine(event.streamID());
+    rand = new RandGauss(rndEng);
+  }
+
   // retrieve (the only) HepMCEvent from the event
   edm::Handle<edm::HepMCProduct> mcProd;
-  event.getByLabel(modifyLabel, mcProd);  
+  event.getByToken(tokenHepMcProduct, mcProd);
 
   // back up the orignal event
   auto_ptr<HepMCProduct> output(new HepMCProduct(*mcProd));
   event.put(output, originalLabel);
-  
+
   // apply smearing to the actual event
   // the type cast below is a really aweful practique but it is necessary due to the CMSSW framework
   GenEvent *evt = (GenEvent *) mcProd->GetEvent();
   ApplyBeamSmearing(evt);
   ApplyVertexSmearing(evt);
-    
+
   return;
 }
 
@@ -95,7 +99,7 @@ void SmearingGenerator::ApplyVertexSmearing(HepMC::GenEvent *evt)
   double v_x = rand->fire(MeanX, SiX);
   double v_y = rand->fire(MeanY, SiY);
   double v_z = rand->fire(MeanZ, SiZ);
-  double v_t = 0.;  
+  double v_t = 0.;
 
   // shift all vertices
   if (verbosity > 5) cout << ">> SmearingGenerator::ApplyVertexSmearing" << endl;
@@ -130,12 +134,12 @@ void SmearingGenerator::ApplyBeamSmearing(HepMC::GenEvent *evt)
   double thz1 = sqrt(1. - thx1*thx1 - thy1*thy1);
   double thz2 = sqrt(1. - thx2*thx2 - thy2*thy2);
 
-  TVector3 p1(cos(al1)*thx1 + sin(al1)*thz1, thy1, -sin(al1)*thx1 + cos(al1)*thz1);  
+  TVector3 p1(cos(al1)*thx1 + sin(al1)*thz1, thy1, -sin(al1)*thx1 + cos(al1)*thz1);
   p1 *= (1. + xi1) * p_nom;
   double E1 = sqrt(p1.Mag()*p1.Mag() + m*m);
   TLorentzVector P1(p1.x(), p1.y(), p1.z(), E1);
 
-  TVector3 p2(cos(al2)*thx2 + sin(al2)*thz2, thy2, -sin(al2)*thx2 + cos(al2)*thz2);  
+  TVector3 p2(cos(al2)*thx2 + sin(al2)*thz2, thy2, -sin(al2)*thx2 + cos(al2)*thz2);
   p2 *= -(1. + xi2) * p_nom;
   double E2 = sqrt(p2.Mag()*p2.Mag() + m*m);
   TLorentzVector P2(p2.X(), p2.Y(), p2.Z(), E2);
@@ -176,9 +180,9 @@ void SmearingGenerator::ApplyBeamSmearing(HepMC::GenEvent *evt)
       PP.Boost(boost);
 
     if (verbosity > 5)
-      printf("\t after: (%+.0f| %+4.2f; %+4.2f; %+.0f), th_x = %.2E, th_y = %.2E\n\n", 
+      printf("\t after: (%+.0f| %+4.2f; %+4.2f; %+.0f), th_x = %.2E, th_y = %.2E\n\n",
           PP.T(), PP.X(), PP.Y(), PP.Z(), PP.X()/PP.Z(), PP.Y()/PP.Z());
-    
+
     (*particle)->set_momentum(FourVector(PP.X(), PP.Y(), PP.Z(), PP.T()));
   }
 }

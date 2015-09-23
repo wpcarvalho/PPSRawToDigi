@@ -69,7 +69,6 @@ class RPCCBits {
 
 }; // RPCCBits
 
-
 // Comparison operators
 inline bool operator<( const RPCCBits& one, const RPCCBits& other) {
   if(one.getId() < other.getId())
@@ -79,6 +78,5 @@ inline bool operator<( const RPCCBits& one, const RPCCBits& other) {
   else
     return false;
 }
-
 
 #endif  //DataFormatsTotemL1TriggerRPCCBits_h

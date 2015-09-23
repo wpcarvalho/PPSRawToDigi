@@ -21,7 +21,7 @@
 #include "TotemCondFormats/DataRecord/interface/ProtonTransportRcd.h"
 #include "TotemCondFormats/BeamOpticsParamsObjects/interface/BeamOpticsParams.h"
 #include "TotemCondFormats/ProtonTransportFunctions/interface/ProtonTransportFunctions.h"
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 
 
@@ -73,7 +73,7 @@ void OpticsInformation::beginRun(edm::Run const&, edm::EventSetup const& es)
 	double in_null[5] = {optPar->GetBeamDisplacementX(), optPar->GetCrossingAngleX(), optPar->GetBeamDisplacementY(), optPar->GetCrossingAngleY(), 0.};
 	it->second.real->GetLinearApproximation(in_null, Cx, Lx, vx, Cy, Ly, vy, D);
 
-    printf("%3i  &  %6.1f  &  %8.3f  &  %8.3f  &  %6.1f  &  %8.3f  &  %8.3f  &  %8.3f  \\cr\\ln\n", 
+    printf("%3i  &  %6.1f  &  %8.3f  &  %8.3f  &  %6.1f  &  %8.3f  &  %8.3f  &  %8.3f  \\cr\\ln\n",
         it->first, Cx*1E6, Lx, vx, Cy*1E6, Ly, vy, D);
   }
 
@@ -82,13 +82,13 @@ void OpticsInformation::beginRun(edm::Run const&, edm::EventSetup const& es)
       printf("ID %u\n", it->first);
 
       TMatrixD M_x;
-      it->second.real->GetLineariasedTransportMatrixX(optPar->GetBeamDisplacementX(), optPar->GetCrossingAngleX(), 
+      it->second.real->GetLineariasedTransportMatrixX(optPar->GetBeamDisplacementX(), optPar->GetCrossingAngleX(),
         optPar->GetBeamDisplacementY(), optPar->GetCrossingAngleY(), 0., M_x, 1E-5, 1E-5);
       printf("\tM_x\n\t\t%+.2E\t%+.2E\n\t\t%+.2E\t%+.2E\n", M_x[0][0], M_x[0][1], M_x[1][0], M_x[1][1]);
 
       TMatrixD M_y;
-      it->second.real->GetLineariasedTransportMatrixY(optPar->GetBeamDisplacementX(), optPar->GetCrossingAngleX(), 
-          optPar->GetBeamDisplacementY(), optPar->GetCrossingAngleY(), 0., M_y, 1E-5, 1E-5); 
+      it->second.real->GetLineariasedTransportMatrixY(optPar->GetBeamDisplacementX(), optPar->GetCrossingAngleX(),
+          optPar->GetBeamDisplacementY(), optPar->GetCrossingAngleY(), 0., M_y, 1E-5, 1E-5);
       printf("\tM_y\n\t\t%+.2E\t%+.2E\n\t\t%+.2E\t%+.2E\n", M_y[0][0], M_y[0][1], M_y[1][0], M_y[1][1]);
     }
 }

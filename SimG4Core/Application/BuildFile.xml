@@ -1,14 +1,11 @@
-<!-- Totem deps -->
-<use   name="Geometry/TotemRecords"/>
-<use   name="SimDataFormats/CaloHit"/>
-<use   name="SimDataFormats/TrackingHit"/>
-
 <use   name="DataFormats/Common"/>
 <use   name="DataFormats/Math"/>
 <use   name="SimDataFormats/GeneratorProducts"/>
 <use   name="SimDataFormats/Forward"/>
 <use   name="SimDataFormats/Track"/>
 <use   name="SimDataFormats/Vertex"/>
+<use   name="SimDataFormats/TrackingHit"/>
+<use   name="SimDataFormats/CaloHit"/>
 <use   name="SimG4Core/Generators"/>
 <use   name="SimG4Core/Geometry"/>
 <use   name="SimG4Core/MagneticField"/>
@@ -16,20 +13,23 @@
 <use   name="SimG4Core/Physics"/>
 <use   name="SimG4Core/SensitiveDetector"/>
 <use   name="SimG4Core/Watcher"/>
+<use   name="SimG4Core/TotemRPProtonTransportParametrization"/>
 <use   name="SimGeneral/HepPDTRecord"/>
 <use   name="SimGeneral/GFlash"/>
 <use   name="FWCore/ParameterSet"/>
 <use   name="FWCore/PluginManager"/>
 <use   name="FWCore/Framework"/>
 <use   name="FWCore/Utilities"/>
+<use   name="FWCore/MessageLogger"/>
 <use   name="MagneticField/Engine"/>
 <use   name="MagneticField/Records"/>
+<use   name="Geometry/TotemRecords"/>
 <use   name="clhep"/>
 <use   name="xerces-c"/>
 <use   name="geant4core"/>
 <use   name="hepmc"/>
 <use   name="heppdt"/>
-<use   name="rootrflx"/>
+
 <export>
   <lib   name="1"/>
 </export>

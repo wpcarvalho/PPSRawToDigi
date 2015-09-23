@@ -35,6 +35,8 @@
  <Constant name="TotemMuonR2"  value="1.1300*m"/>
  <Constant name="TotemBeamZ1"  value="7.9500*m"/>
  <Constant name="TotemBeamZ2"  value="13.381*m"/>
+ <Constant name="TotemBeamZ2WI" value="13.379*m"/> <!-- added by TOTEM -->
+ <Constant name="TotemBeamZ2B" value="13.420*m"/> <!-- added by TOTEM -->
  <Constant name="TotemBeamZ3"  value="13.439*m"/>
  <Constant name="TotemBeamZ4"  value="13.465*m"/>
  <Constant name="TotemBeamR1"  value="11.64*cm"/>

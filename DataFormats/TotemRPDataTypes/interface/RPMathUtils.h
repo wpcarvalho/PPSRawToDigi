@@ -40,8 +40,8 @@ namespace tot_rp
     return TLorentzVector(v.x(),v.y(),v.z(),v.t()) ;
   }
   
-  void Print(ostream &o, const TMatrixD &mt);
-  void Print(ostream &o, const TVectorD &vt);
+  void Print(std::ostream &o, const TMatrixD &mt);
+  void Print(std::ostream &o, const TVectorD &vt);
 }
 
 #endif

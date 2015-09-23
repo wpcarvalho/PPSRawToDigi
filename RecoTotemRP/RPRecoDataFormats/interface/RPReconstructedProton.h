@@ -79,7 +79,7 @@ class RPReconstructedProton
 //    double Momentum_to_t(double px, double py, double pz) const;  //GeV
 //    double Momentum_to_ksi(double px, double py, double pz) const;  //GeV
     
-    friend ostream &operator<<(ostream &out, const RPReconstructedProton &prot);
+    friend std::ostream &operator<<(std::ostream &out, const RPReconstructedProton &prot);
     
   private:
     void ZeroData();
@@ -99,6 +99,6 @@ class RPReconstructedProton
 //    static const double p0_;
 };
 
-ostream &operator<<(ostream &out, const RPReconstructedProton &prot);
+std::ostream &operator<<(std::ostream &out, const RPReconstructedProton &prot);
 
 #endif

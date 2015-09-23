@@ -1,8 +1,0 @@
-<use   name="FWCore/Framework"/>
-<use   name="rootrflx"/>
-<use   name="DetectorDescription/Core"/>
-<use   name="Geometry/TotemGeometry"/>
-<flags   GENREFLEX_ARGS="--"/>
-<export>
-  <lib   name="1"/>
-</export>

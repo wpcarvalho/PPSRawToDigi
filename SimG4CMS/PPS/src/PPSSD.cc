@@ -51,10 +51,10 @@
  * SimTrackManager const*
  */
 PPSSD::PPSSD(std::string name,
-		DDCompactView const & cpv,
-		 SensitiveDetectorCatalog & clg, 
-		 edm::ParameterSet const & p,
-		 SimTrackManager const* manager) :
+             DDCompactView const &cpv,
+             const SensitiveDetectorCatalog &clg,
+             edm::ParameterSet const &p,
+             SimTrackManager const *manager) :
   SensitiveTkDetector(name, cpv, clg, p), numberingScheme(0), name(name),
   hcID(-1), theHC(0), theManager(manager), currentHit(0), theTrack(0), 
   currentPV(0), unitID(0),  previousUnitID(0), preStepPoint(0), 
@@ -109,23 +109,19 @@ PPSSD::~PPSSD() {
 }
 
 bool PPSSD::ProcessHits(G4Step * aStep, G4TouchableHistory * ) {
-
-
-
-  if (aStep == NULL) {
+  if(!aStep)
     return true;
-  } else {
-    GetStepInfo(aStep);
-    if (HitExists() == false  && edeposit>0.) { 
-      CreateNewHit();
-      return true;
-    }
-    if (HitExists() == false && (((unitID==1111 || unitID==2222) && 
-				  ParentId==0 && ParticleType==2212))) { 
-      CreateNewHitEvo();
-      return true;
-    }
-  }
+
+  GetStepInfo(aStep);
+  if (!HitExists()  && edeposit>0.)
+    CreateNewHit();
+  else if (!HitExists() &&
+          (
+                  (unitID==1111 || unitID==2222) &&
+                  ParentId==0 &&
+                  ParticleType==2212)
+          )
+    CreateNewHitEvo();
   return true;
 }
 
@@ -138,9 +134,9 @@ void PPSSD::Initialize(G4HCofThisEvent * HCE) {
 
   LogDebug("PPSSim") << "PPSSD : Initialize called for " << name;
 
-//  std::cout << std::endl;
-
   theHC = new PPSG4HitCollection(name, collectionName[0]);
+  G4SDManager::GetSDMpointer()->AddNewCollection(name, collectionName[0]);
+
   if (hcID<0) 
     hcID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
   HCE->AddHitsCollection(hcID, theHC);
@@ -154,7 +150,7 @@ void PPSSD::EndOfEvent(G4HCofThisEvent* ) {
   // here we loop over transient hits and make them persistent
   for (int j=0; j<theHC->entries() && j<15000; j++) {
     PPSG4Hit* aHit = (*theHC)[j];
-#ifdef ddebug
+#ifdef debug
     LogDebug("PPSSim") << "HIT NUMERO " << j << "unit ID = "
 			   << aHit->getUnitID() << "\n"
 			   << "               " << "enrty z " 
@@ -163,17 +159,17 @@ void PPSSD::EndOfEvent(G4HCofThisEvent* ) {
 			   << aHit->getThetaAtEntry() << "\n";
 #endif
 
-    Local3DPoint Entrata(aHit->getEntryPoint().x(),
-			 aHit->getEntryPoint().y(),
-			 aHit->getEntryPoint().z());
-    Local3DPoint Uscita(aHit->getExitPoint().x(),
-			 aHit->getExitPoint().y(),
-			 aHit->getExitPoint().z());
-    slave->processHits(PSimHit(Entrata,Uscita,
-			       aHit->getPabs(), aHit->getTof(),
-			       aHit->getEnergyLoss(), aHit->getParticleType(),
-			       aHit->getUnitID(), aHit->getTrackID(),
-			       aHit->getThetaAtEntry(),aHit->getPhiAtEntry()));
+    Local3DPoint Enter(aHit->getEntryPoint().x(),
+                       aHit->getEntryPoint().y(),
+                       aHit->getEntryPoint().z());
+    Local3DPoint Exit(aHit->getExitPoint().x(),
+                      aHit->getExitPoint().y(),
+                      aHit->getExitPoint().z());
+    slave->processHits(PSimHit(Enter, Exit,
+                               aHit->getPabs(), aHit->getTof(),
+                               aHit->getEnergyLoss(), aHit->getParticleType(),
+                               aHit->getUnitID(), aHit->getTrackID(),
+                               aHit->getThetaAtEntry(), aHit->getPhiAtEntry()));
 
   }
   Summarize();
@@ -227,7 +223,6 @@ void PPSSD::GetStepInfo(G4Step* aStep) {
 #ifdef _PRINT_HITS_
     std::cout << "theEntryPoint "<<TheEntryPoint << std::endl;
     std::cout <<"position "<< preStepPoint->GetPosition()<<std::endl;
-  //Local3DPoint theExitPoint  = SensitiveDetector::FinalStepPosition(aStep,LocalCoordinates);
 #endif
   hitPoint     = preStepPoint->GetPosition();	
   currentPV    = preStepPoint->GetPhysicalVolume();
@@ -260,8 +255,6 @@ void PPSSD::GetStepInfo(G4Step* aStep) {
   Eloss   = aStep->GetTotalEnergyDeposit()/GeV;
   ParticleType = theTrack->GetDefinition()->GetPDGEncoding();      
 
-//  ThetaAtEntry = aStep->GetPreStepPoint()->GetPosition().theta()/deg;
-//  PhiAtEntry   = aStep->GetPreStepPoint()->GetPosition().phi()/deg;
   ThetaAtEntry = aStep->GetPreStepPoint()->GetPosition().theta();
   PhiAtEntry   = aStep->GetPreStepPoint()->GetPosition().phi();
 
@@ -309,13 +302,11 @@ bool PPSSD::HitExists() {
   if (found) {
     UpdateHit();
     return true;
-  } else {
-    return false;
-  }    
+  }
+  return false;
 }
 
 void PPSSD::CreateNewHit() {
-  
 #ifdef debug
   LogDebug("PPSSim") << "PPSSD CreateNewHit for"
 			 << " PV "     << currentPV->GetName()
@@ -339,7 +330,6 @@ void PPSSD::CreateNewHit() {
   else 
     LogDebug("PPSSim") << "NO process";
 #endif          
-    
 
   currentHit = new PPSG4Hit;
   currentHit->setTrackID(primaryID);
@@ -369,8 +359,6 @@ void PPSSD::CreateNewHit() {
 }	 
 
 void PPSSD::CreateNewHitEvo() {
-
-// LogDebug("PPSSim") << "INSIDE CREATE NEW HIT EVO ";
   currentHit = new PPSG4Hit;
   currentHit->setTrackID(primaryID);
   currentHit->setTimeSlice(tSlice);
@@ -384,7 +372,6 @@ void PPSSD::CreateNewHitEvo() {
   currentHit->setThetaAtEntry(ThetaAtEntry);
   currentHit->setPhiAtEntry(PhiAtEntry);
 
-  //  LogDebug("PPSSim") << Posizio.x() << " " << Posizio.y() << " " << Posizio.z();
  currentHit->setEntryPoint(theEntryPoint);
   currentHit->setExitPoint(theExitPoint);
 
@@ -405,8 +392,7 @@ void PPSSD::CreateNewHitEvo() {
   
     StoreHit(currentHit);
   }
-  // LogDebug("PPSSim") << "STORED HIT IN: " << unitID;
-}	 
+}
  
 G4ThreeVector PPSSD::PosizioEvo(const G4ThreeVector& Pos, double vx, double vy,
 				  double vz, double pabs, int& accettanza) {

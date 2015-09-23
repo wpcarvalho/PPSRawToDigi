@@ -17,8 +17,6 @@
 #include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
 #include "DataFormats/TotemRPDataTypes/interface/RPDetTrigger.h"
 #include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
-#include "DataFormats/TotemL1Trigger/interface/RPCCId.h"
-#include "DataFormats/TotemL1Trigger/interface/RPCCBits.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"

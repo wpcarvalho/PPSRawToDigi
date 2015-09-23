@@ -2,4 +2,7 @@
    <class name="PPSTrackerDetId"/>
    <class name="std::pair<PPSTrackerDetId,std::pair<unsigned int,unsigned int> >"/>
    <class name="edm::Wrapper<std::pair<PPSTrackerDetId,std::pair<unsigned int,unsigned int> > >"/>
+   <class name="PPSTimingDetId"/>
+
 </lcgdict>
+

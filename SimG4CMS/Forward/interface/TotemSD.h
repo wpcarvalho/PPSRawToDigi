@@ -30,7 +30,7 @@
 #include "SimG4CMS/Forward/interface/TotemG4Hit.h"
 #include "SimG4CMS/Forward/interface/TotemG4HitCollection.h"
 #include "SimG4CMS/Forward/interface/TotemVDetectorOrganization.h"
-#include "SimG4Core/Application/interface/SimTrackManager.h"
+ 
 #include "G4Step.hh"
 #include "G4StepPoint.hh"
 #include "G4Track.hh"
@@ -45,20 +45,10 @@ class TotemSD : public SensitiveTkDetector,
 
 public:
 
-	/*
-	 * std::string,
-	 * DDCompactView const&,
-	 * SensitiveDetectorCatalog&,
-	 * edm::ParameterSet const&,
-	 * SimTrackManager const*
-	 */
-  TotemSD(std::string name,
-			DDCompactView const & cpv,
-			 SensitiveDetectorCatalog & clg,
-			 edm::ParameterSet const & p,
-			 SimTrackManager const* manager);
+  TotemSD(std::string, const DDCompactView &, const SensitiveDetectorCatalog &,
+	  edm::ParameterSet const &, const SimTrackManager*);
   virtual ~TotemSD();
-  
+
   virtual bool   ProcessHits(G4Step *,G4TouchableHistory *);
   virtual uint32_t setDetUnitId(G4Step*);
 

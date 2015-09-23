@@ -11,7 +11,7 @@
 #include <Minuit2/CombinedMinimizer.h>
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
 #include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPair.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
@@ -60,7 +60,7 @@ class RPInverse2SidedParameterization : public ROOT::Minuit2::FCNBase
         //output: returns fitted values and corresponding error matrix
     void Verbosity(int ver);
     int Verbosity() {return verbosity_;}
-    void PrintFittedHitsInfo(ostream &o);
+    void PrintFittedHitsInfo(std::ostream &o);
     
   private:
     void FindInitialValues(RPReconstructedProtonPair &rec_proton_pair);

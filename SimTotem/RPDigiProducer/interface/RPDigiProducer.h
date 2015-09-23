@@ -34,7 +34,6 @@
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
-#include "DataFormats/Common/interface/EDProduct.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -79,7 +78,7 @@ class RPDigiProducer : public edm::EDProducer {
       std::vector<edm::DetSet<RPStripDigi> > theDigiVector;
       std::vector<edm::DetSet<RPDetTrigger> > theTriggerVector;
 
-      CLHEP::HepRandomEngine* rndEngine;
+      CLHEP::HepRandomEngine* rndEngine = nullptr;
       int verbosity_;
 
       /**
@@ -91,6 +90,8 @@ class RPDigiProducer : public edm::EDProducer {
        * channels work ok (by default we do not simulate dead channels)
        */
       bool simulateDeadChannels;
+
+      edm::EDGetTokenT<CrossingFrame<PSimHit>> tokenCrossingFrameTotemRP;
 };
 
 

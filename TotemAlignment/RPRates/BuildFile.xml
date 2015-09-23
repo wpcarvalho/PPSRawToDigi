@@ -1,6 +1,0 @@
-<use   name="root"/>
-<use   name="Geometry/TotemRPGeometryBuilder"/>
-<use   name="Geometry/TotemRPDetTopology"/>
-<export>
-  <lib   name="1"/>
-</export>

@@ -12,7 +12,6 @@
 #ifndef DataFormatsTotemL1TriggerRPCCId_h
 #define DataFormatsTotemL1TriggerRPCCId_h
 
-
 #include "DataFormats/DetId/interface/DetId.h"
 #include <FWCore/Utilities/interface/Exception.h>
 

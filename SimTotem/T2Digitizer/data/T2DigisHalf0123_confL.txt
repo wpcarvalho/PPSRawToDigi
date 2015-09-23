@@ -1,5 +1,0 @@
-QuarterId: 0     TiltX: 0.002     ShiftX0: 2.0     TiltY: -0.0015     ShiftY0: -1.0  
-QuarterId: 1     TiltX: 0.002     ShiftX0: 2.0     TiltY: -0.0015     ShiftY0: -1.0 
-QuarterId: 2     TiltX: 0.002     ShiftX0: 2.0     TiltY: -0.0015     ShiftY0: -1.0 
-QuarterId: 3     TiltX: 0.002     ShiftX0: 2.0     TiltY: -0.0015     ShiftY0: -1.0 
-

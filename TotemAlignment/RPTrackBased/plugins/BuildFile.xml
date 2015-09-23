@@ -12,5 +12,4 @@
   <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
   <use   name="TotemCondFormats/ProtonTransportFunctions"/>
   <use   name="TotemCondFormats/DataRecord"/>
-  <use   name="Geometry/TotemRPDetTopology"/>
 </library>
