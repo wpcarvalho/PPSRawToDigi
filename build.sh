@@ -52,25 +52,14 @@ function compile_scram_project() {
 	scram build
 }
 
-# Checks whether merging software build step is required and proceeds with the
-# build if it is.
-function maybe_build_merging_software() {
-	if [ "XbuildMergingSoftware" = "X$1" ]; then
-		echo "Building merging software..."
-  		cd MergingSoftware/MergeCMSTOTEMNTuples/Merge/
-  		make -j"$AGENT_EXECUTORS"
-	fi
-}
-
-# Builds CMSSW project, version 7.0.4.
+# Builds CMSSW project, version 7.5.0.
 # $1 - if argument equals "buildMergingSoftware" an additional build step will
 #      be executed
-function build_CMSSW_7_0_4() {
-	echo "Building CMSSW 7.0.4 project..."
+function build_CMSSW_7_5_0() {
+	echo "Building CMSSW 7.5.0 project..."
 	initialize_kerberos_keytab
-	initialize_scram_project "CMSSW" "CMSSW_7_0_4"
+	initialize_scram_project "CMSSW" "CMSSW_7_5_0"
 	compile_scram_project
-	maybe_build_merging_software "$1"
 }
 
 # Executes given command and logs stdout both to the file and the screen.
@@ -80,4 +69,4 @@ function execute_and_log() {
 	eval "$1" 2>&1 | tee -a "$AGENT_BUILD_LOG"
 }
 
-execute_and_log "build_CMSSW_7_0_4 $1"
+execute_and_log "build_CMSSW_7_5_0 $1"
