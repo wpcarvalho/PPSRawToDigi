@@ -1,5 +1,5 @@
 #include "RecoTotemRP/RPInverseParameterization/interface/RPInverseParameterization.h"
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHitDebug.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include <cassert>

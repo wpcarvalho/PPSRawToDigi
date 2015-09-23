@@ -54,6 +54,7 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
     PhysicsTablesDirectory = cms.string('PhysicsTables'),
     StorePhysicsTables = cms.bool(False),
     RestorePhysicsTables = cms.bool(False),
+    TransportParticlesThroughWholeBeampipe = cms.bool(True),
     CheckOverlap = cms.untracked.bool(False),
     G4Commands = cms.vstring(''),
     FileNameField = cms.untracked.string(''),
@@ -113,7 +114,6 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
         #        and turn ON DummyEMPhysics
         #
         type = cms.string('SimG4Core/Physics/QGSP_BERT_EML'),
-        #type = cms.string('SimG4Core/Physics/TotemRPPhysicsList'),  # HINT: TOTEM specific
         DummyEMPhysics = cms.bool(False),
         CutsPerRegion = cms.bool(True),
         CutsOnProton  = cms.untracked.bool(True),
@@ -231,9 +231,9 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
         EkinThresholds          = cms.vdouble(),
         EkinParticles           = cms.vstring()
     ),
-#    Totem_RP_SD = cms.PSet( # HINT: TOTEM specific
-#        Verbosity = cms.int32(0)
-#    ),
+    Totem_RP_SD = cms.PSet( # HINT: TOTEM specific
+        Verbosity = cms.int32(0)
+    ),
     TrackerSD = cms.PSet(
         ZeroEnergyLoss = cms.bool(False),
         PrintHits = cms.bool(False),
@@ -397,6 +397,11 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
         BranchHAD = cms.untracked.string('hadParticles.'),
         Verbosity = cms.untracked.bool(False)
     ),
+    PPS_Timing_SD = cms.PSet(
+        Verbosity = cms.int32(0)
+    ),
+
+
     TotemSD = cms.PSet(
         Verbosity = cms.untracked.int32(0)
     ),
@@ -442,9 +447,6 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
         BirkC3 = cms.double(1.75),
         BirkC2 = cms.double(0.0568)
     ),
-    Totem_RP_SD = cms.PSet( # HINT: TOTEM specific
-        Verbosity = cms.int32(0)
-    )
 )
 
 

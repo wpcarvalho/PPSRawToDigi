@@ -78,7 +78,7 @@ class RPDigiProducer : public edm::EDProducer {
       std::vector<edm::DetSet<RPStripDigi> > theDigiVector;
       std::vector<edm::DetSet<RPDetTrigger> > theTriggerVector;
 
-      CLHEP::HepRandomEngine* rndEngine;
+      CLHEP::HepRandomEngine* rndEngine = nullptr;
       int verbosity_;
 
       /**

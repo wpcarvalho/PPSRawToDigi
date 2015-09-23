@@ -51,10 +51,10 @@
  * SimTrackManager const*
  */
 PPSSD::PPSSD(std::string name,
-		DDCompactView const & cpv,
-		 const SensitiveDetectorCatalog & clg,
-		 edm::ParameterSet const & p,
-		 SimTrackManager const* manager) :
+             DDCompactView const &cpv,
+             const SensitiveDetectorCatalog &clg,
+             edm::ParameterSet const &p,
+             SimTrackManager const *manager) :
   SensitiveTkDetector(name, cpv, clg, p), numberingScheme(0), name(name),
   hcID(-1), theHC(0), theManager(manager), currentHit(0), theTrack(0), 
   currentPV(0), unitID(0),  previousUnitID(0), preStepPoint(0), 
@@ -135,6 +135,8 @@ void PPSSD::Initialize(G4HCofThisEvent * HCE) {
   LogDebug("PPSSim") << "PPSSD : Initialize called for " << name;
 
   theHC = new PPSG4HitCollection(name, collectionName[0]);
+  G4SDManager::GetSDMpointer()->AddNewCollection(name, collectionName[0]);
+
   if (hcID<0) 
     hcID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
   HCE->AddHitsCollection(hcID, theHC);

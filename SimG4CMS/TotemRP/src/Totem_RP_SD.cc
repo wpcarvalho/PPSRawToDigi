@@ -38,6 +38,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "FWCore/MessageLogger/interface/MessageLogger.h"
+
 
 
 Totem_RP_SD::Totem_RP_SD(std::string name, const DDCompactView & cpv, const SensitiveDetectorCatalog & clg,
@@ -98,8 +100,10 @@ void Totem_RP_SD::Initialize(G4HCofThisEvent * HCE) {
   LogDebug("TotemRP") << "Totem_RP_SD : Initialize called for " << name;
 
   theHC = new Totem_RP_G4HitCollection(name, collectionName[0]);
-  if (hcID<0) 
-    hcID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
+  G4SDManager::GetSDMpointer()->AddNewCollection(name, collectionName[0]);
+
+  if (hcID<0)
+    hcID = G4SDManager::GetSDMpointer()->GetCollectionID(theHC);
   HCE->AddHitsCollection(hcID, theHC);
 }
 

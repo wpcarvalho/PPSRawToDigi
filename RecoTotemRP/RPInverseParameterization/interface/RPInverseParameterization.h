@@ -12,7 +12,7 @@
 
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
 #include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
-#include "SimG4CMS/TotemRPProtTranspPar/interface/LHCOpticsApproximator.h"
+#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHitDebug.h"

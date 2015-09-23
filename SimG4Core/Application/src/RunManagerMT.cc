@@ -24,6 +24,7 @@
 #include "SimG4Core/Notification/interface/CurrentG4Track.h"
 #include "SimG4Core/Application/interface/G4RegionReporter.h"
 #include "SimG4Core/Application/interface/CMSGDMLWriteStructure.h"
+#include "SimG4Core/Application/interface/TotemRPProtonTransportPhysics.h"
 
 #include "DetectorDescription/Core/interface/DDCompactView.h"
 
@@ -56,14 +57,6 @@
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
-#include "SimG4Core/Application/interface/BeamProtTransportSetup.h"
-#include "SimG4Core/Application/interface/TotemRPParametrizedPhysics.h"
-#include "G4TransportationManager.hh"
-#include "G4Navigator.hh"
-#include "G4VPhysicalVolume.hh"
-#include "G4RegionStore.hh"
-
 RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
       m_managerInitialized(false),
       m_runTerminated(false),
@@ -71,7 +64,7 @@ RunManagerMT::RunManagerMT(edm::ParameterSet const & p):
       m_PhysicsTablesDir(p.getParameter<std::string>("PhysicsTablesDirectory")),
       m_StorePhysicsTables(p.getParameter<bool>("StorePhysicsTables")),
       m_RestorePhysicsTables(p.getParameter<bool>("RestorePhysicsTables")),
-      m_useMeasuredGeom(p.getUntrackedParameter<bool>("UseMeasuredGeometryRecord",false)),
+      m_TransportParticlesThroughWholeBeampipe(p.getParameter<bool>("TransportParticlesThroughWholeBeampipe")),
       m_pField(p.getParameter<edm::ParameterSet>("MagneticField")),
       m_pPhysics(p.getParameter<edm::ParameterSet>("Physics")),
       m_pRunAction(p.getParameter<edm::ParameterSet>("RunAction")),
@@ -145,7 +138,8 @@ void RunManagerMT::initG4(const DDCompactView *pDD, const MagneticField *pMF,
   phys->RegisterPhysics(new ParametrisedEMPhysics("EMoptions", m_pPhysics));
 
   //Adding Totem proton transport
-  phys->RegisterPhysics(new TotemRPParametrizedPhysics("totem_parametrised_prot_transp", m_pPhysics));
+  if(m_TransportParticlesThroughWholeBeampipe)
+    phys->RegisterPhysics(new TotemRPProtonTransportPhysics("totem_parametrised_prot_transp", m_pPhysics));
 
   m_physicsList->ResetStoredInAscii();
   if (m_RestorePhysicsTables) {

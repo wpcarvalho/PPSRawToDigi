@@ -84,11 +84,10 @@ OscarProducer::OscarProducer(edm::ParameterSet const & p)
   produces<edm::PSimHitContainer>("TrackerHitsTOBHighTof");
   produces<edm::PSimHitContainer>("TrackerHitsTECLowTof");
   produces<edm::PSimHitContainer>("TrackerHitsTECHighTof");
-    
-  produces<edm::PSimHitContainer>("TotemHitsT1");
-  produces<edm::PSimHitContainer>("TotemHitsT2Gem");
+
   produces<edm::PSimHitContainer>("TotemHitsRP");
   produces<edm::PSimHitContainer>("PPSTrackerHits");
+  produces<edm::PSimHitContainer>("PPSTimingHits");
   produces<edm::PSimHitContainer>("FP420SI");
   produces<edm::PSimHitContainer>("BSCHits");
   produces<edm::PSimHitContainer>("PLTHits");

@@ -73,8 +73,6 @@ namespace edm {
       if (!pset.exists("type")) continue; //to allow replacement by empty pset
       std::string object = pset.getParameter<std::string>("type");
       std::vector<InputTag> tags=pset.getParameter<std::vector<InputTag> >("input");
-      LogInfo("MixingModule") <<"TYPE "<<object;
-
 
       //if (!mixProdStep2_) {
 
@@ -182,16 +180,8 @@ namespace edm {
 
               branchesActivate(TypeID(typeid(std::vector<PSimHit>)).friendlyClassName(),subdets[ii],tag,label);
               adjustersObjects_.push_back(new Adjuster<std::vector<PSimHit> >(tag, consumesCollector()));
-              LogInfo("MixingModule") <<"LABEL " << label;
-
-              LogInfo("MixingModule") <<"TAG "<< tag.instance();
-              for(auto const& frame : crossingFrames)
-                LogInfo("MixingModule") <<"FRAME "<< frame;
-
               if(binary_search_all(crossingFrames, tag.instance())) {
                 workersObjects_.push_back(new MixingWorker<PSimHit>(minBunch_,maxBunch_,bunchSpace_,subdets[ii],label,labelCF,maxNbSources_,tag,tagCF));
-                LogInfo("MixingModule") <<"CONSUME " << tag.encode();
-                LogInfo("MixingModule") <<"PRODUCE " << label;
                 produces<CrossingFrame<PSimHit> >(label);
                 consumes<std::vector<PSimHit> >(tag);
               }
@@ -205,7 +195,6 @@ namespace edm {
       //} //if for mixProdStep2
     }//while over the mixObjects parameters
 
-    LogInfo("MixingModule") << "WANTED";
     sort_all(wantedBranches_);
     for (unsigned int branch=0;branch<wantedBranches_.size();++branch)
       LogInfo("MixingModule")<<"Will keep branch "<<wantedBranches_[branch]<<" for mixing ";

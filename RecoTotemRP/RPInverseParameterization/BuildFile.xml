@@ -12,7 +12,7 @@
 <use   name="Geometry/TotemRecords"/>
 <use   name="DataFormats/TotemRPDetId"/>
 <use   name="RecoTotemRP/RPTrackCandidateFitter"/>
-<use   name="SimG4CMS/TotemRPProtTranspPar"/>
+<use   name="SimG4Core/TotemRPProtonTransportParametrization"/>
 <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
 <use   name="TotemCondFormats/DataRecord"/>
 <use   name="FWCore/Utilities"/>

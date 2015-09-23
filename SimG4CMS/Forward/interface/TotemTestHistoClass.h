@@ -19,21 +19,16 @@
 // $Id: TotemTestHistoClass.h,v 1.1.1.1 2007/05/16 15:44:30 hniewiad Exp $
 //
  
-// system include files
 #include <vector>
-
-// user include files
 
 class TotemTestHistoClass {
 
 public:
-
-  // ---------- Constructor and destructor -----------------
   TotemTestHistoClass();
   ~TotemTestHistoClass();
-	 
-  // ---------- Member functions --------------------------- 
+
   void setEVT(int v)      {evt=v;}
+
   void fillHit(int uID, int pType, int tID, int pID, float eLoss, float pAbs,
 	       float vX, float vY, float vZ, float x, float y, float z);
 
@@ -53,12 +48,9 @@ public:
     float vz;
   };
 
-private: 
-	 
-  // ---------- Private Data members ----------------------- 
+private:
   int              evt, hits;
   std::vector<Hit> hit;
-
 };
 
 #endif

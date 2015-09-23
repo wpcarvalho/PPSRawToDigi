@@ -40,19 +40,16 @@
 //
 
 TotemTestGem::TotemTestGem(const edm::ParameterSet &p) :
-        tuplesManager(0), histos(0) {
-
-    edm::ParameterSet m_Anal = p.getParameter<edm::ParameterSet>("TotemTestGem");
-    names = m_Anal.getParameter < std::vector < std::string > > ("Names");
-    fileName = m_Anal.getParameter<std::string>("FileName");
-    fileNameOld = m_Anal.getParameter<std::string>("FileNameOLD");
-
+        parameters(p.getParameter<edm::ParameterSet>("TotemTestGem")),
+        fileName(parameters.getParameter<std::string>("FileName")),
+        names(parameters.getParameter < std::vector < std::string > > ("Names")),
+        tuplesManager(0),
+        fileNameOld(parameters.getParameter<std::string>("FileNameOLD")) {
     edm::LogInfo("ForwardSim") << "TotemTestGem:: Initialised as observer of "
     << "begin of job, begin/end events and of G4step";
     edm::LogInfo("HcalSim") << "TotemTestGem:===>>>  Book user"
     << " Histograms and Root tree";
     histos = new TotemHisto(fileNameOld);
-    std::cout << " New TOTEMHISTO Object created " << std::endl;
 }
 
 TotemTestGem::~TotemTestGem() {
@@ -84,7 +81,6 @@ void TotemTestGem::update(const G4Step *aStep) { }
 void TotemTestGem::update(const EndOfEvent *evt) {
     int evtnum = (*evt)()->GetEventID();
     LogDebug("ForwardSim") << "TotemTestGem:: Fill event " << evtnum;
-//  tuples->setEVT(evtnum);
 
     // access to the G4 hit collections
     G4HCofThisEvent *allHC = (*evt)()->GetHCofThisEvent();
@@ -94,12 +90,12 @@ void TotemTestGem::update(const EndOfEvent *evt) {
         int HCid = G4SDManager::GetSDMpointer()->GetCollectionID(names[in]);
         TotemG4HitCollection *theHC = (TotemG4HitCollection *) allHC->GetHC(HCid);
         LogDebug("ForwardSim") << "TotemTestGem :: Hit Collection for " << names[in]
-        << " of ID " << HCid << " is obtained at " << theHC;
+            << " of ID " << HCid << " is obtained at " << theHC;
 
         if (HCid >= 0 && theHC > 0) {
             int nentries = theHC->entries();
             LogDebug("ForwardSim") << "TotemTestGem :: " << names[in] << " with "
-            << nentries << " entries";
+                << nentries << " entries";
             for (ihit = 0; ihit < nentries; ihit++) {
                 TotemG4Hit *aHit = (*theHC)[ihit];
 
@@ -123,9 +119,7 @@ void TotemTestGem::update(const EndOfEvent *evt) {
                 float VPy = aHit->getVPy();
                 float VPz = aHit->getVPz();
 
-
                 histos->set_EVT(evtnum);
-
                 histos->set_UID(UID);
                 histos->set_Ptype(Ptype);
                 histos->set_TID(TID);
@@ -160,7 +154,6 @@ void TotemTestGem::update(const EndOfEvent *evt) {
 
 
 void TotemTestGem::fillEvent(TotemTestHistoClass & product) {
-
     product.setEVT(evtnum);
 
 //  for (unsigned ihit = 0; ihit < hits.size(); ihit++) {
@@ -182,7 +175,6 @@ void TotemTestGem::fillEvent(TotemTestHistoClass & product) {
 }
 
 void TotemTestGem::clear() {
-
     evtnum = 0;
     hits.clear();
 }

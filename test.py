@@ -1,15 +1,15 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("TDTestElastic")
+process = cms.Process("TestFlatGun")
 
 # Specify the maximum events to simulate
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(10)
 )
 
 # Configure the output module (save the result in a file)
 process.o1 = cms.OutputModule("PoolOutputModule",
-    outputCommands = cms.untracked.vstring('keep *'),
+    outputCommands = cms.untracked.vstring('keep *','drop *_*mix*_*_*', 'drop *_*_*Muon*_*', 'drop *_*_*Ecal*_*', 'drop *_*_*Hcal*_*', 'drop *_*_*Calo*_*', 'drop *_*_*Castor*_*', 'drop *_*_*FP420SI_*', 'drop *_*_*ZDCHITS_*', 'drop *_*_*BSCHits_*', 'drop *_*_*ChamberHits_*', 'drop *_*_*FibreHits_*', 'drop *_*_*WedgeHits_*','drop Sim*_*_*_*','drop edm*_*_*_*'),
     fileName = cms.untracked.string('file:test.root')
 )
 process.outpath = cms.EndPath(process.o1)
@@ -40,6 +40,7 @@ process.load("IOMC.SmearingGenerator.SmearingGenerator_cfi")
 
 # Geometry - beta* specific
 process.load("Configuration.TotemCommon.geometryRP_PPS_cfi")
+
 # TODO Change to the LowBetaSettings
 process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')
 
@@ -64,6 +65,7 @@ process.g4SimHits.PPSSD = cms.PSet(
 )
 
 ################## Step 3 - Magnetic field configuration
+# todo declare in standard way (not as hardcoded raw config)
 
 process.magfield = cms.ESSource("XMLIdealGeometryESSource",
     geomXMLFiles = cms.vstring('Geometry/CMSCommonData/data/normal/cmsextent.xml',
@@ -158,14 +160,36 @@ process.load("SimGeneral.HepPDTESSource.pdt_cfi")
 
 process.load("SimTotem.RPDigiProducer.RPSiDetConf_cfi")
 
-####
+################## STEP 6 reco
+
+process.load("Configuration.TotemStandardSequences.RP_Digi_and_TrackReconstruction_cfi")
+
+################## STEP 7 TotemNtuplizer
+
+process.load("TotemAnalysis.TotemNtuplizer.TotemNtuplizer_cfi")
+process.TotemNtuplizer.outputFileName = "test.ntuple.root"
+process.TotemNtuplizer.RawEventLabel = 'source'
+process.TotemNtuplizer.RPReconstructedProtonCollectionLabel = cms.InputTag('RP220Reconst')
+process.TotemNtuplizer.RPReconstructedProtonPairCollectionLabel = cms.InputTag('RP220Reconst')
+process.TotemNtuplizer.RPMulFittedTrackCollectionLabel = cms.InputTag("RPMulTrackNonParallelCandCollFit")
+process.TotemNtuplizer.includeDigi = cms.bool(True)
+process.TotemNtuplizer.includePatterns = cms.bool(True)
+
+########
 
 process.p1 = cms.Path(
 	process.generator
 	*process.SmearingGenerator
 	*process.g4SimHits
 	*process.mix
-#	*process.RPSiDetDigitizer
+	*process.RPSiDetDigitizer
+	*process.RPClustProd
+	*process.RPHecoHitProd
+	*process.RPSinglTrackCandFind
+	*process.RPSingleTrackCandCollFit
+#	*process.RP220Reconst
+	*process.TotemNtuplizer
+
 )
 
 

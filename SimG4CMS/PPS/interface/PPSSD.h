@@ -45,18 +45,18 @@ class PPSSD : public SensitiveTkDetector,
 
 public:
 
-	/*
-	 * std::string,
-	 * DDCompactView const&,
-	 * SensitiveDetectorCatalog&,
-	 * edm::ParameterSet const&,
-	 * SimTrackManager const*
-	 */
+  /*
+   * std::string,
+   * DDCompactView const&,
+   * SensitiveDetectorCatalog&,
+   * edm::ParameterSet const&,
+   * SimTrackManager const*
+   */
   PPSSD(std::string name,
-			DDCompactView const & cpv,
-			 const SensitiveDetectorCatalog & clg,
-			 edm::ParameterSet const & p,
-			 SimTrackManager const* manager);
+        DDCompactView const &cpv,
+        const SensitiveDetectorCatalog &clg,
+        edm::ParameterSet const &p,
+        SimTrackManager const *manager);
   virtual ~PPSSD();
   
   virtual bool   ProcessHits(G4Step *,G4TouchableHistory *);
