@@ -13,9 +13,11 @@
 <Constant name="EnvelopBBox_dz" value="0.121*cm" />
 
 <Constant name="Offset_wrt_RP_bottom" value="1.5*mm" />   <!-- TO BE CHECKED   -->
-<Constant name="Planes_spacing" value="6*mm" />   <!-- TO BE CHECKED   -->
+<Constant name="Planes_spacing_same_support" value="4.5*mm" />   <!-- TO BE CHECKED   -->
+<Constant name="Planes_spacing_different_support" value="4.04*mm" />    <!-- TO BE CHECKED   -->
+<Constant name="Planes_spacing_OFFSET" value="0.0*mm" />   <!-- TO BE CHECKED   -->
 
-
+<Constant name="AluOffset" value="[PPSTrackerModule:EnvelopT]/2. - [PPSTrackerModule:AluT]/2." />
 
 
 <!-- offset to align the sensors:  www.ge.infn.it/~ferro/CMS/PPS_offset_piani.pdf -->
@@ -52,7 +54,7 @@
 
             <rParent name="RP_Box_103:RP_box_secondary_vacuum"/>
             <rChild name="PPSTrackerModule:Envelop"/>
-            <Translation x="0*mm" y="-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="-2.5*[Planes_spacing]"/>
+            <Translation x="0*mm" y="-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="-(1.5*[Planes_spacing_same_support] + 1*[Planes_spacing_different_support] -[AluOffset]) + [Planes_spacing_OFFSET]"/>
             <rRotation name="ModuleROTATION"/>
 
         </PosPart>
@@ -63,7 +65,7 @@
 
             <rParent name="RP_Box_103:RP_box_secondary_vacuum"/>
             <rChild name="PPSTrackerModule:Envelop"/>
-            <Translation x="0*mm" y="-[ModuleOffset]-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="-1.5*[Planes_spacing]"/>
+            <Translation x="0*mm" y="-[ModuleOffset]-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="-(0.5*[Planes_spacing_same_support] + 1*[Planes_spacing_different_support] +[AluOffset]) + [Planes_spacing_OFFSET]"/>
             <rRotation name="ModuleROTATIONmirror"/>
 
         </PosPart>
@@ -72,7 +74,7 @@
 
             <rParent name="RP_Box_103:RP_box_secondary_vacuum"/>
             <rChild name="PPSTrackerModule:Envelop"/>
-            <Translation x="0*mm" y="-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="-0.5*[Planes_spacing]"/>
+            <Translation x="0*mm" y="-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="-(0.5*[Planes_spacing_same_support] -[AluOffset]) + [Planes_spacing_OFFSET]"/>
             <rRotation name="ModuleROTATION"/>
 
         </PosPart>
@@ -81,7 +83,7 @@
 
             <rParent name="RP_Box_103:RP_box_secondary_vacuum"/>
             <rChild name="PPSTrackerModule:Envelop"/>
-            <Translation x="0*mm" y="-[ModuleOffset]-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="0.5*[Planes_spacing]"/>
+            <Translation x="0*mm" y="-[ModuleOffset]-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="0.5*[Planes_spacing_same_support]  - [AluOffset] + [Planes_spacing_OFFSET]"/>
             <rRotation name="ModuleROTATIONmirror"/>
 
         </PosPart>
@@ -90,7 +92,7 @@
 
             <rParent name="RP_Box_103:RP_box_secondary_vacuum"/>
             <rChild name="PPSTrackerModule:Envelop"/>
-            <Translation x="0*mm" y="-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="1.5*[Planes_spacing]"/>
+            <Translation x="0*mm" y="-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="0.5*[Planes_spacing_same_support] + 1*[Planes_spacing_different_support]  + [AluOffset] + [Planes_spacing_OFFSET]"/>
             <rRotation name="ModuleROTATION"/>
 
         </PosPart>
@@ -99,7 +101,7 @@
 
             <rParent name="RP_Box_103:RP_box_secondary_vacuum"/>
             <rChild name="PPSTrackerModule:Envelop"/>
-            <Translation x="0*mm" y="-[ModuleOffset]-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="2.5*[Planes_spacing]"/>
+            <Translation x="0*mm" y="-[ModuleOffset]-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="1.5*[Planes_spacing_same_support] + 1*[Planes_spacing_different_support]  - [AluOffset] + [Planes_spacing_OFFSET]"/>
             <rRotation name="ModuleROTATIONmirror"/>
 
         </PosPart>
