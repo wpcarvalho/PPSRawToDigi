@@ -11,14 +11,15 @@ Author: F.Ferro - INFN Genova
 <ConstantsSection label="PPSTrackerModule.xml" eval="true">
 
 <Constant name="EnvelopL" value="57*mm"/>
-<Constant name="EnvelopW" value="86*mm"/>     <!-- CE7+TPG+2GlueLayers -->
-<Constant name="EnvelopT" value="1.96*mm"/>
+<Constant name="EnvelopW" value="86*mm"/>     <!-- Alu+Glue+TPG+Glue+hybrid -->
+<Constant name="EnvelopT" value="2.45*mm"/>
 
-<Constant name="CE7L1" value="57*mm-24*mm"/>
-<Constant name="CE7W1" value="86*mm"/>     
-<Constant name="CE7L2" value="24*mm"/>
-<Constant name="CE7W2" value="35*mm"/>     
-<Constant name="CE7T" value="1.26*mm"/>
+<Constant name="AluL1" value="57*mm-24*mm"/>
+<Constant name="AluW1" value="86*mm"/>     
+<Constant name="AluL2" value="24*mm"/>
+<Constant name="AluW2" value="35*mm"/>     
+<Constant name="AluT" value="1.5*mm"/>
+
 
 <Constant name="TPGL" value="57*mm"/>
 <Constant name="TPGW" value="86*mm"/>    
@@ -67,7 +68,7 @@ Author: F.Ferro - INFN Genova
 <SolidSection label="PPSTrackerModule.xml">
 
 
- <Box name="Envelop1"              dx="[EnvelopW]/2."   dy="[EnvelopL]/2."    dz="[EnvelopT]/2." /><!--CE7+TP+2GlueLayers envelop  -->
+ <Box name="Envelop1"              dx="[EnvelopW]/2."   dy="[EnvelopL]/2."    dz="[EnvelopT]/2." /><!--Alu+TP+2GlueLayers envelop  -->
                                            
 <Box name="Envelop2"              dx="[HybridW1]/2."   dy="[HybridL1]/2.+[HybridL2]/2.+[TPGvsROCoffset]/2."  dz="[ROChipT]/2.+[BumpBondT]/2." /> <!-- ROC + a part of Hybrid envelop  -->   
                                            
@@ -87,43 +88,43 @@ Author: F.Ferro - INFN Genova
 
 
 
- <Box name="CE7Plate1"              dx="[CE7W1]/2."   dy="[CE7L1]/2."
-                                           dz="[CE7T]/2." />
- <Box name="CE7Plate2"              dx="[CE7W2]/2."   dy="[CE7L2]/2."
-                                            dz="[CE7T]/2." />
+ <Box name="AluPlate1"              dx="[AluW1]/2."   dy="[AluL1]/2."
+                                           dz="[AluT]/2." />
+ <Box name="AluPlate2"              dx="[AluW2]/2."   dy="[AluL2]/2."
+                                            dz="[AluT]/2." />
  
  
- <UnionSolid name="CE7Plate3">
-    <rSolid name="CE7Plate1"/>
-    <rSolid name="CE7Plate2"/>
-    <Translation x="[CE7W1]/2.-[CE7W2]/2." y="-[CE7L1]/2.-[CE7L2]/2." z="0."/>
+ <UnionSolid name="AluPlate3">
+    <rSolid name="AluPlate1"/>
+    <rSolid name="AluPlate2"/>
+    <Translation x="[AluW1]/2.-[AluW2]/2." y="-[AluL1]/2.-[AluL2]/2." z="0."/>
   </UnionSolid>
 
- <UnionSolid name="CE7Plate">
-    <rSolid name="CE7Plate3"/>
-    <rSolid name="CE7Plate2"/>
-    <Translation x="-[CE7W1]/2.+[CE7W2]/2." y="-[CE7L1]/2.-[CE7L2]/2." z="0."/>
+ <UnionSolid name="AluPlate">
+    <rSolid name="AluPlate3"/>
+    <rSolid name="AluPlate2"/>
+    <Translation x="-[AluW1]/2.+[AluW2]/2." y="-[AluL1]/2.-[AluL2]/2." z="0."/>
   </UnionSolid>
 
-<Tubs name="HoleCE7" rMin="0*m" rMax="2*mm" dz="[CE7T]/2." startPhi="0*deg" deltaPhi="360*deg"/>
+<Tubs name="HoleAlu" rMin="0*m" rMax="2*mm" dz="[AluT]/2." startPhi="0*deg" deltaPhi="360*deg"/>
 
- <Box name="CE7GluePlate1"              dx="[CE7W1]/2."   dy="[CE7L1]/2."
+ <Box name="AluGluePlate1"              dx="[AluW1]/2."   dy="[AluL1]/2."
                                            dz="[GlueT]/2." />
- <Box name="CE7GluePlate2"              dx="[CE7W2]/2."   dy="[CE7L2]/2."
+ <Box name="AluGluePlate2"              dx="[AluW2]/2."   dy="[AluL2]/2."
                                             dz="[GlueT]/2." />
- <UnionSolid name="CE7GluePlate3">
-    <rSolid name="CE7GluePlate1"/>
-    <rSolid name="CE7GluePlate2"/>
-    <Translation x="[CE7W1]/2.-[CE7W2]/2." y="-[CE7L1]/2.-[CE7L2]/2." z="0."/>
+ <UnionSolid name="AluGluePlate3">
+    <rSolid name="AluGluePlate1"/>
+    <rSolid name="AluGluePlate2"/>
+    <Translation x="[AluW1]/2.-[AluW2]/2." y="-[AluL1]/2.-[AluL2]/2." z="0."/>
   </UnionSolid>
 
- <UnionSolid name="CE7GluePlate">
-    <rSolid name="CE7GluePlate3"/>
-    <rSolid name="CE7GluePlate2"/>
-    <Translation x="-[CE7W1]/2.+[CE7W2]/2." y="-[CE7L1]/2.-[CE7L2]/2." z="0."/>
+ <UnionSolid name="AluGluePlate">
+    <rSolid name="AluGluePlate3"/>
+    <rSolid name="AluGluePlate2"/>
+    <Translation x="-[AluW1]/2.+[AluW2]/2." y="-[AluL1]/2.-[AluL2]/2." z="0."/>
   </UnionSolid>
 
-<Tubs name="HoleCE7Glue" rMin="0*m" rMax="2*mm" dz="[GlueT]/2." startPhi="0*deg" deltaPhi="360*deg"/>
+<Tubs name="HoleAluGlue" rMin="0*m" rMax="2*mm" dz="[GlueT]/2." startPhi="0*deg" deltaPhi="360*deg"/>
 
 
 
@@ -184,23 +185,23 @@ Author: F.Ferro - INFN Genova
   <rMaterial name="materials:Vacuum"/>
  </LogicalPart>
 
- <LogicalPart name="CE7Plate" category="unspecified">
-  <rSolid name="CE7Plate"/>
-  <rMaterial name="ppstrackerMaterials:CE7"/>
+ <LogicalPart name="AluPlate" category="unspecified">
+  <rSolid name="AluPlate"/>
+  <rMaterial name="materials:Aluminium"/>
  </LogicalPart>
 
- <LogicalPart name="HoleCE7" category="unspecified">
-  <rSolid name="HoleCE7"/>
+ <LogicalPart name="HoleAlu" category="unspecified">
+  <rSolid name="HoleAlu"/>
   <rMaterial name="materials:Vacuum"/>
  </LogicalPart>
 
- <LogicalPart name="CE7GluePlate" category="unspecified">
-  <rSolid name="CE7GluePlate"/>
+ <LogicalPart name="AluGluePlate" category="unspecified">
+  <rSolid name="AluGluePlate"/>
   <rMaterial name="materials:FPix_Thermflow"/>
  </LogicalPart>
 
- <LogicalPart name="HoleCE7Glue" category="unspecified">
-  <rSolid name="HoleCE7Glue"/>
+ <LogicalPart name="HoleAluGlue" category="unspecified">
+  <rSolid name="HoleAluGlue"/>
   <rMaterial name="materials:Vacuum"/>
  </LogicalPart>
 
@@ -269,62 +270,62 @@ Author: F.Ferro - INFN Genova
 
  <PosPart copyNumber="1">
   <rParent name="PPSTrackerModule:Envelop"/>
-  <rChild name="PPSTrackerModule:CE7Plate"/>
-  <Translation x="0"  y="[EnvelopL]/2.-[CE7L1]/2."  z="-[EnvelopT]/2.+[CE7T]/2." />
+  <rChild name="PPSTrackerModule:AluPlate"/>
+  <Translation x="0"  y="[EnvelopL]/2.-[AluL1]/2."  z="-[EnvelopT]/2.+[AluT]/2." />
  </PosPart>
 
  <PosPart copyNumber="1">
-  <rParent name="PPSTrackerModule:CE7Plate"/>
-  <rChild name="PPSTrackerModule:HoleCE7"/>
-  <Translation x="[CE7W1]/2.-4*mm"  y="[CE7L1]/2.-14*mm"  z="0*mm" />
+  <rParent name="PPSTrackerModule:AluPlate"/>
+  <rChild name="PPSTrackerModule:HoleAlu"/>
+  <Translation x="[AluW1]/2.-4*mm"  y="[AluL1]/2.-14*mm"  z="0*mm" />
  </PosPart>
 
  <PosPart copyNumber="2">
-  <rParent name="PPSTrackerModule:CE7Plate"/>
-  <rChild name="PPSTrackerModule:HoleCE7"/>
-  <Translation x="-[CE7W1]/2.+4*mm"  y="[CE7L1]/2.-14*mm"  z="0*mm" />
+  <rParent name="PPSTrackerModule:AluPlate"/>
+  <rChild name="PPSTrackerModule:HoleAlu"/>
+  <Translation x="-[AluW1]/2.+4*mm"  y="[AluL1]/2.-14*mm"  z="0*mm" />
  </PosPart>
 
  <PosPart copyNumber="3">
-  <rParent name="PPSTrackerModule:CE7Plate"/>
-  <rChild name="PPSTrackerModule:HoleCE7"/>
-  <Translation x="[CE7W1]/2.-4*mm"  y="[CE7L1]/2.-43*mm"  z="0*mm" />
+  <rParent name="PPSTrackerModule:AluPlate"/>
+  <rChild name="PPSTrackerModule:HoleAlu"/>
+  <Translation x="[AluW1]/2.-4*mm"  y="[AluL1]/2.-43*mm"  z="0*mm" />
  </PosPart>
 
  <PosPart copyNumber="4">
-  <rParent name="PPSTrackerModule:CE7Plate"/>
-  <rChild name="PPSTrackerModule:HoleCE7"/>
-  <Translation x="-[CE7W1]/2.+4*mm"  y="[CE7L1]/2.-43*mm"  z="0*mm" />
+  <rParent name="PPSTrackerModule:AluPlate"/>
+  <rChild name="PPSTrackerModule:HoleAlu"/>
+  <Translation x="-[AluW1]/2.+4*mm"  y="[AluL1]/2.-43*mm"  z="0*mm" />
  </PosPart>
 
  <PosPart copyNumber="1">
   <rParent name="PPSTrackerModule:Envelop"/>
-  <rChild name="PPSTrackerModule:CE7GluePlate"/>
-  <Translation x="0"  y="[EnvelopL]/2.-[CE7L1]/2."  z="-[EnvelopT]/2.+[CE7T]+[GlueT]/2." />
+  <rChild name="PPSTrackerModule:AluGluePlate"/>
+  <Translation x="0"  y="[EnvelopL]/2.-[AluL1]/2."  z="-[EnvelopT]/2.+[AluT]+[GlueT]/2." />
  </PosPart>
 
  <PosPart copyNumber="1">
-  <rParent name="PPSTrackerModule:CE7GluePlate"/>
-  <rChild name="PPSTrackerModule:HoleCE7Glue"/>
-  <Translation x="[CE7W1]/2.-4*mm"  y="[CE7L1]/2.-14*mm"  z="0*mm" />
+  <rParent name="PPSTrackerModule:AluGluePlate"/>
+  <rChild name="PPSTrackerModule:HoleAluGlue"/>
+  <Translation x="[AluW1]/2.-4*mm"  y="[AluL1]/2.-14*mm"  z="0*mm" />
  </PosPart>
 
  <PosPart copyNumber="2">
-  <rParent name="PPSTrackerModule:CE7GluePlate"/>
-  <rChild name="PPSTrackerModule:HoleCE7Glue"/>
-  <Translation x="-[CE7W1]/2.+4*mm"  y="[CE7L1]/2.-14*mm"  z="0*mm" />
+  <rParent name="PPSTrackerModule:AluGluePlate"/>
+  <rChild name="PPSTrackerModule:HoleAluGlue"/>
+  <Translation x="-[AluW1]/2.+4*mm"  y="[AluL1]/2.-14*mm"  z="0*mm" />
  </PosPart>
 
  <PosPart copyNumber="3">
-  <rParent name="PPSTrackerModule:CE7GluePlate"/>
-  <rChild name="PPSTrackerModule:HoleCE7Glue"/>
-  <Translation x="[CE7W1]/2.-4*mm"  y="[CE7L1]/2.-43*mm"  z="0*mm" />
+  <rParent name="PPSTrackerModule:AluGluePlate"/>
+  <rChild name="PPSTrackerModule:HoleAluGlue"/>
+  <Translation x="[AluW1]/2.-4*mm"  y="[AluL1]/2.-43*mm"  z="0*mm" />
  </PosPart>
 
  <PosPart copyNumber="4">
-  <rParent name="PPSTrackerModule:CE7GluePlate"/>
-  <rChild name="PPSTrackerModule:HoleCE7Glue"/>
-  <Translation x="-[CE7W1]/2.+4*mm"  y="[CE7L1]/2.-43*mm"  z="0*mm" />
+  <rParent name="PPSTrackerModule:AluGluePlate"/>
+  <rChild name="PPSTrackerModule:HoleAluGlue"/>
+  <Translation x="-[AluW1]/2.+4*mm"  y="[AluL1]/2.-43*mm"  z="0*mm" />
  </PosPart>
 
 
@@ -335,13 +336,13 @@ Author: F.Ferro - INFN Genova
  <PosPart copyNumber="1">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:TPG"/>
-  <Translation x="0"  y="[EnvelopL]/2.-[TPGL]/2."  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]/2." />
+  <Translation x="0"  y="[EnvelopL]/2.-[TPGL]/2."  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]/2." />
  </PosPart>
 
  <PosPart copyNumber="1">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:TPGGlue"/>
-  <Translation x="0"  y="[EnvelopL]/2.-[TPGL]/2."  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]/2." />
+  <Translation x="0"  y="[EnvelopL]/2.-[TPGL]/2."  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]/2." />
  </PosPart>
 
  <PosPart copyNumber="1">
@@ -374,7 +375,7 @@ Author: F.Ferro - INFN Genova
  <PosPart copyNumber="1">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:Hybrid"/>
-  <Translation x="0"  y="[EnvelopL]/2.-[HybridL1]/2."  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[HybridT]/2." />
+  <Translation x="0"  y="[EnvelopL]/2.-[HybridL1]/2."  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[HybridT]/2." />
  </PosPart>
 
 
@@ -385,73 +386,73 @@ Author: F.Ferro - INFN Genova
 <PosPart copyNumber="1">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:ROChip"/>
-  <Translation x="-[ROChipW]/2.-[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+[ROChipL]/2.-[TPGvsROCoffset]"  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]/2." />
+  <Translation x="-[ROChipW]/2.-[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+[ROChipL]/2.-[TPGvsROCoffset]"  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]/2." />
  </PosPart>
 
 <PosPart copyNumber="2">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:ROChip"/>
-  <Translation x="[ROChipW]/2.+[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+[ROChipL]/2.-[TPGvsROCoffset]"  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]/2." />
+  <Translation x="[ROChipW]/2.+[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+[ROChipL]/2.-[TPGvsROCoffset]"  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]/2." />
  </PosPart>
 
 <PosPart copyNumber="3">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:ROChip"/>
-  <Translation x="-[ROChipW]/2.-[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+3*[ROChipL]/2.-[TPGvsROCoffset]+[ROChipSpaceL]"  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]/2." />
+  <Translation x="-[ROChipW]/2.-[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+3*[ROChipL]/2.-[TPGvsROCoffset]+[ROChipSpaceL]"  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]/2." />
  </PosPart>
 
 <PosPart copyNumber="4">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:ROChip"/>
-  <Translation x="[ROChipW]/2.+[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+3*[ROChipL]/2.-[TPGvsROCoffset]+[ROChipSpaceL]"  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]/2." />
+  <Translation x="[ROChipW]/2.+[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+3*[ROChipL]/2.-[TPGvsROCoffset]+[ROChipSpaceL]"  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]/2." />
  </PosPart>
 
 <PosPart copyNumber="5">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:ROChip"/>
-  <Translation x="-[ROChipW]/2.-[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+5*[ROChipL]/2.-[TPGvsROCoffset]+2*[ROChipSpaceL]"  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]/2." />
+  <Translation x="-[ROChipW]/2.-[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+5*[ROChipL]/2.-[TPGvsROCoffset]+2*[ROChipSpaceL]"  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]/2." />
  </PosPart>
 
 <PosPart copyNumber="6">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:ROChip"/>
-  <Translation x="[ROChipW]/2.+[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+5*[ROChipL]/2.-[TPGvsROCoffset]+2*+[ROChipSpaceL]"  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]/2." />
+  <Translation x="[ROChipW]/2.+[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+5*[ROChipL]/2.-[TPGvsROCoffset]+2*+[ROChipSpaceL]"  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]/2." />
  </PosPart>
 
 <PosPart copyNumber="1">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:BumpBond"/>
-  <Translation x="-[ROChipW]/2.-[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+[ROChipL]/2.-[TPGvsROCoffset]"  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]/2." />
+  <Translation x="-[ROChipW]/2.-[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+[ROChipL]/2.-[TPGvsROCoffset]"  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]/2." />
  </PosPart>
 
 <PosPart copyNumber="2">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:BumpBond"/>
-  <Translation x="[ROChipW]/2.+[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+[ROChipL]/2.-[TPGvsROCoffset]"  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]/2." />
+  <Translation x="[ROChipW]/2.+[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+[ROChipL]/2.-[TPGvsROCoffset]"  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]/2." />
  </PosPart>
 
 <PosPart copyNumber="3">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:BumpBond"/>
-  <Translation x="-[ROChipW]/2.-[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+3*[ROChipL]/2.-[TPGvsROCoffset]+[ROChipSpaceL]"  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]/2." />
+  <Translation x="-[ROChipW]/2.-[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+3*[ROChipL]/2.-[TPGvsROCoffset]+[ROChipSpaceL]"  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]/2." />
  </PosPart>
 
 <PosPart copyNumber="4">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:BumpBond"/>
-  <Translation x="[ROChipW]/2.+[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+3*[ROChipL]/2.-[TPGvsROCoffset]+[ROChipSpaceL]"  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]/2." />
+  <Translation x="[ROChipW]/2.+[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+3*[ROChipL]/2.-[TPGvsROCoffset]+[ROChipSpaceL]"  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]/2." />
  </PosPart>
 
 <PosPart copyNumber="5">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:BumpBond"/>
-  <Translation x="-[ROChipW]/2.-[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+5*[ROChipL]/2.-[TPGvsROCoffset]+2*[ROChipSpaceL]"  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]/2." />
+  <Translation x="-[ROChipW]/2.-[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+5*[ROChipL]/2.-[TPGvsROCoffset]+2*[ROChipSpaceL]"  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]/2." />
  </PosPart>
 
 <PosPart copyNumber="6">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:BumpBond"/>
-  <Translation x="[ROChipW]/2.+[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+5*[ROChipL]/2.-[TPGvsROCoffset]+2*+[ROChipSpaceL]"  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]/2." />
+  <Translation x="[ROChipW]/2.+[ROChipSpaceW]/2."  y="[EnvelopL]/2.-[TPGL]+5*[ROChipL]/2.-[TPGvsROCoffset]+2*+[ROChipSpaceL]"  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]/2." />
  </PosPart>
 
 
@@ -468,7 +469,7 @@ Author: F.Ferro - INFN Genova
 <PosPart copyNumber="1">
   <rParent name="PPSTrackerModule:Envelop"/>
   <rChild name="PPSTrackerModule:Wafer"/>
-  <Translation x="0"  y="[EnvelopL]/2.-[TPGL]-[TPGvsROCoffset]-[ROCvsWaferoffset]+[WaferL]/2."  z="-[EnvelopT]/2.+[CE7T]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]+[WaferT]/2." />
+  <Translation x="0"  y="[EnvelopL]/2.-[TPGL]-[TPGvsROCoffset]-[ROCvsWaferoffset]+[WaferL]/2."  z="-[EnvelopT]/2.+[AluT]+[GlueT]+[TPGT]+[GlueT]+[ROChipT]+[BumpBondT]+[WaferT]/2." />
 
 
 
