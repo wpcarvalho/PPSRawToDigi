@@ -44,8 +44,8 @@ Author: F.Ferro - INFN Genova
 
  <Constant name="BumpBondT"          value="0.030*mm"/>
 
- <Constant name="WaferL"            value="25*mm"/>    
- <Constant name="WaferW"            value="17*mm"/>    
+ <Constant name="WaferL"            value="24.4*mm"/>    
+ <Constant name="WaferW"            value="16.6*mm"/>    
  <Constant name="WaferT"            value="0.28*mm"/>   
 
  <Constant name="ROCvsWaferoffset" value="0.4*mm"/>
