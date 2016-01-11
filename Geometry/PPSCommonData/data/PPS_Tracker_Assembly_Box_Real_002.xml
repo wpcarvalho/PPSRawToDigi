@@ -60,7 +60,7 @@ DISPARI: rotatio
 
             <rParent name="RP_Box_002:RP_box_secondary_vacuum"/>
             <rChild name="PPSTrackerModule:Envelop"/>
-            <Translation x="0*mm" y="-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="-(1.5*[Planes_spacing_same_support] + 1*[Planes_spacing_different_support] -[EnvelopOffset]) + [Planes_spacing_OFFSET]"/>
+            <Translation x="0.4*mm" y="-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="-(1.5*[Planes_spacing_same_support] + 1*[Planes_spacing_different_support] -[EnvelopOffset]) + [Planes_spacing_OFFSET]"/>
             <rRotation name="ModuleROTATIONmirror2"/>
 
         </PosPart>
@@ -71,7 +71,7 @@ DISPARI: rotatio
 
             <rParent name="RP_Box_002:RP_box_secondary_vacuum"/>
             <rChild name="PPSTrackerModule:Envelop"/>
-            <Translation x="0*mm" y="-[ModuleOffset]-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="-(0.5*[Planes_spacing_same_support] + 1*[Planes_spacing_different_support] +[EnvelopOffset]) + [Planes_spacing_OFFSET]"/>
+            <Translation x="-0.4*mm" y="-[ModuleOffset]-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="-(0.5*[Planes_spacing_same_support] + 1*[Planes_spacing_different_support] +[EnvelopOffset]) + [Planes_spacing_OFFSET]"/>
             <rRotation name="ModuleROTATIONmirror2"/>
 
         </PosPart>
@@ -80,7 +80,7 @@ DISPARI: rotatio
 
             <rParent name="RP_Box_002:RP_box_secondary_vacuum"/>
             <rChild name="PPSTrackerModule:Envelop"/>
-            <Translation x="0*mm" y="-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="-(0.5*[Planes_spacing_same_support] -[EnvelopOffset]) + [Planes_spacing_OFFSET]"/>
+            <Translation x="0.4*mm" y="-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="-(0.5*[Planes_spacing_same_support] -[EnvelopOffset]) + [Planes_spacing_OFFSET]"/>
             <rRotation name="ModuleROTATIONmirror2"/>
 
         </PosPart>
@@ -89,7 +89,7 @@ DISPARI: rotatio
 
             <rParent name="RP_Box_002:RP_box_secondary_vacuum"/>
             <rChild name="PPSTrackerModule:Envelop"/>
-            <Translation x="0*mm" y="-[ModuleOffset]-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="0.5*[Planes_spacing_same_support]  - [EnvelopOffset] + [Planes_spacing_OFFSET]"/>
+            <Translation x="-0.4*mm" y="-[ModuleOffset]-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="0.5*[Planes_spacing_same_support]  - [EnvelopOffset] + [Planes_spacing_OFFSET]"/>
             <rRotation name="ModuleROTATIONmirror2"/>
 
         </PosPart>
@@ -98,7 +98,7 @@ DISPARI: rotatio
 
             <rParent name="RP_Box_002:RP_box_secondary_vacuum"/>
             <rChild name="PPSTrackerModule:Envelop"/>
-            <Translation x="0*mm" y="-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="0.5*[Planes_spacing_same_support] + 1*[Planes_spacing_different_support]  + [EnvelopOffset] + [Planes_spacing_OFFSET]"/>
+            <Translation x="0.4*mm" y="-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="0.5*[Planes_spacing_same_support] + 1*[Planes_spacing_different_support]  + [EnvelopOffset] + [Planes_spacing_OFFSET]"/>
             <rRotation name="ModuleROTATIONmirror2"/>
 
         </PosPart>
@@ -107,7 +107,7 @@ DISPARI: rotatio
 
             <rParent name="RP_Box_002:RP_box_secondary_vacuum"/>
             <rChild name="PPSTrackerModule:Envelop"/>
-            <Translation x="0*mm" y="-[ModuleOffset]-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="1.5*[Planes_spacing_same_support] + 1*[Planes_spacing_different_support]  - [EnvelopOffset] + [Planes_spacing_OFFSET]"/>
+            <Translation x="-0.4*mm" y="-[ModuleOffset]-[RP_Box:RP_Box_Secondary_Vacuum_Height]/2+[RP_Box:RP_Box_Bottom_Wall_Thickness]/2+[EnvelopBBox_dy]*cos([RotAngle])+[Offset_wrt_RP_bottom]" z="1.5*[Planes_spacing_same_support] + 1*[Planes_spacing_different_support]  - [EnvelopOffset] + [Planes_spacing_OFFSET]"/>
             <rRotation name="ModuleROTATIONmirror2"/>
 
         </PosPart>
