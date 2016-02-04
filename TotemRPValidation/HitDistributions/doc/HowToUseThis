@@ -1,8 +1,0 @@
-1) Prepare a simulation ROOT file. The simulation must be performed up to RPFittedTrackCollection production. You can use config files 
-	Config/SimulateElastic_*.cfg in CVS offline/user/jan
-to simulate elastic events.
-
-2) Update test/hitsBeta90.cfg: select input and output file and list of RP for which you want to produce hit distributions.
-You should also include geometry configuration used to generate input file.
-
-3) cmsRun test/hitsBeta90.cfg
