@@ -1,0 +1,14 @@
+<use   name="FWCore/Framework"/>
+<use   name="TotemRawData/DataFormats"/>
+<use   name="DataFormats/T2Digi"/>
+<use   name="DataFormats/T2DigiVfat"/>
+<use   name="DataFormats/T2DetId"/>
+<use   name="Geometry/TotemGeometry"/>
+<use   name="DataFormats/T1DigiVfat"/>
+<use   name="DataFormats/T1DetId"/>
+<use   name="DataFormats/T1DigiWire"/>
+<use   name="SimTotem/T1Digitizer"/>
+<flags   cxxflags="-O3 -g3 $(CUSTOM_FLAGS)"/>
+<export>
+  <lib   name="1"/>
+</export>

@@ -17,6 +17,7 @@
 #include "TotemRawDataLibrary/DataFormats/interface/SimpleVFATFrameCollection.h"
 #include "TotemRawDataLibrary/DataFormats/interface/OptoRxVFATFrameCollection.h"
 #include "TotemRawDataLibrary/DataFormats/interface/OptoRxSupplementalData.h"
+#include "TotemRawDataLibrary/DataFormats/interface/Raw2DigiStatus.h"
 #include "DataFormats/Common/interface/Wrapper.h"
 #include <vector>
 

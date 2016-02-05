@@ -1,0 +1,220 @@
+<top>
+  <t1_detector_set id="100">
+    <t1_arm id="1">
+
+      <t1_plane id="0">
+	<t1_csc id = "0">
+	  <vfat id="0xa0ec" verbose="255" IdxInFiber="0"  GOHId="2"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xa06c" verbose="255" IdxInFiber="1"  GOHId="2"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xe0de" verbose="255" IdxInFiber="10"  GOHId="2"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xe05e" verbose="255" IdxInFiber="14"  GOHId="2"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+  	</t1_csc>
+	<t1_csc id = "1">
+	  <vfat id="0x9ede" verbose="255" IdxInFiber="8"  GOHId="2"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xc05e" verbose="255" IdxInFiber="9"  GOHId="2"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xecde" verbose="255" IdxInFiber="6"  GOHId="2"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xde5e" verbose="255" IdxInFiber="2"  GOHId="2"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	</t1_csc>
+	<t1_csc id = "2">
+	  <vfat id="0x9e6d" verbose="255" IdxInFiber="8"  GOHId="3"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xc46d" verbose="255" IdxInFiber="9"  GOHId="3"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xdade" verbose="255" IdxInFiber="6"  GOHId="3"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xfade" verbose="255" IdxInFiber="2"  GOHId="3"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	</t1_csc>
+	<t1_csc id = "3">
+	  <vfat id="0x8ced" verbose="255" IdxInFiber="8"  GOHId="4"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xc26d" verbose="255" IdxInFiber="9"  GOHId="4"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xf8ed" verbose="255" IdxInFiber="6"  GOHId="4"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xc6ed" verbose="255" IdxInFiber="2"  GOHId="4"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	</t1_csc>
+	<t1_csc id = "4">
+	  <vfat id="0xccde" verbose="255" IdxInFiber="0"  GOHId="4"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xec5e" verbose="255" IdxInFiber="1"  GOHId="4"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xb6de" verbose="255" IdxInFiber="10"  GOHId="4"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xfe5e" verbose="255" IdxInFiber="14"  GOHId="4"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+  	</t1_csc>
+	<t1_csc id = "5">
+	  <vfat id="0xaaec" verbose="255" IdxInFiber="0"  GOHId="3"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0x8eec" verbose="255" IdxInFiber="1"  GOHId="3"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xa25e" verbose="255" IdxInFiber="10"  GOHId="3"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xa8e9" verbose="255" IdxInFiber="14"  GOHId="3"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />	  
+	</t1_csc>
+      </t1_plane>
+
+      <t1_plane id="1">
+	<t1_csc id = "0">
+	  <vfat id="0xe66d" verbose="255" IdxInFiber="0"  GOHId="1"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xf4ed" verbose="255" IdxInFiber="1"  GOHId="1"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0x9c5e" verbose="255" IdxInFiber="2"  GOHId="1"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0x965e" verbose="255" IdxInFiber="3"  GOHId="1"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xf85e" verbose="255" IdxInFiber="7"  GOHId="1"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+  	</t1_csc>
+	<t1_csc id = "1">
+	  <vfat id="0xe6ed" verbose="255" IdxInFiber="8"  GOHId="1"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xc2ed" verbose="255" IdxInFiber="9"  GOHId="1"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0x98ec" verbose="255" IdxInFiber="13"  GOHId="1"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xe46d" verbose="255" IdxInFiber="12"  GOHId="1"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xe8ed" verbose="255" IdxInFiber="10"  GOHId="1"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+	</t1_csc>
+	<t1_csc id = "2">
+	  <vfat id="0xf2ec" verbose="255" IdxInFiber="8"  GOHId="0"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1"  polarity="a" iid="0" />
+	  <vfat id="0xf06c" verbose="255" IdxInFiber="9"  GOHId="0"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1"  polarity="a" iid="1" />
+	  <vfat id="0x9eec" verbose="255" IdxInFiber="3"  GOHId="0"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xf6ed" verbose="255" IdxInFiber="2"  GOHId="0"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	</t1_csc>
+	<t1_csc id = "3">
+	  <vfat id="0xb46d" verbose="255" IdxInFiber="8"  GOHId="5"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0x8c6d" verbose="255" IdxInFiber="9"  GOHId="5"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xae6d" verbose="255" IdxInFiber="14"  GOHId="5"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0x946d" verbose="255" IdxInFiber="11"  GOHId="5"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xd26d" verbose="255" IdxInFiber="10"  GOHId="5"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+	</t1_csc>
+	<t1_csc id = "4">
+	  <vfat id="0x9aec" verbose="255" IdxInFiber="0"  GOHId="5"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xa4ed" verbose="255" IdxInFiber="1"  GOHId="5"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xce5e" verbose="255" IdxInFiber="3"  GOHId="5"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xbade" verbose="255" IdxInFiber="5"  GOHId="5"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xf469" verbose="255" IdxInFiber="6"  GOHId="5"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+  	</t1_csc>
+	<t1_csc id = "5">
+	  <vfat id="0xfced" verbose="255" IdxInFiber="0"  GOHId="0"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xceed" verbose="255" IdxInFiber="1"  GOHId="0"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xb05e" verbose="255" IdxInFiber="3"  GOHId="0"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0x8ade" verbose="255" IdxInFiber="7"  GOHId="0"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+  	</t1_csc>
+      </t1_plane>
+
+      <t1_plane id="2">
+	<t1_csc id = "0">
+	  <vfat id="0xd66d" verbose="255" IdxInFiber="8"  GOHId="1"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xb46c" verbose="255" IdxInFiber="9"  GOHId="1"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xaade" verbose="255" IdxInFiber="10"  GOHId="1"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xa46b" verbose="255" IdxInFiber="13"  GOHId="1"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xce6c" verbose="255" IdxInFiber="14"  GOHId="1"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+  	</t1_csc>
+	<t1_csc id = "1">
+	  <vfat id="0x9a6c" verbose="255" IdxInFiber="0"  GOHId="1"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xfeec" verbose="255" IdxInFiber="1"  GOHId="1"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0x8a6d" verbose="255" IdxInFiber="6"  GOHId="1"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xba6c" verbose="255" IdxInFiber="3"  GOHId="1"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xbceb" verbose="255" IdxInFiber="2"  GOHId="1"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+	</t1_csc>
+	<t1_csc id = "2">
+	  <vfat id="0x90ed" verbose="255" IdxInFiber="0"  GOHId="0"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xcc5d" verbose="255" IdxInFiber="1"  GOHId="0"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0x9a69" verbose="255" IdxInFiber="6"  GOHId="0"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xaa69" verbose="255" IdxInFiber="5"  GOHId="0"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	</t1_csc>
+	<t1_csc id = "3">
+	  <vfat id="0xe4de" verbose="255" IdxInFiber="0"  GOHId="5"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xfc6c" verbose="255" IdxInFiber="1"  GOHId="5"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xb6ed" verbose="255" IdxInFiber="7"  GOHId="5"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xc65c" verbose="255" IdxInFiber="6"  GOHId="5"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xd86d" verbose="255" IdxInFiber="2"  GOHId="5"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+	</t1_csc>
+	<t1_csc id = "4">
+	  <vfat id="0xe06c" verbose="255" IdxInFiber="8"  GOHId="5"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xf0ec" verbose="255" IdxInFiber="9"  GOHId="5"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xcce9" verbose="255" IdxInFiber="10"  GOHId="5"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xc6de" verbose="255" IdxInFiber="12"  GOHId="5"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xd4de" verbose="255" IdxInFiber="13"  GOHId="5"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+  	</t1_csc>
+	<t1_csc id = "5">
+	  <vfat id="0x9a5e" verbose="255" IdxInFiber="8"  GOHId="0"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xa873" verbose="255" IdxInFiber="9"  GOHId="0"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xdcde" verbose="255" IdxInFiber="10"  GOHId="0"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0x8c5e" verbose="255" IdxInFiber="11"  GOHId="0"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+  	</t1_csc>
+      </t1_plane>
+
+      <t1_plane id="3">
+	<t1_csc id = "0">
+	  <vfat id="0xe6ec" verbose="255" IdxInFiber="0"  GOHId="8"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xc6ec" verbose="255" IdxInFiber="1"  GOHId="8"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xe6de" verbose="255" IdxInFiber="2"  GOHId="8"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xde5d" verbose="255" IdxInFiber="3"  GOHId="8"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xf65d" verbose="255" IdxInFiber="4"  GOHId="8"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+  	</t1_csc>
+	<t1_csc id = "1">
+	  <vfat id="0xc669" verbose="255" IdxInFiber="8"  GOHId="8"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xaa6a" verbose="255" IdxInFiber="9"  GOHId="8"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xb26c" verbose="255" IdxInFiber="12"  GOHId="8"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0x96eb" verbose="255" IdxInFiber="11"  GOHId="8"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xe8dc" verbose="255" IdxInFiber="10"  GOHId="8"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+	</t1_csc>
+	<t1_csc id = "2">
+	  <vfat id="0xacdc" verbose="255" IdxInFiber="8"  GOHId="7"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xa869" verbose="255" IdxInFiber="9"  GOHId="7"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xf06a" verbose="255" IdxInFiber="11"  GOHId="7"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xf86e" verbose="255" IdxInFiber="10"  GOHId="7"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	</t1_csc>
+	<t1_csc id = "3">
+	  <vfat id="0xba5e" verbose="255" IdxInFiber="8"  GOHId="6"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xcee8" verbose="255" IdxInFiber="9"  GOHId="6"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xb4e9" verbose="255" IdxInFiber="12"  GOHId="6"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xa0e9" verbose="255" IdxInFiber="11"  GOHId="6"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xc0e9" verbose="255" IdxInFiber="10"  GOHId="6"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />	  
+	</t1_csc>
+	<t1_csc id = "4">
+	  <vfat id="0xaaed" verbose="255" IdxInFiber="0"  GOHId="6"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0x9aed" verbose="255" IdxInFiber="1"  GOHId="6"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xe85e" verbose="255" IdxInFiber="2"  GOHId="6"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xc25e" verbose="255" IdxInFiber="3"  GOHId="6"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xdc6e" verbose="255" IdxInFiber="6"  GOHId="6"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+  	</t1_csc>
+	<t1_csc id = "5">
+	  <vfat id="0xbc6c" verbose="255" IdxInFiber="0"  GOHId="7"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xbeec" verbose="255" IdxInFiber="1"  GOHId="7"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xa269" verbose="255" IdxInFiber="2"  GOHId="7"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xb46b" verbose="255" IdxInFiber="3"  GOHId="7"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+  	</t1_csc>
+      </t1_plane>
+      
+      <t1_plane id="4">
+	<t1_csc id = "0">
+	  <vfat id="0x8cec" verbose="255" IdxInFiber="8"  GOHId="8"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1"  polarity="a" iid="0" />
+	  <vfat id="0xaeec" verbose="255" IdxInFiber="9"  GOHId="8"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1"  polarity="a" iid="1" />
+	  <vfat id="0xe65e" verbose="255" IdxInFiber="10"  GOHId="8"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xaee2" verbose="255" IdxInFiber="13"  GOHId="8"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xbe5e" verbose="255" IdxInFiber="14"  GOHId="8"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+  	</t1_csc>
+	<t1_csc id = "1">
+	  <vfat id="0xf6ea" verbose="255" IdxInFiber="0"  GOHId="8"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xace8" verbose="255" IdxInFiber="1"  GOHId="8"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xdcee" verbose="255" IdxInFiber="6"  GOHId="8"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0x9a6a" verbose="255" IdxInFiber="5"  GOHId="8"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xb8e9" verbose="255" IdxInFiber="2"  GOHId="8"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+	</t1_csc>
+	<t1_csc id = "2">
+	  <vfat id="0xbc6a" verbose="255" IdxInFiber="0"  GOHId="7"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xe8ee" verbose="255" IdxInFiber="1"  GOHId="7"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xec69" verbose="255" IdxInFiber="7"  GOHId="7"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xc6e8" verbose="255" IdxInFiber="6"  GOHId="7"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0x8ae8" verbose="255" IdxInFiber="2"  GOHId="7"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+	</t1_csc>
+	<t1_csc id = "3">
+	  <vfat id="0xc469" verbose="255" IdxInFiber="0"  GOHId="6"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xb869" verbose="255" IdxInFiber="1"  GOHId="6"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xce69" verbose="255" IdxInFiber="4"  GOHId="6"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xee69" verbose="255" IdxInFiber="3"  GOHId="6"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xe4e9" verbose="255" IdxInFiber="2"  GOHId="6"  OptoRxId="1" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+	</t1_csc>
+ 	<t1_csc id = "4">
+	  <vfat id="0xe46c" verbose="255" IdxInFiber="8"  GOHId="6"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xfaec" verbose="255" IdxInFiber="9"  GOHId="6"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xb0dd" verbose="255" IdxInFiber="10"  GOHId="6"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0xf45e" verbose="255" IdxInFiber="12"  GOHId="6"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xc0e2" verbose="255" IdxInFiber="13"  GOHId="6"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+  	</t1_csc>
+	<t1_csc id = "5">
+	  <vfat id="0xac62" verbose="255" IdxInFiber="8"  GOHId="7"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="0" />
+	  <vfat id="0xaa6c" verbose="255" IdxInFiber="9"  GOHId="7"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="a" iid="1" />
+	  <vfat id="0xecee" verbose="255" IdxInFiber="10"  GOHId="7"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="0" />
+	  <vfat id="0x8ceb" verbose="255" IdxInFiber="11"  GOHId="7"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="1" />
+	  <vfat id="0xe45e" verbose="255" IdxInFiber="14"  GOHId="7"  OptoRxId="2" TOTFEDId="8" SubSystemId="T1" polarity="c" iid="2" />
+  	</t1_csc>
+      </t1_plane>
+      
+    </t1_arm>
+  </t1_detector_set>
+</top>

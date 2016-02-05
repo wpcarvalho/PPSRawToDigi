@@ -1,4 +1,13 @@
 <lcgdict>
+    <class name="Totem::Raw2DigiStatus"/>
+    <class name="edm::Wrapper<Totem::Raw2DigiStatus>"/>
+
+    <class name="Totem::VFATStatus"/>
+    <class name="edm::Wrapper<Totem::VFATStatus>"/>
+	
+    <class name="std::bitset<8>"/>
+    <class name="edm::Wrapper<std::bitset<8> >"/>
+	
     <class name="Totem::OldVFATFrame"/>
     <class name="std::vector<Totem::OldVFATFrame>"/>
 
