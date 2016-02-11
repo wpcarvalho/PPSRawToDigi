@@ -39,7 +39,7 @@ process.DAQMappingSourceXML.maskFileNames.append('TotemCondFormats/DAQInformatio
 
 process.load("Configuration.TotemCommon.RandomNumbers_cfi")
 
-process.load('TotemRawData.RawToDigi.Raw2DigiProducer_cfi')
+process.load('TotemRawDataLibrary.RawToDigi.Raw2DigiProducer_cfi')
 process.Raw2DigiProducer.rpDataProductLabel = cms.untracked.string("")
 process.Raw2DigiProducer.rpCCProductLabel = cms.untracked.string("")
 
