@@ -58,8 +58,8 @@ RawDataSource::~RawDataSource()
 }
 
 //----------------------------------------------------------------------------------------------------
-
-boost::shared_ptr<RunAuxiliary> RawDataSource::readRunAuxiliary_()
+//boost::shared_ptr<RunAuxiliary> RawDataSource::readRunAuxiliary_()
+std::shared_ptr<RunAuxiliary> RawDataSource::readRunAuxiliary_()
 {
 #ifdef DEBUG
   printf(">> RawDataSource::readRunAuxiliary_\n");
@@ -68,12 +68,12 @@ boost::shared_ptr<RunAuxiliary> RawDataSource::readRunAuxiliary_()
   Timestamp ts_beg(currentRawEvent->timestamp << 32);
   Timestamp ts_end(Timestamp::endOfTime().value() - 0);
 
-  return boost::shared_ptr < RunAuxiliary > (new RunAuxiliary(eventID.run(), ts_beg, ts_end));
+  return std::shared_ptr < RunAuxiliary > (new RunAuxiliary(eventID.run(), ts_beg, ts_end));
 }
 
 //----------------------------------------------------------------------------------------------------
-
-boost::shared_ptr<LuminosityBlockAuxiliary> RawDataSource::readLuminosityBlockAuxiliary_()
+//boost::shared_ptr<LuminosityBlockAuxiliary> RawDataSource::readLuminosityBlockAuxiliary_()
+std::shared_ptr<LuminosityBlockAuxiliary> RawDataSource::readLuminosityBlockAuxiliary_()
 {
 #ifdef DEBUG
   printf(">> RawDataSource::readLuminosityBlockAuxiliary_\n");
@@ -83,7 +83,7 @@ boost::shared_ptr<LuminosityBlockAuxiliary> RawDataSource::readLuminosityBlockAu
   Timestamp ts_beg(currentRawEvent->timestamp << 32);
   Timestamp ts_end(((currentRawEvent->timestamp + 1) << 32) - 1);
 
-  return boost::shared_ptr <LuminosityBlockAuxiliary> (new LuminosityBlockAuxiliary(eventID.run(),
+  return std::shared_ptr <LuminosityBlockAuxiliary> (new LuminosityBlockAuxiliary(eventID.run(),
     eventID.luminosityBlock(), ts_beg, ts_end));
 }
 

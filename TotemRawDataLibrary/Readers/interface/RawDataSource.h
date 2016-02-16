@@ -94,11 +94,12 @@ class RawDataSource : public InputSource
     virtual ItemType getNextItemType();
     
  /// called by the framework for item type 'IsRun'
-    virtual boost::shared_ptr<RunAuxiliary> readRunAuxiliary_();
-  
+//    virtual boost::shared_ptr<RunAuxiliary> readRunAuxiliary_();
+       virtual std::shared_ptr<RunAuxiliary> readRunAuxiliary_();	
+ 
 /// called by the framework for item type 'IsLumi'
-    virtual boost::shared_ptr<LuminosityBlockAuxiliary> readLuminosityBlockAuxiliary_();
-  
+    //virtual boost::shared_ptr<LuminosityBlockAuxiliary> readLuminosityBlockAuxiliary_();
+    virtual std::shared_ptr<LuminosityBlockAuxiliary> readLuminosityBlockAuxiliary_();  
   /// called by the framework for item type 'IsEvent'
     /// the cached (pre-loaded) raw data (currentRawEvent) are inserted into the event
     virtual void readEvent_(EventPrincipal& eventPrincipal);
