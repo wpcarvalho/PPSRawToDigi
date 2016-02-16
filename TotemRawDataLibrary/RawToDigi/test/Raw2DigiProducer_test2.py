@@ -9,9 +9,8 @@ process.maxEvents = cms.untracked.PSet(
 process.load("Configuration.TotemCommon.LoggerMin_cfi")
 
 # raw data source
-process.load("TotemRawDataLibrary.Readers.RawDataSource_cfi")
-#process.source.fileNames.append('root://eostotem//eos/totem/data/rawdata/2015/run_9998_EVB15_1.001.srs')
-process.source.fileNames.append('/afs/cern.ch/work/p/polme/public/totemdata/run_9881_EVB13_1.000.srs')
+process.load("TotemRawData.Readers.RawDataSource_cfi")
+process.source.fileNames.append('/castor/cern.ch/totem/LHCRawData/2011/Physics/run_5656.000.vmea')
 
 # mapping files
 process.load('TotemCondFormats.DAQInformation.DAQMappingSourceXML_cfi')

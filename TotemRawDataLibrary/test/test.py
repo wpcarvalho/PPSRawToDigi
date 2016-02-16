@@ -7,11 +7,12 @@ process.maxEvents = cms.untracked.PSet(
 input = cms.untracked.int32(10)
 )
 
-#process.load('TotemRawDataLibrary.Readers.RawDataSource_cfi')
-#process.source.fileNames = cms.untracked.vstring()
+process.load('TotemRawDataLibrary.Readers.RawDataSource_cfi')
+process.source.fileNames = cms.untracked.vstring()
 
-# TODO change input files here
-process.source.fileNames.append('root://eostotem//eos/totem/data/rawdata/2015/run_9998_EVB15_1.001.srs')
+# TODO change input files here run_9881_EVB13_1.000
+process.source.fileNames.append('/afs/cern.ch/work/p/polme/public/totemdata/run_9881_EVB13_1.000.srs')
+#process.source.fileNames.append('root://eostotem//eos/totem/data/rawdata/2015/run_EVB12_9417.000.srs')
 
 # Should review these config file
 process.load("Configuration.TotemCommon.LoggerMin_cfi") # cmssw_7_0
@@ -82,7 +83,7 @@ outputCommands = cms.untracked.vstring('keep *')
 
 process.path = cms.Path(
 process.Raw2DigiProducer
-*process.TriggerBits
+#*process.TriggerBits
 *process.RPClustProd
 *process.RPHecoHitProd
 *process.RPSinglTrackCandFind
