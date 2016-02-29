@@ -1,0 +1,7 @@
+### Python template
+__init__.py
+*.pyc
+
+### Clion files
+CMakeLists.txt
+.idea
