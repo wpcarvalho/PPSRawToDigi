@@ -366,7 +366,8 @@ void Raw2DigiProducer::produce(edm::Event& e, const edm::EventSetup& es)
   //e.put(rpCCOutput, rpCCProductLabel);
   e.put(conversionStatus, conversionStatusLabel);
 
-  rpDataEndJob(e);   
+  rpDataEndJob(e);
+  std::cout << "Raw2DigiProducer END\n";
 }
 
 //-------------------------------------------------------------------------------------------------

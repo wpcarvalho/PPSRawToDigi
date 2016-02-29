@@ -54,6 +54,7 @@ class RPRecoHitProducer : public edm::EDProducer
     //std::string cluster_label_;
     //std::string rec_hit_label_;
     edm::InputTag cluster_label_;
+    edm::EDGetTokenT<edm::DetSetVector<RPDigCluster> >cluster_label_Token_;
     edm::ESHandle<RPDetClusterSigmas> cluster_sigmas_;
 };
 

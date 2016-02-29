@@ -21,6 +21,9 @@ RPClusterizer::RPClusterizer(edm::ParameterSet const& conf) :
 //  clusterLabel_ = conf.getParameter<std::string>("ClusterLabel");
   //produces< edm::DetSetVector<RPDigCluster> > (clusterLabel_);
   produces< edm::DetSetVector<RPDigCluster> > ();
+  digiInputTagToken_ = consumes<edm::DetSetVector<RPStripDigi> >(digiInputTag_);
+
+
 }
  
 // Virtual destructor needed.
@@ -48,7 +51,9 @@ void RPClusterizer::produce(edm::Event& e, const edm::EventSetup& es)
   std::vector< edm::DetSet<RPDigCluster> > vRPStripCluster;
   vRPStripCluster.reserve(240);
   
-  e.getByLabel(digiInputTag_, input);  //FIXME: fix this label
+//  e.getByLabel(digiInputTag_, input);  //FIXME: fix this label
+   e.getByToken(digiInputTagToken_, input);
+
 //  e.getByType(input);  //FIXME: fix this label
  
   if(verbosity_)

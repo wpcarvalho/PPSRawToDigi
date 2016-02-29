@@ -233,7 +233,7 @@ process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
 
 process.load("RecoTotemRP.RPSingleCandidateTrackFinder.RPSingleTrackCandFindConf_cfi")
 
-process.p1 = cms.Path(process.VtxSmeared*process.SimG4Object*process.mix*process.RPSiDetDigitizer*process.RPClustProd*process.RPRecoHitProd*process.RPSinglTrackCandFind)
+process.p1 = cms.Path(process.VtxSmeared*process.SimG4Object*process.mix*process.RPSiDetDigitizer*process.RPClustProd*process.RPHecoHitProd*process.RPSinglTrackCandFind)
 
 process.outpath = cms.EndPath(process.o1)
 

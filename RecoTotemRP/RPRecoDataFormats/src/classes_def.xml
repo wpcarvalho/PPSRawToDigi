@@ -33,7 +33,6 @@
   <class name="std::pair<RPId, RPFittedTrack>"/>
   <class name="std::pair<RPId, std::vector<RPFittedTrack> >"/>
   <class name="RPDetHitPoint"/>
-  <class name="TVector3"/>
   <class name="std::vector<RPDetHitPoint>"/>
   <class name="std::map<RPId, RPFittedTrack>"/>
   <class name="std::map<RPId, std::vector<RPFittedTrack> >"/>
@@ -44,21 +43,10 @@
   <class name="RPMulFittedTrackCollection"/>
   <class name="edm::Wrapper<RPMulFittedTrackCollection> "/>
   <class name="edm::Wrapper<RPDetHitPoint>"/>
-  <class name="edm::Wrapper<TVector3>"/>
   <class name="edm::Wrapper<std::vector<RPDetHitPoint> >"/>
-  <class name="TObject"/>
-  <class name="edm::Wrapper<TObject>"/>
   
   <class name="edm::Wrapper<RPFittedTrack>"/>
 
-  <class name="RPReconstructedProton"/>
-  <class name="edm::Wrapper<RPReconstructedProton>"/>
-  <class name="std::vector<RPReconstructedProton>"/>
-  
-  <class name="RPReconstructedProtonCollection"/>
-  <class name="edm::Wrapper<RPReconstructedProtonCollection>"/>
-  
-  <class name="RP2DHit"/>
   <class name="edm::Wrapper<RP2DHit>"/>
   <class name="RP2DHitDebug"/>
   <class name="std::pair<unsigned int,RP2DHitDebug>"/>
@@ -66,21 +54,6 @@
   <class name="std::map<RPId, RP2DHitDebug>"/>
   <class name="edm::Wrapper<std::map<RPId, RP2DHitDebug> >"/>
   
-  <class name="RPReconstructedProtonPair"/>
-  <class name="edm::Wrapper<RPReconstructedProtonPair>"/>
-  <class name="std::vector<RPReconstructedProtonPair>"/>
-  <class name="RPReconstructedProtonPairCollection"/>
-  <class name="edm::Wrapper<RPReconstructedProtonPairCollection>"/>
-
-  <class name="RPRecoElasticEvent"/>
-  <class name="RPRecoElasticEvent::road_type"/>
-  <class name="std::vector<RPRecoElasticEvent::road_type>"/>
-  <class name="RPRecoElasticEvent::fit_type"/>
-  <class name="std::vector<RPRecoElasticEvent::fit_type>"/>
-  <class name="edm::Wrapper<RPRecoElasticEvent>"/>
-  
-  <class name="edm::Wrapper<CentralMassInfo>"/>
-  <class name="CentralMassInfo"/>
  
   <class name="RPRecognizedPatterns"/>
   <class name="RPRecognizedPatterns::Line"/>

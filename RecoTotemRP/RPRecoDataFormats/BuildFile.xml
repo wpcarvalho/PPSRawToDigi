@@ -5,7 +5,7 @@
 <use   name="rootrflx"/>
 <use   name="clhep"/>
 <use   name="SimDataFormats/GeneratorProducts"/>
-<use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
+#<use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
 <export>
   <lib   name="1"/>
 </export>

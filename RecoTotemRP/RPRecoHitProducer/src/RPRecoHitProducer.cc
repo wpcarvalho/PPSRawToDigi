@@ -23,6 +23,9 @@ RPRecoHitProducer::RPRecoHitProducer(const edm::ParameterSet& conf) :
 //  rec_hit_label_ = conf.getParameter<std::string>("RecHitLabel");
 //  produces< edm::DetSetVector<RPRecoHit> > (rec_hit_label_);
   produces< edm::DetSetVector<RPRecoHit> > ();
+  cluster_label_Token_ = consumes<edm::DetSetVector<RPDigCluster> >(cluster_label_);
+
+
 }
  
 // Virtual destructor needed.
@@ -54,9 +57,12 @@ void RPRecoHitProducer::produce(edm::Event& e, const edm::EventSetup& es)
   std::vector< edm::DetSet<RPRecoHit> > vRPRecoHits;
   vRPRecoHits.reserve(240);
   
-  e.getByLabel(cluster_label_, input);  //FIXME: fix this label
+ // e.getByLabel(cluster_label_, input);  //FIXME: fix this label
 //  e.getByType(input);
-  
+    e.getByToken(cluster_label_Token_, input);
+ 
+
+ 
   if(input->size())
     run(*input,vRPRecoHits);
    
@@ -65,6 +71,8 @@ void RPRecoHitProducer::produce(edm::Event& e, const edm::EventSetup& es)
  
   // Step D: write output to file
   e.put(output);
+
+  std::cout << "RPRecoHitProducer END\n";
 }
 
 
