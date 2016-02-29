@@ -3,10 +3,6 @@
 * This is a part of TOTEM offline software.
 * Authors: 
 *   Jan Kašpar (jan.kaspar@gmail.com)
-*    
-* $$RCSfile: DAQInformationRP.h,v $: $
-* $Revision: 4564 $
-* $Date: 2011-07-29 13:48:25 +0200 (Pt, 29 lip 2011) $
 *
 ****************************************************************************/
 

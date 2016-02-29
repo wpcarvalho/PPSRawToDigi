@@ -4,10 +4,6 @@
 * Authors: 
 *   Maciej Wróbel (wroblisko@gmail.com)
 *   Jan Kašpar (jan.kaspar@cern.ch)
-*    
-* $Id: AnalysisMask.h 4564 2011-07-29 11:48:25Z jkaspar $
-* $Revision: 4564 $
-* $Date: 2011-07-29 13:48:25 +0200 (Pt, 29 lip 2011) $
 *
 ****************************************************************************/
 

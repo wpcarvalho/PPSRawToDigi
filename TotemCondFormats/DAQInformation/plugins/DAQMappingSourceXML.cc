@@ -7,10 +7,6 @@
 *   Jan Kašpar (jan.kaspar@cern.ch)
 *   Marcin Borratynski (mborratynski@gmail.com)
 *
-* $Id: DAQMappingSourceXML.cc 4685 2011-08-11 15:10:52Z jkaspar $
-* $Revision: 4685 $
-* $Date: 2011-08-11 17:10:52 +0200 (Cz, 11 sie 2011) $
-*
 * IMPORTANT:
 * Please keep the documentation at
 * https://twiki.cern.ch/twiki/bin/view/TOTEM/CompTotemRawData

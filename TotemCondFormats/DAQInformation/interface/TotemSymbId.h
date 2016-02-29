@@ -4,10 +4,6 @@
 * Authors: 
 *	Tuomas Tajakka
 *   Jan Kašpar (jan.kaspar@cern.ch)
-*    
-* $Id: TotemSymbId.h 9977 2015-01-12 14:00:26Z tsodzawi $
-* $Revision: 9977 $
-* $Date: 2015-01-12 16:00:26 +0200 (pon, 12 sty 2015) $
 *
 ****************************************************************************/
 
