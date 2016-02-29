@@ -19,7 +19,7 @@ from RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi import *
 # RPClustProd.Verbosity = 1
 
 from RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi import *
-# RPHecoHitProd.Verbosity = 1
+# RPRecoHitProd.Verbosity = 1
 
 from RecoTotemRP.RPSingleCandidateTrackFinder.RPSingleTrackCandFindConf_cfi import *
 # RPSinglTrackCandFind.Verbosity = 1

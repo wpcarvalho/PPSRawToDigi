@@ -85,12 +85,11 @@ process.path = cms.Path(
 process.Raw2DigiProducer
 #*process.TriggerBits
 *process.RPClustProd
-*process.RPHecoHitProd
+*process.RPRecoHitProd
 *process.RPSinglTrackCandFind
 #*process.NonParallelTrackFinder
 *process.RPSingleTrackCandCollFit
 #*process.RPMulTrackNonParallelCandCollFit
-#*process.RPCC
 *process.RP220Reconst
 )
 

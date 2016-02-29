@@ -46,7 +46,6 @@ DataFile::OpenStatus VMEAStream::Open(const std::string &filename)
 #ifdef DEBUG
   printf(">> VMEAStream::Open\n");
 #endif
-
   // check if the source is a VMEA Stream
   size_t ddotPos = filename.rfind("://");
   string prefix = filename.substr(0, ddotPos);
@@ -84,13 +83,25 @@ DataFile::OpenStatus VMEAStream::Open(const std::string &filename)
 
 //----------------------------------------------------------------------------------------------------
 
+DataFile::OpenStatus VMEAStream::Open(StorageFile*)
+{
+  //todo: does it make no sense?
+  return osOK;
+}
+
+//----------------------------------------------------------------------------------------------------
+
 void VMEAStream::Close()
 {
 }
 
 //----------------------------------------------------------------------------------------------------
 
-unsigned char VMEAStream::GetNextEvent(RawEvent *event)
+unsigned char VMEAStream::GetNextEvent(RawEvent*
+  #ifdef USE_DAQA
+    event
+  #endif
+  )
 {
 #ifdef DEBUG
   printf(">> VMEAStream::GetNextEvent\n");

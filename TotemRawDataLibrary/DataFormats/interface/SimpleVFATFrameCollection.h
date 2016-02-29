@@ -13,25 +13,21 @@
 #define _Totem_SimpleVFATFrameCollection_h_
 
 #include "TotemRawDataLibrary/DataFormats/interface/VFATFrameCollection.h"
-#include "TotemRawDataLibrary/DataFormats/interface/OldVFATFrame.h"
 #include "TotemRawDataLibrary/DataFormats/interface/VFATFrame.h"
 
 #include <map>
 
-  #include <cstdio>
+#include <cstdio>
 
 namespace Totem {
 
 /**
-\ingroup TotemRawDataLibrary
-\brief A simple implementation of VFAT frame collection.
-
-Based on std::map<FramePosition, VFATFrame>
+ * A basic implementation of VFAT frame collection, as map: FramePosition --> VFATFrame.
 **/
 class SimpleVFATFrameCollection : public VFATFrameCollection
 {
   protected:
-    typedef std::map<FramePosition, OldVFATFrame> MapType;
+    typedef std::map<FramePosition, VFATFrame> MapType;
 
     MapType data;
 
@@ -44,24 +40,39 @@ class SimpleVFATFrameCollection : public VFATFrameCollection
     ~SimpleVFATFrameCollection();
 
     virtual std::string GetClassName() const
-      { return "SimpleVFATFrameCollection"; }
+    {
+      return "SimpleVFATFrameCollection";
+    }
 
-    const OldVFATFrame* GetFrameByID(unsigned int ID) const;
-    const OldVFATFrame* GetFrameByIndex(FramePosition index) const;
+    const VFATFrame* GetFrameByID(unsigned int ID) const;
+    const VFATFrame* GetFrameByIndex(FramePosition index) const;
 
     virtual unsigned int Size() const
-      { return data.size(); }
+    {
+      return data.size();
+    }
 
     virtual bool Empty() const
-      { return (data.size() == 0); }
+    {
+      return (data.size() == 0);
+    }
+
+    void Insert(const FramePosition &index, const VFATFrame &frame)
+    {
+      data.insert(std::pair<FramePosition, VFATFrame>(index, frame));
+    }
 
     /// inserts an empty (default) frame to the given position and returns pointer to the frame
-    OldVFATFrame* InsertEmptyFrame(FramePosition index)
-      { return &data.insert(std::pair<FramePosition, OldVFATFrame>(index, OldVFATFrame())).first->second; }
+    VFATFrame* InsertEmptyFrame(FramePosition index)
+    {
+      return &data.insert(std::pair<FramePosition, VFATFrame>(index, VFATFrame())).first->second;
+    }
 
     /// cleans completely the collection
     void Clear()
-      { data.clear(); }
+    {
+      data.clear();
+    }
 };
 
 } // namespace

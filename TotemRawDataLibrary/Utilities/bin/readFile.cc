@@ -14,32 +14,83 @@
 #include "TotemRawDataLibrary/Utilities/interface/TestECProgress.h"
 
 #include <vector>
+#include <cstring>
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <cmath>
 #include <map>
+#include <csignal>
 
 using namespace Totem;
 using namespace std;
 
+//----------------------------------------------------------------------------------------------------
 
 void PrintUsage()
 {
-  printf("USAGE: readFile <data file>\n");
+  printf("USAGE: readFile [options] <data file>\n");
+  printf("OPTIONS:\n");
+  printf("    -events <num>    number of events to process\n");
+  printf("                     default: process all available events\n");
+}
+
+//----------------------------------------------------------------------------------------------------
+// SIG_INT handling
+
+bool shallStop = false;
+
+void SigIntHandler(int)
+{
+    printf(">> User interrupt.\n");
+    shallStop = true;
 }
 
 //----------------------------------------------------------------------------------------------------
 
 int main(int argc, char *argv[])
 {
-  if (argc != 2) {
+  // parse command-line parameters
+  unsigned short inputIndex = 0;
+  unsigned int maxEvents = 0;
+  for (int i = 1; i < argc; i++)
+  {
+    if (strcmp(argv[i], "-events") == 0)
+    {
+      if (++i >= argc)
+      {
+        printf("ERROR: Option -events requires a parameter.\n");
+        PrintUsage();
+        return 1;
+      }
+
+      maxEvents = atoi(argv[i]);
+
+      continue;
+    }
+
+    if (argv[i][0] != '-')
+    {
+      inputIndex = i;
+      continue;
+    }
+
+    printf("ERROR: Unrecognized option `%s'.\n", argv[i]);
     PrintUsage();
-    return 1;
+    return 5;
   }
 
-  DataFile* input = DataFile::OpenStandard(argv[1]);
-  if (!input) {
+  if (inputIndex == 0)
+  {
+	printf("ERROR: You must specify an input file.\n");
+	PrintUsage();
+	return 6;
+  }
+
+  // open file
+  DataFile* input = DataFile::OpenStandard(argv[inputIndex]);
+  if (!input)
+  {
     printf("Error in opening file\n");
     return 2;
   }
@@ -52,7 +103,13 @@ int main(int argc, char *argv[])
   double mean_skew = 0;
   double mean_ldc_count = 0, mean_ldc_spread = 0;
   map<unsigned int, pair<unsigned int, double> > perLDCStat;
-  while (!input->GetNextEvent(event)) {
+
+  signal(SIGINT, SigIntHandler);
+  while (!shallStop)
+  {
+    if (input->GetNextEvent(event))
+      break;
+
     // first and last GDC timestamp
     if (!evCounter)
       firstTS = event->timestamp;
@@ -61,7 +118,8 @@ int main(int argc, char *argv[])
     // LDC statistics
     unsigned int S1=0;
     double St=0, Stt=0;
-    for (map<unsigned int, time_t>::iterator it = event->ldcTimeStamps.begin(); it != event->ldcTimeStamps.end(); ++it) {
+    for (map<unsigned int, time_t>::iterator it = event->ldcTimeStamps.begin(); it != event->ldcTimeStamps.end(); ++it)
+    {
       S1 += 1;
       St += it->second;
       Stt += it->second * it->second;
@@ -81,6 +139,10 @@ int main(int argc, char *argv[])
 
     // event counter
     evCounter++;
+
+    // stop if number of events has reached maximum
+    if (maxEvents > 0 && evCounter >= maxEvents)
+      break;
   }
 
   mean_skew /= evCounter;

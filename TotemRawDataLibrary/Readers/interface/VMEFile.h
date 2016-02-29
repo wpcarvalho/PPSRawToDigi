@@ -15,6 +15,9 @@
 #include "TotemRawDataLibrary/Readers/interface/CircularBuffer.h"
 #include "TotemRawDataLibrary/DataFormats/interface/OptoRxVFATFrameCollection.h"
 #include "TotemRawDataLibrary/DataFormats/interface/RawEvent.h"
+#include "TotemRawDataLibrary/Readers/interface/StorageFile.h"
+
+class StorageFile;
 
 #include <vector>
 #include <stdio.h>
@@ -22,7 +25,6 @@
 namespace Totem {
 
 /**
- * \ingroup TotemRawDataLibrary
  * Reads a VME file.
 **/
 class VMEFile : public DataFile
@@ -37,6 +39,7 @@ class VMEFile : public DataFile
     ~VMEFile();
 
     virtual OpenStatus Open(const std::string &);
+    virtual OpenStatus Open(StorageFile* storageFile);
     virtual void Close();
     
     virtual VFATFrameCollection* CreateCollection() const
@@ -67,17 +70,17 @@ class VMEFile : public DataFile
       { return true; }
 
   protected:
-    ///< circular buffer of words
+    /// circular buffer of words
     CircularBuffer<word> *buf;
     
-    ///< Stores event positions in file
-    ///< status of indexing of event positions
+    /// Stores event positions in file.
+    /// status of indexing of event positions
     std::vector<CircularBuffer<word>::position_type> positions;
                                       
-    ///< number of corrupted frames
+    /// number of corrupted frames
     unsigned int corruptedEventCounter;
     
-    ///< check if matching header and footer
+    /// check if matching header and footer
     bool MatchingHeaderFooter(word head, word foot);
 };
 

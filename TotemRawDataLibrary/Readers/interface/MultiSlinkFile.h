@@ -13,11 +13,12 @@
 #include "TotemRawDataLibrary/Readers/interface/DataFile.h"
 #include "TotemRawDataLibrary/DataFormats/interface/SimpleVFATFrameCollection.h"
 #include "TotemRawDataLibrary/DataFormats/interface/RawEvent.h"
+#include "TotemRawDataLibrary/Readers/interface/StorageFile.h"
 
 #include <vector>
 #include <stdio.h>
 
-// TODO: make those static const data members
+// TODO: make those static const data members ??
 #define NUM_OF_SLINKFRAMES 3
 #define NUM_OF_VFATS_PER_FRAME 64
 #define VFAT_FRAME_BIT_SIZE 192
@@ -27,7 +28,7 @@
 namespace Totem {
 
 /**
- * \ingroup TotemRawDataLibrary
+ * TotemRawDataLibrary
  * Reads a Slink data file.
 **/
 class MultiSlinkFile : public DataFile
@@ -35,8 +36,9 @@ class MultiSlinkFile : public DataFile
   public:
     MultiSlinkFile();
     ~MultiSlinkFile();
-    
+
     virtual OpenStatus Open(const std::string &);
+    virtual OpenStatus Open(StorageFile* storageFile);
     virtual void Close(); 
     
     virtual VFATFrameCollection* CreateCollection() const
@@ -84,14 +86,14 @@ class MultiSlinkFile : public DataFile
     /// sequences Begin-Of-Frame, End-Of-Frame
     std::vector <sequence> seqBOF, seqEOF;  
     
-    /// TODO
+    /// TODO: describe if needed
     char Read(unsigned long long&);
 
-    ///\brief compares the number to numbers in the vector
+    /// Compares the number to numbers in the vector.
     /// returns the index of matched number or -1 if not found
     signed int CheckSequence(unsigned long long, const std::vector<sequence> &);
 
-    ///\brief searches for the next BOF sequence (of type frametype)
+    /// Searches for the next BOF sequence (of type frametype).
     /// returns 0 if found, non-zero in case of errors
     char SeekNextFrame();
     
@@ -111,7 +113,7 @@ class MultiSlinkFile : public DataFile
     unsigned long eventCounter;
 
     /// file handle
-    FILE *file;
+    StorageFile *file;
 
     /// positions of frame beginnings (with type) in the file, needs to be indexed
     std::vector<int> positions;
@@ -122,9 +124,6 @@ class MultiSlinkFile : public DataFile
     /// if feof is reached, prints the message and return non-zero, otherwise 0 returned
     unsigned char LoadFrameCheckFEOF(const char *);
 
-    int Myfseek(FILE* stream, long int offset, int origin);
-    unsigned int Reopen();
-
     char* filename;
 };
 
@@ -132,12 +131,7 @@ class MultiSlinkFile : public DataFile
 
 inline void MultiSlinkFile::Rewind()
 {
-  if (file)
-#ifdef USE_CASTOR
-    Reopen();
-#else
-    rewind(file);
-#endif
+  file->Seek(0);
   positions.clear();
   corrNum = 0;
   eventCounter = 0;

@@ -17,7 +17,6 @@
 namespace Totem {
 
 /**
- * \ingroup TotemRawDataLibrary
  * Uniquely identifies the DAQ channel through which a VFAT frame has been received.
  * 
  * The internal representation has the following structure:
@@ -79,7 +78,7 @@ class FramePosition
     bool operator == (const FramePosition &pos) const
       { return (rawPosition == pos.rawPosition); }
 
-    /// condensed representation of the DAQ channel.
+    /// Condensed representation of the DAQ channel.
     /// prints 5-digit hex number, the digits correspond to SubSystem, TOTFED ID, OptoRx ID, 
     /// GOH ID, index within fiber in this order
     friend std::ostream& operator << (std::ostream& s, const FramePosition &fp);
@@ -105,12 +104,13 @@ class FramePosition
     static bool CheckXMLAttributeFlag(unsigned char flag)
       { return ((flag == 0x1f) | (flag == 0x20) | (flag == 0x40)); } 
 
+    unsigned short GetFullOptoRxId() const
+      { return (rawPosition >> 8) & 0xFFF; }
+
   protected:
     unsigned int rawPosition;
     
     friend class OptoRxVFATFrameCollection;
-    unsigned short GetFullOptoRxId() const
-      { return (rawPosition >> 8) & 0xFFF; }
 };
 
 } // namespace

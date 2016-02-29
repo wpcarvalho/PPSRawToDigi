@@ -233,7 +233,7 @@ process.load("RecoTotemRP.RPTrackCandidateCollectionFitter.RPSingleTrackCandColl
 process.load("RecoTotemRP.RPInelasticReconstruction.RPPrimVertRec220_cfi")
 process.RPPrimVert220Reconst.BeamProtTransportSetup = process.SimG4Object.Physics.BeamProtTransportSetup
 
-process.p1 = cms.Path(process.VtxSmeared*process.SimG4Object*process.mix*process.RPSiDetDigitizer*process.RPClustProd*process.RPHecoHitProd*process.RPSinglTrackCandFind*process.RPSingleTrackCandCollFit*process.RPPrimVert220Reconst)
+process.p1 = cms.Path(process.VtxSmeared*process.SimG4Object*process.mix*process.RPSiDetDigitizer*process.RPClustProd*process.RPRecoHitProd*process.RPSinglTrackCandFind*process.RPSingleTrackCandCollFit*process.RPPrimVert220Reconst)
 
 process.outpath = cms.EndPath(process.o1)
 

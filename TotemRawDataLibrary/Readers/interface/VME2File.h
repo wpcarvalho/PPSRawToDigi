@@ -23,7 +23,6 @@
 namespace Totem {
 
 /**
- * \ingroup TotemRawDataLibrary
  * Reads the "new" VME file format.
 **/
 
@@ -37,6 +36,7 @@ class VME2File : public DataFile
     ~VME2File();
 
     virtual OpenStatus Open(const std::string &);
+    virtual OpenStatus Open(StorageFile* storageFile);
     virtual void Close();
     
     virtual VFATFrameCollection* CreateCollection() const
@@ -66,11 +66,11 @@ class VME2File : public DataFile
     virtual bool RandomAccessSupported() const
       { return true; }
 
-    ///\brief Extract VFAT data from an OptoRx frame and saves them to the collection.
+    /// Extract VFAT data from an OptoRx frame and saves them to the collection.
     /// BufferType can be any type that has [] operator (array, CircularBuffer, ...)
     /// returns the number of cells that failed consistency checks
-    ///\param buf is the OptoRx frame buffer, including the header and footer
-    ///\param frameSize is the size (in words) of the OptoRx frame including the header and footer
+    /// \param buf is the OptoRx frame buffer, including the header and footer
+    /// \param frameSize is the size (in words) of the OptoRx frame including the header and footer
     template <class BufferType>
     static unsigned int ProcessOptoRxFrame(const BufferType& buf, unsigned int frameSize,
       OptoRxVFATFrameCollection *, RawEvent *);
@@ -79,7 +79,7 @@ class VME2File : public DataFile
     /// circular buffer of words
     CircularBuffer<word> *buf;
     
-    /// Stores event positions in file
+    /// Stores event positions in file.
     /// status of indexing of event positions
     std::vector<CircularBuffer<word>::position_type> positions;
                                                                

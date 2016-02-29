@@ -11,14 +11,16 @@
 #define _Totem_DataFile_h_
 
 #include "TotemRawDataLibrary/DataFormats/interface/RawEvent.h"
+#include "TotemRawDataLibrary/Readers/interface/StorageFile.h"
+
 #include <string>
+
 
 namespace Totem {
 
 class VFATFrameCollection;
 
 /**
- * \ingroup TotemRawDataLibrary
  * Generic (and abstract) class for reading a data file/stream of certain type.
 **/
 class DataFile 
@@ -34,9 +36,10 @@ class DataFile
 
     virtual ~DataFile() {}
 
-    ///\brief to open a file
+    /// to open a file
     enum OpenStatus { osOK, osCannotOpen, osWrongFormat };
     virtual OpenStatus Open(const std::string&) = 0;
+    virtual OpenStatus Open(StorageFile *file) = 0;
 
     /// to close a file
     virtual void Close() = 0;
@@ -80,9 +83,18 @@ class DataFile
     virtual bool RandomAccessSupported() const = 0;
 
     /**
-     * Opens file \c fn by all known file-type classes, one by one. Stops when a class.Open returns zero (2). 
-     * If the file doesn't exist, it raises an error. \b Note: SlinkFile cannot recognize its file and hence,
-     * SlinkFile should be tried as the last class (as a default).
+	 * Tries to open the file/stream with an appropriate reader.
+	 * The match between input and reader class is tested one by one, in the following
+	 * order and using the given criteria:
+	 *   - VMEAStream: tries to open a dedicated data stream (DAQA library call)
+	 *   - VMEBFile: file name ends with .vmeb
+	 *   - VMEAFile: file name ends with .vmea
+	 *   - VME2File: file name ends with .vme2
+	 *   - VMEFile: file name ends with .vme
+	 *   - MultiSlinkFile: checks first 8 bytes for a signature
+	 *   - TTPFile: checks first 6 bytes for a signature
+	 *   - SlinkFile: no data-format compatibility check available, accepts everything
+	 *         (should be tested last)
      **/
     static DataFile* OpenStandard(const std::string&);
 

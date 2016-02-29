@@ -16,5 +16,5 @@ RPSinglTrackCandFind = cms.EDProducer("RPSingleCandidateTrackFinder",
     # if set to false: weight of a hit = 1
     ReduceWeightsWithMultiplicity = cms.bool(True),
     
-    RPRecoHitLabel = cms.InputTag("RPHecoHitProd")
+    RPRecoHitLabel = cms.InputTag("RPRecoHitProd")
 )
