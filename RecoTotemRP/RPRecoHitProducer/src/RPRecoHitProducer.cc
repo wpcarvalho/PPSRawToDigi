@@ -71,8 +71,6 @@ void RPRecoHitProducer::produce(edm::Event& e, const edm::EventSetup& es)
  
   // Step D: write output to file
   e.put(output);
-
-  std::cout << "RPRecoHitProducer END\n";
 }
 
 

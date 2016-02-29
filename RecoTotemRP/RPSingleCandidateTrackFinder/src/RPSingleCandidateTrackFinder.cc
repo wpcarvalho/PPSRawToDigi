@@ -86,8 +86,6 @@ void RPSingleCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup&
   // Step D: write trackCandidateCollection to file
   e.put(trackCandidateCollection);
   e.put(patternsCollection);
-
-  std::cout << "RPSingleCandidateTrackFinder END\n";
 }
   
 
