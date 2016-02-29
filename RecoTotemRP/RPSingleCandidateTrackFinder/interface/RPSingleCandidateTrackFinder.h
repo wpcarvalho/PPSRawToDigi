@@ -41,6 +41,7 @@ class RPSingleCandidateTrackFinder : public edm::EDProducer
 //    std::string recohit_label_;
 //    std::string single_track_candidate_collect_label_;
     edm::InputTag recohit_label_;
+    edm::EDGetTokenT<edm::DetSetVector<RPRecoHit> >recohit_label_Token_;
     RPSingleCandidateTrackFinderAlgorithm RPSingleCandidateTrackFinderAlgorithm_;
 };
 

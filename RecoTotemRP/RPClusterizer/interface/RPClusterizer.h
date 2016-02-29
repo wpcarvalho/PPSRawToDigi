@@ -51,6 +51,10 @@ class RPClusterizer : public edm::EDProducer
     //std::string digiLabel_;
     //std::string clusterLabel_;
     edm::InputTag digiInputTag_;
+    edm::EDGetTokenT<edm::DetSetVector<RPStripDigi> >digiInputTagToken_;
+
+
+
 };
   
 #endif

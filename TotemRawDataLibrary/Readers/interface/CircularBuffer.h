@@ -16,28 +16,19 @@
 #include <exception>
 #include <cerrno>
 #include <string>
-
-#ifdef USE_CASTOR
-    #include "shift.h"
-    // uncomment to make it work with c++ streams
-    #undef min
-    #undef log
-#endif
-
-//#define DEBUG 1
+#include "TotemRawDataLibrary/Readers/interface/StorageFile.h"
 
 namespace Totem {
 
 /**
- * \ingroup TotemRawDataLibrary
- * An implementation of circular buffer for fast file reading.
+ * An implementation of circular buffer for faster file reading.
  **/
 template <typename word>
 class CircularBuffer
 {
  protected:
   word *addr;                                             ///< pointer to the buffer
-  FILE* file;                                             ///< the source file
+  StorageFile *file;                                      ///< the source file
   std::string filename;		                              ///< the name of the file opened
   unsigned int size;                                      ///< buffer size in words  
   unsigned int wsize;                                     ///< word size in bytes
@@ -48,29 +39,23 @@ class CircularBuffer
 
   void Refill();                                          ///< refill to maximum: to full buffer or empty file
                                                           ///< after Refill() there must be at least one word in the buffer
-#ifdef USE_CASTOR
-  unsigned int Reopen();
-#endif
 
  public:
   typedef long position_type;
-  CircularBuffer(const std::string &filename, unsigned int _size);
+  CircularBuffer(StorageFile *file, unsigned int _size);
   ~CircularBuffer();
 
-  bool FileOpened()                                       ///< returns true if file was opened correctly
-    {
-      //if(file.is_open()) return true; return false;
-      return file;
-    }
+    bool FileOpened()                                       ///< returns true if file was opened correctly
+    { return file->IsOpened(); }
 
     unsigned int GetSize()                                ///< returns the size (in words) of the buffer
-        { return size; }
+    { return size; }
 
     unsigned int GetWordSize()                            ///< returns the word size (in bytes)
-        { return wsize; }
+    { return wsize; }
 
     unsigned int GetSizeInBytes()                         ///< returns the size (in bytes) of the buffer
-        { return size * wsize; }
+    { return size * wsize; }
 
   word& PopWord();                                        ///< pops a word from the begging of the buffer and returs the reference to it
   void EnsureOffset(unsigned int offset);                 ///< ensures that offsets up to 'offset' can be read and are valid
@@ -88,30 +73,16 @@ class CircularBuffer
 
   void Rewind()                                           ///< rewind file
     {
-      if (file) {
-#ifdef USE_CASTOR
-	if (rfio_feof(file)) Reopen();
-	else rfio_fseek(file, 0, SEEK_SET);
-#else
-	fseek(file, 0, SEEK_SET);
-#endif
-      }
+        file->Seek(0);
     }
 
   void Reset()                                            ///< resets the buffer; useful e.g. when rewinding the input file
     { empty = true; state = sCanReadFile; Refill(); }
 
   void SeekAndReset(position_type position)               ///< moves to the given position in the file and fills the buffer
-    { 
-      if (file) {
-#ifdef USE_CASTOR
-	if (rfio_feof(file)) Reopen();       
-	rfio_fseek(file, position, SEEK_SET);
-#else
-	fseek(file, position, SEEK_SET);
-#endif
-      }
-      Reset();
+    {
+        file->Seek(position);
+        Reset();
     }
 
   int WordsInBuffer()                                     ///< returns number of words left in the buffer
@@ -126,12 +97,7 @@ class CircularBuffer
 
   position_type CurrentFilePosition()                     ///< returns current file position for indexing
     {
-      long int ft;
-#ifdef USE_CASTOR
-      ft = rfio_ftell(file);
-#else
-      ft = ftell(file);
-#endif
+      long int ft = file->CurrentPosition();
       return (position_type)ft-(position_type)(WordsInBuffer()*wsize);
     }
 
@@ -159,29 +125,25 @@ class CircularBuffer
 //----------------------------------------------------------------------------------------------------
 
 template <typename word>
-CircularBuffer<word>::CircularBuffer(const std::string &fn, unsigned int _size) : 
-  filename(fn), size(_size), wsize(sizeof(word)), begin(0), end(0), empty(true), state(sCanReadFile)
+CircularBuffer<word>::CircularBuffer(StorageFile *file, unsigned int _size) :
+    file(file), size(_size), wsize(sizeof(word)), begin(0), end(0), empty(true), state(sCanReadFile)
 {
 #ifdef DEBUG
   printf(">> CircularBuffer::CircularBuffer\n");
 #endif
-  
-#ifdef USE_CASTOR 
-  file = rfio_fopen((char *)filename.c_str(), const_cast<char*>("r"));
-#else
-  file = fopen(filename.c_str(), "r");
-#endif
-  
-  if (!file) {
-    ERROR("CircularBuffer::CircularBuffer") << "Cannot open file `" << filename << "'. Error code: " << errno << ", error message: " <<
-      strerror(errno) << "." << c_endl;
-  }
-  
+
+    file->OpenFile();
+
+    if(!file->IsOpened()) {
+        ERROR("CircularBuffer::CircularBuffer") << "Cannot open file '" << filename << "'. "<< c_endl;
+        file->PrintError("Error message");
+    }
+
   // allocate
   addr = new word[size];
 
   // full read
-  if(file) Refill();
+  if(file->IsOpened()) Refill();
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -192,16 +154,13 @@ CircularBuffer<word>::~CircularBuffer()
 #ifdef DEBUG
   printf(">> CircularBuffer::~CircularBuffer\n");
 #endif
-  if (file) {
-#ifdef USE_CASTOR
-    rfio_fclose(file);
-#else
-    fclose(file);
-#endif
-  }
 
-  if (addr)
-    delete [] addr;
+    if(file && file->IsOpened()) {
+        file->CloseFile();
+        delete file;
+    }
+    if (addr)
+        delete [] addr;
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -264,13 +223,8 @@ void CircularBuffer<word>::Refill()
     printf("\tFullRefill\n");
 #endif
     begin = 0;
-    
-#ifdef USE_CASTOR
-    end = rfio_fread(addr, sizeof(char), wsize*size, file)/wsize;
-#else
-    end = fread(addr, sizeof(char), wsize*size, file)/wsize;
-#endif
-    
+    end = file->ReadData(addr, sizeof(char), wsize*size)/wsize;
+
     if (end == 0)
       throw Exception(Exception::exEOF);
     if (end < size)
@@ -285,12 +239,7 @@ void CircularBuffer<word>::Refill()
   }
   
   if (end < begin) {
-#ifdef USE_CASTOR
-    end += rfio_fread(addr+end, sizeof(char), wsize*(begin-end), file)/wsize;
-#else
-    end += fread(addr+end, sizeof(char), wsize*(begin-end), file)/wsize;
-#endif
-
+    end += file->ReadData(addr+end, sizeof(char), wsize*(begin-end))/wsize;
     if (end < begin)
       state = sFileEmpty;
 
@@ -301,21 +250,12 @@ void CircularBuffer<word>::Refill()
   }
 
   if (begin < end) {
-#ifdef USE_CASTOR
-    end += rfio_fread(addr+end, sizeof(char), wsize*(size-end), file)/wsize;
-#else
-    end += fread(addr+end, sizeof(char), wsize*(size-end), file)/wsize;
-#endif
+    end += file->ReadData(addr+end, sizeof(char), wsize*(size-end))/wsize;
 
     if (end < size)
       state = sFileEmpty;
     else {
-#ifdef USE_CASTOR
-      end = rfio_fread(addr, sizeof(char), wsize*begin, file)/wsize;
-#else
-      end = fread(addr, sizeof(char), wsize*begin, file)/wsize;
-#endif
-      //end = file.rdbuf()->sgetn((char*)addr, wsize*begin)/wsize;
+      end = file->ReadData(addr, sizeof(char), wsize*begin)/wsize;
       if (end < begin)
         state = sFileEmpty;
     }
@@ -331,21 +271,6 @@ void CircularBuffer<word>::Refill()
 #endif
   throw Exception(Exception::exOops);
 }
-
-//----------------------------------------------------------------------------------------------------
-
-#ifdef USE_CASTOR
-template <typename word>
-unsigned int CircularBuffer<word>::Reopen()
-{
-  if (file) {
-    rfio_fclose(file);
-    file = rfio_fopen64(const_cast<char*>(filename.c_str()), const_cast<char*>("r"));
-    if (file) return 1;
-  }
-  return 0;
-}
-#endif
 
 } // namespace
 

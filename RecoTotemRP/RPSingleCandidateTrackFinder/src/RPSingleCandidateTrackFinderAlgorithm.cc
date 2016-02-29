@@ -28,16 +28,18 @@ void RPSingleCandidateTrackFinderAlgorithm::BuildSingleTrackCandidates(
   std::vector<double> u_hits_weights, v_hits_weights;
   
   patterns[rp_copy_no].source = RPRecognizedPatterns::sParallel;
- 
+/* 
   if (verbosity_ > 1)
     printf("\tRP %u\n", rp_copy_no);
 
   if (verbosity_ > 1)
     printf("\t\tU patterns\n");
+*/
   FindRecoHitRoads(u_hits, u_hits_clusters, u_hits_weights, patterns[rp_copy_no].uLines, rp_geometry);
-                                                                                       
+/*                                                                                       
   if (verbosity_ > 1)                                                                  
     printf("\t\tV patterns\n");                                                        
+*/
   FindRecoHitRoads(v_hits, v_hits_clusters, v_hits_weights, patterns[rp_copy_no].vLines, rp_geometry);
 
   // number of patterns (= roads) with weight over threshold
@@ -70,12 +72,12 @@ void RPSingleCandidateTrackFinderAlgorithm::BuildSingleTrackCandidates(
     output[rp_copy_no] = tr_cand;
 	//std::cout << "Saved fittable RPTrackCandidate for ID = " << rp_copy_no << endl;
   }
-  //RPTrackCandidate::range rn = output[rp_copy_no].recHits();
+  RPTrackCandidate::range rn = output[rp_copy_no].recHits();
   //std::cout<<"rpid:"<<rp_copy_no<<", strips: ";
-  //for(RPTrackCandidate::const_iterator it=rn.first; it!=rn.second; ++it)
-  //{
-  //.  std::cout<<it->Position()<<", ";
-  //}
+  for(RPTrackCandidate::const_iterator it=rn.first; it!=rn.second; ++it)
+  {
+    //std::cout<<it->Position()<<", ";
+  }
   //std::cout<<std::endl<<"weight:"<<output[rp_copy_no].Weight()<<std::endl;
   //std::cout<<"fitable:"<<output[rp_copy_no].Fittable()<<std::endl;
   //std::cout<<"size:"<<output[rp_copy_no].Size()<<std::endl;
@@ -200,9 +202,8 @@ void RPSingleCandidateTrackFinderAlgorithm::FindRecoHitRoads(const std::vector<R
       line.w = recohit_cluster_vect[i].GetTotalWeight();
       line.hits = recohit_cluster_vect[i].GetRecHits();
       lines.push_back(line);
-  
-      if (verbosity_ > 1)
-        printf("\t\t\ta = %.3f, b = %.3f, w = %.3f\n", line.a, line.b, line.w);
+      //std::cout << "line a = "<< line.a << " line b = "<< line.b << " line w =" << line.w <<std::endl;
+      //if (verbosity_ > 1)printf("\t\t\ta = %.3f, b = %.3f, w = %.3f\n", line.a, line.b, line.w);
     }
   }
 }

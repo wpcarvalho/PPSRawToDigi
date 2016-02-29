@@ -38,7 +38,7 @@ SimpleVFATFrameCollection::~SimpleVFATFrameCollection()
 
 //----------------------------------------------------------------------------------------------------
 
-const OldVFATFrame* SimpleVFATFrameCollection::GetFrameByID(unsigned int ID) const
+const VFATFrame* SimpleVFATFrameCollection::GetFrameByID(unsigned int ID) const
 {
   // first convert ID to 12bit form
   ID = ID & 0xFFF;
@@ -53,7 +53,7 @@ const OldVFATFrame* SimpleVFATFrameCollection::GetFrameByID(unsigned int ID) con
 
 //----------------------------------------------------------------------------------------------------
 
-const OldVFATFrame* SimpleVFATFrameCollection::GetFrameByIndex(FramePosition index) const
+const VFATFrame* SimpleVFATFrameCollection::GetFrameByIndex(FramePosition index) const
 {
   MapType::const_iterator it = data.find(index);
   if (it != data.end())

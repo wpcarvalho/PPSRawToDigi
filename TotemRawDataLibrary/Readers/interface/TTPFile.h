@@ -13,13 +13,13 @@
 #include "TotemRawDataLibrary/Readers/interface/DataFile.h"
 #include "TotemRawDataLibrary/DataFormats/interface/SimpleVFATFrameCollection.h"
 #include "TotemRawDataLibrary/DataFormats/interface/RawEvent.h"
+#include "TotemRawDataLibrary/Readers/interface/StorageFile.h"
 
 
 namespace Totem {
 
 
 /**
- * \ingroup TotemRawDataLibrary
  * Reads TTP data file.
 **/
 class TTPFile : public DataFile
@@ -29,6 +29,7 @@ class TTPFile : public DataFile
     virtual ~TTPFile();
 
     virtual OpenStatus Open(const std::string &);
+    virtual OpenStatus Open(StorageFile* storageFile);
     virtual void Close(); 
     
     virtual VFATFrameCollection* CreateCollection() const
@@ -61,16 +62,14 @@ class TTPFile : public DataFile
 
   protected:
     /// the file object
-    FILE *file;
-    
+    StorageFile *file;
+
     /// array of indices of event beginnings in the file 
     std::vector<int> positions;
     
     /// reads one event from the file
     unsigned char ReadOneEvent(RawEvent *);
    
-    int Myfseek(FILE* stream, long int offset, int origin);
-
     unsigned int Reopen();
 
     char *filename;

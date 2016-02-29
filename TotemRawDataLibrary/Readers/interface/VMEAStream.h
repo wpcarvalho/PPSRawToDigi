@@ -19,8 +19,7 @@
 namespace Totem {
 
 /**
- * \ingroup TotemRawDataLibrary
- * Reads a stream in VMEA format, using the DAQA monitoring library.
+ * Reads a data stream in VMEA format, using the DAQA monitoring library.
 **/
 class VMEAStream : public DataFile
 {
@@ -31,6 +30,7 @@ class VMEAStream : public DataFile
     ~VMEAStream();
 
     virtual OpenStatus Open(const std::string &);
+    virtual OpenStatus Open(StorageFile* storageFile);
     virtual void Close();
     
     virtual VFATFrameCollection* CreateCollection() const

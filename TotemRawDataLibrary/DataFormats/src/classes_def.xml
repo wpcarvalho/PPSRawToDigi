@@ -1,34 +1,27 @@
 <lcgdict>
-    <class name="Totem::Raw2DigiStatus"/>
-    <class name="edm::Wrapper<Totem::Raw2DigiStatus>"/>
+    <class name="Totem::VFATFrame"/>
+    <class name="std::vector<Totem::VFATFrame>"/>
 
-    <class name="Totem::VFATStatus"/>
-    <class name="edm::Wrapper<Totem::VFATStatus>"/>
-	
-    <class name="std::bitset<8>"/>
-    <class name="edm::Wrapper<std::bitset<8> >"/>
-	
-    <class name="Totem::OldVFATFrame"/>
-    <class name="std::vector<Totem::OldVFATFrame>"/>
-
-    <class name="Totem::RawVFATFrame"/>
-    <class name="std::vector<Totem::RawVFATFrame>"/>
-
-    <class name="Totem::ClusterizationVFATFrame"/>
-    <class name="std::vector<Totem::ClusterizationVFATFrame>"/>
-
-    <class name="Totem::OptoRxSupplementalData"/>
-
+    <!-- do not save the "frames" data member -->
     <class name="Totem::RawEvent">
         <field name="frames" transient="true"/>
     </class>
-	<class name="edm::Wrapper<Totem::RawEvent>"/>
+
+    <!-- set "frames=NULL" when RawEvent is read from file -->
+    <ioread sourceClass="Totem::RawEvent" version="[1-]" targetClass="Totem::RawEvent" source="" target="frames">
+    <![CDATA[ frames = NULL;
+    ]]>
+    </ioread>
+
+    <class name="edm::Wrapper<Totem::RawEvent>"/>
+
 	<class name="Totem::FramePosition"/>
 
 	<class name="Totem::VFATFrameCollection"/>
 
 	<class name="Totem::SimpleVFATFrameCollection"/>
 	<class name="edm::Wrapper< Totem::SimpleVFATFrameCollection >"/>
+        <class name="std::map<Totem::FramePosition, Totem::VFATFrame>"/>
 
 	<class name="Totem::OptoRxVFATFrameCollection"/>
 	<class name="edm::Wrapper< Totem::OptoRxVFATFrameCollection >"/>

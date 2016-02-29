@@ -24,6 +24,7 @@ RPSingleCandidateTrackFinder::RPSingleCandidateTrackFinder(const edm::ParameterS
 //  produces< RPTrackCandidateCollection > (single_track_candidate_collect_label_);
   produces<RPRecognizedPatternsCollection> ();
   produces< RPTrackCandidateCollection > ();
+  recohit_label_Token_ = consumes<edm::DetSetVector<RPRecoHit> >(recohit_label_);
 }
 
 
@@ -57,12 +58,15 @@ void RPSingleCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup&
   auto_ptr<RPRecognizedPatternsCollection> patternsCollection(new RPRecognizedPatternsCollection());
   
   //e.getByLabel(rprecohit_producer_, recohit_label_, input);
-  e.getByLabel(recohit_label_, input);
-  if(verbosity_)
+ // e.getByLabel(recohit_label_, input);
+    e.getByToken(recohit_label_Token_, input);
+/* 
+    if(verbosity_)
   {
 	std::cout << ">> RPSingleCandidateTrackFinder::produce > " << e.id() << std::endl;
 	std::cout << "RPRecoHits.size() = " << input->size() << std::endl;
   }
+*/
   if(input->size())
     run(*input, *patternsCollection.get(), *trackCandidateCollection.get(), *Totem_RP_geometry);
    
@@ -82,6 +86,8 @@ void RPSingleCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup&
   // Step D: write trackCandidateCollection to file
   e.put(trackCandidateCollection);
   e.put(patternsCollection);
+
+  std::cout << "RPSingleCandidateTrackFinder END\n";
 }
   
 
@@ -126,7 +132,8 @@ void RPSingleCandidateTrackFinder::run(const edm::DetSetVector<RPRecoHit> & inpu
         pair_ref.second.push_back(*hits_it);
         //std::cout<<"V, ";
       }
-      //std::cout<<"rp_id="<<rp_id<<" DetectorDecId()="<<tot_rp_det_id.DetectorDecId()<<" Position="<<hits_it->Position()<<std::endl;
+
+    //std::cout<<"rp_id="<<rp_id<<" DetectorDecId()="<<tot_rp_det_id.DetectorDecId()<<" Position="<<hits_it->Position()<<std::endl;
     }
   }
   

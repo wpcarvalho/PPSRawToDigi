@@ -15,6 +15,7 @@
 #include "TotemRawDataLibrary/DataFormats/interface/RawEvent.h"
 
 #include <vector>
+#include <cstring>
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
@@ -24,41 +25,76 @@
 using namespace Totem;
 using namespace std;
 
+//----------------------------------------------------------------------------------------------------
 
 void PrintUsage()
 {
-  printf("USAGE: analyzeFile <options> <data file>\n");
+  printf("USAGE: analyzeFile [options] <data file>\n");
+  printf("OPTIONS:\n");
+  printf("    -events <num>    number of events to process\n");
+  printf("                     default: process all available events\n");
 }
 
-
+//----------------------------------------------------------------------------------------------------
 
 int main(int argc, char *argv[])
 {
+  // parse command-line parameters
   unsigned short inputIndex = 0;
+  unsigned int maxEvents = 0;
+  for (int i = 1; i < argc; i++)
+  {
+    if (strcmp(argv[i], "-events") == 0)
+    {
+      if (++i >= argc)
+      {
+        printf("ERROR: Option -events requires a parameter.\n");
+        PrintUsage();
+        return 1;
+      }
 
-  for (int i = 1; i < argc; i++) {
-    if (argv[i][0] != '-') { inputIndex = i; continue; }
+      maxEvents = atoi(argv[i]);
 
-    printf("Unrecognized parameter `%s'.\n", argv[i]);
+      continue;
+    }
+
+    if (argv[i][0] != '-')
+    {
+      inputIndex = i;
+      continue;
+    }
+
+    printf("ERROR: Unrecognized option `%s'.\n", argv[i]);
     PrintUsage();
     return 5;
   }
 
-  if (!inputIndex) { printf("You must specify an input file.\n"); PrintUsage(); return 6; }
+  if (inputIndex == 0)
+  {
+	printf("ERROR: You must specify an input file.\n");
+	PrintUsage();
+	return 6;
+  }
 
   // open file
-  printf(">> OPENING FILE\n");
   DataFile* input = DataFile::OpenStandard(argv[inputIndex]);
-  if (!input) {
+  if (!input)
+  {
     printf("Error in opening file\n");
     return 2;
   }
 
   // event loop
-  printf(">> STARTING EVENT LOOP\n");
   unsigned long eventCount = 0;
   RawEvent *event = input->CreateEvent();
-  while (!input->GetNextEvent(event)) {
+  while (true)
+  {
+    printf("\n----------------------------------------------------------------------------------------------------\n");
+
+    // load next event
+    if (input->GetNextEvent(event))
+      break;
+
     // total events counter
     eventCount++;  
 
@@ -68,18 +104,19 @@ int main(int argc, char *argv[])
       if (it.Data()->checkFootprint())
         wc++;
 
-    printf("\n> event %lu\n\tDAQ event number: %lu\n\tDAQ timestamp: %s\t%u out of %u VFATs active\n", 
+    printf("> event %lu\n\tDAQ event number: %lu\n\tDAQ timestamp: %s\t%u out of %u VFATs active\n", 
       eventCount, event->dataEventNumber, ctime(&event->timestamp), wc, event->frames->Size());
 
     // print metadata
     for (map<unsigned int, OptoRxMetaData>::const_iterator it = event->optoRxMetaData.begin(); 
-      it != event->optoRxMetaData.end(); ++it) {
-      printf("  OptoRx = 0x%x: BX = 0x%x, LV1 = 0x%x\n", it->first, it->second.BX, it->second.LV1);
+      it != event->optoRxMetaData.end(); ++it)
+    {
+      printf("\tOptoRx = 0x%x: BX = 0x%x, LV1 = 0x%x\n", it->first, it->second.BX, it->second.LV1);
     }
 
     // print all VFATs
-    for (VFATFrameCollection::Iterator it(event->frames); !it.IsEnd(); it.Next()) {
-
+    for (VFATFrameCollection::Iterator it(event->frames); !it.IsEnd(); it.Next())
+    {
       if (!it.Data()->checkFootprint())
         continue;
 
@@ -89,6 +126,10 @@ int main(int argc, char *argv[])
       //vector<unsigned char> ac = it.second->getActiveChannels();
       //printf(" (%lu)\n", ac.size());
     }
+
+    // stop if number of events has reached maximum
+    if (maxEvents > 0 && eventCount >= maxEvents)
+      break;
   }
     
   // info

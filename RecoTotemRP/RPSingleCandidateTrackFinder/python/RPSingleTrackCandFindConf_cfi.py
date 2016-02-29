@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 
 RPSinglTrackCandFind = cms.EDProducer("RPSingleCandidateTrackFinder",
-    Verbosity = cms.int32(0),
+    Verbosity = cms.int32(1),
 
     # width of bins in u or v histograms
     RoadSize = cms.double(0.2),
@@ -16,5 +16,5 @@ RPSinglTrackCandFind = cms.EDProducer("RPSingleCandidateTrackFinder",
     # if set to false: weight of a hit = 1
     ReduceWeightsWithMultiplicity = cms.bool(True),
     
-    RPRecoHitLabel = cms.InputTag("RPHecoHitProd")
+    RPRecoHitLabel = cms.InputTag("RPRecoHitProd")
 )

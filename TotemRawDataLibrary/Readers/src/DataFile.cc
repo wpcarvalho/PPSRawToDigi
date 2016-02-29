@@ -19,7 +19,8 @@
 #include "TotemRawDataLibrary/Readers/interface/VMEAStream.h"
 #include "TotemRawDataLibrary/Readers/interface/VMEBFile.h"
 #include "TotemRawDataLibrary/Readers/interface/TTPFile.h"
-
+#include "TotemRawDataLibrary/Readers/interface/SRSFile.h"
+#include "TotemRawDataLibrary/Readers/interface/StorageFile.h"
 
 
 using namespace std;
@@ -28,9 +29,11 @@ using namespace std;
 
 namespace Totem {
 
+// TODO: why this? Remove?
 #if 1
   // fake implementation (vtable problem ...)
   DataFile::OpenStatus DataFile::Open(const string&) { return osOK; }
+  DataFile::OpenStatus DataFile::Open(StorageFile*) { return osOK; }
   void DataFile::Close() {}
   unsigned char DataFile::GetNextEvent(RawEvent *) { return 0; }
   unsigned char DataFile::GetEvent(unsigned long, RawEvent *) { return 0; }
@@ -44,8 +47,9 @@ namespace Totem {
 //----------------------------------------------------------------------------------------------------
 
 
-DataFile* DataFile::OpenStandard(const string &fileName)
+DataFile* DataFile::OpenStandard(const string &urlPath)
 {
+	// TODO: move to a test
 #ifdef DEBUG
   printf(">> size test\n");
   printf("\tsize of int : %lu\n", sizeof(int));
@@ -65,7 +69,7 @@ DataFile* DataFile::OpenStandard(const string &fileName)
     one = one * 256;
   }
 
-  printf(">> Trying to open file %s.\n", fileName.c_str());
+  printf(">> Trying to open file %s.\n", urlPath.c_str());
 #endif
 
   // try to open the file with all known file formats
@@ -81,17 +85,18 @@ DataFile* DataFile::OpenStandard(const string &fileName)
       case 4: f = new VMEFile(); break;
       case 5: f = new MultiSlinkFile(); break;
       case 6: f = new TTPFile(); break;
-      case 7: f = new SlinkFile(); break;
+      case 7: f = new SRSFile(); break;
+      case 8: f = new SlinkFile(); break;
     }
 
     // this shall never happen as SlinkFile accepts everything
     if (!f)
     {
-      printf("ERROR in DataFile::OpenStandard: error creating DataFile instance (i = %u).\n", i);
+	  ERROR("DataFile::OpenStandard") << "error creating DataFile instance (i = " << i << ")." << c_endl;
       break;
     }
 
-    OpenStatus r = f->Open(fileName);
+    OpenStatus r = f->Open(urlPath);
 
 #ifdef DEBUG
     printf("\tclass `%s' gives result %u\n", f->GetClassName().c_str(), r);
@@ -99,13 +104,13 @@ DataFile* DataFile::OpenStandard(const string &fileName)
 
     if (r == osOK)
     {
-      printf("DataFile::OpenStandard: File `%s' has been opened by class `%s'.\n", fileName.c_str(), f->GetClassName().c_str());
+	  INFO("DataFile::OpenStandard") << "File `" << urlPath << "' has been opened by class `" << f->GetClassName() << "'." << c_endl;
       return f;
     }
 
     if (r == osCannotOpen)
     {
-      printf("Error in DataFile::OpenStandard: File `%s' cannot be opened.\n", fileName.c_str());
+	  ERROR("DataFile::OpenStandard") << "File `" << urlPath << "' cannot be opened." << c_endl;
       delete f;
       return NULL;
     }
@@ -113,8 +118,6 @@ DataFile* DataFile::OpenStandard(const string &fileName)
     if (r == osWrongFormat)
     {
       // do not print anything: this situation is normal as one tries to open the file with all known file readers
-      //printf("DataFile::OpenStandard: osWrongFormat\n");
-
       delete f;
     }
   }

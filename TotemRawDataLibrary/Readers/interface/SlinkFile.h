@@ -14,14 +14,17 @@
 #include "TotemRawDataLibrary/DataFormats/interface/SlinkFrame.h"
 #include "TotemRawDataLibrary/DataFormats/interface/SimpleVFATFrameCollection.h"
 #include "TotemRawDataLibrary/DataFormats/interface/RawEvent.h"
+#include "TotemRawDataLibrary/Readers/interface/StorageFile.h"
 
 #include <vector>
+
+#undef min
+#undef log
 
 namespace Totem {
 
 /**
- * \ingroup TotemRawDataLibrary
- * Reads a Slink data file.
+ * Reads an Slink data file.
 **/
 class SlinkFile : public DataFile
 {
@@ -30,6 +33,7 @@ class SlinkFile : public DataFile
     ~SlinkFile();
 
     virtual OpenStatus Open(const std::string &);
+    virtual OpenStatus Open(StorageFile* storageFile);
     virtual void Close();
     
     virtual VFATFrameCollection* CreateCollection() const
@@ -81,26 +85,24 @@ class SlinkFile : public DataFile
     /// sequences Begin-Of-Frame, End-Of-Frame
     std::vector <sequence> seqBOF, seqEOF;  
 
-    ///\brief compares the number to numbers in the vector
+    /// Compares the number to numbers in the vector.
     /// returns the index of matched number or -1 if not found
     signed int CheckSequence(unsigned long long, const std::vector<sequence> &);
     
     /// loads data block at current position to memory
     char LoadFrame();
 
-    ///\brief searches for the next BOF sequence
+    /// Searches for the next BOF sequence.
     /// returns 0 if found, non-zero in case of errors
     char SeekNextFrame();
 
     /// loads the actual frame, non-zero return value if fails
     unsigned char LoadEvent(RawEvent *);
 
-    int Myfseek(FILE* stream, long int offset, int origin);
     unsigned int Reopen();
 
   protected:
-    enum {tAscii, tBinary} type;        ///< type of the file
-    FILE *file;                         ///< file handle
+    StorageFile *file;                  ///< file handle
     SlinkFrame frame;                   ///< Slink frame object
     std::vector<int> positions;         ///< positions of frame beginnings in the file, needs to be indexed
     
@@ -117,12 +119,7 @@ class SlinkFile : public DataFile
 
 inline void SlinkFile::Rewind()
 {
-  if (file)    
-#ifdef USE_CASTOR
-    Reopen();
-#else
-  rewind(file);
-#endif
+  file->Seek(0);
   positions.clear();
   corrNum = 0;
 }

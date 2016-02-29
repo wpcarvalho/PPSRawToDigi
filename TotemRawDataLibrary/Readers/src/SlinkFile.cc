@@ -10,14 +10,8 @@
 #include "TotemRawDataLibrary/DataFormats/interface/CommonDef.h"
 #include "TotemRawDataLibrary/Readers/interface/SlinkFile.h"
 
+#include <cstring>
 #include <cstdlib>
-
-#ifdef USE_CASTOR
-  #include "shift.h"
-  // uncomment these below to make it work with c++ streams
-  //#undef min
-  //#undef log
-#endif
 
 using namespace std;
 
@@ -48,25 +42,14 @@ SlinkFile::~SlinkFile()
 
 DataFile::OpenStatus SlinkFile::Open(const std::string &filename)
 {
-  // look for .txt extension and set type
-  size_t dotPos = filename.rfind('.');
-  string extension = (dotPos == string::npos) ? "" : filename.substr(dotPos);
-  if (extension.compare(".txt") == 0)
-    type = tAscii;
-  else
-    type = tBinary;
+  file = StorageFile::CreateInstance(filename);
+  if(!file) {
+    return osCannotOpen;
+  }
 
-  // open the file
-  if (type == tAscii)
-    return osWrongFormat;
-  else
-#ifdef USE_CASTOR
-    file = rfio_fopen64(const_cast<char*>(filename.c_str()), const_cast<char*>("rb"));
-#else
-    file = fopen64(filename.c_str(), "rb");
-#endif
+  file->OpenFile();
 
-  if (!file)
+  if (!file->IsOpened())
     return osCannotOpen;
 
   // reset counters
@@ -81,16 +64,34 @@ DataFile::OpenStatus SlinkFile::Open(const std::string &filename)
 
 //----------------------------------------------------------------------------------------------------
 
+DataFile::OpenStatus SlinkFile::Open(StorageFile *storageFile)
+{
+  std::string filename = storageFile->GetURLPath();
+
+  file = storageFile;
+  file->OpenFile();
+
+  if (!file->IsOpened())
+    return osCannotOpen;
+
+  // reset counters
+  indexStatus = isNotIndexed;
+  corrNum = 0;
+
+  this->filename = (char*)malloc(sizeof(char)*filename.size()+1);
+  strcpy(this->filename, filename.c_str());
+
+  return osOK;
+}
+
+//----------------------------------------------------------------------------------------------------
+
 void SlinkFile::Close()
 {
-  if (file) 
-#ifdef USE_CASTOR
-    rfio_fclose(file);
-#else
-  fclose(file);
-#endif
-
-  file = NULL;
+  if(file && file->IsOpened()) {
+    file->CloseFile();
+    delete file;
+  }
 
   if (filename) {
     delete filename;
@@ -102,19 +103,10 @@ void SlinkFile::Close()
 
 char SlinkFile::Read(unsigned long long &n)
 {
+  int ret = (int) file->ReadData(&n, 1, 8);
 
-#ifdef USE_CASTOR
-  int ret = rfio_fread(&n, 1, 8, file);
-#else
-  int ret = fread(&n, 1, 8, file);
-#endif
-
-  if (ret != 8) {     
-#ifdef USE_CASTOR
-    int eofFlag = rfio_feof(file);
-#else
-    int eofFlag = feof(file);
-#endif
+  if (ret != 8) {
+    int eofFlag = file->CheckEOF();
     if (!eofFlag)
       ERROR("SlinkFile::Read") << "Problems with reading binary file. " << ret << " bytes read instead of 8." << c_endl;
     return 2;
@@ -138,17 +130,13 @@ signed int SlinkFile::CheckSequence(unsigned long long n, const std::vector<sequ
 char SlinkFile::SeekNextFrame()
 {
   // check if file is open
-  if (!file)
+  if (!file->IsOpened())
     return 1;
 
   bool found = false;
   unsigned long long n = 0;  
 
-#ifdef USE_CASTOR
-  while (!rfio_feof(file)) {
-#else
-  while (!feof(file)) {
-#endif
+  while(!file->CheckEOF()) {
     Read(n);
     if (CheckSequence(n, seqBOF) >= 0) {
       found = true;
@@ -157,17 +145,8 @@ char SlinkFile::SeekNextFrame()
   }
 
   // remember position if indexing
-#ifdef USE_CASTOR
-  if (indexStatus == isIndexing && found) positions.push_back(rfio_ftell(file));
-#else
-  if (indexStatus == isIndexing && found) positions.push_back(ftell(file));
-#endif
-
-#ifdef USE_CASTOR
-      int eofFlag = rfio_feof(file);
-#else
-      int eofFlag = feof(file);
-#endif
+  if (indexStatus == isIndexing && found) positions.push_back((int const &) file->CurrentPosition());
+      int eofFlag = file->CheckEOF();
 
   // if eof is found and was indexing, set indexed
   if (indexStatus == isIndexing && eofFlag)
@@ -185,11 +164,7 @@ char SlinkFile::SeekNextFrame()
 unsigned char SlinkFile::LoadFrameCheckFEOF(const char *msg)
 {
   // check for EOF
-#ifdef USE_CASTOR
-  int eofFlag = rfio_feof(file);
-#else
-  int eofFlag = feof(file);
-#endif
+  int eofFlag = file->CheckEOF();
   if (eofFlag) {
     // print message
     ERROR("SlinkFile::LoadFrame") << "Corrupted Slink frame (event " << positions.size() << "). " << msg << c_endl;
@@ -237,17 +212,14 @@ char SlinkFile::LoadFrame()
   for (int i = 0; i < VFAT_FRAME_BIT_SIZE; i++) {  
     // read data and remember previous position
     if (LoadFrameCheckFEOF("File ends while reading data block. Frame ignored.")) return 13;
-#ifdef USE_CASTOR
-    long int prevPos = rfio_ftell(file);
-#else
-    long int prevPos = ftell(file);
-#endif
+
+    long int prevPos = file->CurrentPosition();
     Read(n);
 
     if (CheckSequence(n, seqBOF) >= 0) {
       ERROR("SlinkFile::LoadFrame") << "Corrupted Slink frame (event " << positions.size() << "). A BOF sequence found in data block (at position " 
         << i << "). Frame dropped." << c_endl;
-      Myfseek(file, prevPos, SEEK_SET); // go one record back so as SeekNextFrame can find it
+      file->Seek(prevPos);  // go one record back so as SeekNextFrame can find it
       if (indexStatus == isIndexing)
         positions.pop_back();
       return 1;
@@ -266,17 +238,12 @@ char SlinkFile::LoadFrame()
   }
 
   // footer
-#ifdef USE_CASTOR
-  long int prevPos = rfio_ftell(file);
-#else
-  long int prevPos = ftell(file);
-#endif
-
+  long int prevPos = file->CurrentPosition();
   Read(n);
   if (CheckSequence(n, seqBOF) >= 0) {
     ERROR("SlinkFile::LoadFrame") << "Corrupted Slink frame (event " << positions.size()
       << "). A BOF sequence found in place of EOF sequence. Frame dropped.)" << c_endl;
-    Myfseek(file, prevPos, SEEK_SET); // go one record back so as SeekNextFrame can find it
+    file->Seek(prevPos);  // go one record back so as SeekNextFrame can find it
     if (indexStatus == isIndexing)
       positions.pop_back();
     return 1;
@@ -305,7 +272,7 @@ unsigned char SlinkFile::GetNextEvent(RawEvent *event)
      int resLoadFrame = LoadFrame();
     if (resLoadFrame == 1) corrNum++;  // corrupted frame
       if (resLoadFrame == 0) {       // success
-      LoadEvent(event);
+        LoadEvent(event);
       return 0;  
     }
       if (resLoadFrame > 1)  return 2;     // eof
@@ -322,34 +289,17 @@ unsigned char SlinkFile::GetEvent(unsigned long n,RawEvent *event)
   if (n >= positions.size()) return 2;
 
   // load the frame
-  Myfseek(file, positions[n], SEEK_SET);
+  file->Seek(positions[n]);
   int resLoadFrame = LoadFrame();
   LoadEvent(event);
-  return resLoadFrame;
-}
-
-// myfseek function, eliminating bug with shift library
-int SlinkFile::Myfseek(FILE* stream, long int offset, int origin) {
-#ifdef USE_CASTOR
-  if (rfio_feof(stream)) 
-    Reopen();  
-  else rfio_fseek(stream, offset, origin);
-#else
-  return fseek(stream, offset, origin);
-#endif
-  return 1;
+  return (unsigned char) resLoadFrame;
 }
 
 unsigned int SlinkFile::Reopen()
 {
-#ifdef USE_CASTOR
-  rfio_fclose(file);
-  file = rfio_fopen(filename, const_cast<char*>("rb"));
-#else
-  fclose(file);
-  file = fopen(filename, "rb");
-#endif
-  if (!file) {
+  file->CloseFile();
+  file->OpenFile();
+  if (!file->IsOpened()) {
       ERROR("SlinkFile::Reopen") << "Could not reopen file `" << filename << "'." << c_endl;
     return 1;
   }
