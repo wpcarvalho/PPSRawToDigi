@@ -13,7 +13,7 @@
 #include "TotemRawData/RawToDigi/interface/T2Mapping.h"
 #include "TotemRawDataLibrary/DataFormats/interface/RawEvent.h"
 #include "TotemRawDataLibrary/DataFormats/interface/VFATFrame.h"
-#include "TotemRawDataLibrary/Utilities/interface/CommonDef.h"
+#include "TotemRawDataLibrary/DataFormats/interface/CommonDef.h"
 #include "TotemCondFormats/DAQInformation/interface/DAQInformationT2.h"
 #include "TotemCondFormats/DataRecord/interface/TotemDAQRecord.h"
 

@@ -20,10 +20,9 @@ namespace Totem {
 class DataFile;
 
 /**
-\ingroup TotemRawDataLibrary
-\brief Tests progress of EC values.
-
-Reads a few events from the beginning of a data file and seletcs VFATs with correct EC progress.
+ * Tests the progress of EC values.
+ *
+ * Reads a few events from the beginning of a data file and seletcs VFATs with correct EC progress.
 **/
 
 class TestECProgress

@@ -14,15 +14,7 @@
 #include <cmath>
 #include <map>
 #include <algorithm>
-
-#ifdef USE_CASTOR
-#include "shift.h"
-// uncomment these below to make it work with c++ streams
-//#undef min
-//#undef log
-#endif
-
-//#define DEBUG 1
+#include <cstring>
 
 using namespace std;
 
@@ -53,20 +45,22 @@ MultiSlinkFile::~MultiSlinkFile()
   positions.clear();
   seqBOF.clear();
   seqEOF.clear();
+  delete file;
 }
 
 //----------------------------------------------------------------------------------------------------
 
 DataFile::OpenStatus MultiSlinkFile::Open(const string &filename)
 {
-  // open the file
-#ifdef USE_CASTOR
-  file = rfio_fopen64(const_cast<char*>(filename.c_str()), const_cast<char*>("rb"));
-#else 
-  file = fopen64(filename.c_str(), "rb");
-#endif
+  file = StorageFile::CreateInstance(filename);
+  if(!file) {
+    return osCannotOpen;
+  }
 
-  if (!file) {
+  // open the file
+  file->OpenFile();
+
+  if (!file->IsOpened()) {
     //    printf("multi cannot open\n");
     return osCannotOpen;
   }
@@ -76,7 +70,44 @@ DataFile::OpenStatus MultiSlinkFile::Open(const string &filename)
   Read(n);
   int iframe = CheckSequence(n, seqBOF);
   if (iframe < 0)
-    return osWrongFormat; // TODO: close file?
+    return osWrongFormat; // TODO: lol file?
+
+  // copying the filename
+  this->filename = (char*)malloc(sizeof(char)*filename.size()+1);
+  strcpy(this->filename, filename.c_str());
+
+  Rewind();
+
+  // reset counters
+  indexStatus = isNotIndexed;
+  corrNum = 0;
+  eventCounter = 0;
+
+  return osOK;
+}
+
+//----------------------------------------------------------------------------------------------------
+
+DataFile::OpenStatus MultiSlinkFile::Open(StorageFile *storageFile)
+{
+  std::string filename = storageFile->GetURLPath();
+
+  file = storageFile;
+
+  // open the file
+  file->OpenFile();
+
+  if (!file->IsOpened()) {
+    //    printf("multi cannot open\n");
+    return osCannotOpen;
+  }
+
+  // check if MultiSlinkFile (read 8 bytes and then return to the beginning)
+  unsigned long long n = 0;
+  Read(n);
+  int iframe = CheckSequence(n, seqBOF);
+  if (iframe < 0)
+    return osWrongFormat; // TODO: lol file?
 
   // copying the filename
   this->filename = (char*)malloc(sizeof(char)*filename.size()+1);
@@ -96,12 +127,7 @@ DataFile::OpenStatus MultiSlinkFile::Open(const string &filename)
 
 void MultiSlinkFile::Close()
 {
-  if (file) 
-#ifdef USE_CASTOR
-    rfio_fclose(file);
-#else
-  fclose(file);
-#endif
+  file->CloseFile();
 
   file = NULL;
   //frames.clear();
@@ -114,18 +140,10 @@ char MultiSlinkFile::Read(unsigned long long &n)
 {
   // if binary file, do binary read
   //printf("0x");
-#ifdef USE_CASTOR
-  int ret = rfio_fread(&n, 1, 8, file);
-#else
-  int ret = fread(&n, 1, 8, file);
-#endif
+  int ret = file->ReadData(&n, 1, 8);
 
   if (ret != 8) {
-#ifdef USE_CASTOR
-    int eofFlag = rfio_feof(file);
-#else
-    int eofFlag = feof(file);
-#endif
+    int eofFlag = file->CheckEOF();
     if (!eofFlag)
       ERROR("SlinkFile::Read") << "Problems with reading binary file. " << ret << "bytes read instead of 8." << c_endl;
     return 2;
@@ -154,11 +172,8 @@ char MultiSlinkFile::SeekNextFrame()
   if (!file) return 1;
   bool found = false;
   unsigned long long n = 0;
-#ifdef USE_CASTOR  
-  while (!rfio_feof(file)) {
-#else
-  while (!feof(file)) {
-#endif
+
+  while (!file->CheckEOF()) {
     Read(n);
     activeFrame = CheckSequence(n, seqBOF);
     // if frametype = -1, return on any found frame
@@ -169,12 +184,7 @@ char MultiSlinkFile::SeekNextFrame()
     }
   }
   
-#ifdef USE_CASTOR
-    int eofFlag = rfio_feof(file);
-#else
-    int eofFlag = feof(file);
-#endif
-
+    int eofFlag = file->CheckEOF();
   // if eof is found and was indexing, set indexed
   if (indexStatus == isIndexing && eofFlag)
     indexStatus = isIndexed;
@@ -191,11 +201,7 @@ char MultiSlinkFile::SeekNextFrame()
 unsigned char MultiSlinkFile::LoadFrameCheckFEOF(const char *msg)
 {
   // check for EOF
-#ifdef USE_CASTOR
-    int eofFlag = rfio_feof(file);
-#else
-    int eofFlag = feof(file);
-#endif
+    int eofFlag = file->CheckEOF();
   if (eofFlag) {
     // print message
     ERROR("MultiSLinkFile::LoadFrame") << "FEOF inside frame after event #" << eventCounter << ": " << msg << "." << c_endl;
@@ -237,15 +243,11 @@ char MultiSlinkFile::LoadFrame(int iframe, SimpleVFATFrameCollection *fc)
   // read VFAT_FRAME_BIT_SIZE blocks: data block
   for (int i = 0; i < VFAT_FRAME_BIT_SIZE; i++) {  
     if (LoadFrameCheckFEOF("File ends while reading data block. Reading stopped.")) return 11;
-#ifdef USE_CASTOR
-    long int prevPos = rfio_ftell(file);
-#else
-    long int prevPos = ftell(file);
-#endif
+    long int prevPos = file->CurrentPosition();
     Read(n);
 
     if (CheckSequence(n, seqBOF) >= 0) { // BOF found inside data
-      Myfseek(file, prevPos, SEEK_SET); // go one record back so as SeekNextFrame can find it
+      file->Seek(prevPos); // go one record back so as SeekNextFrame can find it
       return 1;
     }
     if (CheckSequence(n, seqEOF) >= 0) return 1; // EOF found inside data
@@ -262,14 +264,10 @@ char MultiSlinkFile::LoadFrame(int iframe, SimpleVFATFrameCollection *fc)
   }
 
   // read one block: footer
-#ifdef USE_CASTOR
-    long int prevPos = rfio_ftell(file);
-#else
-    long int prevPos = ftell(file);
-#endif
+    long int prevPos = file->CurrentPosition();
   Read(n);
   if (CheckSequence(n, seqBOF) >= 0) { // BOF found instead of EOF
-    Myfseek(file, prevPos, SEEK_SET); // go one record back so as SeekNextFrame can find it
+    file->Seek(prevPos);  // go one record back so as SeekNextFrame can find it
     return 1;
   }
   if (CheckSequence(n, seqEOF) < 0) return 1; // no EOF found after data
@@ -288,11 +286,7 @@ std::vector<int> MultiSlinkFile::LoadFrames(SimpleVFATFrameCollection *fc)
 
   isStartFrame = true;
   for(int i=0;i<NUM_OF_SLINKFRAMES;i++) {
-#ifdef USE_CASTOR
-    pos.push_back(rfio_ftell(file));
-#else
-    pos.push_back(ftell(file));
-#endif
+    pos.push_back(file->CurrentPosition());
     if (SeekNextFrame()) {
       load.resize(NUM_OF_SLINKFRAMES,10);
       break;
@@ -300,7 +294,7 @@ std::vector<int> MultiSlinkFile::LoadFrames(SimpleVFATFrameCollection *fc)
     // check if this frame is already present in this event
     if(find(iframe.begin(), iframe.end(), activeFrame) != iframe.end()) {
       // go back to previous position
-      Myfseek(file,pos[i],SEEK_SET);
+      file->Seek(pos[i]);
       // set the return value of other frames to zero
       for(int j=0;j<NUM_OF_SLINKFRAMES;j++) {
         if( find(iframe.begin(), iframe.end(), j) == iframe.end()) {
@@ -324,11 +318,7 @@ unsigned char MultiSlinkFile::GetNextEvent(RawEvent *event)
 {
   SimpleVFATFrameCollection *sc = (SimpleVFATFrameCollection *) event->frames;
   sc->Clear();
-#ifdef USE_CASTOR
-  int pos = rfio_ftell(file);
-#else
-  int pos = ftell(file);
-#endif
+  int pos = file->CurrentPosition();
   while (true) {
     std::vector<int> load = LoadFrames(sc);
       if (load[0] == 0 && load[1] == 0 && load[2] == 0) {
@@ -358,7 +348,7 @@ unsigned char MultiSlinkFile::GetEvent(unsigned long n, RawEvent *event)
   sc->Clear();
 
   // load the frame
-  Myfseek(file, positions[n], SEEK_SET);
+  file->Seek(positions[n]);
   std::vector<int> load = LoadFrames(sc);
   if (load[0] == 0 && load[1] == 0 && load[2] == 0)
     return 0;    // success
@@ -367,43 +357,6 @@ unsigned char MultiSlinkFile::GetEvent(unsigned long n, RawEvent *event)
     return 2;     // eof
 
   return 1;
-}
-
-// myfseek function, eliminating bug with shift library
-int MultiSlinkFile::Myfseek(FILE* stream, long int offset, int origin) {
-#ifdef DEBUG
-  printf(">> MultiSlinkFile::Myfseek(%p, %li, %u)\n", stream, offset, origin);
-#endif
-
-#ifdef USE_CASTOR
-  if (rfio_feof(stream)) 
-    Reopen();  
-  else rfio_fseek(stream, offset, origin);
-#else
-  return fseek(stream, offset, origin);
-#endif
-  return 1;
-}
-
-unsigned int MultiSlinkFile::Reopen()
-{
-#ifdef DEBUG
-  printf(">> MultiSlinkFile::Reopen()\n");
-#endif
-
-#ifdef USE_CASTOR
-  rfio_fclose(file);
-  file = rfio_fopen(filename, const_cast<char*>("rb"));
-#else
-  fclose(file);
-  file = fopen(filename, "rb");
-#endif
-  if (!file) {
-      ERROR("MultiSlinkFile::Reopen") << "Could not reopen file `" << filename << "'." << c_endl;
-    return 1;
-  }
-
-  return 0;
 }
 
 } // namespace

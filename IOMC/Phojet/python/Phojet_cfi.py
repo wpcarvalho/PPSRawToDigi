@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 generator = cms.EDProducer("Phojet",
     verbosity = cms.untracked.uint32(12),
     bufferSize = cms.untracked.uint32(10), # number of particles to generate in one run of phojet
-    cmsEnergy = cms.double( 7000.0 ), # center mass system energy
+    cmsEnergy = cms.double( 14000.0 ), # center mass system energy
     process = cms.string('DPE'), # process, from the list (DPE, DD, SD, MB) or specified manually (ex. "0 0 0 0 1 1 0 1")
     phojetExecutable = cms.string('IOMC/Phojet/data/main1') # compiled phojet executable
 )

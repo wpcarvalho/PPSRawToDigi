@@ -11,6 +11,3 @@
 
 <bin name="TotemReadFile" file="readFile.cc">
 </bin>
-
-<bin name="TotemResolveCabling" file="cabling.cc">
-</bin>

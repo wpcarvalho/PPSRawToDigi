@@ -8,22 +8,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/build/bin)
 set(GENERATED_SOURCES_DIR ${CMAKE_BINARY_DIR}/generated)
 
-# defining rpath to avoid for instance ROOT clashes with other version on LD_LIBRARY_PATH
+# defining rpath to avoid clashes with other version on LD_LIBRARY_PATH
 # and avoid adjusting LD_LIBRARY_PATH manually
 SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 ## -- -- -- -- --   SETTING UP LIBRARIES    -- -- -- -- -- ##
-
-#libxml2
-include(FindLibXML2.cmake)
-INCLUDE_DIRECTORIES(${LibXML2_INCLUDE_DIR})
-LINK_DIRECTORIES(${LibXML2_LIBRARIES_DIR})
-
-#ROOT
-include(FindROOT.cmake)
-INCLUDE_DIRECTORIES(${ROOT_INCLUDE_DIR} )
-LINK_DIRECTORIES(${ROOT_LIBRARY_DIR})
 
 #CASTOR
 include(FindCastor.cmake)
@@ -33,11 +23,18 @@ IF(CASTOR_FOUND)
 	LINK_DIRECTORIES(${CASTOR_LIBRARY_DIR})
 ENDIF(CASTOR_FOUND)
 
+#XRootD
+include(FindXRootD.cmake)
+IF(XROOTD_FOUND)
+    ADD_DEFINITIONS(-DUSE_XROOTD)
+    INCLUDE_DIRECTORIES(${XROOTD_INCLUDES})
+    LINK_DIRECTORIES(${XROOTD_LIB_DIR})
+ENDIF(XROOTD_FOUND)
 
 ## -- -- -- -- --   SETTING UP ENVIRONMENT    -- -- -- -- -- ##
 
 # setting up build env properties
-set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -fPIC -pthread")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -fPIC -pthread -g")
 set(CMAKE_CXX_COMPILER gcc)
 
 #switch using -DCMAKE_BUILD_TYPE=[Debug|Release]
@@ -56,7 +53,17 @@ set(BUILD_SHARED_LIBS FALSE)
 
 INCLUDE_DIRECTORIES(Readers/interface)
 FILE(GLOB TotemRawDataLibrary_Readers_src "Readers/src/*.cc")
+
+if(NOT XROOTD_FOUND)
+    list(REMOVE_ITEM TotemRawDataLibrary_Readers_src "${CMAKE_CURRENT_LIST_DIR}/Readers/src/XRootStorageFile.cc")
+endif(NOT XROOTD_FOUND)
+
+if(NOT CASTOR_FOUND)
+    list(REMOVE_ITEM TotemRawDataLibrary_Readers_src "${CMAKE_CURRENT_LIST_DIR}/Readers/src/RFIOStorageFile.cc")
+endif(NOT CASTOR_FOUND)
+
 add_library (TotemRawDataLibrary_Readers_lib ${TotemRawDataLibrary_Readers_src})
+
 
 INCLUDE_DIRECTORIES(DataFormats/interface)
 FILE(GLOB TotemRawDataLibrary_DataFormats_src "DataFormats/src/*.cc")
@@ -75,15 +82,7 @@ INCLUDE_DIRECTORIES(${TOTEM_RAW_DATA_EXTRA_INCLUDES})
 ADD_EXECUTABLE(analyzeFile Utilities/bin/analyzeFile.cc ${TOTEM_RAW_DATA_EXTRA_SOURCES})
 TARGET_LINK_LIBRARIES(analyzeFile
     stdc++
-    TotemRawDataLibrary_Readers_lib TotemRawDataLibrary_DataFormats_lib ${ROOT_LIBRARIES}
-)
-
-#cabling (Utilities) exec
-ADD_EXECUTABLE(cabling Utilities/bin/cabling.cc ${TOTEM_RAW_DATA_EXTRA_SOURCES})
-TARGET_LINK_LIBRARIES(cabling
-    stdc++
-    TotemRawDataLibrary_Utilities_lib TotemRawDataLibrary_Readers_lib
-    TotemRawDataLibrary_DataFormats_lib xml2 ${ROOT_LIBRARIES}
+    TotemRawDataLibrary_Readers_lib TotemRawDataLibrary_DataFormats_lib
 )
 
 #checkFile (Utilities) exec
@@ -91,22 +90,30 @@ ADD_EXECUTABLE(checkFile Utilities/bin/checkFile.cc ${TOTEM_RAW_DATA_EXTRA_SOURC
 TARGET_LINK_LIBRARIES(checkFile
     stdc++
     TotemRawDataLibrary_Utilities_lib TotemRawDataLibrary_Readers_lib
-    TotemRawDataLibrary_DataFormats_lib ${ROOT_LIBRARIES})
+    TotemRawDataLibrary_DataFormats_lib
+)
 
 #readFile (Utilities) exec
 ADD_EXECUTABLE(readFile Utilities/bin/readFile.cc ${TOTEM_RAW_DATA_EXTRA_SOURCES})
 TARGET_LINK_LIBRARIES(readFile
     stdc++
     TotemRawDataLibrary_Utilities_lib TotemRawDataLibrary_Readers_lib
-    TotemRawDataLibrary_DataFormats_lib ${ROOT_LIBRARIES}
+    TotemRawDataLibrary_DataFormats_lib
+	m
 )
 
 IF(CASTOR_FOUND)
     TARGET_LINK_LIBRARIES(analyzeFile shift castorrfio)
-    TARGET_LINK_LIBRARIES(cabling shift castorrfio)
     TARGET_LINK_LIBRARIES(checkFile shift castorrfio)
     TARGET_LINK_LIBRARIES(readFile shift castorrfio)
 ENDIF(CASTOR_FOUND)
+
+if(XROOTD_FOUND)
+    TARGET_LINK_LIBRARIES(analyzeFile XrdPosix XrdPosixPreload) #XrdClient
+    TARGET_LINK_LIBRARIES(checkFile XrdPosix XrdPosixPreload)
+    TARGET_LINK_LIBRARIES(readFile XrdPosix XrdPosixPreload)
+endif(XROOTD_FOUND)
+
 
 
 
@@ -128,6 +135,16 @@ endif()
 
 
 ## -- -- -- -- --   Test cases addition     -- -- -- -- -- ##
+if(XROOTD_FOUND AND CASTOR_FOUND)
+    add_executable(StorageFile_test Readers/test/StorageFileTest.cc)
+    target_link_libraries(StorageFile_test TotemRawDataLibrary_Readers_lib
+        XrdPosix
+        XrdPosixPreload
+        XrdClient
+        castorrfio
+        shift
+        stdc++)
+endif(XROOTD_FOUND AND CASTOR_FOUND)
 
 IF(GTEST_FOUND AND GMOCK_FOUND AND NOT CASTOR_FOUND)
 

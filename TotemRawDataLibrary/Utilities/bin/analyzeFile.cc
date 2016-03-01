@@ -39,12 +39,17 @@ int main(int argc, char *argv[])
   for (int i = 1; i < argc; i++) {
     if (argv[i][0] != '-') { inputIndex = i; continue; }
 
-    printf("Unrecognized parameter `%s'.\n", argv[i]);
+    printf("ERROR: Unrecognized parameter `%s'.\n", argv[i]);
     PrintUsage();
     return 5;
   }
 
-  if (!inputIndex) { printf("You must specify an input file.\n"); PrintUsage(); return 6; }
+  if (!inputIndex)
+  {
+	printf("ERROR: You must specify an input file.\n");
+	PrintUsage();
+	return 6;
+	}
 
   // open file
   printf(">> OPENING FILE\n");
