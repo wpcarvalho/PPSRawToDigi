@@ -10,8 +10,7 @@ input = cms.untracked.int32(1000)
 process.load('TotemRawData.Readers.RawDataSource_cfi')
 process.source.fileNames = cms.untracked.vstring()
 
-process.source.fileNames.append('/afs/cern.ch/work/p/polme/public/totemdata/run_9881_EVB13_1.000.srs')
-
+process.source.fileNames.append('root://eostotem//eos/totem/data/rawdata/2015/run_9881_EVB13_1.000.srs')
 
 process.load("Configuration.TotemCommon.LoggerMax_cfi")
 process.load("Configuration.TotemCommon.geometryGlobal_cfi")
