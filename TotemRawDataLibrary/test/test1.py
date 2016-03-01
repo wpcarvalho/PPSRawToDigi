@@ -14,7 +14,7 @@ process.source.fileNames.append('/afs/cern.ch/work/p/polme/public/totemdata/run_
 
 
 process.load("Configuration.TotemCommon.LoggerMax_cfi")
-process.load("Configuration.TotemCommon.geometryRP_PPS_cfi")
+process.load("Configuration.TotemCommon.geometryGlobal_cfi")
 
 
 # TODO - check RP distances, check if commited to repository
