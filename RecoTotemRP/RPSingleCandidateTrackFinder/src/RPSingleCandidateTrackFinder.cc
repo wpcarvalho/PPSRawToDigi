@@ -71,7 +71,7 @@ void RPSingleCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup&
     run(*input, *patternsCollection.get(), *trackCandidateCollection.get(), *Totem_RP_geometry);
    
   /// test
-
+/*
 	if(verbosity_){
   		std::cout << "*** " << trackCandidateCollection->size() << " TRACK CANDIDATES ***" << std::endl;
 
@@ -80,7 +80,7 @@ void RPSingleCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup&
   			std::cout << "  TrackCandidate in RPId " << it->first << std::endl;
 		}
 	}
-
+*/
   /// end test
  
   // Step D: write trackCandidateCollection to file
