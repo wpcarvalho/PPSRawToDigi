@@ -98,7 +98,7 @@ void RecognizedTrackAnalyzer::analyze(const edm::Event& event, const edm::EventS
 	Handle<RPTrackCandidateCollection> selHits;
 	event.getByLabel(rPTrackCandidateCollectionLabel, selHits);
 
-	if (verbosity) printf("\nEVENT %i\n", event.id().event());
+	if (verbosity) printf("\nEVENT %llu\n", event.id().event());
 
 	// process all hits collection
 	map< unsigned int, pair< vector<const RPRecoHit *>, vector<const RPRecoHit *> > > allHitsMap;
@@ -193,7 +193,7 @@ void RecognizedTrackAnalyzer::analyze(const edm::Event& event, const edm::EventS
 		}
 	
 		char buf[25];
-		sprintf(buf, "%i can %i", RPId, event.id().event());
+		sprintf(buf, "%i can %llu", RPId, event.id().event());
 		if (sit != selHitsMap.end()) strcat(buf, ", reco");
 		RPTrackCandidateCollection::const_iterator tcit = selHits->find(RPId);
 		if (tcit != selHits->end() && tcit->second.Fittable()) strcat(buf, ", fit");
