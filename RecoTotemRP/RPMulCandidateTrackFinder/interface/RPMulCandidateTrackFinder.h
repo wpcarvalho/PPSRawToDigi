@@ -61,14 +61,13 @@ class RPMulCandidateTrackFinder : public edm::EDProducer
     virtual void produce(edm::Event& e, const edm::EventSetup& c);
 
   private:
-    edm::InputTag rPRecoHitDetSetLabel;
     edm::InputTag recohit_label_;
     edm::EDGetTokenT<edm::DetSetVector<RPRecoHit> > recohit_label_Token_;
     void run(const edm::DetSetVector<RPRecoHit> & input, RPMulTrackCandidateCollection& output, const TotemRPGeometry & rp_geometry);
     const edm::ParameterSet conf_;
     RPMulCandidateTrackFinderAlgorithm RPMulCandidateTrackFinderAlgorithm_;
     int verbosity_;
-    unsigned int minimal_hits_count_per_rp_;             // the minimal amount of (U&V) hits for starting the track finding
+    unsigned int minimal_hits_count_per_rp_; // the minimal amount of (U&V) hits for starting the track finding
 
     TFile *of;
     int output_;

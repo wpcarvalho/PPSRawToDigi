@@ -55,25 +55,21 @@ void RPMulCandidateTrackFinder::endJob()
 
 void RPMulCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup& c)
 {
-   if(verbosity_) 
+   if(verbosity_)
      edm::LogInfo("RPMulCandidateTrackFinder") << "[RPMulCandidateTrackFinder] " << e.id() << std::endl;
 
   // Step A: Get event setup information
-  //for the moment - ideal geometry
   edm::ESHandle<TotemRPGeometry> Totem_RP_geometry;
   c.get<RealGeometryRecord>().get(Totem_RP_geometry);
-  //c.getByType(Totem_RP_geometry);
-  //c.get<IdealGeometryRecord>().get(Totem_RP_geometry);
 
   // Step B: Get Inputs
   edm::Handle< edm::DetSetVector<RPRecoHit> > input;
-  // e.getByLabel(rPRecoHitDetSetLabel, input);
   e.getByToken(recohit_label_Token_, input);
 
   // Step C: produce output product
   RPMulTrackCandidateCollection track_candidates_collection;
-  
-  if(input->size()) 
+
+  if(input->size())
   {
     run(*input, track_candidates_collection, *Totem_RP_geometry);
   }
@@ -115,7 +111,7 @@ void RPMulCandidateTrackFinder::run(const edm::DetSetVector<RPRecoHit> & input,
       TotRPDetId tot_rp_det_id(hits_it->DetId());
       unsigned int rp_id = tot_rp_det_id.RPCopyNumber();
       unsigned int det_id = tot_rp_det_id.Detector();
-   
+
       uv_pair_det_vec_reco_hits &pair_ref = the_map[rp_id];
       ++rp_hits_num_map[rp_id];
 
