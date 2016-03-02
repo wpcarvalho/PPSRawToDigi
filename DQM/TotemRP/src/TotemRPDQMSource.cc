@@ -8,15 +8,27 @@
 #include <sstream>
 #include <math.h>
 
+using namespace edm;
+
 //----------------------------------------------------------------------------------------------------
 
 TotemRPDQMSource::TotemRPDQMSource(const edm::ParameterSet& ps)
+  /*
+  buildCorrelationPlots(ps.getUntrackedParameter<bool>("buildCorrelationPlots", false)),
+  correlationPlotsFilter(ps.getUntrackedParameter<std::string>("correlationPlotsFilter", "")),
+  correlationPlotsLimit(ps.getUntrackedParameter<unsigned int>("correlationPlotsLimit", 50)),
+  correlationPlotsSelector(correlationPlotsFilter)
+  */
 {
   edm::LogInfo("TotemRPDQMSource") <<  "Constructor  TotemRPDQMSource::TotemRPDQMSource " << std::endl;
   
-  // Get parameters from configuration file
-  //theElectronCollection_   = consumes<reco::GsfElectronCollection>(ps.getParameter<edm::InputTag>("electronCollection"));
-  //triggerFilter_           = ps.getParameter<edm::InputTag>("TriggerFilter");
+  tokenStripDigi = consumes< DetSetVector<RPStripDigi> >(ps.getParameter<edm::InputTag>("tagStripDigi"));
+  tokenDigiCluster = consumes< edm::DetSetVector<RPDigCluster> >(ps.getParameter<edm::InputTag>("tagDigiCluster"));
+  tokenRecoHit = consumes< edm::DetSetVector<RPRecoHit> >(ps.getParameter<edm::InputTag>("tagRecoHit"));
+  tokenPatternColl = consumes< RPRecognizedPatternsCollection >(ps.getParameter<edm::InputTag>("tagPatternColl"));
+  tokenTrackCandColl = consumes< RPTrackCandidateCollection >(ps.getParameter<edm::InputTag>("tagTrackCandColl"));
+  tokenTrackColl = consumes< RPFittedTrackCollection >(ps.getParameter<edm::InputTag>("tagTrackColl"));
+  tokenMultiTrackColl = consumes< RPMulFittedTrackCollection >(ps.getParameter<edm::InputTag>("tagMultiTrackColl"));
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -42,7 +54,7 @@ void TotemRPDQMSource::bookHistograms(DQMStore::IBooker & ibooker_, edm::Run con
   ibooker_.cd();
   ibooker_.setCurrentFolder("TotemRP");
 
-  h_test = ibooker_.book1D("test", "some title", 40, -0.5, 39.5);
+  //h_test = ibooker_.book1D("test", "some title", 40, -0.5, 39.5);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -55,11 +67,30 @@ void TotemRPDQMSource::beginLuminosityBlock(edm::LuminosityBlock const& lumiSeg,
 
 //----------------------------------------------------------------------------------------------------
 
-void TotemRPDQMSource::analyze(edm::Event const& e, edm::EventSetup const& eSetup)
+void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& eSetup)
 {
   edm::LogInfo("TotemRPDQMSource") <<  "TotemRPDQMSource::analyze" << std::endl;
 
-  h_test->Fill(10);
+  Handle< DetSetVector<RPStripDigi> > digi;
+  event.getByToken(tokenStripDigi, digi);
+
+  Handle< DetSetVector<RPDigCluster> > digCluster;
+  event.getByToken(tokenDigiCluster, digCluster);
+
+  Handle< DetSetVector<RPRecoHit> > hits;
+  event.getByToken(tokenRecoHit, hits);
+
+  Handle<RPRecognizedPatternsCollection> patterns;
+  event.getByToken(tokenPatternColl, patterns);
+
+  Handle< RPTrackCandidateCollection > trackCanColl;
+  event.getByToken(tokenTrackCandColl, trackCanColl);
+
+  Handle< RPFittedTrackCollection > tracks;
+  event.getByToken(tokenTrackColl, tracks);
+
+  Handle< RPMulFittedTrackCollection > multiTracks;
+  event.getByToken(tokenMultiTrackColl, multiTracks);
 }
 
 //----------------------------------------------------------------------------------------------------

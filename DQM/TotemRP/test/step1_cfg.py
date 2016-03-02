@@ -16,28 +16,15 @@ process.load("DQMServices.Core.DQM_cfg")
 process.load("DQMServices.Components.DQMEnvironment_cfi")
 
 # my analyzer
-#process.DQMExample_Step1 = cms.EDAnalyzer("DQMExample_Step1",
-#    electronCollection       = cms.InputTag("gsfElectrons"),
-#    caloJetCollection        = cms.InputTag("ak5CaloJets"),
-#    pfMETCollection          = cms.InputTag("pfMet"),
-#    conversionsCollection    = cms.InputTag("allConversions"),
-#    PVCollection             = cms.InputTag("offlinePrimaryVerticesWithBS"),
-#    beamSpotCollection       = cms.InputTag("offlineBeamSpot"),
-#
-#    TriggerEvent             = cms.InputTag('hltTriggerSummaryAOD','','HLT'),
-#    TriggerResults           = cms.InputTag('TriggerResults','','HLT'),
-#    #last filter of HLTEle27WP80Sequence
-#    TriggerFilter            = cms.InputTag('hltEle27WP80TrackIsoFilter','','HLT'),
-#    TriggerPath              = cms.string('HLT_Ele27_WP80_v13'),
-#
-#    PtThrL1 = cms.untracked.double(30.0),
-#    PtThrL2 = cms.untracked.double(10.0),
-#    PtThrJet = cms.untracked.double(20.0),
-#    PtThrMet = cms.untracked.double(20.0),
-#)
-
-
-process.TotemRPDQMSource = cms.EDAnalyzer("TotemRPDQMSource"
+process.TotemRPDQMSource = cms.EDAnalyzer("TotemRPDQMSource",
+    tagStripDigi = cms.InputTag("Raw2DigiProducer", "rpDataOutput"),
+	tagDigiCluster = cms.InputTag("RPClustProd"),
+	tagRecoHit = cms.InputTag("RPHecoHitProd"),
+	tagPatternColl = cms.InputTag("NonParallelTrackFinder"),
+	tagTrackColl = cms.InputTag("RPSingleTrackCandCollFit"),
+	tagTrackCandColl = cms.InputTag("NonParallelTrackFinder"),
+	tagMultiTrackColl = cms.InputTag(""),
+	correlationPlotsFilter = cms.untracked.string("default=0,1")
 )
 
 process.maxEvents = cms.untracked.PSet(

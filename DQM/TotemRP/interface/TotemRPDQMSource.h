@@ -1,21 +1,21 @@
 #ifndef TotemRPDQMSource_H
 #define TotemRPDQMSource_H
 
-//Framework
+// Framework
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
 
-//event
+// event
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 
-//DQM
+// DQM
 #include "DQMServices/Core/interface/DQMEDAnalyzer.h"
 #include "DQMServices/Core/interface/DQMStore.h"
 #include "DQMServices/Core/interface/MonitorElement.h"
 
-//Candidate handling
+// Candidate handling
 #include "DataFormats/Candidate/interface/Candidate.h"
 #include "DataFormats/Candidate/interface/CandidateFwd.h"
 
@@ -44,6 +44,20 @@
 #include "DataFormats/HLTReco/interface/TriggerEvent.h"
 #include "FWCore/Common/interface/TriggerNames.h"
 
+#include "DataFormats/Common/interface/DetSetVector.h"
+
+#include "DataFormats/TotemRPDataTypes/interface/RPStripDigi.h"
+#include "DataFormats/TotemRPDataTypes/interface/RPDigCluster.h"
+#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
+#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
+
+
  
 class TotemRPDQMSource: public DQMEDAnalyzer
 {
@@ -60,9 +74,20 @@ class TotemRPDQMSource: public DQMEDAnalyzer
 		void endRun(edm::Run const& run, edm::EventSetup const& eSetup);
 
 	private:
-  		//variables from config file
-  		//edm::EDGetTokenT<reco::GsfElectronCollection> theElectronCollection_;
-  		//edm::InputTag triggerFilter_;
+  	  edm::EDGetTokenT< edm::DetSetVector<RPStripDigi> > tokenStripDigi;
+  	  edm::EDGetTokenT< edm::DetSetVector<RPDigCluster> > tokenDigiCluster;
+  	  edm::EDGetTokenT< edm::DetSetVector<RPRecoHit> > tokenRecoHit;
+  	  edm::EDGetTokenT< RPRecognizedPatternsCollection > tokenPatternColl;
+  	  edm::EDGetTokenT< RPTrackCandidateCollection > tokenTrackCandColl;
+  	  edm::EDGetTokenT< RPFittedTrackCollection > tokenTrackColl;
+  	  edm::EDGetTokenT< RPMulFittedTrackCollection > tokenMultiTrackColl;
+
+      /*
+      bool buildCorrelationPlots;                           ///< decides wheather the correlation plots are created
+      std::string correlationPlotsFilter;                   ///< decides which correlation plots are created
+      unsigned int correlationPlotsLimit;                   ///< maximum number of created correlation plots
+      CorrelationPlotsSelector correlationPlotsSelector;
+      */
 
 		// Histograms
 		MonitorElement* h_test;
