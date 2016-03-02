@@ -50,8 +50,10 @@ class RPTrackCandidateCollectionFitter : public edm::EDProducer
     int verbosity_;
 
     /// The name of the pattern-recognition module.
-    std::string track_candidate_collection_producer_;
+    std::string trackCandidateCollectionProducer;
     edm::InputTag trackCandidateCollectionLabel;
+
+    edm::EDGetTokenT<RPTrackCandidateCollection> trackCandidateCollectionToken;
     //std::string track_coll_cand_label_;
     
     /// A watcher to detect geometry changes.
