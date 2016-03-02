@@ -47,7 +47,7 @@ void RPMulCandidateTrackFinder::endJob()
   }
   if(output_)
   {
-    //RPMulCandidateTrackFinderAlgorithm_.WriteAllPlots(of);
+    RPMulCandidateTrackFinderAlgorithm_.WriteAllPlots(of);
     of->Close();
   }
 }
