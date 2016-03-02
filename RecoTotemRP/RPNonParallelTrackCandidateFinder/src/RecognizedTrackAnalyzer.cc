@@ -31,8 +31,10 @@ class RecognizedTrackAnalyzer : public edm::EDAnalyzer
 		~RecognizedTrackAnalyzer();
 
 	private:
-		edm::InputTag rPTrackCandidateCollectionLabel;
+		edm::InputTag RPTrackCandidateCollectionLabel;
 		edm::InputTag detSetVectorRPRecoHitLabel;
+		edm::EDGetTokenT<RPTrackCandidateCollection> RPTrackCandidateCollectionToken;
+		edm::EDGetTokenT<edm::DetSetVector<RPRecoHit>> detSetVectorRPRecoHitToken;
 		unsigned char verbosity;
 		std::string outputFile;
 		TFile *of;
@@ -49,7 +51,7 @@ class RecognizedTrackAnalyzer : public edm::EDAnalyzer
 
 RecognizedTrackAnalyzer::RecognizedTrackAnalyzer(const edm::ParameterSet& conf) : of(NULL)
 {
-	rPTrackCandidateCollectionLabel = conf.getParameter<edm::InputTag>("RPTrackCandidateCollectionLabel");
+	RPTrackCandidateCollectionLabel = conf.getParameter<edm::InputTag>("RPTrackCandidateCollectionLabel");
 	detSetVectorRPRecoHitLabel = conf.getParameter<edm::InputTag>("DetSetVectorRPRecoHitLabel");
 	verbosity = conf.getUntrackedParameter<unsigned int>("verbosity", 0);
 	outputFile = conf.getParameter<std::string>("outputFile");
@@ -94,9 +96,9 @@ void RecognizedTrackAnalyzer::analyze(const edm::Event& event, const edm::EventS
 	eSetup.get<RealGeometryRecord>().get(geometry);
 
 	Handle< edm::DetSetVector<RPRecoHit> > allHits;
-	event.getByLabel(detSetVectorRPRecoHitLabel, allHits); 
+	event.getByToken(detSetVectorRPRecoHitToken, allHits);
 	Handle<RPTrackCandidateCollection> selHits;
-	event.getByLabel(rPTrackCandidateCollectionLabel, selHits);
+	event.getByToken(RPTrackCandidateCollectionToken, selHits);
 
 	if (verbosity) printf("\nEVENT %llu\n", event.id().event());
 

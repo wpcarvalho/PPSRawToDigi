@@ -19,6 +19,8 @@ RPPrimaryVertexInelasticReconstruction::RPPrimaryVertexInelasticReconstruction(c
  : conf_(conf), resol_degrad_service_(conf)
 {
   rpFittedTrackCollectionLabel = conf.getParameter<edm::InputTag>("RPFittedTrackCollectionLabel");
+  rpFittedTrackCollectionToken = consumes<RPFittedTrackCollection>(rpFittedTrackCollectionLabel);
+
   produces< RPReconstructedProtonCollection > ();
 }
 
@@ -184,7 +186,8 @@ void RPPrimaryVertexInelasticReconstruction::beginRun(edm::Run const&, edm::Even
   
   if(external_primary_vertex_)
   {
-    HepMCProductLabel_ = conf_.getParameter<std::string>("HepMCProductLabel");
+    HepMCProductLabel = conf_.getParameter<edm::InputTag>("HepMCProductLabel");
+    HepMCProductToken = consumes<edm::HepMCProduct>(HepMCProductLabel);
     primary_vertex_error_.SetX(conf_.getParameter<double>("PrimaryVertexXSigma"));
     primary_vertex_error_.SetY(conf_.getParameter<double>("PrimaryVertexYSigma"));
     primary_vertex_error_.SetZ(conf_.getParameter<double>("PrimaryVertexZSigma"));
@@ -228,7 +231,8 @@ void RPPrimaryVertexInelasticReconstruction::produce(edm::Event& e, const edm::E
 {
   edm::Handle< RPFittedTrackCollection > input; 
   RPReconstructedProtonCollection reconstructed_proton_collection;
-  e.getByLabel(rpFittedTrackCollectionLabel, input);
+
+  e.getByToken(rpFittedTrackCollectionToken, input);
 
   if(external_primary_vertex_)
     if(!FindPrimaryVertex(e))
@@ -362,7 +366,7 @@ void RPPrimaryVertexInelasticReconstruction::
 bool RPPrimaryVertexInelasticReconstruction::FindPrimaryVertex(edm::Event& e)
 {
   edm::Handle<edm::HepMCProduct> HepMCEvt;
-  e.getByLabel( HepMCProductLabel_, HepMCEvt );
+  e.getByToken(HepMCProductToken, HepMCEvt);
   
   if(!HepMCEvt.isValid())
   {

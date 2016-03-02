@@ -44,6 +44,7 @@ class RPNonParallelTrackCandidateFinder : public edm::EDProducer
   
   private:
     edm::InputTag detSetVectorRPRecoHitLabel;
+    edm::EDGetTokenT<edm::DetSetVector<RPRecoHit> > detSetVectorRPRecoHitToken;
 
     unsigned int verbosity;
 
@@ -97,6 +98,8 @@ RPNonParallelTrackCandidateFinder::RPNonParallelTrackCandidateFinder(const edm::
   allowAmbiguousCombination(conf.getParameter<bool>("allowAmbiguousCombination")),
   exceptionalSettings(conf.getParameter< vector<ParameterSet> >("exceptionalSettings"))
 {
+  detSetVectorRPRecoHitToken = consumes<edm::DetSetVector<RPRecoHit> >(detSetVectorRPRecoHitLabel);
+
   produces<RPRecognizedPatternsCollection> ();
   produces<RPTrackCandidateCollection> ();
 }
@@ -137,7 +140,7 @@ void RPNonParallelTrackCandidateFinder::produce(edm::Event& event, const edm::Ev
   
   // get input and prepare output
   edm::Handle< edm::DetSetVector<RPRecoHit> > input;
-  event.getByLabel(detSetVectorRPRecoHitLabel, input); 
+  event.getByToken(detSetVectorRPRecoHitToken, input);
 
   auto_ptr<RPTrackCandidateCollection> output(new RPTrackCandidateCollection());
   auto_ptr<RPRecognizedPatternsCollection> patternsCollection(new RPRecognizedPatternsCollection());

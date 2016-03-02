@@ -48,6 +48,7 @@ class RPPrimaryVertexInelasticReconstruction : public edm::EDProducer
     typedef std::vector<int> station_rp_ids_type;
 
     edm::InputTag rpFittedTrackCollectionLabel;
+    edm::EDGetTokenT<RPFittedTrackCollection> rpFittedTrackCollectionToken;
     int SelectHits(const RPFittedTrackCollection &tracks, rec_tracks_collection & coll, const station_rp_ids_type& st_ids);
     int Select220RightHits(const RPFittedTrackCollection &tracks, rec_tracks_collection & coll);
     int Select220LeftHits(const RPFittedTrackCollection &tracks, rec_tracks_collection & coll);
@@ -76,7 +77,9 @@ class RPPrimaryVertexInelasticReconstruction : public edm::EDProducer
     std::string param_prefix_150_left_;
     std::string right_beam_postfix_;
     std::string left_beam_postfix_;
-    std::string HepMCProductLabel_;
+
+    edm::InputTag HepMCProductLabel;
+    edm::EDGetTokenT<edm::HepMCProduct> HepMCProductToken;
     
     bool station_150_mandatory_in_reconstruction_;
     bool station_220_mandatory_in_reconstruction_;
