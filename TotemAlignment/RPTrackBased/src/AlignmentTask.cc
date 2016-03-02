@@ -44,8 +44,8 @@ AlignmentTask::AlignmentTask(const ParameterSet& ps) :
 
 //----------------------------------------------------------------------------------------------------
 
-void AlignmentTask::BuildGeometry(const vector<unsigned int> &RPIds, const TotemRPGeometry *input,
-  double z0, AlignmentGeometry &geometry)
+void AlignmentTask::BuildGeometry(const vector<unsigned int> &RPIds,
+  const std::vector<unsigned int> excludePlanes, const TotemRPGeometry *input, double z0, AlignmentGeometry &geometry)
 {
   geometry.clear();
   geometry.z0 = z0; 
