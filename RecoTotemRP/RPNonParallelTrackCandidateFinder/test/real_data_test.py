@@ -170,7 +170,7 @@ process.p = cms.Path(
     * process.TriggerBits 
     * process.RPCC 
     * process.RPClustProd 
-    * process.RPHecoHitProd 
+    * process.RPRecoHitProd
     * process.NonParallelTrackFinder 
     * process.RPSingleTrackCandCollFit
     * process.RP220Reconst

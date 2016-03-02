@@ -61,7 +61,7 @@ outputCommands = cms.untracked.vstring('keep *')
 process.path = cms.Path(
 process.Raw2DigiProducer*
 process.RPClustProd*
-process.RPHecoHitProd*
+process.RPRecoHitProd*
 process.NonParallelTrackFinder*
 process.RPSingleTrackCandCollFit*
 process.RP220Reconst

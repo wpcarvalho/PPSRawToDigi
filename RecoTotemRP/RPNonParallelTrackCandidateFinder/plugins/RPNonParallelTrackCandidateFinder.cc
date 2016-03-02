@@ -127,7 +127,7 @@ void RPNonParallelTrackCandidateFinder::RecognizeAndSelect(unsigned int RPId, do
 void RPNonParallelTrackCandidateFinder::produce(edm::Event& event, const edm::EventSetup& es)
 {
   if (verbosity > 5)
-    printf(">> RPNonParallelTrackCandidateFinder::produce (%u:%u)\n", event.id().run(), event.id().event());
+    printf(">> RPNonParallelTrackCandidateFinder::produce (%u:%llu)\n", event.id().run(), event.id().event());
 
   // geometry
   ESHandle<TotemRPGeometry> geometry;
