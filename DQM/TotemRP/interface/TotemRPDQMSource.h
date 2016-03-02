@@ -89,8 +89,85 @@ class TotemRPDQMSource: public DQMEDAnalyzer
       CorrelationPlotsSelector correlationPlotsSelector;
       */
 
-		// Histograms
-		MonitorElement* h_test;
+    /// plots related to one (anti)diagonal
+    struct DiagonalPlots
+    {
+      int id;
+
+      MonitorElement *h_lrc_x_d, *h_lrc_x_n, *h_lrc_x_f;
+      MonitorElement *h_lrc_y_d, *h_lrc_y_n, *h_lrc_y_f;
+
+      DiagonalPlots() {}
+
+      DiagonalPlots(DQMStore::IBooker &ibooker, int _id);
+    };
+
+    std::map<unsigned int, DiagonalPlots> diagonalPlots;
+
+    /// plots related to one arm
+    struct ArmPlots
+    {
+      int id;
+
+      TH1D *h_numRPWithTrack_top, *h_numRPWithTrack_hor, *h_numRPWithTrack_bot;
+      TH2D *h_trackCorr, *h_trackCorr_overlap;
+
+      ArmPlots() : id(0), h_numRPWithTrack_top(NULL), h_numRPWithTrack_hor(NULL), h_numRPWithTrack_bot(NULL) {}
+
+      ArmPlots(int _id);
+    };
+
+    std::map<unsigned int, ArmPlots> armPlots;
+
+    /// plots related to one station
+    /*
+    struct StationPlots
+    {
+      std::map<int, std::map<int, THnSparseD*> > hist;
+      int id;
+      CorrelationPlotsSelector *correlationPlotsSelector;
+
+      StationPlots() : correlationPlotsSelector(NULL), rpHits(NULL) {}
+      StationPlots(int _id, std::set<unsigned int> planes, bool allocateCorrelationPlots, 
+        CorrelationPlotsSelector *correlationPlotsSelector, int limit = -1);
+      void Add(std::set<unsigned int> planes, int limit = -1);
+    };
+
+	std::map<unsigned int, StationPlots> stationPlots;
+    */
+
+    /// plots related to one RP
+    struct PotPlots
+    {
+      TH1D *activity, *activity_u, *activity_v;
+      TH2D *hit_plane_hist;
+      TH1D *patterns_u, *patterns_v;
+      TH1D *h_planes_fit_u, *h_planes_fit_v;
+      TH1D *event_category;
+      TH2D *trackHitsCumulativeHist;
+      TH1D *track_u_profile, *track_v_profile;
+
+      PotPlots();
+      PotPlots(unsigned int id);
+    };
+
+	std::map<unsigned int, PotPlots> potPlots;
+
+    /// plots related to one RP plane
+    struct PlanePlots
+    {
+      TH1D *digi_profile_cumulative;
+      TH1D *digi_profile_one_event;
+      TH1D *cluster_profile_cumulative;
+      TH1D *cluster_profile_one_event;
+      TH1D *hit_multiplicity;
+      TH1D *cluster_size;
+
+      PlanePlots() : digi_profile_cumulative(NULL), digi_profile_one_event(NULL) {}
+      PlanePlots(unsigned int id);
+    };
+
+	std::map<unsigned int, PlanePlots> planePlots;
 };
 
 #endif
