@@ -4,7 +4,7 @@ import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("rpReconstruction")
 process.maxEvents = cms.untracked.PSet(
-input = cms.untracked.int32(-1)
+input = cms.untracked.int32(100)
 )
 
 process.load('TotemRawData.Readers.RawDataSource_cfi')
