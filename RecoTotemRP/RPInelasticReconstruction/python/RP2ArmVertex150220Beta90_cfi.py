@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-RPPrimVert150220Reconst = cms.EDProducer("RPPrimaryVertex2ArmReconstruction",
+RPPrimVert150220Reconst = cms.EDProducer("RPPrimaryVertex2ArmReconstruction_RunI",
 
     Verbosity = cms.int32(0), RPFittedTrackCollectionLabel = cms.InputTag("RPSingleTrackCandCollFit"),
 
@@ -37,11 +37,11 @@ RPPrimVert150220Reconst = cms.EDProducer("RPPrimaryVertex2ArmReconstruction",
 
     RPMultipleScatteringSigma = cms.double(5.7e-07), # rad
 
-    ReconstructionPrecisionX = cms.double(0.03),    # mm
-    ReconstructionPrecisionY = cms.double(0.03),    # mm
-    ReconstructionPrecisionZ = cms.double(0.03),    # mm
-    ReconstructionPrecisionThetaX = cms.double(2e-06),  # rad
-    ReconstructionPrecisionThetaY = cms.double(1e-07),  # rad
+    ReconstructionPrecisionX = cms.double(0.001),   # mm
+    ReconstructionPrecisionY = cms.double(0.001),   # mm
+    ReconstructionPrecisionZ = cms.double(45),      # mm
+    ReconstructionPrecisionThetaX = cms.double(2.e-06), # rad
+    ReconstructionPrecisionThetaY = cms.double(1.e-07), # rad
     ReconstructionPrecisionKsi = cms.double(0.001), # -1 .. 0
 
     InitMinX = cms.double(-0.6),

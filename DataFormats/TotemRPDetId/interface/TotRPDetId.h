@@ -44,7 +44,7 @@
  * arm ID =     |arm|\n
  * where
  * \li arm = 0 (left, i.e. z < 0), 1 (right)
- * \li station = 0 (147m), 1 (180m), 2 (220m)
+ * \li station = 0 (210m), 2 (220m)
  * \li RP = 0 - 5; 0+1 vertical pots (lower |z|), 2+3 horizontal pots, 4+5 vertical pots (higher |z|)
  * \li det = 0 - 9 (0th det has the lowest |z|)
  * \li VFAT = 0 - 4

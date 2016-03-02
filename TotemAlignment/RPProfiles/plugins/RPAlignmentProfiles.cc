@@ -255,7 +255,7 @@ RPAlignmentProfiles::UnitProfileSet::UnitProfileSet(unsigned int id, const edm::
 {
   const ParameterSet &p = ps.getParameterSet("vertOfVert");
 
-  char buf[20];
+  char buf[60];
   hits = new TGraph();  // coordinates in mm
   sprintf(buf, "Unit%u: hitmap", id); hits->SetName(buf);
   sprintf(buf, "Unit%u: vertOfVert", id);
@@ -378,7 +378,8 @@ void RPAlignmentProfiles::beginRun(edm::Run const&, edm::EventSetup const& es)
       for (unsigned int r = 0; r < 6; r++)
         rps.push_back(stId*10 + r);
 
-      AlignmentTask::BuildGeometry(rps, geom.product(), 0., alGeometries[stId]);
+      vector<unsigned int> excludePlanes;
+      AlignmentTask::BuildGeometry(rps, excludePlanes, geom.product(), 0., alGeometries[stId]);
     }
 
   initialized = true;

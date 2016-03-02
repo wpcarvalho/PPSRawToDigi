@@ -28,6 +28,7 @@
 #include "TotemAlignment/RPTrackBased/interface/StraightTrackAlignment.h"
 
 #include <set>
+#include <unordered_set>
 #include <vector>
 #include <string>
 
@@ -74,15 +75,19 @@ TGraph* NewGraph(const string &name, const string &title)
 StraightTrackAlignment::StraightTrackAlignment(const ParameterSet& ps) :
   verbosity(ps.getUntrackedParameter<unsigned int>("verbosity", 0)),
   factorizationVerbosity(ps.getUntrackedParameter<unsigned int>("factorizationVerbosity", 0)),
-  patternRecognitionAlgorithm(ps.getParameter<string>("patternRecognitionAlgorithm")),
+  tagRecognizedPatterns(ps.getParameter<edm::InputTag>("tagRecognizedPatterns")),
 
   RPIds(ps.getParameter< vector<unsigned int> >("RPIds")),
+  excludePlanes(ps.getParameter< vector<unsigned int> >("excludePlanes")),
   z0(ps.getParameter<double>("z0")),
+
   useExternalFitter(ps.getParameter<bool>("useExternalFitter")),
+  tagExternalFit(ps.getParameter<edm::InputTag>("tagExternalFit")),
+
   maxEvents(ps.getParameter<unsigned int>("maxEvents")),
 
-  removeImpossible(ps.getParameter<bool>("removeImpossible")),                                                    
-  requireBothUnits(ps.getParameter<bool>("requireBothUnits")),                                       
+  removeImpossible(ps.getParameter<bool>("removeImpossible")),
+  requireNumberOfUnits(ps.getParameter<unsigned int>("requireNumberOfUnits")),
   requireAtLeast3PotsInOverlap(ps.getParameter<bool>("requireAtLeast3PotsInOverlap")),
   requireOverlap(ps.getParameter<bool>("requireOverlap")),
   cutOnChiSqPerNdf(ps.getParameter<bool>("cutOnChiSqPerNdf")),
@@ -235,7 +240,7 @@ void StraightTrackAlignment::Begin(const EventSetup &es)
   // prepare geometry (in fact, this should be done whenever es gets changed)
   ESHandle<TotemRPGeometry> geomH;
   es.get<RealGeometryRecord>().get(geomH);
-  task.BuildGeometry(RPIds, geomH.product(), z0, task.geometry);  
+  task.BuildGeometry(RPIds, excludePlanes, geomH.product(), z0, task.geometry);
 
   // print geometry info
   if (verbosity > 1) {
@@ -274,17 +279,7 @@ void StraightTrackAlignment::ProcessEvent(const Event& event, const EventSetup&)
   
   // -------------------- STEP 1: get hits from selected RPs
   Handle< RPTrackCandidateCollection > trackColl;
-  vector< Handle< RPTrackCandidateCollection > > trackCollList;
-  if (patternRecognitionAlgorithm.empty()){
-  	event.getManyByType(trackCollList);
-  	if(trackCollList.size() > 0){
-  		trackColl = trackCollList[0];
-  	}else{
-  		throw "track candidate collection not exists in the event";
-  	}
-  //event.getByType(trackColl);
-  }else
-    event.getByLabel(patternRecognitionAlgorithm, "", trackColl);
+  event.getByLabel(tagRecognizedPatterns, trackColl);
 
   bool skipHorRP = ( find(runsWithoutHorizontalRPs.begin(), runsWithoutHorizontalRPs.end(),
     event.id().run()/10000) != runsWithoutHorizontalRPs.end() );
@@ -324,32 +319,30 @@ void StraightTrackAlignment::ProcessEvent(const Event& event, const EventSetup&)
   if (useExternalFitter) {
     Handle< LocalTrackFit > hTrackFit;
     vector< Handle< LocalTrackFit> > hTrackFitList;
-    event.getManyByType(hTrackFitList);
-    if(hTrackFitList.size() > 0){
-    	hTrackFit = hTrackFitList[0];
-    }else{
-    	throw "Local Track Fit not exists in the event";
-    }
+    event.getByLabel(tagExternalFit, hTrackFit);
     extTrackFit = *hTrackFit;
   }
   
   set<unsigned int> selectedRPs;
-  for (HitCollection::iterator it = selection.begin(); it != selection.end(); ++it)
-    selectedRPs.insert(it->id/10);
+  for (const auto &hit : selection)
+    selectedRPs.insert(hit.id/10);
 
   eventsFitted++;
   fittedTracksPerRPSet[selectedRPs]++;
 
   // -------------------- STEP 3: quality checks
 
-  bool top = false, bottom = false, horizontal = false, near = false, far = false;
-  for (set<unsigned int>::iterator it = selectedRPs.begin(); it != selectedRPs.end(); ++it) {
-    unsigned idx = *it % 10;
+  bool top = false, bottom = false, horizontal = false;
+  unordered_set<unsigned int> units;
+  for (const auto &rp : selectedRPs)
+  {
+    unsigned idx = rp % 10;
+    unsigned unit = rp / 10;
     if (idx == 0 || idx == 4) top = true;
     if (idx == 1 || idx == 5) bottom = true;
     if (idx == 2 || idx == 3) horizontal = true;
-    if (idx <= 2) near = true;
-    if (idx >= 3 && idx <= 5) far = true;
+
+    units.insert(unit);
   }
   bool overlap = (top && horizontal) || (bottom && horizontal);
 
@@ -360,7 +353,7 @@ void StraightTrackAlignment::ProcessEvent(const Event& event, const EventSetup&)
     selected = false;
 
   // cleanliness cuts
-  if (requireBothUnits && (!far || !near))
+  if (units.size() < requireNumberOfUnits)
     selected = false;
   
   if (requireOverlap && !overlap)
@@ -400,6 +393,9 @@ void StraightTrackAlignment::ProcessEvent(const Event& event, const EventSetup&)
 void StraightTrackAlignment::UpdateDiagnosticHistograms(const HitCollection &selection, 
       const set<unsigned int> &selectedRPs, const LocalTrackFit &trackFit, bool trackSelected)
 {
+  if (!buildDiagnosticPlots)
+    return;
+
   fitNdfHist_fitted->Fill(trackFit.ndf);
   fitPHist_fitted->Fill(trackFit.PValue());
   fitAxHist_fitted->Fill(trackFit.ax);

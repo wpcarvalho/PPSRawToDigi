@@ -1,5 +1,5 @@
-#ifndef RecoTotemRP_RPInelasticReconstruction_RPPrimaryVertexInelasticReconstruction_h
-#define RecoTotemRP_RPInelasticReconstruction_RPPrimaryVertexInelasticReconstruction_h
+#ifndef RecoTotemRP_RPInelasticReconstruction_RPPrimaryVertexInelasticReconstruction_RunI_h
+#define RecoTotemRP_RPInelasticReconstruction_RPPrimaryVertexInelasticReconstruction_RunI_h
 
 
 #include "RecoTotemRP/RPInverseParameterization/interface/RPInverseParameterization.h"
@@ -32,14 +32,16 @@
 #include <vector>
 #include <map>
 
-
-class RPPrimaryVertexInelasticReconstruction : public edm::EDProducer
+/**
+ \brief Inelastic proton reconstruction for the old RP configuration (150 + 220m stations).
+**/
+class RPPrimaryVertexInelasticReconstruction_RunI : public edm::EDProducer
 {
   public:
     typedef std::map<RPId, RP2DHit> rec_tracks_collection;
     
-    explicit RPPrimaryVertexInelasticReconstruction(const edm::ParameterSet& conf);
-    virtual ~RPPrimaryVertexInelasticReconstruction();
+    explicit RPPrimaryVertexInelasticReconstruction_RunI(const edm::ParameterSet& conf);
+    virtual ~RPPrimaryVertexInelasticReconstruction_RunI();
     virtual void beginRun(edm::Run const&, edm::EventSetup const&);
     virtual void produce(edm::Event& e, const edm::EventSetup& c);
     void InitInverseParametrizationFitter();
