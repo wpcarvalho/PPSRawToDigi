@@ -25,7 +25,7 @@ TotemRPDQMSource::DiagonalPlots::DiagonalPlots(DQMStore::IBooker &ibooker, int _
     (top56) ? "top" : "bot"
   );
 
-  ibooker.setCurrentFolder(string("TotemRP/") + name);
+  ibooker.setCurrentFolder(string("Totem/RP/") + name);
 
   h_lrc_x_d = ibooker.book2D("dx left vs right", string(name) + " : dx left vs. right, histogram;#Delta x_{45};#Delta x_{56}", 50, 0., 0., 50, 0., 0.);
   h_lrc_x_n = ibooker.book2D("xn left vs right", string(name) + " : xn left vs. right, histogram;x^{N}_{45};x^{N}_{56}", 50, 0., 0., 50, 0., 0.);
@@ -332,20 +332,20 @@ TotemRPDQMSource::PotPlots::PotPlots(unsigned int id, const TotemRPGeometryLite 
     string() + "actual track - both projections;z (mm) - " + z0_str + " m;u, v   (mm)", uvGlobalView);
 }
 
-//----------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------------------
-
-TotemRPDQMSource::PlanePlots::PlanePlots(unsigned int id)
-{
-  PlotManager::RegisterRP(TotRPDetId::lPlane, id, "digi profile cumulative", "digi profile cumulative;strip number", digi_profile_cumulative = new TH1D("", "title", 512, -0.5, 511.5));
-  PlotManager::RegisterRP(TotRPDetId::lPlane, id, "digi profile one-event", "digi profile one-event;strip number", digi_profile_one_event = new TH1D("", "title", 512, -0.5, 511.5));
-  PlotManager::RegisterRP(TotRPDetId::lPlane, id, "cluster profile cumulative", "cluster profile cumulative;cluster center" , cluster_profile_cumulative = new TH1D("", "title", 1024, -0.25, 511.75));
-  PlotManager::RegisterRP(TotRPDetId::lPlane, id, "cluster profile one-event", "cluster profile one-event;cluster center" , cluster_profile_one_event = new TH1D("", "title", 1024, -0.25, 511.75));
-  PlotManager::RegisterRP(TotRPDetId::lPlane, id, "hit multiplicity", "hit multiplicity;hits/detector/event" , hit_multiplicity = new TH1D("", "title", 6, -0.5, 5.5));
-  PlotManager::RegisterRP(TotRPDetId::lPlane, id, "cluster size", "cluster size;hits per cluster" , cluster_size = new TH1D("", "title", 5, 0.5, 5.5));
-}
-
 #endif
+
+//----------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------
+
+TotemRPDQMSource::PlanePlots::PlanePlots(DQMStore::IBooker &ibooker, unsigned int id)
+{
+  ibooker.setCurrentFolder(string("Totem/") + TotRPDetId::PlaneName(id, TotRPDetId::nPath));
+
+  digi_profile_cumulative = ibooker.book1D("digi profile", "digi profile;strip number", 512, -0.5, 511.5);
+  cluster_profile_cumulative = ibooker.book1D("cluster profile", "cluster profile;cluster center", 1024, -0.25, 511.75);
+  hit_multiplicity = ibooker.book1D("hit multiplicity", "hit multiplicity;hits/detector/event", 6, -0.5, 5.5);
+  cluster_size = ibooker.book1D("cluster size", "cluster size;hits per cluster", 5, 0.5, 5.5);
+}
 
 //----------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------
@@ -402,42 +402,45 @@ void TotemRPDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::Run const
   diagonalPlots[0] = DiagonalPlots(ibooker, 0);  // 45 bot - 56 bot
   diagonalPlots[3] = DiagonalPlots(ibooker, 3);  // 45 top - 56 top
 
-  /*
   // loop over arms
   for (unsigned int arm = 0; arm < 2; arm++)
   {
-    armPlots[arm] = ArmPlots(arm);
+    // TODO
+    //armPlots[arm] = ArmPlots(arm);
 
     // loop over stations
     for (unsigned int st = 0; st < 3; st += 2)
     {
       unsigned int stId = 10*arm + st;
 
-      set<unsigned int> stationPlanes;
+      // TODO
+      //set<unsigned int> stationPlanes;
 
       // loop over RPs
       for (unsigned int rp = 0; rp < 6; ++rp)
       {
         unsigned int rpId = 10*stId + rp;
 
-        potPlots[rpId] = PotPlots(rpId, geometry);
+        // TODO
+        //potPlots[rpId] = PotPlots(rpId, geometry);
 
         // loop over planes
         for (unsigned int pl = 0; pl < 10; ++pl)
         {
           unsigned int plId = 10*rpId + pl;
-          planePlots[plId] = PlanePlots(plId);
+          planePlots[plId] = PlanePlots(ibooker, plId);
 
-		  if (correlationPlotsSelector.IfCorrelate(plId))
-		    stationPlanes.insert(plId % 100);
+          // TODO
+		  //if (correlationPlotsSelector.IfCorrelate(plId))
+		    //stationPlanes.insert(plId % 100);
         }
       }
 
-      stationPlots[stId] = StationPlots(stId, stationPlanes,
-        buildCorrelationPlots, &correlationPlotsSelector, correlationPlotsLimit);
+      // TODO
+      //stationPlots[stId] = StationPlots(stId, stationPlanes,
+        //buildCorrelationPlots, &correlationPlotsSelector, correlationPlotsLimit);
     }
   }
-  */
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -474,6 +477,599 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
 
   Handle< RPMulFittedTrackCollection > multiTracks;
   event.getByToken(tokenMultiTrackColl, multiTracks);
+
+  // check validity
+  bool valid = true;
+  valid &= digi.isValid();
+  valid &= digCluster.isValid();
+  // TODO
+  //valid &= hits.isValid();
+  //valid &= trackCanColl.isValid();
+  //valid &= tracks.isValid();
+  //valid &= patterns.isValid();
+  //valid &= multiTracks.isValid();
+
+  if (!valid)
+  {
+    printf("ERROR in TotemDQMModuleRP::analyze > some of the required inputs are not valid. Skipping this event.\n");
+    printf("\tdigi.isValid = %i\n", digi.isValid());
+    printf("\tdigCluster.isValid = %i\n", digCluster.isValid());
+    // TODO
+    //printf("\thits.isValid = %i\n", hits.isValid());
+    //printf("\ttrackCanColl.isValid = %i\n", trackCanColl.isValid());
+    //printf("\ttracks.isValid = %i\n", tracks.isValid());
+    //printf("\tpatterns.isValid = %i\n", patterns.isValid());
+    //printf("\tmultiTracks.isValid = %i\n", multiTracks.isValid());
+
+    return;
+  }
+  
+  //-------------------------------------------------------------------------------------------------
+  // Plane Plots
+
+  // digi profile cumulative
+  for (DetSetVector<RPStripDigi>::const_iterator it = digi->begin(); it != digi->end(); ++it)
+  {
+    unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
+    for (DetSet<RPStripDigi>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
+    {
+      planePlots[DetId].digi_profile_cumulative->Fill(dit->GetStripNo());
+    }
+  }
+
+  // cluster profile cumulative
+  for (DetSetVector<RPDigCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
+  {
+    unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
+    for (DetSet<RPDigCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
+    {
+      planePlots[DetId].cluster_profile_cumulative->Fill(dit->CentreStripPos());
+    }
+  }
+
+  // hit multiplicity
+  for (DetSetVector<RPDigCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
+  {
+    unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
+    planePlots[DetId].hit_multiplicity->Fill(it->size());
+  }
+
+  // cluster size
+  for (DetSetVector<RPDigCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
+  {
+    unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
+    for (DetSet<RPDigCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
+      planePlots[DetId].cluster_size->Fill(dit->GetNumberOfStrips());
+  }
+
+#if 0
+  //---------------------------------------------------------------------------------------------
+  // Roman Pots Plots
+
+  // plane activity histogram
+  if (CumulativeMode())
+  {
+    map<unsigned int, set<unsigned int> > planes;
+    map<unsigned int, set<unsigned int> > planes_u;
+    map<unsigned int, set<unsigned int> > planes_v;
+    for (DetSetVector<RPRecoHit>::const_iterator it = hits->begin(); it != hits->end(); ++it)
+    {
+      unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
+      unsigned int RPId = TotRPDetId::RPOfDet(DetId);
+      unsigned int planeNum = DetId % 10;
+      planes[RPId].insert(planeNum);
+      if (TotRPDetId::IsStripsCoordinateUDirection(DetId))
+        planes_u[RPId].insert(planeNum);
+      else
+        planes_v[RPId].insert(planeNum);
+    }
+    
+    for (std::map<unsigned int, PotPlots>::iterator it = potPlots.begin(); it != potPlots.end(); it++)
+    {
+      it->second.activity->Fill(planes[it->first].size());
+      it->second.activity_u->Fill(planes_u[it->first].size());
+      it->second.activity_v->Fill(planes_v[it->first].size());
+    }
+  }
+  
+  if (CumulativeMode())
+  {
+    for (DetSetVector<RPDigCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
+    {
+      unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
+      unsigned int RPId = TotRPDetId::RPOfDet(DetId);
+      unsigned int planeNum = DetId % 10;
+      PotPlots &pp = potPlots[RPId];
+      for (DetSet<RPDigCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
+        pp.hit_plane_hist->Fill(planeNum, dit->CentreStripPos());   
+    }
+  }
+
+  // recognized pattern histograms and event-category histogram
+  if (CumulativeMode())
+  {
+    for (RPRecognizedPatternsCollection::const_iterator rpit = patterns->begin(); rpit != patterns->end(); ++rpit)
+    {
+      PotPlots &pp = potPlots[rpit->first];
+
+      unsigned int u = rpit->second.uLines.size(), v = rpit->second.vLines.size();
+
+      pp.patterns_u->Fill(u);
+      pp.patterns_v->Fill(v);
+    
+      // determine category
+      unsigned int category = 100;
+
+      if (u == 0 && v == 0) category = 0;                   // empty
+      if (u > 0 && v > 0 && u <= 3 && v <= 3) category = 3; // multi-track
+      if (u+v == 1) category = 1;                           // insuff
+      if (u == 1 && v == 1) category = 2;                   // 1-track
+      if (u > 3 || v > 3) category = 4;                     // shower
+
+      pp.event_category->Fill(category);
+    }
+  }
+
+  // 3D plots cumulative and one-event & 3D graphs
+  if (!CumulativeMode())
+  {
+    // plot all hits
+    for (DetSetVector<RPRecoHit>::const_iterator it = hits->begin(); it != hits->end(); ++it)
+    {
+      unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
+      unsigned int RPId = TotRPDetId::RPOfDet(DetId);
+
+      double z0 = geometry->GetRPPosition(RPId).z();
+
+      for (DetSet<RPRecoHit>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
+      {
+        unsigned int decId = TotRPDetId::RawToDecId(dit->DetId());
+        double z = geometry->GetSensorPosition(decId).z();
+
+        if (potPlots[RPId].uHitsAll == 0 && potPlots[RPId].vHitsAll == 0)
+          continue;
+
+        if (TotRPDetId::IsStripsCoordinateUDirection(TotRPDetId::RawToDecId(dit->DetId())))
+        {
+          Int_t pN = potPlots[RPId].uHitsAll->GetN();
+          potPlots[RPId].uHitsAll->SetPoint(pN, z - z0, dit->Position());
+          potPlots[RPId].uHitsAll->SetPointError(pN, 0., dit->Sigma());
+        } else {
+          Int_t pN = potPlots[RPId].vHitsAll->GetN();
+          potPlots[RPId].vHitsAll->SetPoint(pN, z - z0, dit->Position());
+          potPlots[RPId].vHitsAll->SetPointError(pN, 0., dit->Sigma());
+        }
+      }
+    }
+  }
+
+  // draw recognized patterns
+  if (drawRecognizedPatterns && !CumulativeMode())
+  {
+    for (RPRecognizedPatternsCollection::const_iterator rit = patterns->begin(); rit != patterns->end(); ++rit)
+    {
+      unsigned int RPId = rit->first;
+      const PotPlots &pp = potPlots[RPId];
+      double z0 = geometry->GetRPPosition(RPId).z();
+
+      for (unsigned int i = 0; i < 2; i++)
+      {
+        MultiRootPlot *view = (i == 0) ? pp.uView : pp.vView;
+        const vector<RPRecognizedPatterns::Line> *lines = (i == 0) ? &rit->second.uLines : &rit->second.vLines;
+        int color = (i == 0) ? 2 : 4;
+        
+        for (vector<RPRecognizedPatterns::Line>::const_iterator lit = lines->begin(); lit != lines->end(); ++lit)
+        {
+          // skip "empty" patterns
+          if (lit->hits.size() < 2)
+            continue;
+
+          // find z range
+          double z_min = +std::numeric_limits<double>::max(), z_max = -std::numeric_limits<double>::max();
+          for (RPRecognizedPatterns::Line::HitCollection::const_iterator hit = lit->hits.begin(); hit != lit->hits.end(); ++hit)
+          {
+            unsigned int decId = TotRPDetId::RawToDecId(hit->DetId());
+            double z = geometry->GetSensorPosition(decId).z();
+            z_min = min(z_min, z);
+            z_max = max(z_max, z);
+          }
+          
+          // create function
+          TF1 *f = new TF1("", "[0]*x+[1]", 0, 1);
+          f->SetParameters(lit->a, lit->b);
+          f->SetRange(z_min - z0, z_max - z0);
+          f->SetLineColor(color);
+          f->SetLineStyle(2);
+          f->SetLineWidth(1);
+
+          view->Add(f, "same");
+        }
+      }
+    }
+  }
+
+
+  // u and v views
+  if (!CumulativeMode())
+  {
+    for (RPFittedTrackCollection::const_iterator it = tracks->begin(); it != tracks->end(); ++it)
+    {
+      unsigned int RPId = it->first;
+      const RPFittedTrack &ft = it->second;
+      double z0 = geometry->GetRPPosition(RPId).z();
+
+      // to set range for u,v Track
+      double u_min_z = +std::numeric_limits<double>::max(), u_max_z = -std::numeric_limits<double>::max(), v_min_z = u_min_z, v_max_z = u_max_z;
+
+      // skip invalid tracks
+      if (!ft.IsValid())
+        continue;
+
+      if (!ft.IsSourceTrackCandidateValid())
+        continue;
+
+      // build u and v projection views
+      const PotPlots & pp = potPlots[RPId];
+
+#ifdef DEBUG
+      printf("------- RPId = %u\n", RPId);
+#endif
+#ifdef DEBUG
+      cout << ">> range0 u: min: " << u_min_z << "\tmax: " << u_max_z << endl;
+      cout << ">> range0 v: min: " << v_min_z << "\tmax: " << v_max_z << endl;
+#endif
+
+      // plot selected hits and establish track range
+      const vector<RPRecoHit> &hits = ft.sourceTrackCandidate.TrackRecoHits();
+      for (vector<RPRecoHit>::const_iterator it = hits.begin(); it != hits.end(); ++it)
+      {
+        unsigned int decId = TotRPDetId::RawToDecId(it->DetId());
+        double z = geometry->GetSensorPosition(decId).z();
+
+        if (TotRPDetId::IsStripsCoordinateUDirection(TotRPDetId::RawToDecId(it->DetId())))
+        {
+          Int_t pN = potPlots[RPId].uHitsSel->GetN();
+          pp.uHitsSel->SetPoint(pN, z - z0, it->Position());
+          pp.uHitsSel->SetPointError(pN, 0, it->Sigma());
+          u_min_z = std::min(u_min_z, z);
+          u_max_z = std::max(u_max_z, z);
+          //printf("DrawUHit(%u, %.3f, %.3f, %.3f, %.3f)\n", RPId, z0, z - z0, it->Position(), it->Sigma());
+        } else {
+          Int_t pN = potPlots[RPId].vHitsSel->GetN();
+          pp.vHitsSel->SetPoint(pN, z - z0, it->Position());
+          pp.vHitsSel->SetPointError(pN, 0, it->Sigma());
+          v_min_z = std::min(v_min_z, z);
+          v_max_z = std::max(v_max_z, z);
+          //printf("DrawVHit(%u, %.3f, %.3f, %.3f, %.3f)\n", RPId, z0, z - z0, it->Position(), it->Sigma());
+        }
+      }
+
+#ifdef DEBUG
+      cout << ">> range u: min: " << u_min_z << "\tmax: " << u_max_z << endl;
+      cout << ">> range v: min: " << v_min_z << "\tmax: " << v_max_z << endl;
+#endif
+
+      // set the ranges
+      pp.uTrack->SetRange(u_min_z - z0, u_max_z - z0);
+      pp.vTrack->SetRange(v_min_z - z0, v_max_z - z0);
+
+      // get (x, y) parameters in local system
+      double ax = ft.GetTx(), ay = ft.GetTy();
+      double bx = ft.X0() + ax * (z0 - ft.Z0());
+      double by = ft.Y0() + ay * (z0 - ft.Z0());
+
+      //printf("DrawXYFit(%u, %.3f, %.3f, %.3f, %.3f, %.3f)\n", RPId, z0, ax, ay, bx, by);
+
+#ifdef DEBUG
+      printf(">> original fit: Z0 = %f, X0 = %f, Tx = %f, Y0 = %f, Ty = %f\n", ft.Z0(), ft.X0(), ft.GetTx(), ft.Y0(), ft.GetTy());
+      printf(">> z0 = %f\n", z0);
+      printf(">> x fit: a = %f, b = %f\n", ax, bx);
+      printf(">> y fit: a = %f, b = %f\n", ay, by);
+      printf(">> track at z0: x = %f, y = %f\n", ft.GetTrackPoint(z0).X(), ft.GetTrackPoint(z0).Y());
+#endif
+
+      // mean read-out direction of U and V planes
+      CLHEP::Hep3Vector rod_U = geometry->GetRPMeanUDirection(RPId);
+      CLHEP::Hep3Vector rod_V = geometry->GetRPMeanVDirection(RPId);
+
+      // mean position of U and V planes
+      CLHEP::Hep3Vector mp_U = geometry->GetSensorPosition(RPId*10 + 1);  // one U plane
+      CLHEP::Hep3Vector mp_V = geometry->GetSensorPosition(RPId*10 + 0);  // one V plane
+
+      // convert (x, y) to (u, v) parameters
+      double au = ax * rod_U.x() + ay * rod_U.y();
+      double av = ax * rod_V.x() + ay * rod_V.y();
+
+      double bu = (bx - mp_U.x()) * rod_U.x() + (by - mp_U.y()) * rod_U.y();
+      double bv = (bx - mp_V.x()) * rod_V.x() + (by - mp_V.y()) * rod_V.y();
+      
+      //printf(">> fit in RP %u\n", RPId);
+      //printf("\tU: a = %f, b = %f\n", au, bu);
+      //printf("\tV: a = %f, b = %f\n", av, bv);
+
+      // set the track parameters
+      pp.uTrack->SetParameters(au, bu);
+      pp.vTrack->SetParameters(av, bv);
+    }
+  }
+
+  // 3D track and 2D hit plots
+  for (RPFittedTrackCollection::const_iterator it = tracks->begin(); it != tracks->end(); ++it)
+  {
+    const RPFittedTrack &ft = it->second;
+    
+    if (!ft.IsValid())
+      continue;
+    
+    const PotPlots & pp = potPlots[it->first];
+
+    if (!CumulativeMode())
+    {
+      pp.currentTrackInRP->AddTrack(ft.GetTx(), ft.X0(), ft.GetTy(), ft.Y0());
+      pp.currentTrackXY->SetPoint(pp.currentTrackXY->GetN(), ft.X0(), ft.Y0());
+    } else {
+      pp.allTracksInRP->AddTrack(ft.GetTx(), ft.X0(), ft.GetTy(), ft.Y0());
+    }
+  }
+
+  if (!CumulativeMode() && multiTracks.isValid())
+  {
+    for (RPMulFittedTrackCollection::const_iterator rpit = multiTracks->begin(); rpit != multiTracks->end(); ++rpit)
+    {
+      const PotPlots &pp = potPlots[rpit->first];
+
+      for (vector<RPFittedTrack>::const_iterator trit = rpit->second.begin(); trit != rpit->second.end(); ++trit)
+      {
+        const RPFittedTrack &ft = *trit;
+        if (!ft.IsValid())
+          continue;
+
+        pp.currentMultiTracksXY->SetPoint(pp.currentMultiTracksXY->GetN(), ft.X0(), ft.Y0());
+      }
+    }
+  }
+
+  // cumulative RP fit plots
+  if (CumulativeMode())
+  {
+	for (RPFittedTrackCollection::const_iterator it = tracks->begin(); it != tracks->end(); ++it)
+    {
+	  const RPFittedTrack &ft = it->second;
+	    
+	  if (!ft.IsValid())
+	    continue;
+    
+      unsigned int RPId = it->first;
+      PotPlots &pp = potPlots[RPId];
+
+      // number of planes contributing to (valid) fits
+      unsigned int n_pl_in_fit_u = 0, n_pl_in_fit_v = 0;
+      for (int hi = 0; hi < ft.GetHitEntries(); hi++)
+      {
+        unsigned int rawId = ft.GetHit(hi).DetId();  
+        unsigned int decId = TotRPDetId::RawToDecId(rawId);
+        if (TotRPDetId::IsStripsCoordinateUDirection(decId))
+          n_pl_in_fit_u++;
+        else
+          n_pl_in_fit_v++;
+      }
+      pp.h_planes_fit_u->Fill(n_pl_in_fit_u);
+      pp.h_planes_fit_v->Fill(n_pl_in_fit_v);
+
+      // mean position of U and V planes
+      CLHEP::Hep3Vector mp_U = geometry->GetSensorPosition(RPId*10 + 1);  // one U plane
+      CLHEP::Hep3Vector mp_V = geometry->GetSensorPosition(RPId*10 + 0);  // one V plane
+
+      double rp_x = ( mp_U.x() + mp_V.x() ) / 2.;
+      double rp_y = ( mp_U.y() + mp_V.y() ) / 2.;
+
+      // mean read-out direction of U and V planes
+      CLHEP::Hep3Vector rod_U = geometry->GetRPMeanUDirection(RPId);
+      CLHEP::Hep3Vector rod_V = geometry->GetRPMeanVDirection(RPId);
+
+      double x = ft.X0() - rp_x;
+      double y = ft.Y0() - rp_y;
+
+      pp.trackHitsCumulative->SetPoint(pp.trackHitsCumulative->GetN(), x, y);
+      pp.trackHitsCumulativeHist->Fill(x, y);
+
+      double U = x * rod_U.x() + y * rod_U.y();
+      double V = x * rod_V.x() + y * rod_V.y();
+
+      pp.track_u_profile->Fill(U);
+      pp.track_v_profile->Fill(V);
+    }
+  }
+
+  //-----------------------------------------------------------------------------------
+  // Station Plots
+
+  // Correlation profile
+  if (CumulativeMode() && buildCorrelationPlots)
+  {
+    for (DetSetVector<RPStripDigi>::const_iterator i = digi->begin(); i != digi->end(); i++)
+    {
+      for (DetSetVector<RPStripDigi>::const_iterator j = i; j != digi->end(); j++)
+      {
+        if (i == j)
+          continue;
+
+        unsigned int DetId1 = TotRPDetId::RawToDecId(i->detId());
+        unsigned int DetId2 = TotRPDetId::RawToDecId(j->detId());
+        unsigned int StationId1 = DetId1 / 100;
+        unsigned int StationId2 = DetId2 / 100;
+
+        if (StationId1 != StationId2)
+          continue;
+
+        unsigned int RPPlaneId1 = DetId1 % 100;
+        unsigned int RPPlaneId2 = DetId2 % 100;
+        if (stationPlots[StationId1].hist[RPPlaneId1][RPPlaneId2])
+        {
+          for (DetSet<RPStripDigi>::const_iterator di = i->begin(); di != i->end(); di++)
+          {
+            for (DetSet<RPStripDigi>::const_iterator dj = j->begin(); dj != j->end(); dj++)
+            {
+              Double_t temp[2];
+              temp[0] = di->GetStripNo();
+              temp[1] = dj->GetStripNo();
+              stationPlots[StationId1].hist[RPPlaneId1][RPPlaneId2]->Fill(temp);
+            }
+          }
+        }
+
+      }
+    }
+  }
+  
+  // plot of hits in a station
+  if (!CumulativeMode())
+  {
+	for (RPFittedTrackCollection::const_iterator it = tracks->begin(); it != tracks->end(); ++it)
+    {
+	  const RPFittedTrack &ft = it->second;
+	  
+	  if (!ft.IsValid())
+	    continue;
+	
+	  unsigned int sId = it->first / 10;
+	  TGraph *g = stationPlots[sId].rpHits;
+	  g->SetPoint(g->GetN(), ft.X0(), ft.Y0());
+      //printf("%u: %f, %f\n", it->first, ft.X0(), ft.Y0());
+	}
+  }
+  
+  //-----------------------------------------------------------------------------------
+  // Arm Plots
+  if (CumulativeMode())
+  {
+    map<unsigned int, unsigned int> mTop, mHor, mBot;
+
+    for (auto p : armPlots)
+    {
+      mTop[p.first] = 0;
+      mHor[p.first] = 0;
+      mBot[p.first] = 0;
+    }
+
+    for (auto p : *tracks)
+    {
+      if (!p.second.IsValid())
+        continue;
+  
+      unsigned int armNum = p.first / 100;
+      unsigned int rpNum = p.first % 10;
+
+      if (rpNum == 0 || rpNum == 4)
+        mTop[armNum]++;
+      if (rpNum == 2 || rpNum == 3)
+        mHor[armNum]++;
+      if (rpNum == 1 || rpNum == 5)
+        mBot[armNum]++;
+    }
+
+    for (auto &p : armPlots)
+    {
+      p.second.h_numRPWithTrack_top->Fill(mTop[p.first]);
+      p.second.h_numRPWithTrack_hor->Fill(mHor[p.first]);
+      p.second.h_numRPWithTrack_bot->Fill(mBot[p.first]);
+    }
+
+    // track RP correlation
+    for (auto t1 : *tracks)
+    {
+      if (!t1.second.IsValid())
+        continue;
+
+      unsigned int arm1 = t1.first / 100;
+      unsigned int stNum1 = (t1.first / 10) % 10;
+      unsigned int rpNum1 = t1.first % 10;
+      unsigned int idx1 = stNum1/2 * 7 + rpNum1;
+      bool hor1 = (rpNum1 == 2 || rpNum1 == 3);
+
+      ArmPlots &ap = armPlots[arm1];
+
+      for (auto t2 : *tracks)
+      {
+        if (!t2.second.IsValid())
+          continue;
+      
+        unsigned int arm2 = t2.first / 100;
+        unsigned int stNum2 = (t2.first / 10) % 10;
+        unsigned int rpNum2 = t2.first % 10;
+        unsigned int idx2 = stNum2/2 * 7 + rpNum2;
+        bool hor2 = (rpNum2 == 2 || rpNum2 == 3);
+
+        if (arm1 != arm2)
+          continue;
+
+        ap.h_trackCorr->Fill(idx1, idx2); 
+        
+        if (hor1 != hor2)
+          ap.h_trackCorr_overlap->Fill(idx1, idx2); 
+      }
+    }
+  }
+  
+  //---------------------------------------------------------------------------------
+  // RP-system plots
+  // TODO
+  if (CumulativeMode())
+  {
+    for (auto &dp : diagonalPlots)
+    {
+      unsigned int id = dp.first;
+      bool top45 = id & 2;
+      bool top56 = id & 1;
+
+      unsigned int id_45_n = (top45) ? 20 : 21;
+      unsigned int id_45_f = (top45) ? 24 : 25;
+      unsigned int id_56_n = (top56) ? 120 : 121;
+      unsigned int id_56_f = (top56) ? 124 : 125;
+    
+      bool h_45_n = (tracks->find(id_45_n) != tracks->end() && tracks->find(id_45_n)->second.IsValid());
+      bool h_45_f = (tracks->find(id_45_f) != tracks->end() && tracks->find(id_45_f)->second.IsValid());
+      bool h_56_n = (tracks->find(id_56_n) != tracks->end() && tracks->find(id_56_n)->second.IsValid());
+      bool h_56_f = (tracks->find(id_56_f) != tracks->end() && tracks->find(id_56_f)->second.IsValid());
+    
+      if (! (h_45_n && h_45_f && h_56_n && h_56_f) )
+        continue;
+
+      double x_45_n = tracks->find(id_45_n)->second.X0(), y_45_n = tracks->find(id_45_n)->second.Y0();
+      double x_45_f = tracks->find(id_45_f)->second.X0(), y_45_f = tracks->find(id_45_f)->second.Y0();
+      double x_56_n = tracks->find(id_56_n)->second.X0(), y_56_n = tracks->find(id_56_n)->second.Y0();
+      double x_56_f = tracks->find(id_56_f)->second.X0(), y_56_f = tracks->find(id_56_f)->second.Y0();
+
+      double dx_45 = x_45_f - x_45_n;
+      double dy_45 = y_45_f - y_45_n;
+      double dx_56 = x_56_f - x_56_n;
+      double dy_56 = y_56_f - y_56_n;
+
+      DiagonalPlots &pl = dp.second;
+
+      int idx = pl.g_lrc_x_d->GetN();
+      pl.g_lrc_x_d->SetPoint(idx, dx_45, dx_56);  
+      pl.g_lrc_y_d->SetPoint(idx, dy_45, dy_56);  
+      
+      pl.g_lrc_x_n->SetPoint(idx, x_45_n, x_56_n);  
+      pl.g_lrc_y_n->SetPoint(idx, y_45_n, y_56_n);  
+      
+      pl.g_lrc_x_f->SetPoint(idx, x_45_f, x_56_f);  
+      pl.g_lrc_y_f->SetPoint(idx, y_45_f, y_56_f);  
+
+
+      pl.h_lrc_x_d->Fill(dx_45, dx_56);  
+      pl.h_lrc_y_d->Fill(dy_45, dy_56);  
+      
+      pl.h_lrc_x_n->Fill(x_45_n, x_56_n);  
+      pl.h_lrc_y_n->Fill(y_45_n, y_56_n);  
+      
+      pl.h_lrc_x_f->Fill(x_45_f, x_56_f);  
+      pl.h_lrc_y_f->Fill(y_45_f, y_56_f);  
+    }
+  }
+#endif
+
 }
 
 //----------------------------------------------------------------------------------------------------

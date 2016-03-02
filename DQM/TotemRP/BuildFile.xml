@@ -18,6 +18,7 @@
 <use   name="CondFormats/EcalObjects"/>
 <use   name="RecoJets/JetProducers"/>
 <use   name="RecoEgamma/EgammaTools"/>
+<use   name="DataFormats/TotemRPDetId"/>
 <export>
   <lib   name="1"/>
 </export>

@@ -156,15 +156,13 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     /// plots related to one RP plane
     struct PlanePlots
     {
-      TH1D *digi_profile_cumulative;
-      TH1D *digi_profile_one_event;
-      TH1D *cluster_profile_cumulative;
-      TH1D *cluster_profile_one_event;
-      TH1D *hit_multiplicity;
-      TH1D *cluster_size;
+      MonitorElement *digi_profile_cumulative = NULL;
+      MonitorElement *cluster_profile_cumulative = NULL;
+      MonitorElement *hit_multiplicity = NULL;
+      MonitorElement *cluster_size = NULL;
 
-      PlanePlots() : digi_profile_cumulative(NULL), digi_profile_one_event(NULL) {}
-      PlanePlots(unsigned int id);
+      PlanePlots() {}
+      PlanePlots(DQMStore::IBooker &ibooker, unsigned int id);
     };
 
 	std::map<unsigned int, PlanePlots> planePlots;
