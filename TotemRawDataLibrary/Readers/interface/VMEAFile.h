@@ -13,13 +13,13 @@
 #include "TotemRawDataLibrary/Readers/interface/DataFile.h"
 #include "TotemRawDataLibrary/Readers/interface/CircularBuffer.h"
 #include "TotemRawDataLibrary/DataFormats/interface/OptoRxVFATFrameCollection.h"
+#include "TotemRawDataLibrary/Readers/interface/StorageFile.h"
 
 #include <vector>
 
 namespace Totem {
 
 /**
- * \ingroup TotemRawDataLibrary
  * File reader for VMEA format.
  **/ 
 class VMEAFile : public DataFile
@@ -33,6 +33,7 @@ class VMEAFile : public DataFile
     virtual ~VMEAFile();
 
     virtual OpenStatus Open(const std::string &);
+    virtual OpenStatus Open(StorageFile* storageFile);
     virtual void Close();
     virtual void Rewind();
     virtual unsigned char GetEvent(unsigned long, RawEvent*);
@@ -81,7 +82,7 @@ class VMEAFile : public DataFile
 
     /// Processes a VMEA Event.
     /// Returns the number of GOH blocks that failed consistency checks.
-    /// Also used by VMEAStream
+    /// Also used by VMEAStream class.
     static unsigned int ProcessVMEAEvent(char *ptr, OptoRxVFATFrameCollection *, RawEvent *);
 
   protected:
@@ -103,7 +104,7 @@ class VMEAFile : public DataFile
     std::vector<std::streampos> positions;
 
     /// input file pointer
-    FILE* infile;
+    StorageFile *infile;
 
     /// number of corrupted frames
     unsigned int corruptedEventCounter;
@@ -114,12 +115,6 @@ class VMEAFile : public DataFile
     /// Process one LDC event.
     /// returns the number of GOH blocks that failed consistency checks
     static unsigned int ProcessSubEvent(char *ptr, OptoRxVFATFrameCollection *, RawEvent *);
-
-#ifdef USE_CASTOR
-    /// Used to reset eof flag when using rfio_api.
-    /// returns 0 if OK
-    virtual unsigned int Reopen();
-#endif
 };
 
 }

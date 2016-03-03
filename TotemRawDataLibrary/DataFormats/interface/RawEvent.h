@@ -20,7 +20,6 @@ namespace Totem {
 
 
 /**
- * \ingroup TotemRawDataLibrary
  * Additional data provided in OptoRx headers and footers.
 **/
 struct OptoRxMetaData
@@ -31,8 +30,7 @@ struct OptoRxMetaData
 //----------------------------------------------------------------------------------------------------
 
 /**
-\ingroup TotemRawDataLibrary
-\brief Trigger data provided by LoneG.
+ * Trigger data provided by LoneG.
 **/
 struct TriggerData
 {
@@ -46,14 +44,13 @@ struct TriggerData
 //----------------------------------------------------------------------------------------------------
 
 /**
-\ingroup TotemRawDataLibrary
-\brief Class for raw (unprocessed) event. Consists of VFATFrameColl plus additional information (event number, etc.).
+ * Class for raw (unprocessed) event. Consists of VFATFrameColl plus additional information (event number, etc.).
 **/
 class RawEvent
 {
   public:
     /// collection of VFAT frames
-    VFATFrameCollection *frames;    //!
+    VFATFrameCollection *frames;
     
     /// flag whether the `frames' collection shall be freed by the destructor
     bool ownsCollection;
