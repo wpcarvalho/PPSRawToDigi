@@ -25,7 +25,7 @@ scram build -j 15
 
 ### Running sample configuration
 
-PPS simualtion config:
+PPS simulation config:
 ```
 cmsRun src/test.py
 ```
