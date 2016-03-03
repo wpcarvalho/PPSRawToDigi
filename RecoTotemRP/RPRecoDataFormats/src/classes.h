@@ -12,13 +12,19 @@
 #include "DataFormats/TotemRPDataTypes/interface/RPDigCluster.h"
 #include <map>
 #include "TObject.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHitDebug.h"
 #include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPair.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecoElasticEvent.h"
 
 #include <vector>
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatterns.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/CentralMassInfo.h"
 
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPStationTrackFit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPStationTrackFitCollection.h"
@@ -28,6 +34,8 @@
 namespace {
   namespace {
     
+    CentralMassInfo ctrinfo;
+    edm::Wrapper<CentralMassInfo> wctrinfo;
     
     RPTrackCandidate tc;
     RPTrackCandidateCollection coll;
@@ -70,14 +78,25 @@ namespace {
     edm::Wrapper<RPMulFittedTrackCollection> the_w_mrpftc;
     
     RPDetHitPoint rpdhp;
+    TVector3 tv3;
     std::vector<RPDetHitPoint> vrdhp;
     std::map<RPId, RPFittedTrack> mdeidfittrac;
     std::map<RPId, std::vector<RPFittedTrack> > vmdeidfittrac;
     edm::Wrapper<std::map<RPId, RPFittedTrack> > wmdeidfittrac;
     edm::Wrapper<std::map<RPId, std::vector<RPFittedTrack> > > vwmdeidfittrac;
     edm::Wrapper<RPDetHitPoint> wrpdhp;
+    edm::Wrapper<TVector3> wtv3;
     edm::Wrapper<std::vector<RPDetHitPoint> > wvrdhp;
     
+    TObject to;
+    edm::Wrapper<TObject> wto;
+    
+    RPReconstructedProton rprecprot;
+    edm::Wrapper<RPReconstructedProton> wraprprecprot;
+    std::vector<RPReconstructedProton> prprecprotvec;
+    
+    RPReconstructedProtonCollection rprpcol;
+    edm::Wrapper<RPReconstructedProtonCollection> wrrprpcol;
     
     RP2DHit rp2dhit;
     edm::Wrapper<RP2DHit> wrp2dhit;
@@ -88,6 +107,19 @@ namespace {
     edm::Wrapper<std::map<RPId, RP2DHitDebug> > wvrp2debugdhit;
     std::pair<unsigned int, RP2DHitDebug> vrp2debughitpair;
     
+    RPReconstructedProtonPair p;
+    edm::Wrapper<RPReconstructedProtonPair> wp;
+    std::vector<RPReconstructedProtonPair> vp;
+    
+    RPReconstructedProtonPairCollection pc;
+    edm::Wrapper<RPReconstructedProtonPairCollection> wpc;
+
+	RPRecoElasticEvent rpree;
+	RPRecoElasticEvent::road_type rpreert;
+	std::vector<RPRecoElasticEvent::road_type> vrpreert;
+	RPRecoElasticEvent::fit_type rpreerft;
+	std::vector<RPRecoElasticEvent::fit_type> vrpreerft;
+	edm::Wrapper<RPRecoElasticEvent> wrpree;
 	
     RPRecognizedPatterns rprp;
     RPRecognizedPatterns::Line rprpl;

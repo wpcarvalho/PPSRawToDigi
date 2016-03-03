@@ -27,10 +27,14 @@ RPTrackCandidateCollectionFitter::RPTrackCandidateCollectionFitter(const edm::Pa
 {
   edm::LogInfo("RPTrackCandidateCollectionFitter") << "[RPTrackCandidateCollectionFitter::RPTrackCandidateCollectionFitter] Constructing object...";
   verbosity_ = conf.getParameter<int>("Verbosity");
-  track_candidate_collection_producer_ = conf.getParameter<std::string>("RPTrackCandCollProducer");
+  trackCandidateCollectionProducer = conf.getParameter<std::string>("RPTrackCandCollProducer");
   trackCandidateCollectionLabel = conf.getParameter<edm::InputTag>("RPTrackCandidateCollectionLabel");
-  //track_coll_cand_label_ = conf.getParameter<std::string>("RPTrackCollCandLabel");
-  //produces< RPFittedTrackCollection > (fitted_track_coll_label_);
+
+  if (trackCandidateCollectionProducer.empty())
+    trackCandidateCollectionToken = consumes<RPTrackCandidateCollection>(trackCandidateCollectionLabel);
+  else
+    trackCandidateCollectionToken = consumes<RPTrackCandidateCollection>(trackCandidateCollectionProducer);
+
   produces< RPFittedTrackCollection > ();
 }
 
@@ -61,11 +65,8 @@ void RPTrackCandidateCollectionFitter::produce(edm::Event& e, const edm::EventSe
   
   // Step B: Get Input
   edm::Handle< RPTrackCandidateCollection > input;
- 
-  if (track_candidate_collection_producer_.empty())
-    e.getByLabel(trackCandidateCollectionLabel, input);
-  else
-    e.getByLabel(track_candidate_collection_producer_, "", input);
+
+  e.getByToken(trackCandidateCollectionToken, input);
 
   // Step C: produce output product
   RPFittedTrackCollection fitted_tracks_collection;

@@ -231,7 +231,7 @@ process.load("RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi")
 
 process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
 
-process.p1 = cms.Path(process.VtxSmeared*process.SimG4Object*process.mix*process.RPSiDetDigitizer*process.RPClustProd*process.RPHecoHitProd)
+process.p1 = cms.Path(process.VtxSmeared*process.SimG4Object*process.mix*process.RPSiDetDigitizer*process.RPClustProd*process.RPRecoHitProd)
 
 process.outpath = cms.EndPath(process.o1)
 
