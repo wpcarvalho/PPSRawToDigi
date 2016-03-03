@@ -6,7 +6,7 @@
 *    
 * $Id: JanAlignmentAlgorithm.cc 9977 2015-01-12 14:00:26Z tsodzawi $
 * $Revision: 9977 $
-* $Date: 2015-01-12 16:00:26 +0200 (pon, 12 sty 2015) $
+* $Date: 2015-01-12 15:00:26 +0100 (Mon, 12 Jan 2015) $
 *
 ****************************************************************************/
 
@@ -143,7 +143,13 @@ void JanAlignmentAlgorithm::Feed(const HitCollection &selection, const LocalTrac
   
   for (HitCollection::const_iterator it = selection.begin(); it != selection.end(); ++it, ++j) {
     unsigned int id = it->id;
-    DetGeometry &d = task->geometry[id];
+
+    // skip hits that don't have associated geometry record
+    auto git = task->geometry.find(id);
+    if (git == task->geometry.end())
+      continue;
+
+    DetGeometry &d = git->second;
 
     A(j, 0) = d.z * d.dx;
     A(j, 1) = d.dx;

@@ -12,6 +12,7 @@
     </ConstantsSection>
     
     <PosPartSection label="RP_Stations_Assembly.xml">
+<!--
         <PosPart copyNumber="1">
             <rParent name="TotemRPGlobal:OTOTEM"/>
             <rChild name="RP_220_Right_Station:RP_220_Right_Station"/>
@@ -22,6 +23,7 @@
             <rChild name="RP_220_Left_Station:RP_220_Left_Station"/>
             <Translation x="0*mm" y="0*mm" z="[RP_220_Left_Station_Position_z]-[RP_220_Left_Station:RP_220_Left_Station_Length]/2"/>
         </PosPart>
+-->
         <PosPart copyNumber="1">
             <rParent name="TotemRPGlobal:OTOTEM"/>
             <rChild name="RP_147_Right_Station:RP_147_Right_Station"/>

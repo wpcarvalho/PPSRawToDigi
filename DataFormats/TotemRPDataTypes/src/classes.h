@@ -5,6 +5,7 @@
 #include "DataFormats/TotemRPDataTypes/interface/RPDetTrigger.h"
 #include "DataFormats/TotemRPDataTypes/interface/RPDigCluster.h"
 #include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPDataTypes/interface/RPTimingDetectorHit.h"
 
 #include <vector>
 
@@ -44,5 +45,9 @@ namespace {
     std::vector<edm::DetSet<RPDigCluster> > svdsdc;
     edm::DetSetVector<RPDigCluster> dsvdc;
     edm::Wrapper<edm::DetSetVector<RPDigCluster> > wdsvdc;
+
+    RPTimingDetectorHit tdh;
+    std::vector<RPTimingDetectorHit> vec_tdh;
+    edm::Wrapper<std::vector<RPTimingDetectorHit> > ew_vec_tdh;
   }
 }

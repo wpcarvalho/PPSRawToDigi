@@ -19,7 +19,7 @@
  *  \author    : Gero Flucke
  *  date       : October 2006
  *  $Revision: 2145 $
- *  $Date: 2010-02-17 16:01:22 +0200 (śro, 17 lut 2010) $
+ *  $Date: 2010-02-17 15:01:22 +0100 (Wed, 17 Feb 2010) $
  *  (last update by $Author: jkaspar $)
  */
 
