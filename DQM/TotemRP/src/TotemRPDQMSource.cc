@@ -1,3 +1,12 @@
+/****************************************************************************
+*
+* This is a part of TotemDQM and TOTEM offline software.
+* Authors:
+*   Jan Kašpar (jan.kaspar@gmail.com)
+*   Rafał Leszko (rafal.leszko@gmail.com)
+*
+****************************************************************************/
+
 #include "DQM/TotemRP/interface/TotemRPDQMSource.h"
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
@@ -6,12 +15,7 @@
 #include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 
-#include <iostream>
-#include <iomanip>
-#include <stdio.h>
 #include <string>
-#include <sstream>
-#include <math.h>
 
 using namespace std;
 using namespace edm;
@@ -217,8 +221,6 @@ TotemRPDQMSource::TotemRPDQMSource(const edm::ParameterSet& ps) :
   correlationPlotsLimit(ps.getUntrackedParameter<unsigned int>("correlationPlotsLimit", 50)),
   correlationPlotsSelector(ps.getUntrackedParameter<std::string>("correlationPlotsFilter", ""))
 {
-  edm::LogInfo("TotemRPDQMSource") <<  "Constructor  TotemRPDQMSource::TotemRPDQMSource " << std::endl;
-  
   tokenStripDigi = consumes< DetSetVector<RPStripDigi> >(ps.getParameter<edm::InputTag>("tagStripDigi"));
   tokenDigiCluster = consumes< edm::DetSetVector<RPDigCluster> >(ps.getParameter<edm::InputTag>("tagDigiCluster"));
   tokenRecoHit = consumes< edm::DetSetVector<RPRecoHit> >(ps.getParameter<edm::InputTag>("tagRecoHit"));
@@ -232,22 +234,18 @@ TotemRPDQMSource::TotemRPDQMSource(const edm::ParameterSet& ps) :
 
 TotemRPDQMSource::~TotemRPDQMSource()
 {
-  edm::LogInfo("TotemRPDQMSource") <<  "Destructor TotemRPDQMSource::~TotemRPDQMSource " << std::endl;
 }
 
 //----------------------------------------------------------------------------------------------------
 
 void TotemRPDQMSource::dqmBeginRun(edm::Run const &, edm::EventSetup const &)
 {
-  edm::LogInfo("TotemRPDQMSource") <<  "TotemRPDQMSource::beginRun" << std::endl;
 }
 
 //----------------------------------------------------------------------------------------------------
 
 void TotemRPDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::Run const &, edm::EventSetup const &)
 {
-  edm::LogInfo("TotemRPDQMSource") <<  "TotemRPDQMSource::bookHistograms" << std::endl;
-  
   ibooker.cd();
   ibooker.setCurrentFolder("TotemRP");
 
@@ -300,7 +298,6 @@ void TotemRPDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::Run const
 void TotemRPDQMSource::beginLuminosityBlock(edm::LuminosityBlock const& lumiSeg, 
                                             edm::EventSetup const& context) 
 {
-  edm::LogInfo("TotemRPDQMSource") <<  "TotemRPDQMSource::beginLuminosityBlock" << std::endl;
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -655,12 +652,10 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
 
 void TotemRPDQMSource::endLuminosityBlock(edm::LuminosityBlock const& lumiSeg, edm::EventSetup const& eSetup) 
 {
-  edm::LogInfo("TotemRPDQMSource") <<  "TotemRPDQMSource::endLuminosityBlock" << std::endl;
 }
 
 //----------------------------------------------------------------------------------------------------
 
 void TotemRPDQMSource::endRun(edm::Run const& run, edm::EventSetup const& eSetup)
 {
-  edm::LogInfo("TotemRPDQMSource") <<  "TotemRPDQMSource::endRun" << std::endl;
 }

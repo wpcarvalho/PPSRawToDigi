@@ -37,27 +37,23 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring(
-        'file:/afs/cern.ch/work/j/jkaspar/software/offline/800_pre5/user/reco_test/reco_test.root'
-        )
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/j/jkaspar/software/offline/800_pre5/user/reco_test/reco_test.root')
 )
 
 process.DQMoutput = cms.OutputModule("DQMRootOutputModule",
-                                     fileName = cms.untracked.string("OUT_step1.root"))
+  fileName = cms.untracked.string("OUT_step1.root")
+)
 
 # Other statements
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:mc', '')  #for MC
 
-
 # Path and EndPath definitions
-#process.dqmoffline_step = cms.Path(process.DQMExample_Step1)
-process.dqmoffline_step = cms.Path(process.TotemRPDQMSource)
-process.DQMoutput_step = cms.EndPath(process.DQMoutput)
-
+process.dqm_offline_step = cms.Path(process.TotemRPDQMSource)
+process.dqm_output_step = cms.EndPath(process.DQMoutput)
 
 # Schedule definition
 process.schedule = cms.Schedule(
-    process.dqmoffline_step,
-    process.DQMoutput_step
+    process.dqm_offline_step,
+    process.dqm_output_step
 )
