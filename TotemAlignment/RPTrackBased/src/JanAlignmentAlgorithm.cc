@@ -143,13 +143,7 @@ void JanAlignmentAlgorithm::Feed(const HitCollection &selection, const LocalTrac
   
   for (HitCollection::const_iterator it = selection.begin(); it != selection.end(); ++it, ++j) {
     unsigned int id = it->id;
-
-    // skip hits that don't have associated geometry record
-    auto git = task->geometry.find(id);
-    if (git == task->geometry.end())
-      continue;
-
-    DetGeometry &d = git->second;
+    DetGeometry &d = task->geometry[id];
 
     A(j, 0) = d.z * d.dx;
     A(j, 1) = d.dx;

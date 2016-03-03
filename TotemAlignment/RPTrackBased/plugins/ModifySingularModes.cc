@@ -136,8 +136,7 @@ void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
       }
   }
   AlignmentGeometry alGeom;
-  vector<unsigned int> excludePlanes;
-  AlignmentTask::BuildGeometry(rps, excludePlanes, geom.product(), 0., alGeom);
+  AlignmentTask::BuildGeometry(rps, geom.product(), 0., alGeom);
   RPAlignmentCorrections expanded, factored;
   output.FactorRPFromSensorCorrections(expanded, factored, alGeom);
   factored.WriteXMLFile(ps.getUntrackedParameter<string>("outputFile"));

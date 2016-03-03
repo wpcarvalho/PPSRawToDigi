@@ -89,11 +89,7 @@ void LocalTrackFitter::FitAndRemoveOutliers(HitCollection &selection, const Alig
 
     AlignmentGeometry::const_iterator dit = geometry.find(decId);
     if (dit == geometry.end())
-    {
-      printf("ERROR in LocalTrackFitter::FitAndRemoveOutliers > detector %u not in geometry.\n", decId);
       continue;
-    }
-
     const DetGeometry &d = dit->second;
 
     if (verbosity > 5)

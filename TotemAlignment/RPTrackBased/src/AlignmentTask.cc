@@ -44,8 +44,8 @@ AlignmentTask::AlignmentTask(const ParameterSet& ps) :
 
 //----------------------------------------------------------------------------------------------------
 
-void AlignmentTask::BuildGeometry(const vector<unsigned int> &RPIds,
-  const std::vector<unsigned int> excludePlanes, const TotemRPGeometry *input, double z0, AlignmentGeometry &geometry)
+void AlignmentTask::BuildGeometry(const vector<unsigned int> &RPIds, const TotemRPGeometry *input,
+  double z0, AlignmentGeometry &geometry)
 {
   geometry.clear();
   geometry.z0 = z0; 
@@ -64,19 +64,6 @@ void AlignmentTask::BuildGeometry(const vector<unsigned int> &RPIds,
       bool isU = (detNum % 2 != 0);
       if (rpNum == 2 || rpNum == 3)
         isU = !isU;
-
-      bool exclude = false;
-      for (auto p : excludePlanes)
-      {
-        if (p == *det)
-        {
-          exclude = true;
-          break;
-        }
-      }
-
-      if (exclude)
-        continue;
 
       geometry.Insert(*det, DetGeometry(z, d.x(), d.y(), c.x(), c.y(), isU));
     }
@@ -383,7 +370,6 @@ void AlignmentTask::BuildOfficialConstraints(vector<AlignmentConstraint> &constr
 //        if (rp % 10 == 1 || rp % 10 == 5)
 //          sign = -1.;
 
-        bool st200 = ((rp%100) / 10 == 2);
         bool farUnit = ((id/10) % 10 > 2);
         bool hor = (rp % 10 == 2 || rp % 10 == 3);
 
@@ -391,16 +377,16 @@ void AlignmentTask::BuildOfficialConstraints(vector<AlignmentConstraint> &constr
           case qcShR:
             switch (j) {
               case 0: ac.name = "ShR: V, near";
-                coef = (st200 && !farUnit && !hor) ? dt.dx : 0.;
+                coef = (!farUnit && !hor) ? dt.dx : 0.;
                 break;
               case 1: ac.name = "ShR: U, near";
-                coef = (st200 && !farUnit && !hor) ? dt.dy : 0.;
+                coef = (!farUnit && !hor) ? dt.dy : 0.;
                 break;
               case 2: ac.name = "ShR: V, far";
-                coef = (st200 && farUnit && !hor) ? dt.dx : 0.;
+                coef = (farUnit && !hor) ? dt.dx : 0.;
                 break;
               case 3: ac.name = "ShR: U, far";
-                coef = (st200 && farUnit && !hor) ? dt.dy : 0.;
+                coef = (farUnit && !hor) ? dt.dy : 0.;
                 break;
             }
             break;
@@ -408,19 +394,19 @@ void AlignmentTask::BuildOfficialConstraints(vector<AlignmentConstraint> &constr
           case qcRotZ:
             switch (j) {
               case 0: ac.name = "RotZ: V, near";
-                if (st200 && !farUnit && !dt.isU)
+                if (!farUnit && !dt.isU)
                   ac.coef[qcRotZ][idx] = 1.;
                 break;
               case 1: ac.name = "RotZ: U, near";
-                if (st200 && !farUnit && dt.isU)
+                if (!farUnit && dt.isU)
                   ac.coef[qcRotZ][idx] = 1.;
                 break;
               case 2: ac.name = "RotZ: V, far";
-                if (st200 && farUnit && !dt.isU)
+                if (farUnit && !dt.isU)
                   ac.coef[qcRotZ][idx] = 1.;
                 break;
               case 3: ac.name = "RotZ: U, far";
-                if (st200 && farUnit && dt.isU)
+                if (farUnit && dt.isU)
                   ac.coef[qcRotZ][idx] = 1.;
                 break;
             }
