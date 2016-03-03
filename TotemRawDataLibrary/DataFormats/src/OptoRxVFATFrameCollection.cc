@@ -23,7 +23,7 @@ unsigned int OptoRxVFATFrameCollection::OptoRxBlock::size = 12;
 
 //----------------------------------------------------------------------------------------------------
 
-OptoRxVFATFrameCollection::GOHBlock::GOHBlock() : valid(false), buffer(new OldVFATFrame[size]),
+OptoRxVFATFrameCollection::GOHBlock::GOHBlock() : valid(false), buffer(new VFATFrame[size]),
   dataPtrs(new VFATFrame::word* [size])
 {
 #ifdef DEBUG
@@ -60,7 +60,7 @@ OptoRxVFATFrameCollection::~OptoRxVFATFrameCollection()
 
 //----------------------------------------------------------------------------------------------------
 
-const OldVFATFrame* OptoRxVFATFrameCollection::GetFrameByID(unsigned int ID) const
+const VFATFrame* OptoRxVFATFrameCollection::GetFrameByID(unsigned int /*ID*/) const
 {
   printf(">> ERROR: OptoRxVFATFrameCollection::GetFrameByID not implemented.\n");
   return NULL;
@@ -68,7 +68,7 @@ const OldVFATFrame* OptoRxVFATFrameCollection::GetFrameByID(unsigned int ID) con
 
 //----------------------------------------------------------------------------------------------------
 
-const OldVFATFrame* OptoRxVFATFrameCollection::GetFrameByIndex(FramePosition index) const
+const VFATFrame* OptoRxVFATFrameCollection::GetFrameByIndex(FramePosition index) const
 {
   const unsigned int &FullOptoRxId = index.GetFullOptoRxId();
   const unsigned int &goh = index.GetGOHId();
@@ -104,7 +104,7 @@ void OptoRxVFATFrameCollection::Invalidate()
     for (unsigned int i = 0; i < OptoRxBlock::size; i++) {
       it->second->buffer[i].valid = false;
       for (unsigned int j = 0; j < GOHBlock::size; j++) {
-        it->second->buffer[i].buffer[j] = OldVFATFrame();
+        it->second->buffer[i].buffer[j] = VFATFrame();
       }
     }
 }

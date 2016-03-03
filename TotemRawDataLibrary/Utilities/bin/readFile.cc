@@ -34,6 +34,7 @@ void PrintUsage()
 int main(int argc, char *argv[])
 {
   if (argc != 2) {
+	printf("ERROR: wrong number of parameters.\n");
     PrintUsage();
     return 1;
   }

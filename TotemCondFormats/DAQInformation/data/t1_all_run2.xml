@@ -174,7 +174,7 @@
       <t1_plane id="4">
 	<t1_csc id = "0">
 	  <vfat hw_id="0xf01c" verbose="255" IdxInFiber="8"  GOHId="8"  OptoRxId="1" TOTFEDId="10" SubSystemId="T1"  polarity="a" id="0" />
-	  <vfat hw_id="0xf8de" verbose="255" IdxInFiber="9"  GOHId="8"  OptoRxId="1" TOTFEDId="10" SubSystemId="T1"  polarity="a" id="1" />
+	  <vfat hw_id="0xf08b" verbose="255" IdxInFiber="9"  GOHId="8"  OptoRxId="1" TOTFEDId="10" SubSystemId="T1"  polarity="a" id="1" />
 	  <vfat hw_id="0xf088" verbose="255" IdxInFiber="10"  GOHId="8"  OptoRxId="1" TOTFEDId="10" SubSystemId="T1" polarity="c" id="0" />
 	  <vfat hw_id="0xecdc" verbose="255" IdxInFiber="13"  GOHId="8"  OptoRxId="1" TOTFEDId="10" SubSystemId="T1" polarity="c" id="1" />
 	  <vfat hw_id="0xdcdc" verbose="255" IdxInFiber="14"  GOHId="8"  OptoRxId="1" TOTFEDId="10" SubSystemId="T1" polarity="c" id="2" />

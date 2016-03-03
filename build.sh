@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# Script used by Jenkins continuous integration server in order to build the
+# project.
+
 AGENT_USERNAME=`whoami`
 AGENT_KERBEROS_KEYTAB="/etc/$AGENT_USERNAME.keytab"
 AGENT_EXECUTORS=4

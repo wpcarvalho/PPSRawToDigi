@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-RPPrimVert220Reconst = cms.EDProducer("RPPrimaryVertexInelasticReconstruction",
+RPPrimVert220Reconst = cms.EDProducer("RPPrimaryVertexInelasticReconstruction_RunI",
 
     Verbosity = cms.int32(0), RPFittedTrackCollectionLabel = cms.InputTag("RPSingleTrackCandCollFit"),
 

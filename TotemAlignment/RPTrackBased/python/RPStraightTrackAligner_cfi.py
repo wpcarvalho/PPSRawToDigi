@@ -4,19 +4,24 @@ RPStraightTrackAligner = cms.EDAnalyzer("RPStraightTrackAligner",
     verbosity = cms.untracked.uint32(0),
     factorizationVerbosity = cms.untracked.uint32(0),
 
-    # the name of the track-candidate producer module
-    #   if empty, the fitter takes the ONLY track-candidate record in the event
+    # description of the track-candidate producer module
     #   use `RPSinglTrackCandFind' for parallel finder
     #   use `NonParallelTrackFinder' for non-parallel finder    
-    patternRecognitionAlgorithm = cms.string(''),
+    tagRecognizedPatterns = cms.InputTag('NonParallelTrackFinder'),
+
+    # list of RPs for which the alignment parameters shall be optimized
+    RPIds = cms.vuint32(),
+
+    # list of planes to be excluded from processing
+    excludePlanes = cms.vuint32(),
+
+    # a characteristic z in mm
+    z0 = cms.double(0.0),
 
     resolveShR = cms.bool(True),
     resolveShZ = cms.bool(False),
     resolveRotZ = cms.bool(True),
     resolveRPShZ = cms.bool(False),
-
-    RPIds = cms.vuint32(),
-    z0 = cms.double(0.0),
 
     # available algorithms: Ideal, Jan and Millepede
     algorithms = cms.vstring(),
@@ -25,8 +30,9 @@ RPStraightTrackAligner = cms.EDAnalyzer("RPStraightTrackAligner",
     singularLimit = cms.double(1E-8),
 
     useExternalFitter = cms.bool(False),
+    tagExternalFit = cms.InputTag(''),
 
-    # homogeneous, fixedDetectors, dynamic (still unsupported)
+    # homogeneous, fixedDetectors, dynamic (still unsupported), final
     #constraintsType = cms.string("homogeneous"),
     constraintsType = cms.string("fixedDetectors"),
 
@@ -66,14 +72,20 @@ RPStraightTrackAligner = cms.EDAnalyzer("RPStraightTrackAligner",
 
     maxEvents = cms.uint32(0),  # 0 means unlimited
 
-    runsWithoutHorizontalRPs = cms.vuint32(),
-
     maxResidualToSigma = cms.double(3),
     minimumHitsPerProjectionPerRP = cms.uint32(4),
+
+    # skip events with hits in both top and bottom RPs
     removeImpossible = cms.bool(True),
-    requireBothUnits = cms.bool(True),
+
+    # minimum required number of units active
+    requireNumberOfUnits = cms.uint32(2),
+
+    # require combination of top+horizontal or bottom+horizontal RPs
     requireOverlap = cms.bool(False),
+
     requireAtLeast3PotsInOverlap = cms.bool(True),
+
     cutOnChiSqPerNdf = cms.bool(True),
     chiSqPerNdfCut = cms.double(10),
 

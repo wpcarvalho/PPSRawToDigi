@@ -33,4 +33,8 @@
   <class name="edm::DetSetVector<RPDigCluster>"/>
   <class name="edm::Wrapper<edm::DetSetVector<RPDigCluster> >"/>
 
-</lcgdict>                                                                                                                                                              
+  <class name="RPTimingDetectorHit"/>
+  <class name="std::vector<RPTimingDetectorHit>"/>
+  <class name="edm::Wrapper<std::vector<RPTimingDetectorHit> >"/>
+
+</lcgdict>

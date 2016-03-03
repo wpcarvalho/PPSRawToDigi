@@ -53,17 +53,48 @@ DataFile::OpenStatus VMEAFile::Open(const std::string &fn)
   if (extension.compare(".vmea") != 0)
     return osWrongFormat;
 
-#ifdef USE_CASTOR
-  infile = rfio_fopen64(const_cast<char*>(fn.c_str()),const_cast<char*>("r"));
-#else
-  infile = fopen64(const_cast<char*>(fn.c_str()),const_cast<char*>("r"));
-#endif
-  
-  if (!infile)
-  {
-#ifdef USE_CASTOR
-	  rfio_perror(const_cast<char*>("Error while opening file in VMEAFile::Open"));
-#endif
+  infile = StorageFile::CreateInstance(fn);
+  if(!infile) {
+    return osCannotOpen;
+  }
+
+  infile->OpenFile();
+
+  if (!infile->IsOpened()) {
+    infile->PrintError("Error while opening file in VMEAFile::Open");
+    return osCannotOpen;
+  }
+
+  // set maximum of data counters
+  dataEventNumberMax = 0xFFFFFFFF;
+  dataConfNumberMax = 0;
+
+  // reset counters
+  indexStatus = isNotIndexed;
+  corruptedEventCounter = 0;
+
+  filename = fn;
+
+  return osOK;
+}
+
+//----------------------------------------------------------------------------------------------------
+
+DataFile::OpenStatus VMEAFile::Open(StorageFile *storageFile)
+{
+  std::string fn = storageFile->GetURLPath();
+
+  // check if the source is a VMEA File
+  size_t dotPos = fn.rfind('.');
+  string extension = (dotPos == string::npos) ? "" : fn.substr(dotPos);
+  if (extension.compare(".vmea") != 0)
+    return osWrongFormat;
+
+  infile = storageFile;
+  infile->OpenFile();
+
+  if (!infile->IsOpened()) {
+    infile->PrintError("Error while opening file in VMEAFile::Open");
     return osCannotOpen;
   }
 
@@ -87,15 +118,10 @@ void VMEAFile::Close()
 #ifdef DEBUG
   printf(">> VMEAFile::Close, this = %p", (void*) this);
 #endif
-  
-  if (infile) {
-#ifdef USE_CASTOR    
-    if (rfio_fclose(infile)==EOF)
-#else
-    if (fclose(infile)==EOF)
-#endif
+
+  if(infile && infile->CloseFile()==EOF) {
       ERROR("VMEAFile::Close") << "Cannot close the file." << c_endl;
-    else infile=NULL;
+    delete infile;
   }
 }
 
@@ -130,16 +156,8 @@ unsigned char VMEAFile::ReadToBuffer(unsigned int bytesToRead, unsigned int offs
   }
 
   // read data at given offset
-  unsigned int bytesRead;
-  
-  int eofFlag;
-#ifdef USE_CASTOR  
-  bytesRead = rfio_fread(dataPtr+offset, sizeof(char), bytesToRead, infile);
-  eofFlag = rfio_feof(infile);
-#else
-  bytesRead = fread(dataPtr+offset, sizeof(char), bytesToRead, infile);
-  eofFlag = feof(infile);
-#endif
+  unsigned int bytesRead = infile->ReadData(dataPtr + offset, sizeof(char), bytesToRead);
+  int eofFlag = infile->CheckEOF();
 
   if (bytesRead != bytesToRead && !(bytesRead == 0 && eofFlag)) 
   {
@@ -162,16 +180,8 @@ unsigned char VMEAFile::GetNextEvent(RawEvent *event)
 
   eventHeaderStruct *eventHeader = NULL;
 
-#ifdef USE_CASTOR
-  long int currentPos = rfio_ftell(infile);
-  while (!rfio_feof(infile))
-  {
-#else
-  long int currentPos = ftell(infile);
-  while (!feof(infile))
-  {
-#endif
-
+  long int currentPos = infile->CurrentPosition();
+  while (!infile->CheckEOF()) {
     // read next header
     if (ReadToBuffer(eventHeaderSize, 0) != 0)
       return 10;
@@ -205,12 +215,7 @@ unsigned char VMEAFile::GetNextEvent(RawEvent *event)
   }
 
   // check if the end of the file has been reached
-#ifdef USE_CASTOR
-  int eofFlag = rfio_feof(infile);
-#else
-  int eofFlag = feof(infile);
-#endif
-
+  int eofFlag = infile->CheckEOF();
   if (eofFlag)
   {
     // if indexing, set indexed
@@ -403,24 +408,11 @@ unsigned char VMEAFile::GetEvent(unsigned long n, RawEvent *event)
     return 1;
   }
 
-#ifdef USE_CASTOR
-  // fixing bug in rfio_api
-  if (rfio_feof(infile))
-    if (Reopen())
-      return 1;
-
-  if (rfio_fseek(infile, positions[n], SEEK_SET)) {
-    ERROR("VMEAFile::GetEvent") << "Seek to pos " << positions[n] << " unsuccessful (rfio_ftell="
-      << rfio_ftell(infile) << ")." << c_endl;
-    return 1;
-  }
-#else
-  if (fseek(infile, positions[n], SEEK_SET)) {
+  if (infile->Seek(positions[n])) {
     ERROR("VMEAFile::GetEvent") << "Seek to pos " << positions[n] << " unsuccessful (ftell="
-      << ftell(infile) << ")." << c_endl;
+      << infile->CurrentPosition() << ")." << c_endl;
     return 1;
   }
-#endif  
 
   return GetNextEvent(event);
 }
@@ -429,36 +421,12 @@ unsigned char VMEAFile::GetEvent(unsigned long n, RawEvent *event)
 
 void VMEAFile::Rewind()
 {
-#ifdef USE_CASTOR
-  // fixing bug in rfio_api
-  if (rfio_feof(infile))
-    Reopen();
-  else 
-    rfio_fseek(infile, 0, SEEK_SET);
-#else
-  fseek(infile, 0, SEEK_SET);
-#endif  
+  infile->Seek(0);
 
   corruptedEventCounter = 0;
   positions.clear();
   indexStatus = isNotIndexed;
 }
-
-//----------------------------------------------------------------------------------------------------
-
-#ifdef USE_CASTOR
-unsigned int VMEAFile::Reopen()
-{
-  rfio_fclose(infile);
-  infile = rfio_fopen64((char *)filename.c_str(), const_cast<char*>("r"));
-  if (!infile) {
-    ERROR("VMEAFile::Reopen") << "Could not reopen file `" << filename.c_str() << "'." << c_endl;
-    return 1;
-  }
-
-  return 0;
-}
-#endif
 
 //----------------------------------------------------------------------------------------------------
 

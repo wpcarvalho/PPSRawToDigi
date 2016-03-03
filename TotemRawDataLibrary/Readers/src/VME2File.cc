@@ -40,9 +40,44 @@ DataFile::OpenStatus VME2File::Open(const std::string &filename)
   string extension = (dotPos == string::npos) ? "" : filename.substr(dotPos);
   if (extension.compare(".vme2") != 0)
     return osWrongFormat;
-  
+
+  StorageFile *storageFile = StorageFile::CreateInstance(filename);
+  if(!storageFile) {
+    return osCannotOpen;
+  }
+
   // create buffer with size of 12000 words
-  buf = new CircularBuffer<word>(filename.c_str(), 12000);
+  buf = new CircularBuffer<word>(storageFile, 12000);
+  if(!buf->FileOpened())
+    return osCannotOpen;
+
+  // set maximum of data counters
+  dataEventNumberMax = 0xffff;
+  dataConfNumberMax = 0xfff;
+
+  // reset counters
+  indexStatus = isNotIndexed;
+  corruptedEventCounter = 0;
+
+  return osOK;
+}
+
+//----------------------------------------------------------------------------------------------------
+
+DataFile::OpenStatus VME2File::Open(StorageFile *storageFile)
+{
+  std::string filename = storageFile->GetURLPath();
+
+  // check if file ends on .vme2, if not => not a VME2 file
+  size_t dotPos = filename.rfind('.');
+  string extension = (dotPos == string::npos) ? "" : filename.substr(dotPos);
+  if (extension.compare(".vme2") != 0)
+    return osWrongFormat;
+
+  storageFile->OpenFile();
+
+  // create buffer with size of 12000 words
+  buf = new CircularBuffer<word>(storageFile, 12000);
   if(!buf->FileOpened())
     return osCannotOpen;
 

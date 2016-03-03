@@ -1,0 +1,63 @@
+/**
+ * \mainpage
+ * 
+ * \section Design
+ * The classes are designed for the following concept.
+ * \li A \b file is a sequence of events. Space between events may be filled with rubbish.
+ * \li An \b event consists of a list of VFAT frames and additional information.
+ * 
+ * There might be several data formats. For each one there shall be a class reading corresponding data files. Common interface for those
+ * classes is defined in Totem::DataFile.
+ * 
+ * An event is represented by Totem::RawEvent class. As anticipated, it includes collection of VFAT frames (class Totem::VFATFrameCollection) and
+ * additional information.
+ * 
+ * \section RecommendedUsage Recommended usage
+ * \code
+ *   // Open an input file.
+ *   DataFile* input = DataFile::OpenStandard("some file");
+ *   if (!input)
+ *   {
+ *     printf("Error in opening file\n");
+ *   }
+ * 
+ *   // This creates the event object with a VFAT frame
+ *   // collection that is compatible with the file reader.
+ *   RawEvent *event = input->CreateEvent();
+ * 
+ *   // Start building map between event index and its position
+ *   // within the input file.
+ *   input->StartIndexing();
+ *
+ *   // Read events one by one, do indexing meanwhile.
+ *   while (!input->GetNextEvent(event))
+ *   {
+ *     // Sequential access to all VFAT frames present in the event.
+ *     for (VFATFrameCollection::Iterator it(event->frames); !it.IsEnd(); it.Next())
+ *     {
+ *       // some processing
+ *       it.Data()->Print();
+ *     }
+ *
+ *     // Access to VFAT at a given DAQ channel
+ *     FramePosition daqChannel(...);
+ *     const VFATFrame *vfatFrame = GetFrameByIndex(daqChannel);
+ *     if (vfatFrame != NULL)
+ *       vfatFrame->Print();
+ *   }
+ *
+ *   // The input file is now indexed, random event access is
+ *   // possible.
+ *   unsigned long eventIndex = 123;
+ *   input->GetEvent(eventIndex, event);
+ * 
+ *   delete event;
+ * \endcode
+ * The virtue of using Totem::DataFile::OpenStandard is that it first determines type of the file and then it creates instance of appropriate
+ * class (e.g. Totem::SlinkFile, Totem::TTPFile ...). The command <c>input->GetNextEvent()</c> finds the next event in the file and
+ * reads data (and performs necessary transformations) into \c event.
+ * 
+ * Strictly speaking, the <c>input->StartIndexing();</c> is not necessary. However, it is useful because when the loop finishes, the file is
+ * indexed. And hence one can use Totem::DataFile::GetEvent function.
+ * 
+**/
