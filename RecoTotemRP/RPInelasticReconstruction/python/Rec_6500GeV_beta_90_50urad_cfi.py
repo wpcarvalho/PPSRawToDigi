@@ -1,17 +1,19 @@
 import FWCore.ParameterSet.Config as cms
 
-RP220Reconst = cms.EDProducer("RPPrimaryVertexInelasticReconstruction",
-    Verbosity = cms.int32(0),
+RP220Reconst = cms.EDProducer("RPPrimaryVertexInelasticReconstruction_RunI",
 
-    RPFittedTrackCollectionLabel = cms.InputTag("RPSingleTrackCandCollFit"),
+    Verbosity = cms.int32(0), RPFittedTrackCollectionLabel = cms.InputTag("RPSingleTrackCandCollFit"),
 
     StripAlignmentResolutionDegradation = cms.double(1.7),
 
-    HepMCProductLabel = cms.InputTag("generator"),
+    HepMCProductLabel = cms.string('generator'),
 
     ConstrainPrimaryVertex = cms.bool(True),
     ElasticScatteringReconstruction = cms.bool(False),
 
+    Station150MandatoryInReconstruction = cms.bool(False),
+    Station220MandatoryInReconstruction = cms.bool(False),
+    AnyStationInReconstruction = cms.bool(True),
     ExternalPrimaryVertex = cms.bool(False),
 
     PrimaryVertexXSigma = cms.double(0.03), # mm
@@ -20,13 +22,13 @@ RP220Reconst = cms.EDProducer("RPPrimaryVertexInelasticReconstruction",
 
     ParameterizationFileName220Right = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
     ParameterizationFileName220Left = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
-    ParameterizationFileName210Right = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
-    ParameterizationFileName210Left = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
+    ParameterizationFileName150Right = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
+    ParameterizationFileName150Left = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
 
     ParameterizationNamePrefix220Right = cms.string('ip5_to_station_220'),
     ParameterizationNamePrefix220Left = cms.string('ip5_to_station_220'),
-    ParameterizationNamePrefix210Right = cms.string('ip5_to_station_150'),
-    ParameterizationNamePrefix210Left = cms.string('ip5_to_station_150'),
+    ParameterizationNamePrefix150Right = cms.string('ip5_to_station_150'),
+    ParameterizationNamePrefix150Left = cms.string('ip5_to_station_150'),
 
     RightBeamPostfix = cms.string('lhcb1'),
     LeftBeamPostfix = cms.string('lhcb2'),
