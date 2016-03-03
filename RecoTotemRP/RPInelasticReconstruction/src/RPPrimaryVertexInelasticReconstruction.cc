@@ -48,8 +48,10 @@ class RPPrimaryVertexInelasticReconstruction : public edm::EDProducer
     typedef std::vector<int> station_rp_ids_type;
 
     edm::InputTag rpFittedTrackCollectionLabel;
+    edm::EDGetTokenT<RPFittedTrackCollection> rpFittedTrackCollectionToken;
 
     edm::InputTag HepMCProductLabel;
+    edm::EDGetTokenT<edm::HepMCProduct> HepMCProductToken;
 
     const edm::ParameterSet conf_;
     int verbosity_;
