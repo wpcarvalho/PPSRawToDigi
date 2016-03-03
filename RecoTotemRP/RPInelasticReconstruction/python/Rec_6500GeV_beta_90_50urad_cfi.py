@@ -1,35 +1,32 @@
 import FWCore.ParameterSet.Config as cms
 
-RP220Reconst = cms.EDProducer("RPPrimaryVertexInelasticReconstruction_RunI",
+RP220Reconst = cms.EDProducer("RPPrimaryVertexInelasticReconstruction",
+    Verbosity = cms.int32(0),
 
-    Verbosity = cms.int32(0), RPFittedTrackCollectionLabel = cms.InputTag("RPSingleTrackCandCollFit"),
-
+    RPFittedTrackCollectionLabel = cms.InputTag("RPSingleTrackCandCollFit"),
 
     StripAlignmentResolutionDegradation = cms.double(1.7),
 
-    HepMCProductLabel = cms.string('generator'),
+    HepMCProductLabel = cms.InputTag("generator"),
 
     ConstrainPrimaryVertex = cms.bool(True),
     ElasticScatteringReconstruction = cms.bool(False),
 
-    Station150MandatoryInReconstruction = cms.bool(False),
-    Station220MandatoryInReconstruction = cms.bool(True),
-    AnyStationInReconstruction = cms.bool(False),
     ExternalPrimaryVertex = cms.bool(False),
 
     PrimaryVertexXSigma = cms.double(0.03), # mm
     PrimaryVertexYSigma = cms.double(0.03), # mm
     PrimaryVertexZSigma = cms.double(0.03), # mm
 
-    ParameterizationFileName220Right = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90_reco.root'),
-    ParameterizationFileName220Left = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90_reco.root'),
-    ParameterizationFileName150Right = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90_reco.root'),
-    ParameterizationFileName150Left = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90_reco.root'),
+    ParameterizationFileName220Right = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
+    ParameterizationFileName220Left = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
+    ParameterizationFileName210Right = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
+    ParameterizationFileName210Left = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
 
     ParameterizationNamePrefix220Right = cms.string('ip5_to_station_220'),
     ParameterizationNamePrefix220Left = cms.string('ip5_to_station_220'),
-    ParameterizationNamePrefix150Right = cms.string('ip5_to_station_150'),
-    ParameterizationNamePrefix150Left = cms.string('ip5_to_station_150'),
+    ParameterizationNamePrefix210Right = cms.string('ip5_to_station_150'),
+    ParameterizationNamePrefix210Left = cms.string('ip5_to_station_150'),
 
     RightBeamPostfix = cms.string('lhcb1'),
     LeftBeamPostfix = cms.string('lhcb2'),
@@ -62,14 +59,12 @@ RP220Reconst = cms.EDProducer("RPPrimaryVertexInelasticReconstruction_RunI",
     RandomSearchProbability = cms.double(0.3),
 
     InitIterationsNumber = cms.int32(20),
-    MaxChiSqNDFOfConvergedProton = cms.double(15.0),
+    MaxChiSqNDFOfConvergedProton = cms.double(50.0),
     MaxChiSqOfConvergedInitialisation = cms.double(100.0),
-    MaxAllowedReconstructedXi = cms.double(0.001),
+    MaxAllowedReconstructedXi = cms.double(0.05),
     OutOfXiRangePenaltyFactor = cms.double(10000.0),
     InverseParamRandSeed = cms.int32(14142135),
 
     BeamProtTransportSetup = cms.PSet(),
     ExpectedRPResolution = cms.double(0.016) # mm
 )
-
-

@@ -110,7 +110,7 @@ string TotRPDetId::StationName(unsigned int id, NameFlag flag)
   if (flag == nFull) name = ArmName(id / 10, flag) + "_";
   if (flag == nPath) name = ArmName(id / 10, flag) + "/station ";
 
-  if ((id % 10) == 0) name += "147";
+  if ((id % 10) == 0) name += "210";
   if ((id % 10) == 2) name += "220";
 
   return name;
