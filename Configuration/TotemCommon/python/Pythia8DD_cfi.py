@@ -5,7 +5,7 @@ generator = cms.EDFilter("Pythia8GeneratorFilter",
     pythiaPylistVerbosity = cms.untracked.int32(0),
     filterEfficiency = cms.untracked.double(1.0),
     pythiaHepMCVerbosity = cms.untracked.bool(False),
-    comEnergy = cms.double(7000.0),
+    comEnergy = cms.double(14000.0),
     PythiaParameters = cms.PSet(
         pythiaMinBias = cms.vstring('SoftQCD:doubleDiffractive = on',
         	'PhaseSpace:pTHatMin = 15.'
