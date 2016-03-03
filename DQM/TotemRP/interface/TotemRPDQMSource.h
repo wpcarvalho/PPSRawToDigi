@@ -57,6 +57,8 @@
 #include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
 #include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
 
+#include "DQM/TotemRP/interface/CorrelationPlotsSelector.h"
+
 
  
 class TotemRPDQMSource: public DQMEDAnalyzer
@@ -82,20 +84,17 @@ class TotemRPDQMSource: public DQMEDAnalyzer
   	  edm::EDGetTokenT< RPFittedTrackCollection > tokenTrackColl;
   	  edm::EDGetTokenT< RPMulFittedTrackCollection > tokenMultiTrackColl;
 
-      /*
       bool buildCorrelationPlots;                           ///< decides wheather the correlation plots are created
-      std::string correlationPlotsFilter;                   ///< decides which correlation plots are created
       unsigned int correlationPlotsLimit;                   ///< maximum number of created correlation plots
       CorrelationPlotsSelector correlationPlotsSelector;
-      */
 
     /// plots related to one (anti)diagonal
     struct DiagonalPlots
     {
       int id;
 
-      MonitorElement *h_lrc_x_d, *h_lrc_x_n, *h_lrc_x_f;
-      MonitorElement *h_lrc_y_d, *h_lrc_y_n, *h_lrc_y_f;
+      MonitorElement *h_lrc_x_d=NULL, *h_lrc_x_n=NULL, *h_lrc_x_f=NULL;
+      MonitorElement *h_lrc_y_d=NULL, *h_lrc_y_n=NULL, *h_lrc_y_f=NULL;
 
       DiagonalPlots() {}
 
@@ -109,46 +108,45 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     {
       int id;
 
-      TH1D *h_numRPWithTrack_top, *h_numRPWithTrack_hor, *h_numRPWithTrack_bot;
-      TH2D *h_trackCorr, *h_trackCorr_overlap;
+      MonitorElement *h_numRPWithTrack_top=NULL, *h_numRPWithTrack_hor=NULL, *h_numRPWithTrack_bot=NULL;
+      MonitorElement *h_trackCorr=NULL, *h_trackCorr_overlap=NULL;
 
-      ArmPlots() : id(0), h_numRPWithTrack_top(NULL), h_numRPWithTrack_hor(NULL), h_numRPWithTrack_bot(NULL) {}
+      ArmPlots(){}
 
-      ArmPlots(int _id);
+      ArmPlots(DQMStore::IBooker &ibooker, int _id);
     };
 
     std::map<unsigned int, ArmPlots> armPlots;
 
     /// plots related to one station
-    /*
     struct StationPlots
     {
-      std::map<int, std::map<int, THnSparseD*> > hist;
       int id;
-      CorrelationPlotsSelector *correlationPlotsSelector;
 
-      StationPlots() : correlationPlotsSelector(NULL), rpHits(NULL) {}
-      StationPlots(int _id, std::set<unsigned int> planes, bool allocateCorrelationPlots, 
+      std::map<int, std::map<int, MonitorElement*> > hist;
+
+      StationPlots() {}
+      StationPlots(DQMStore::IBooker &ibooker, int _id, std::set<unsigned int> planes, bool allocateCorrelationPlots, 
         CorrelationPlotsSelector *correlationPlotsSelector, int limit = -1);
-      void Add(std::set<unsigned int> planes, int limit = -1);
+
+      void Add(DQMStore::IBooker &ibooker, std::set<unsigned int> planes, CorrelationPlotsSelector *correlationPlotsSelector, int limit = -1);
     };
 
 	std::map<unsigned int, StationPlots> stationPlots;
-    */
 
     /// plots related to one RP
     struct PotPlots
     {
-      TH1D *activity, *activity_u, *activity_v;
-      TH2D *hit_plane_hist;
-      TH1D *patterns_u, *patterns_v;
-      TH1D *h_planes_fit_u, *h_planes_fit_v;
-      TH1D *event_category;
-      TH2D *trackHitsCumulativeHist;
-      TH1D *track_u_profile, *track_v_profile;
+      MonitorElement *activity=NULL, *activity_u=NULL, *activity_v=NULL;
+      MonitorElement *hit_plane_hist=NULL;
+      MonitorElement *patterns_u=NULL, *patterns_v=NULL;
+      MonitorElement *h_planes_fit_u=NULL, *h_planes_fit_v=NULL;
+      MonitorElement *event_category=NULL;
+      MonitorElement *trackHitsCumulativeHist=NULL;
+      MonitorElement *track_u_profile=NULL, *track_v_profile=NULL;
 
-      PotPlots();
-      PotPlots(unsigned int id);
+      PotPlots() {}
+      PotPlots(DQMStore::IBooker &ibooker, unsigned int id);
     };
 
 	std::map<unsigned int, PotPlots> potPlots;

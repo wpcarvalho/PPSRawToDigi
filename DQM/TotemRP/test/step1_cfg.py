@@ -24,6 +24,9 @@ process.TotemRPDQMSource = cms.EDAnalyzer("TotemRPDQMSource",
 	tagTrackColl = cms.InputTag("RPSingleTrackCandCollFit"),
 	tagTrackCandColl = cms.InputTag("NonParallelTrackFinder"),
 	tagMultiTrackColl = cms.InputTag(""),
+
+    buildCorrelationPlots = cms.untracked.bool(False),
+    correlationPlotsLimit = cms.untracked.uint32(50),
 	correlationPlotsFilter = cms.untracked.string("default=0,1")
 )
 
