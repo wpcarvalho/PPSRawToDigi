@@ -1,9 +1,8 @@
 import FWCore.ParameterSet.Config as cms
 
-RP220Reconst = cms.EDProducer("RPPrimaryVertexInelasticReconstruction",
-    Verbosity = cms.int32(0),
+RP220Reconst = cms.EDProducer("RPPrimaryVertexInelasticReconstruction_RunI",
 
-    RPFittedTrackCollectionLabel = cms.InputTag("RPSingleTrackCandCollFit"),
+    Verbosity = cms.int32(0), RPFittedTrackCollectionLabel = cms.InputTag("RPSingleTrackCandCollFit"),
 
     StripAlignmentResolutionDegradation = cms.double(1.7),
 

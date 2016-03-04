@@ -2,8 +2,8 @@
 *
 * This is a part of the TOTEM testbeam/monitoring software.
 * This is a part of the TOTEM offline software.
-* Authors: 
-*  Jan Kašpar (jan.kaspar@gmail.com) 
+* Authors:
+*  Jan Kašpar (jan.kaspar@gmail.com)
 *
 ****************************************************************************/
 
@@ -117,7 +117,7 @@ protected:
     /// returns the number of cells that failed consistency checks
     /// \param buf is the OptoRx frame buffer, including the header and footer
     /// \param frameSize is the size (in words) of the OptoRx frame including the header and footer
-    
+
     // TODO: describe
     unsigned int ProcessOptoRxFrame(word *buf, unsigned int frameSize, SimpleVFATFrameCollection *, RawEvent *);
 
@@ -131,7 +131,7 @@ protected:
 
     // TODO: describe
     unsigned int ProcessVFATDataParallel(unsigned short *buf, unsigned int OptoRxId, SimpleVFATFrameCollection *fc);
-    
+
 	/// processes a LoneG frame (trigger data) encoded in an OptoRxFrame
     unsigned int ProcessLoneGFrame(word *ptr, signed long size, RawEvent *);
 

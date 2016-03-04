@@ -2,8 +2,8 @@
 *
 * This is a part of the TOTEM testbeam/monitoring software.
 * This is a part of the TOTEM offline software.
-* Authors: 
-*  Jan Kašpar (jan.kaspar@gmail.com) 
+* Authors:
+*  Jan Kašpar (jan.kaspar@gmail.com)
 *
 ****************************************************************************/
 
@@ -455,7 +455,7 @@ unsigned int SRSFile::ProcessOptoRxFrame(SRSFile::word *buf, unsigned int frameS
         md.BX = BX;
         md.LV1 = LV1;
     }
-    
+
     // TODO: remove
     //printf(">> ProcessOptoRxFrame > id = %i, FOV = %i\n", OptoRxId, FOV);
 
@@ -539,7 +539,7 @@ unsigned int SRSFile::ProcessOptoRxFrameSerial(SRSFile::word *buf, unsigned int 
         FramePosition fp(0, 0, OptoRxId, goh, fi);
         dataPtrs.push_back( fc->InsertEmptyFrame(fp)->getData() );
       }
-      
+
       #ifdef DEBUG
         printf(">>>> transposing GOH block at prefix: %i, dataPtrs = %p\n", OptoRxId*192 + goh*16, dataPtrs);
       #endif
@@ -606,11 +606,11 @@ unsigned int SRSFile::ProcessVFATDataParallel(unsigned short *buf, unsigned int 
 {
   // start counting processed words
   unsigned int wordsProcessed = 1;
-  
+
   // padding word? skip it
   if (buf[0] == 0xFFFF)
     return wordsProcessed;
-  
+
   // check header flag
   unsigned int hFlag = (buf[0] >> 8) & 0xFF;
   if (hFlag != vmCluster && hFlag != vmRaw)
@@ -665,7 +665,7 @@ unsigned int SRSFile::ProcessVFATDataParallel(unsigned short *buf, unsigned int 
     unsigned int nCl = 0;
     while ( (buf[wordsProcessed + nCl] >> 12) != 0xF )
       nCl++;
-    
+
     wordsProcessed += nCl;
   }
 
@@ -681,7 +681,7 @@ unsigned int SRSFile::ProcessVFATDataParallel(unsigned short *buf, unsigned int 
 
   bool skipFrame = false;
   bool suppressChannelErrors = false;
- 
+
   if (tSig != 0xF)
   {
     ERROR("SRSFile::ProcessVFATDataParallel") << "Wrong trailer signature (" << tSig << ") at "
@@ -695,7 +695,7 @@ unsigned int SRSFile::ProcessVFATDataParallel(unsigned short *buf, unsigned int 
       << fp << ". Channel errors will be suppressed." << c_endl;
     suppressChannelErrors = true;
   }
-  
+
   wordsProcessed++;
 
   if (tSize != wordsProcessed)
@@ -779,9 +779,9 @@ unsigned int SRSFile::ProcessVFATDataParallel(unsigned short *buf, unsigned int 
     printf("%i, ", ch[i]);
   printf("\n");
   */
-  
+
   // TODO save frame to output
-  fc->Insert(fp, f); 
+  fc->Insert(fp, f);
 
   return wordsProcessed;
 }
@@ -848,7 +848,7 @@ unsigned char SRSFile::GetEvent(unsigned long n, RawEvent *event)
   {
     ERROR("SRSFile::GetEvent") << "Requested event number (" << n
       << ") is larger than event count (" << positions.size() << ")." << c_endl;
-    return 1;  
+    return 1;
   }
 
   if (!infile)

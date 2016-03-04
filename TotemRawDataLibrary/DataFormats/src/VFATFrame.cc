@@ -110,7 +110,7 @@ VFATFrame::word VFATFrame::calculateCRC(VFATFrame::word crc_in, VFATFrame::word 
   for (int i = 0; i < datalen; i++)
   {
     if (dato & v)
-      d = 1; 
+      d = 1;
     else
       d = 0;
       

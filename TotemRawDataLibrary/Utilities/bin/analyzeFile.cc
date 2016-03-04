@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
       if (it.Data()->checkFootprint())
         wc++;
 
-    printf("> event %lu\n\tDAQ event number: %lu\n\tDAQ timestamp: %s\t%u out of %u VFATs active\n", 
+    printf("> event %lu\n\tDAQ event number: %lu\n\tDAQ timestamp: %s\t%u out of %u VFATs active\n",
       eventCount, event->dataEventNumber, ctime(&event->timestamp), wc, event->frames->Size());
 
     // print metadata
