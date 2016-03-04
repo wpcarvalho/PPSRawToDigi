@@ -67,11 +67,14 @@ class StraightTrackAlignment
     /// verbosity level while factorization
     unsigned int factorizationVerbosity;
 
-    /// choice of pattern-recognition algorithm
-    std::string patternRecognitionAlgorithm;
+    /// selection of input (pattern-recognition result)
+    edm::InputTag tagRecognizedPatterns;
 
     /// list of RPs for which the alignment parameters shall be optimized
     std::vector<unsigned int> RPIds;
+
+    /// list of planes to be excluded from processing
+    std::vector<unsigned int> excludePlanes;
 
     /// a characteristic z in mm
     /// to keep values of z small - this helps the numerical solution
@@ -82,6 +85,9 @@ class StraightTrackAlignment
     
     /// whether track fit shall be retrieved from an external source
     bool useExternalFitter;
+
+    /// selection of track fit input
+    edm::InputTag tagExternalFit;
 
     /// ctDynamic not yet implemented
     enum ConstraintsType { ctHomogeneous, ctFixedDetectors, ctDynamic, ctFinal };
@@ -97,8 +103,8 @@ class StraightTrackAlignment
     /// remove events with impossible signatures (i.e. simultaneously top and bottom)
     bool removeImpossible;                                                    
 
-    /// select only tracks with activity in both units
-    bool requireBothUnits;
+    /// select only tracks with activity in minimal number of units
+    unsigned int requireNumberOfUnits;
 
     /// if a track goes through overlap, select it only if it leaves signal in at least 3 pots
     bool requireAtLeast3PotsInOverlap;

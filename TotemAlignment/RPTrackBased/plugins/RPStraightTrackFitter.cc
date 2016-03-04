@@ -47,7 +47,7 @@ class RPStraightTrackFitter : public edm::EDAnalyzer
   
       FitData() { Reset(); }
       void Reset()
-        { valid = false; x = y = z = ndf = chi2 = 0;}
+        { valid = false; x = y = z = ndf = chi2 = 0.;}
     };
 
     unsigned int verbosity;
@@ -116,7 +116,8 @@ void RPStraightTrackFitter::beginRun(edm::Run const&, edm::EventSetup const& es)
         rps.push_back(id);
       }
 
-      AlignmentTask::BuildGeometry(rps, geom.product(), 0., alGeometries[a*10+s]);
+      vector<unsigned int> excludePlanes;
+      AlignmentTask::BuildGeometry(rps, excludePlanes, geom.product(), 0., alGeometries[a*10+s]);
     }
 }
 
