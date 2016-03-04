@@ -25,7 +25,7 @@ scram build -j 15
 
 ### Running sample configuration
 
-PPS simulation config:
+RP reco RunII config:
 ```
-cmsRun src/test.py
+cmsRun src/config_9998.152127.py
 ```
