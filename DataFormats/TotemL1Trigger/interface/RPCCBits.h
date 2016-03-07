@@ -2,10 +2,6 @@
  *
  * This is a part of TOTEM offline software.
  * Authors:
- *	Leszek Grzanka (braciszek@gmail.com)
- * $$RCSfile: RPCCBits.h,v $: $
- * $Revision: 1.1 $
- * $Date: 2009/01/30 19:05:12 $
  *
  ****************************************************************************/
 

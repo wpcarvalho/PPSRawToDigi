@@ -4,10 +4,6 @@
 * Authors: 
 *	Jan Kašpar (jan.kaspar@gmail.com) 
 *	CMSSW developpers (based on class GeometricDet)
-*    
-* $$RCSfile: DetGeomDesc.h,v $: $
-* $Revision: 10226 $
-* $Date: 2015-03-18 17:44:24 +0100 (Wed, 18 Mar 2015) $
 *
 ****************************************************************************/
 

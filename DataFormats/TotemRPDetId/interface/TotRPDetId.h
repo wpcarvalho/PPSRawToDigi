@@ -4,10 +4,6 @@
  * Authors: 
  *	Hubert Niewiadomski
  *	Jan Kašpar (jan.kaspar@gmail.com) 
- *    
- * $$RCSfile: TotRPDetId.h,v $: $
- * $Revision: 1.9.2.6 $
- * $Date: 2009/12/07 12:50:56 $
  *
  ****************************************************************************/
 

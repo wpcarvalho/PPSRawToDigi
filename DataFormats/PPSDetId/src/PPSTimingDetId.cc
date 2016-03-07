@@ -2,10 +2,6 @@
  * Author: Seyed Mohsen Etesami
  *	
  *	 
- *    
- * $$RCSfile: PPSTimingDetId.cc,v $: $
- * $Revision: 
- * $Date: 2015/05/20 $
  *
  ****************************************************************************/
 

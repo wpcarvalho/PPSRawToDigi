@@ -1,10 +1,6 @@
 /**
- * \file Mille.cc
- *  \author    : Gero Flucke
- *  date       : October 2006
- *  $Revision: 2145 $
- *  $Date: 2010-02-17 15:01:22 +0100 (Wed, 17 Feb 2010) $
- *  (last update by $Author: jkaspar $)
+ * file Mille.cc
+ * author : Gero Flucke
  */
 
 #include "TotemAlignment/RPTrackBased/interface/Mille.h"

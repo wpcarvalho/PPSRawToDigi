@@ -5,10 +5,6 @@
  * 	Hubert Niewiadomski
  *   Jan Kašpar (jan.kaspar@gmail.com)
  *
- * $$RCSfile: RPFittedTrack.h,v $: $
- * $Revision: 1.5.6.4 $
- * $Date: 2009/08/14 11:16:05 $
- *
  ****************************************************************************/
 
 #ifndef RecoTotemRP_RPRecoDataFormats_RPFittedTrack_h

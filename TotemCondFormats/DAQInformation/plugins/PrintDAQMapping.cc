@@ -3,10 +3,6 @@
 * This is a part of TOTEM offline software.
 * Authors: 
 *  Jan Kašpar (jan.kaspar@gmail.com) 
-*    
-* $Id: PrintDAQMapping.cc 4868 2011-08-26 13:35:56Z pkaczmar $
-* $Revision: 4868 $
-* $Date: 2011-08-26 15:35:56 +0200 (Fri, 26 Aug 2011) $
 *
 ****************************************************************************/
 

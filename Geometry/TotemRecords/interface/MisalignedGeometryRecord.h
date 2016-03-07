@@ -3,10 +3,6 @@
 * This is a part of TOTEM offline software.
 * Authors: 
 *	Jan Kaspar (jan.kaspar@gmail.com) 
-*    
-* $$RCSfile: MisalignedGeometryRecord.h,v $: $
-* $Revision: 9977 $
-* $Date: 2015-01-12 15:00:26 +0100 (Mon, 12 Jan 2015) $
 *
 ****************************************************************************/
 
