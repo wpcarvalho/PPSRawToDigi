@@ -724,7 +724,6 @@ void LHCOpticsApproximator::AllocateErrorHists(TH1D *err_hists[4])
     err_hists[i]->SetXTitle(error_labels[i].c_str());
     err_hists[i]->SetYTitle("counts");
     err_hists[i]->SetDirectory(0);
-    //err_hists[i]->SetBit(TH1::kCanRebin);
     err_hists[i]->SetCanExtend(TH1::kXaxis);
   }
 }
