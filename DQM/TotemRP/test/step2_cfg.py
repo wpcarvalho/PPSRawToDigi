@@ -58,4 +58,4 @@ process.DQMStore.verboseQT =  cms.untracked.int32(1)
 
 #process.dqmSaver.saveAtJobEnd = cms.untracked.bool(True)
 #process.dqmSaver.forceRunNumber = cms.untracked.int32(123456)
-process.dqmSaver.workflow = '/TTbarLepton/myTest/DQM'
+process.dqmSaver.workflow = '/Some/Workflow/Description'

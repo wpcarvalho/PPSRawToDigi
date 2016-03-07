@@ -174,9 +174,9 @@ TotemRPDQMSource::PotPlots::PotPlots(DQMStore::IBooker &ibooker, unsigned int id
 {
   ibooker.setCurrentFolder(string("Totem/") + TotRPDetId::RPName(id, TotRPDetId::nPath));
 
-  activity = ibooker.book1D("active planes", "active planes;number of active planes", 512, -0.5, 511.5);
-  activity_u = ibooker.book1D("active planes U", "active planes U;number of active U planes", 512, -0.5, 511.5);
-  activity_v = ibooker.book1D("active planes V", "active planes V;number of active V planes", 512, -0.5, 511.5);
+  activity = ibooker.book1D("active planes", "active planes;number of active planes", 11, -0.5, 10.5);
+  activity_u = ibooker.book1D("active planes U", "active planes U;number of active U planes", 11, -0.5, 10.5);
+  activity_v = ibooker.book1D("active planes V", "active planes V;number of active V planes", 11, -0.5, 10.5);
 
   hit_plane_hist = ibooker.book2D("activity in planes (2D)", "activity in planes;plane number;strip number", 10, -0.5, 9.5, 32, -0.5, 511.5);
 

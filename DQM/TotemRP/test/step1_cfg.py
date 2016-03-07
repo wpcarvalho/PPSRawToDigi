@@ -15,11 +15,15 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 process.load("DQMServices.Core.DQM_cfg")
 process.load("DQMServices.Components.DQMEnvironment_cfi")
 
-# my analyzer
+# TOTEM RP geometry
+process.load("Configuration.TotemCommon.geometryRP_cfi")
+process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/TotemRPData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
+
+# TOTEM RP plot module
 process.TotemRPDQMSource = cms.EDAnalyzer("TotemRPDQMSource",
     tagStripDigi = cms.InputTag("Raw2DigiProducer", "rpDataOutput"),
 	tagDigiCluster = cms.InputTag("RPClustProd"),
-	tagRecoHit = cms.InputTag("RPHecoHitProd"),
+	tagRecoHit = cms.InputTag("RPRecoHitProd"),
 	tagPatternColl = cms.InputTag("NonParallelTrackFinder"),
 	tagTrackColl = cms.InputTag("RPSingleTrackCandCollFit"),
 	tagTrackCandColl = cms.InputTag("NonParallelTrackFinder"),
