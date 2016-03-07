@@ -4,7 +4,6 @@
  * Author: 
  *        Seyed Mohsen Etesami
  *
- *
  ****************************************************************************/
 
 #ifndef PPSTimingDetId_h

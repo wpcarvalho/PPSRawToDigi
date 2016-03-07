@@ -1,4 +1,3 @@
-/**********************************************************/
 
 #ifndef SimG4Core_TotemRPProtonTransportParametrization_RPXMLConfig_H
 #define SimG4Core_TotemRPProtonTransportParametrization_RPXMLConfig_H

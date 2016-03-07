@@ -2,6 +2,7 @@
  *
  * This is a part of TOTEM offline software.
  * Authors:
+ *  Leszek Grzanka (braciszek@gmail.com)
  *
  ****************************************************************************/
 

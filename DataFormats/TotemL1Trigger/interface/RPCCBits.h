@@ -1,8 +1,8 @@
 /****************************************************************************
  *
  * This is a part of TOTEM offline software.
- * Authors:
- *
+ * Authors
+ *  Leszek Grzanka (braciszek@gmail.com)
  ****************************************************************************/
 
 #ifndef DataFormatsTotemL1TriggerRPCCBits_h

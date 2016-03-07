@@ -1,4 +1,3 @@
-/**********************************************************/
 
 #include "SimG4Core/TotemRPProtonTransportParametrization/interface/RPXMLConfig.h"
 

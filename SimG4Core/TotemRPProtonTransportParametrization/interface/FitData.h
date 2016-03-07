@@ -1,4 +1,3 @@
-/**********************************************************/
 
 #ifndef SimG4Core_TotemRPProtonTransportParametrization_FitData_h
 #define SimG4Core_TotemRPProtonTransportParametrization_FitData_h
