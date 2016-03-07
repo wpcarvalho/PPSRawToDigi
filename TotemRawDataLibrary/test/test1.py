@@ -36,7 +36,7 @@ process.Raw2DigiProducer.rpDataProductLabel = cms.untracked.string("")
 process.load("RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi")
 process.RPClustProd.DigiLabel = cms.InputTag("Raw2DigiProducer")
 process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
-process.load("RecoTotemRP.RPSingleCandidateTrackFinder.RPSingleTrackCandFindConf_cfi")
+process.load("RecoTotemRP.RPMulCandidateTrackFinder.RPMulTrackCandFindConf_cfi")
 
 
 process.output = cms.OutputModule(
@@ -48,7 +48,7 @@ outputCommands = cms.untracked.vstring('keep *')
 process.path = cms.Path(process.Raw2DigiProducer
 *process.RPClustProd
 *process.RPRecoHitProd
-*process.RPSinglTrackCandFind
+*process.RPMulTrackCandFind
 )
 
 process.outpath = cms.EndPath(process.output)
