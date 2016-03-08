@@ -17,8 +17,6 @@
 //
 // Original Author:  Hubert NIEWIADOMSKI
 //         Created:  Thu May 10 13:53:04 CEST 2007
-// $Id: RPClusterSigmaService.h,v 1.5.2.2 2009/07/13 13:49:07 jkaspar Exp $
-//
 //
 
 

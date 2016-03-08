@@ -8,10 +8,6 @@
  * Secondary Authors:
  *   Zhang Zhengkui (zhang.zhengkui.fin@gmail.com)
  *
- * $Id: RPMulCandidateTrackFinderAlgorithm.h 0001 2010-08-10 10:00:00Z zhangz $
- * $Revision: 0001 $
- * $Date: 2010-08-10 10:00:00 +0100 (Tue, 10 Aug 2010) $
- *
  ****************************************************************************/
 
 
