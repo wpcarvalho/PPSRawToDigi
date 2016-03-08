@@ -13,7 +13,7 @@ migrated to newer version of cms framework.
 
 ```
 ssh -X $USER@lxplus
-export SCRAM_ARCH=slc6_amd64_gcc491
+export SCRAM_ARCH=slc6_amd64_gcc493
 source /afs/cern.ch/cms/cmsset_default.sh
 cmsrel CMSSW_8_0_0_pre5
 git clone ssh://git@gitlab.cern.ch:7999/totem/totem-offline.git CMSSW_8_0_0_pre5/src
