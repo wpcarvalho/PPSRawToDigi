@@ -303,10 +303,10 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   // fill in pattern-recognition results (non-parallel)
   try {
     edm::Handle< RPRecognizedPatternsCollection > patterns;
-    e.getByLabel("NonParallelTrackFinder", "", patterns);
+    e.getByLabel("NonParallelTrackFinder", patterns);
 
     edm::Handle< RPTrackCandidateCollection > trCand;
-    e.getByLabel("NonParallelTrackFinder", "", trCand);
+    e.getByLabel("NonParallelTrackFinder", trCand);
 
     for (RPRecognizedPatternsCollection::const_iterator rpit = patterns->begin(); rpit != patterns->end(); ++rpit)
     {
