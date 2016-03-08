@@ -46,25 +46,45 @@ process.NonParallelTrackFinder.minPlanesPerProjectionToSearch = 2
 process.NonParallelTrackFinder.minPlanesPerProjectionToFit = 3
 process.NonParallelTrackFinder.threshold = 2.99
 
+process.load("RecoTotemRP.RPSingleCandidateTrackFinder.RPSingleTrackCandFindConf_cfi")
 process.load("RecoTotemRP.RPTrackCandidateCollectionFitter.RPSingleTrackCandCollFitted_cfi")
 process.RPSingleTrackCandCollFit.Verbosity = 0
 process.RPSingleTrackCandCollFit.RPTrackCandCollProducer = 'NonParallelTrackFinder'
 
+process.load("RecoTotemRP.RPMulCandidateTrackFinder.RPMulTrackCandFindConf_cfi")
+process.RPMulTrackCandFind.Verbosity = 0
+
+process.load("RecoTotemRP.RPMulTrackCandidateCollectionFitter.RPMulTrackCandCollFitter_cfi")
+process.RPMulTrackCandCollFit.Verbosity = 0
+
 process.load("RecoTotemRP.RPInelasticReconstruction.Rec_6500GeV_beta_90_50urad_cfi")
 process.RP220Reconst.BeamProtTransportSetup = process.BeamProtTransportSetup
+
+process.load("TotemAnalysis.TotemNtuplizer.TotemNtuplizer_cfi")
+process.TotemNtuplizer.outputFileName = cms.untracked.string('file:./totcsi_9998.152127.ntuple.root')
+process.TotemNtuplizer.RPReconstructedProtonCollectionLabel = cms.InputTag('RP220Reconst')
+process.TotemNtuplizer.RPReconstructedProtonPairCollectionLabel = cms.InputTag('RP220Reconst')
+process.TotemNtuplizer.RPMulFittedTrackCollectionLabel = cms.InputTag("RPMulTrackNonParallelCandCollFit")
+process.TotemNtuplizer.includeDigi = cms.bool(True)
+process.TotemNtuplizer.includePatterns = cms.bool(True)
 
 process.output = cms.OutputModule(
 "PoolOutputModule",
 fileName = cms.untracked.string("file:./totcsi_9998.152127.root"),
 outputCommands = cms.untracked.vstring('keep *')
 )
+
 process.path = cms.Path(
 process.Raw2DigiProducer*
 process.RPClustProd*
 process.RPRecoHitProd*
+process.RPSinglTrackCandFind*
 process.NonParallelTrackFinder*
 process.RPSingleTrackCandCollFit*
-process.RP220Reconst
+process.RPMulTrackCandFind*
+process.RPMulTrackCandCollFit*
+process.RP220Reconst*
+process.TotemNtuplizer
 )
 
 process.outpath = cms.EndPath(process.output)
