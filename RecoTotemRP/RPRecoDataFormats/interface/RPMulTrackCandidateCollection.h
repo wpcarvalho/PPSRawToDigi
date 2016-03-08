@@ -7,10 +7,6 @@
 *   Hubert Niewiadomski (Hubert.Niewiadomski@cern.ch)
 * Secondary Authors:
 *   Zhang Zhengkui (zhang.zhengkui.fin@gmail.com)
-* 
-* $Id: RPMulTrackCandidateCollection.h 0001 2010-08-11 17:00:00Z zhangz $
-* $Revision: 0001 $
-* $Date: 2010-08-11 17:00:00 +0100 (Wed, 11 Aug 2010) $
 *
 ****************************************************************************/
 

@@ -3,10 +3,6 @@
 * This is a part of TOTEM offline software.
 * Authors: 
 *   Maciej Wróbel (wroblisko@gmail.com)
-*    
-* $Id: DAQMapping.cc 4564 2011-07-29 11:48:25Z jkaspar $
-* $Revision: 4564 $
-* $Date: 2011-07-29 13:48:25 +0200 (Pt, 29 lip 2011) $
 *
 ****************************************************************************/
 

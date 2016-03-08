@@ -4,10 +4,6 @@
 * Authors:
 *  Jan Kašpar (jan.kaspar@gmail.com)
 *
-* $Id: TotemRPGeometry.h 10226 2015-03-18 16:44:24Z jkaspar $
-* $Revision: 10226 $
-* $Date: 2015-03-18 17:44:24 +0100 (Wed, 18 Mar 2015) $
-*
 ****************************************************************************/
 
 #ifndef Geometry_TotemRPGeometry_H

@@ -3,10 +3,6 @@
 * This is a part of TOTEM offline software.
 * Authors: 
 *  Jan Kašpar (jan.kaspar@gmail.com) 
-*    
-* $Id: analyzeStatisticalResults.cc 3294 2010-09-07 15:15:32Z jkaspar $
-* $Revision: 3294 $
-* $Date: 2010-09-07 17:15:32 +0200 (Tue, 07 Sep 2010) $
 *
 ****************************************************************************/
 

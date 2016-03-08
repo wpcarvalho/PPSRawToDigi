@@ -3,10 +3,6 @@
 * This is a part of TOTEM offline software.
 * Authors: 
 *  Jan Kašpar (jan.kaspar@gmail.com) 
-*    
-* $Id: LocalTrackFitter.cc 3441 2010-10-05 09:36:16Z jkaspar $
-* $Revision: 3441 $
-* $Date: 2010-10-05 11:36:16 +0200 (Tue, 05 Oct 2010) $
 *
 ****************************************************************************/
 

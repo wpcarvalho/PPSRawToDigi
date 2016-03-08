@@ -4,10 +4,6 @@
 * Authors:
 *   Jan Kašpar (jan.kaspar@gmail.com)
 *
-* $$RCSfile: OpticsInformation.cc,v $: $
-* $Revision: 1.1.2.2 $
-* $Date: 2009/11/09 12:14:28 $
-*
 ****************************************************************************/
 
 #include "FWCore/Framework/interface/MakerMacros.h"

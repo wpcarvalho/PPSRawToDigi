@@ -3,10 +3,6 @@
 * This is a part of TOTEM offline software.
 * Authors: 
 *  Jan Kašpar (jan.kaspar@gmail.com) 
-*    
-* $Id: RPAlignmentCorrections.cc 3092 2010-08-02 09:16:07Z jkaspar $
-* $Revision: 2228 $
-* $Date: 2010-03-01 13:23:28 +0100 (Mon, 01 Mar 2010) $
 *
 ****************************************************************************/
 

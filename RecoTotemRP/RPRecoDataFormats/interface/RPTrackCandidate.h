@@ -5,10 +5,6 @@
 * 	Hubert Niewiadomski
 *   Jan Kašpar (jan.kaspar@gmail.com)
 *
-* $Id: StraightTrackAlignment.cc 3363 2010-09-14 19:12:36Z jkaspar $
-* $Revision: 1.6.2.2 $
-* $Date: 2009/12/09 15:34:58 $
-*
 ****************************************************************************/
 
 #ifndef RecoTotemRP_RPRecoDataFormats_RPTrackCandidate_h
