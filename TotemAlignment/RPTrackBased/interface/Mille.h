@@ -16,11 +16,6 @@
  *  But note that pede will not be able to read text output and has not been tested with 
  *  derivatives/labels ==0.
  *
- *  \author    : Gero Flucke
- *  date       : October 2006
- *  $Revision: 2145 $
- *  $Date: 2010-02-17 15:01:22 +0100 (Wed, 17 Feb 2010) $
- *  (last update by $Author: jkaspar $)
  */
 
 class Mille 

@@ -3,10 +3,6 @@
 * This is a part of the TOTEM offline software.
 * Authors: 
 *	Jan Kašpar (jan.kaspar@gmail.com)
-*    
-* $Id: T2Mapping.cc 2135 2010-02-16 13:26:06Z jkaspar $
-* $Revision: 2145 $
-* $Date: 2010-02-17 15:01:22 +0100 (Wed, 17 Feb 2010) $
 *
 ****************************************************************************/
 

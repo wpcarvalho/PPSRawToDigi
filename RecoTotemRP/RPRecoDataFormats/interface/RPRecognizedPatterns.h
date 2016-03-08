@@ -4,10 +4,6 @@
 * Authors:
 *   Jan Kašpar (jan.kaspar@gmail.com)
 *
-* $Id: RPNonParallelTrackCandidateFinder.cc,v 1.5.2.3 2009/11/18 17:42:14 jkaspar Exp $
-* $Revision: 1.6.2.2 $
-* $Date: 2009/12/09 15:34:58 $
-*
 ****************************************************************************/
 
 #ifndef RecoTotemRP_RPRecoDataFormats_RPRecognizedPatterns_h

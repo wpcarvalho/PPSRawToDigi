@@ -4,10 +4,6 @@
  * Authors:
  *	Leszek Grzanka (braciszek@gmail.com)
  *
- * $$RCSfile: RPCCId.cc,v $: $
- * $Revision: 1.1 $
- * $Date: 2009/01/30 19:05:12 $
- *
  ****************************************************************************/
 
 #include "DataFormats/TotemL1Trigger/interface/RPCCId.h"

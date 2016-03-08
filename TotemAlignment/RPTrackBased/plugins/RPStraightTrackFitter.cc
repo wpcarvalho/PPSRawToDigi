@@ -3,10 +3,6 @@
 * This is a part of TOTEM offline software.
 * Authors: 
 *  Jan Kašpar (jan.kaspar@gmail.com) 
-*    
-* $Id: RPStraightTrackFitter.cc 3290 2010-09-07 11:54:29Z jkaspar $
-* $Revision: 3290 $
-* $Date: 2010-09-07 13:54:29 +0200 (Tue, 07 Sep 2010) $
 *
 ****************************************************************************/
 

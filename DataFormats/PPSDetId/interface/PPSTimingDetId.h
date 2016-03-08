@@ -4,11 +4,6 @@
  * Author: 
  *        Seyed Mohsen Etesami
  *
- *    
- * $$RCSfile: PPSTimingDetId.h,v $: $
- * $Revision: 1.9.2.6 $
- * $Date: 2015/05/27 9:50:56 $
- *
  ****************************************************************************/
 
 #ifndef PPSTimingDetId_h
