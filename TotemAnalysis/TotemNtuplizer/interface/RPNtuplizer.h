@@ -13,7 +13,7 @@
 #include "TotemAnalysis/TotemNtuplizer/interface/RPRootTrackInfo.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPair.h"
-#include "TotemRPValidation/RPReconstructedTracksValidation/interface/RPReconstructedTracksValidation.h"
+#include "DataFormats/TotemL1Trigger/interface/RPCCBits.h"
 
 #include "DataFormats/TotemRPDataTypes/interface/RPStripDigi.h"
 #include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
@@ -21,6 +21,13 @@
 #include "DataFormats/Common/interface/Wrapper.h"
 #include "fastjet/ClusterSequence.hh"
 
+class PrimaryProton
+{
+  public: 
+    HepMC::FourVector vertex;
+    HepMC::FourVector momentum;
+    bool found;
+};
 
 /**
  *\brief Saves RP reconstruction data into the common ntuple.
