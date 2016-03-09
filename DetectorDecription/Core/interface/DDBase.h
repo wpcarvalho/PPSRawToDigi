@@ -62,8 +62,10 @@ public:
   };
    
 public:
-  static auto end()   { return StoreT::instance().end(); }
-  static auto begin() { return StoreT::instance().begin(); }
+  typedef typename DDI::Store<N,C>::iterator iter;
+
+  static iter end()   { return StoreT::instance().end(); }
+  static iter begin() { return StoreT::instance().begin(); }
   // dangerous stuff!!
   static void clear() { StoreT::instance().clear(); }
   static size_t size() { return StoreT::instance().size(); }

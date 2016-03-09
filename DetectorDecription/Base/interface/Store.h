@@ -45,9 +45,9 @@ namespace DDI {
       typedef std::map<name_type,prep_type> registry_type;
       typedef typename registry_type::iterator iterator;
       
-      auto begin() { return reg_.begin(); }
-      auto end() { return reg_.end(); }
-      auto size() const { return reg_.size(); } 
+      iterator begin() { return reg_.begin(); }
+      iterator end() { return reg_.end(); }
+      size_t size() const { return reg_.size(); }
       
       // empty shell or fetch from registry
       prep_type create(const name_type &);
