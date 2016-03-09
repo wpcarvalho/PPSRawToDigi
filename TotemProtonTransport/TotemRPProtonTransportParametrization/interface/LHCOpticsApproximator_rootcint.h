@@ -8,7 +8,7 @@
 #include <memory>
 #include "TMatrixD.h"
 
-#include "SimG4Core/TotemRPProtonTransportParametrization/interface/TMultiDimFet.h"
+#include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/TMultiDimFet.h"
 //#include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
 
 
@@ -21,7 +21,27 @@ struct MadKinematicDescriptor
   double ksi;       ///< 1
 };
 
-class LHCApertureApproximator;
+class LHCOpticsApproximator;
+
+class LHCApertureApproximator : public LHCOpticsApproximator
+{
+  public:
+    enum aperture_type {NO_APERTURE, RECTELLIPSE};
+
+    LHCApertureApproximator();
+    LHCApertureApproximator(const LHCOpticsApproximator &in, double rect_x, double rect_y, double r_el_x, double r_el_y,
+        aperture_type type = RECTELLIPSE);
+
+
+    bool CheckAperture(const double *in, bool invert_beam_coord_sytems=true) const;  //x, thx. y, thy, ksi
+    //bool CheckAperture(MadKinematicDescriptor *in);  //x, thx. y, thy, ksi
+  private:
+    double rect_x_, rect_y_, r_el_x_, r_el_y_;
+    aperture_type ap_type_;
+
+    ClassDef(LHCApertureApproximator,1) // Aperture approximator
+};
+
 
 /**
  *\brief Class finds the parametrisation of MADX proton transport and transports the protons according to it
@@ -32,6 +52,8 @@ class LHCOpticsApproximator : public TNamed
 {
   public:
     LHCOpticsApproximator();
+    virtual ~LHCOpticsApproximator();
+
     /// begin and end position along the beam of the particle to transport, training_tree, prefix of data branch in the tree
     LHCOpticsApproximator(std::string name, std::string title, TMultiDimFet::EMDFPolyType polynom_type,
         std::string beam_direction, double nominal_beam_momentum);
@@ -69,28 +91,11 @@ class LHCOpticsApproximator : public TNamed
     void AddRectEllipseAperture(const LHCOpticsApproximator &in, double rect_x, double rect_y, double r_el_x, double r_el_y);
     void PrintOpticalFunctions();
     void PrintCoordinateOpticalFunctions(TMultiDimFet &parametrization, const std::string &coord_name, const std::vector<std::string> &input_vars);
-
-    /**
-     *\brief returns linearised transport matrix for x projection
-     * |  dx_out/dx_in    dx_out/dthx_in   |
-     * | dthx_out/dx_in  dthx_out/dthx_in  |
-     *
-     * input:  [m], [rad], xi:-1...0
-     */
     void GetLineariasedTransportMatrixX(double mad_init_x, double mad_init_thx, double mad_init_y, double mad_init_thy, 
-        double mad_init_xi, TMatrixD &tr_matrix, double d_mad_x=10e-6, double d_mad_thx=10e-6);
-
-    /**
-     *\brief returns linearised transport matrix for y projection
-     * |  dy_out/dy_in    dy_out/dthy_in   |
-     * | dthy_out/dy_in  dthy_out/dthy_in  |
-     *
-     * input:  [m], [rad], xi:-1...0
-     */
+        double mad_init_xi, TMatrixD &tr_matrix, double d_mad_x=10e-6, double d_mad_thx=10e-6);  ///< [m], [rad], xi:-1...0
     void GetLineariasedTransportMatrixY(
         double mad_init_x, double mad_init_thx, double mad_init_y, double mad_init_thy, 
-        double mad_init_xi, TMatrixD &tr_matrix, double d_mad_y=10e-6, double d_mad_thy=10e-6);
-
+        double mad_init_xi, TMatrixD &tr_matrix, double d_mad_y=10e-6, double d_mad_thy=10e-6); ///< [m], [rad], xi:-1...0
     double GetDx(double mad_init_x, double mad_init_thx, double mad_init_y, 
         double mad_init_thy, double mad_init_xi, double d_mad_xi=0.001);
     double GetDxds(double mad_init_x, double mad_init_thx, double mad_init_y, 
@@ -114,12 +119,12 @@ class LHCOpticsApproximator : public TNamed
     std::vector<std::string> coord_names;
     std::vector<LHCApertureApproximator> apertures_;  ///< apertures on the way
 
-    friend class ProtonTransportFunctionsESSource;
-
     TMultiDimFet x_parametrisation;                   ///< polynomial approximation for x
     TMultiDimFet theta_x_parametrisation;             ///< polynomial approximation for theta_x
     TMultiDimFet y_parametrisation;                   ///< polynomial approximation for y
     TMultiDimFet theta_y_parametrisation;             ///< polynomial approximation for theta_y
+
+
 
     //train_mode mode_;  //polynomial selection mode - selection done by fitting function or selection from the list according to the specified order
     enum variable_type {X, THETA_X, Y, THETA_Y};
@@ -142,25 +147,5 @@ class LHCOpticsApproximator : public TNamed
 
     ClassDef(LHCOpticsApproximator,1) // Proton transport approximator
 };
-
-
-class LHCApertureApproximator : public LHCOpticsApproximator
-{
-  public:
-    enum aperture_type {NO_APERTURE, RECTELLIPSE};
-
-    LHCApertureApproximator();
-    LHCApertureApproximator(const LHCOpticsApproximator &in, double rect_x, double rect_y, double r_el_x, double r_el_y,
-        aperture_type type = RECTELLIPSE);
-
-    bool CheckAperture(const double *in, bool invert_beam_coord_sytems=true) const;  //x, thx. y, thy, ksi
-    //bool CheckAperture(MadKinematicDescriptor *in);  //x, thx. y, thy, ksi
-  private:
-    double rect_x_, rect_y_, r_el_x_, r_el_y_;
-    aperture_type ap_type_;
-
-    ClassDef(LHCApertureApproximator,1) // Aperture approximator
-};
-
 
 

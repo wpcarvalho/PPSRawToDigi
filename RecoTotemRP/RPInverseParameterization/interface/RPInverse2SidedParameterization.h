@@ -11,7 +11,7 @@
 #include <Minuit2/CombinedMinimizer.h>
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
 #include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
-#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
+#include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPair.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"

@@ -12,7 +12,7 @@
 
 
 #include "Riostream.h"
-#include "SimG4Core/TotemRPProtonTransportParametrization/interface/TMultiDimFet.h"
+#include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/TMultiDimFet.h"
 #include "TMath.h"
 #include "TH1.h"
 #include "TH2.h"

@@ -7,5 +7,5 @@
 
 <use   name="TotemCondFormats/ProtonTransportFunctions"/>
 <use   name="DataFormats/TotemRPDataTypes"/>
-<use   name="SimG4Core/TotemRPProtonTransportParametrization"/>
+<use   name="TotemProtonTransport/TotemRPProtonTransportParametrization"/>
 <flags   EDM_PLUGIN="1"/>

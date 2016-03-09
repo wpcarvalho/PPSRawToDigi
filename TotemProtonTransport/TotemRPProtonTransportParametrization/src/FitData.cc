@@ -1,5 +1,5 @@
 
-#include "SimG4Core/TotemRPProtonTransportParametrization/interface/FitData.h"
+#include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/FitData.h"
 
 FitData::FitData(){
 }

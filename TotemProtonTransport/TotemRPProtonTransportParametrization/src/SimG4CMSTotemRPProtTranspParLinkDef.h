@@ -1,5 +1,5 @@
-#include "SimG4Core/TotemRPProtonTransportParametrization/interface/TMultiDimFet.h"
-#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
+#include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/TMultiDimFet.h"
+#include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include <vector>
 
 

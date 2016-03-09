@@ -1,5 +1,5 @@
 
-#include "SimG4Core/TotemRPProtonTransportParametrization/interface/RPXMLConfig.h"
+#include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/RPXMLConfig.h"
 
 // -------------------------------------------------------
 // Class RPXMLConfig

@@ -1,6 +1,6 @@
 
-#include "SimG4Core/TotemRPProtonTransportParametrization/interface/MADParamGenerator.h"
-#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
+#include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/MADParamGenerator.h"
+#include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include <iostream>
 
 int main(int argc, char *args[])  //configuration file needed
