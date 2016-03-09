@@ -15,6 +15,8 @@ set -o pipefail # Return value of a pipeline as the value of the last command to
                 # pipeline exit successfully.
 shopt -s expand_aliases # Expand command alias to the command itself.
                         # Required for non-interactive shell.
+
+export SCRAM_ARCH=slc6_amd64_gcc493
 source /afs/cern.ch/cms/cmsset_default.sh
 
 # Shows directory details.
@@ -61,7 +63,7 @@ function compile_scram_project() {
 function build_CMSSW_8_0_0() {
 	echo "Building CMSSW 8.0.0 project..."
 	initialize_kerberos_keytab
-	initialize_scram_project "CMSSW" "CMSSW_8_0_0"
+	initialize_scram_project "CMSSW" "CMSSW_8_0_0_pre5"
 	compile_scram_project
 }
 
