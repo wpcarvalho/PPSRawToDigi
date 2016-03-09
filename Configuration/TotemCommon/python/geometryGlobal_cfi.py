@@ -76,9 +76,8 @@ XMLIdealGeometryESSource = cms.ESSource("XMLIdealGeometryESSource",
         'Geometry/TotemRPData/data/RP_Stations_Assembly.xml', 
         'Geometry/TotemRPData/data/RP_Sensitive_Dets.xml', 
         'Geometry/TotemRPData/data/RP_Cuts_Per_Region.xml', 
-        'Geometry/TotemRPData/data/TotemRPGlobal.xml', 
         'Geometry/TotemRPData/data/RP_Param_Beam_Region.xml'),
-    rootNodeName = cms.string('TotemRPGlobal:OTOTEM')
+    rootNodeName = cms.string('cms:CMSE')
 )
 
 # real geometry

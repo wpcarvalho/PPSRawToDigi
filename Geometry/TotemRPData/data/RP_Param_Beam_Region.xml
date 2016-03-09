@@ -29,12 +29,12 @@
 
 <PosPartSection label="RP_Param_Beam_Region.xml">
  <PosPart copyNumber="1">
-   <rParent name="TotemRPGlobal:OTOTEM"/>
-   <rChild name="Beam_IP_150_R"/>
+  <rParent name="cms:CMSE"/>
+  <rChild name="Beam_IP_150_R"/>
  </PosPart>
  <PosPart copyNumber="1">
-   <rParent name="TotemRPGlobal:OTOTEM"/>
-   <rChild name="Beam_IP_150_L"/>
+  <rParent name="cms:CMSE"/>
+  <rChild name="Beam_IP_150_L"/>
  </PosPart>
 </PosPartSection>
 </DDDefinition>
