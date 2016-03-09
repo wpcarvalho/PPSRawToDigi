@@ -61,7 +61,7 @@ function compile_scram_project() {
 function build_CMSSW_8_0_0() {
 	echo "Building CMSSW 8.0.0 project..."
 	initialize_kerberos_keytab
-	initialize_scram_project "CMSSW" "CMSSW_8_0_0"
+	initialize_scram_project "CMSSW" "CMSSW_8_0_0_pre5"
 	compile_scram_project
 }
 
