@@ -16,7 +16,7 @@
 #include "RecoTotemRP/RPRomanPotResolutionService/interface/RPFitResolution.h"
 #include "TotemCondFormats/BeamOpticsParamsObjects/interface/BeamOpticsParams.h"
 #include "TotemCondFormats/DataRecord/interface/BeamOpticsParamsRcd.h"
-#include "SimG4Core/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
+#include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 
 #include "CLHEP/Vector/LorentzVector.h"
 #include "HepMC/GenEvent.h"

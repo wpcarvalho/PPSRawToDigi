@@ -12,7 +12,7 @@
 <use   name="Geometry/TotemRecords"/>
 <use   name="DataFormats/TotemRPDetId"/>
 <use   name="RecoTotemRP/RPTrackCandidateFitter"/>
-<use   name="SimG4Core/TotemRPProtonTransportParametrization"/>
+<use   name="TotemProtonTransport/TotemRPProtonTransportParametrization"/>
 <use   name="RecoTotemRP/RPInverseParameterization"/>
 <use   name="SimDataFormats/GeneratorProducts"/>
 <use   name="SimG4Core/Notification"/>
