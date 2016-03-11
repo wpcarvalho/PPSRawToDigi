@@ -3,8 +3,6 @@
 # Script used by Jenkins continuous integration server in order to build the
 # project.
 
-AGENT_USERNAME=`whoami`
-AGENT_KERBEROS_KEYTAB="/etc/$AGENT_USERNAME.keytab"
 AGENT_EXECUTORS=4
 AGENT_BUILD_LOG="$WORKSPACE/build.log"
 
@@ -16,19 +14,15 @@ set -o pipefail # Return value of a pipeline as the value of the last command to
 shopt -s expand_aliases # Expand command alias to the command itself.
                         # Required for non-interactive shell.
 
-export SCRAM_ARCH=slc6_amd64_gcc493
+if [ -z "$SCRAM_ARCH" ]; then
+    export SCRAM_ARCH=slc6_amd64_gcc493
+fi
 source /afs/cern.ch/cms/cmsset_default.sh
 
 # Shows directory details.
 function show_current_directory_details() {
 	echo "Content of directory '`pwd`':"
 	ls -al
-}
-
-# Initializes Kerberos keytab for agent user.
-function initialize_kerberos_keytab() {
-	echo "Initializing Kerberos keytab for user '$AGENT_USERNAME'..."
-	kinit -kt "$AGENT_KERBEROS_KEYTAB" "$AGENT_USERNAME"
 }
 
 # Initializes scram project.
@@ -62,7 +56,6 @@ function compile_scram_project() {
 #      be executed
 function build_CMSSW_8_0_0() {
 	echo "Building CMSSW 8.0.0 project..."
-	initialize_kerberos_keytab
 	initialize_scram_project "CMSSW" "CMSSW_8_0_0_pre5"
 	compile_scram_project
 }
