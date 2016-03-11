@@ -18,6 +18,10 @@
 #include "TotemAnalysis/TotemNtuplizer/interface/RPNtuplizer.h"
 #include "TotemCondFormats/DataRecord/interface/BeamOpticsParamsRcd.h"
 
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
+
 #include "TTree.h"
 #include "TFile.h"
 
@@ -70,6 +74,11 @@ TotemNtuplizer::TotemNtuplizer(const edm::ParameterSet &ps) :
   verbosity(ps.getUntrackedParameter<unsigned int>("verbosity", 0)),
   outputFileName(ps.getUntrackedParameter<string>("outputFileName"))
 {
+  auto rpMulFittedTrackCollectionLabel = ps.getParameter<edm::InputTag>("RPMulFittedTrackCollectionLabel");
+  consumes<RPMulFittedTrackCollection>(rpMulFittedTrackCollectionLabel);
+  consumes<RPRecognizedPatternsCollection>(edm::InputTag("RPSinglTrackCandFind"));
+  consumes<RPTrackCandidateCollection>(edm::InputTag("RPSinglTrackCandFind"));
+
   workers.push_back(new RawMetaDataNtuplizer(ps));
   
 

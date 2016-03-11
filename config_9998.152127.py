@@ -4,7 +4,7 @@ import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("rpReconstruction")
 process.maxEvents = cms.untracked.PSet(
-input = cms.untracked.int32(100)
+input = cms.untracked.int32(-1)
 )
 
 process.load('TotemRawData.Readers.RawDataSource_cfi')
@@ -64,7 +64,6 @@ process.load("TotemAnalysis.TotemNtuplizer.TotemNtuplizer_cfi")
 process.TotemNtuplizer.outputFileName = cms.untracked.string('file:./totcsi_9998.152127.ntuple.root')
 process.TotemNtuplizer.RPReconstructedProtonCollectionLabel = cms.InputTag('RP220Reconst')
 process.TotemNtuplizer.RPReconstructedProtonPairCollectionLabel = cms.InputTag('RP220Reconst')
-process.TotemNtuplizer.RPMulFittedTrackCollectionLabel = cms.InputTag("RPMulTrackNonParallelCandCollFit")
 process.TotemNtuplizer.includeDigi = cms.bool(True)
 process.TotemNtuplizer.includePatterns = cms.bool(True)
 

@@ -110,11 +110,10 @@ void RPNtuplizer::CreateBranches(const edm::EventSetup &es, TTree *out_tree_)
         }
   			
         sprintf(br_name, "track_rp_%u.", id);
-  		out_tree_->Branch(br_name, &track_info_[id]);
+  	out_tree_->Branch(br_name, &track_info_[id]);
 
-        // TODO: uncomment
-  		//sprintf(br_name, "multi_track_rp_%u", id);
-  		//out_tree_->Branch(br_name, &multi_track_info_[id]);
+        sprintf(br_name, "multi_track_rp_%u", id);
+        out_tree_->Branch(br_name, &multi_track_info_[id]);
   	}
   }
 
@@ -194,9 +193,11 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   	  track_info_[it->first].x = it->second.X0();
   	  track_info_[it->first].y = it->second.Y0();
   	  track_info_[it->first].z = it->second.Z0();
-      track_info_[it->first].thx = it->second.GetTx();
-      track_info_[it->first].thy = it->second.GetTy();
+          track_info_[it->first].thx = it->second.GetTx();
+          track_info_[it->first].thy = it->second.GetTy();
   	  track_info_[it->first].entries = it->second.GetHitEntries();
+          track_info_[it->first].u_id = it->second.GetUid();
+          track_info_[it->first].v_id = it->second.GetVid();
   	}
   }
 
@@ -221,16 +222,16 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   		  ti.x = it->X0();
   		  ti.y = it->Y0();
   		  ti.z = it->Z0();
-          ti.thx = it->GetTx();
-          ti.thy = it->GetTy();
+                  ti.thx = it->GetTx();
+                  ti.thy = it->GetTy();
   		  ti.entries = it->GetHitEntries();
-          ti.u_id = it->GetUid();
-          ti.v_id = it->GetVid();
+                  ti.u_id = it->GetUid();
+                  ti.v_id = it->GetVid();
   		  tiv.push_back(ti);
   		}
   	  }
   	}
-  } catch (...) {}
+  } catch (const std::exception& e) { std::cout << "Exception: " << e.what() << std::endl;  }
 
   if (includeDigi)
   {
@@ -298,7 +299,7 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
       RPTrackCandidateCollection::const_iterator sr = trCand->find(rp);
       par_patterns_info_[rp].fittable = (sr != trCand->end()) ? sr->second.Fittable() : false;
     }
-  } catch (...) {}
+  } catch (const std::exception& e) { std::cout << "Exception: " << e.what() << std::endl; }
 
   // fill in pattern-recognition results (non-parallel)
   try {
