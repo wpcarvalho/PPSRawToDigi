@@ -1,0 +1,4 @@
+<lcgdict>
+	<class name="TotemRawEvent"/>
+    <class name="edm::Wrapper<TotemRawEvent>"/>
+</lcgdict>
