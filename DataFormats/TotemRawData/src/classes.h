@@ -16,13 +16,12 @@ namespace { namespace {
 	TotemRawEvent dummy0;
 	edm::Wrapper<TotemRawEvent> dummy0_2;
 
-	Raw2DigiStatus dummy11;
-	edm::Wrapper< Raw2DigiStatus > dummy12;
+	TotemRawToDigiStatus dummy11;
+	edm::Wrapper< TotemRawToDigiStatus > dummy12;
 
-	VFATStatus dummy13;
-	edm::Wrapper< VFATStatus > dummy14;
+	TotemVFATStatus dummy13;
+	edm::Wrapper< TotemVFATStatus > dummy14;
 
-	// TODO: needed ??
 	std::bitset<8> dummy15;
 	edm::Wrapper< std::bitset<8> > dummy16;
 }}
