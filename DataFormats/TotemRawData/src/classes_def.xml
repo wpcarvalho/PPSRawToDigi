@@ -1,4 +1,14 @@
 <lcgdict>
 	<class name="TotemRawEvent"/>
     <class name="edm::Wrapper<TotemRawEvent>"/>
+
+	<class name="Raw2DigiStatus"/>
+	<class name="edm::Wrapper<Raw2DigiStatus>"/>
+
+	<class name="VFATStatus"/>
+	<class name="edm::Wrapper<VFATStatus>"/>
+
+	<!-- TODO: needed? -->
+	<class name="std::bitset<8>"/>
+	<class name="edm::Wrapper<std::bitset<8> >"/>
 </lcgdict>
