@@ -1,4 +1,4 @@
 <use name="EventFilter/TotemRawToDigi"/>
-<library file="*.cc" name="EventFilterTotemCRawToDigiPlugins">
+<library file="*.cc" name="EventFilterTotemRawToDigiPlugins">
 	<flags EDM_PLUGIN="1"/>
 </library>
