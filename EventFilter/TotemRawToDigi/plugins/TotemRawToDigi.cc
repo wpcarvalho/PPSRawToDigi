@@ -27,6 +27,10 @@
 #include "CondFormats/TotemReadoutObjects/interface/TotemDAQMapping.h"
 #include "CondFormats/TotemReadoutObjects/interface/TotemAnalysisMask.h"
 
+#include "EventFilter/TotemRawToDigi/interface/SimpleVFATFrameCollection.h"
+#include "EventFilter/TotemRawToDigi/interface/RawDataUnpacker.h"
+#include "EventFilter/TotemRawToDigi/interface/RawToDigiConverter.h"
+
 #include <string>
 
 //----------------------------------------------------------------------------------------------------
@@ -46,6 +50,9 @@ class TotemRawToDigi : public edm::EDProducer
     std::string rpDataProductLabel;
     std::string rpCCProductLabel;
     std::string conversionStatusLabel;
+
+    RawDataUnpacker rawDataUnpacker;
+    RawToDigiConverter rawToDigiConverter;
 };
 
 //----------------------------------------------------------------------------------------------------
@@ -56,7 +63,9 @@ using namespace std;
 //----------------------------------------------------------------------------------------------------
 
 TotemRawToDigi::TotemRawToDigi(const edm::ParameterSet &conf):
-  inputTag_((char const *)"rawDataCollector")
+  inputTag_((char const *)"rawDataCollector"),
+  rawDataUnpacker(conf.getParameterSet("RawUnpacking")),
+  rawToDigiConverter(conf.getParameterSet("RawToDigi"))
 {
   produces<TotemRawEvent>();
 
@@ -102,14 +111,20 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
   auto_ptr< vector<RPCCBits> > rpCCOutput(new std::vector<RPCCBits>);
   auto_ptr< TotemRawToDigiStatus > conversionStatus(new TotemRawToDigiStatus());
 
-  // uptodate example
-  /*
-  const FEDRawData &fedData = rawdata->FEDData(ScalersRaw::SCALERS_FED_ID);
-  unsigned short int length = fedData.size();
-  
-  const ScalersEventRecordRaw_v6 *raw = (struct ScalersEventRecordRaw_v6 *)fedData.data();
-  */
+  // step 1: raw-data unpacking
+  SimpleVFATFrameCollection vfatCollection;
 
+  vector<int> fedIds = {}; // TODO
+
+  for (const auto &fedId : fedIds)
+  {
+    rawDataUnpacker.Run(fedId, rawData->FEDData(fedId), vfatCollection, *totemRawEvent);
+  }
+
+  // step 2: raw to digi
+  rawToDigiConverter.Run(vfatCollection, *mapping, *analysisMask,
+    *rpDataOutput, *rpCCOutput, *conversionStatus);
+  
   // commit products to event
   event.put(totemRawEvent);
   event.put(rpDataOutput, rpDataProductLabel);

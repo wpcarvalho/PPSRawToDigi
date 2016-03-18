@@ -13,6 +13,8 @@
 
 #include "DataFormats/FEDRawData/interface/FEDRawData.h"
 
+#include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
+
 #include "EventFilter/TotemRawToDigi/interface/VFATFrameCollection.h"
 
 //----------------------------------------------------------------------------------------------------
@@ -24,7 +26,7 @@ class RawDataUnpacker
     RawDataUnpacker(const edm::ParameterSet &conf);
 
     /// unpack data from FED with fedId into `coll' collection
-    int Run(int fedId, const FEDRawData &data, VFATFrameCollection &coll);
+    int Run(int fedId, const FEDRawData &data, VFATFrameCollection &coll, TotemRawEvent &rawEvent);
 };
 
 #endif

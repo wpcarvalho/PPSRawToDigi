@@ -1,6 +1,29 @@
 <use name="FWCore/Framework"/>
+
+<use name="DataFormats/FEDRawData"/>
+<use name="DataFormats/Common"/>
+
+<use name="DataFormats/TotemRPDataTypes"/>
+<use name="DataFormats/TotemL1Trigger"/>
+<use name="DataFormats/TotemRawData"/>
+
+<use name="CondFormats/TotemReadoutObjects"/>
+
 <use name="EventFilter/TotemRawToDigi"/>
 
 <library file="*.cc" name="EventFilterTotemRawToDigiPlugins">
 	<flags EDM_PLUGIN="1"/>
+
+	<use name="FWCore/Framework"/>
+	
+	<use name="DataFormats/FEDRawData"/>
+	<use name="DataFormats/Common"/>
+	
+	<use name="DataFormats/TotemRPDataTypes"/>
+	<use name="DataFormats/TotemL1Trigger"/>
+	<use name="DataFormats/TotemRawData"/>
+	
+	<use name="CondFormats/TotemReadoutObjects"/>
+	
+	<use name="EventFilter/TotemRawToDigi"/>
 </library>

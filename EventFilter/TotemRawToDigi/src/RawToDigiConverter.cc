@@ -21,7 +21,9 @@ RawToDigiConverter::RawToDigiConverter(const edm::ParameterSet &conf)
 
 //----------------------------------------------------------------------------------------------------
 
-int RawToDigiConverter::Run(const VFATFrameCollection &coll)
+int RawToDigiConverter::Run(const VFATFrameCollection &coll,
+  const TotemDAQMapping &mapping, const TotemAnalysisMask &mask,
+  edm::DetSetVector<RPStripDigi> &rpData, std::vector <RPCCBits> &rpCC, TotemRawToDigiStatus &status)
 {
   // TODO
   return 0;
