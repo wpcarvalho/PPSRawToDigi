@@ -7,7 +7,8 @@
 ****************************************************************************/
 
 #include "TotemAnalysis/TotemNtuplizer/interface/RawMetaDataNtuplizer.h"
-#include "TotemRawDataLibrary/DataFormats/interface/RawEvent.h"
+
+#include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/ESHandle.h"
@@ -18,16 +19,17 @@
 
 using namespace std;
 using namespace edm;
-using namespace Totem;
 
 ClassImp(EventMetaData)
 
+//----------------------------------------------------------------------------------------------------
 
-RawMetaDataNtuplizer::RawMetaDataNtuplizer(const edm::ParameterSet &ps) : Ntuplizer(ps) {
-	rawEventLabel = ps.getParameter< edm::InputTag >("RawEventLabel");
+RawMetaDataNtuplizer::RawMetaDataNtuplizer(const edm::ParameterSet &ps) : Ntuplizer(ps),
+    rawEventLabel(ps.getParameter< edm::InputTag >("RawEventLabel"))
+{
 }
 
-
+//----------------------------------------------------------------------------------------------------
 
 void RawMetaDataNtuplizer::CreateBranches(const edm::EventSetup&, TTree *tree)
 {
@@ -38,7 +40,7 @@ void RawMetaDataNtuplizer::CreateBranches(const edm::EventSetup&, TTree *tree)
 
 void RawMetaDataNtuplizer::FillEvent(const edm::Event &event, const edm::EventSetup &es)
 {
-  Handle< RawEvent > input;
+  Handle< TotemRawEvent > input;
   event.getByLabel(rawEventLabel, input);
 
   data.run_no = event.id().run();
@@ -51,11 +53,10 @@ void RawMetaDataNtuplizer::FillEvent(const edm::Event &event, const edm::EventSe
   data.optoRx_Id.clear();
   data.optoRx_BX.clear();
   data.optoRx_LV1.clear();
-  for (map<unsigned int, OptoRxMetaData>::const_iterator it = input->optoRxMetaData.begin();
-        it != input->optoRxMetaData.end(); ++it) {
-    data.optoRx_Id.push_back(it->first);
-    data.optoRx_BX.push_back(it->second.BX);
-    data.optoRx_LV1.push_back(it->second.LV1);
-    //printf("  %x, %u\n", it->first, it->second.BX);
+  for (const auto &it : input->optoRxMetaData)
+  {
+    data.optoRx_Id.push_back(it.first);
+    data.optoRx_BX.push_back(it.second.BX);
+    data.optoRx_LV1.push_back(it.second.LV1);
   }
 }

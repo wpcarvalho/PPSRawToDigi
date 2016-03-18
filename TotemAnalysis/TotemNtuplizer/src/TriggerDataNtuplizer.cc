@@ -7,7 +7,8 @@
 ****************************************************************************/
 
 #include "TotemAnalysis/TotemNtuplizer/interface/TriggerDataNtuplizer.h"
-#include "TotemRawDataLibrary/DataFormats/interface/RawEvent.h"
+
+#include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/ESHandle.h"
@@ -21,10 +22,14 @@ using namespace edm;
 
 ClassImp(TriggerData)
 
-TriggerDataNtuplizer::TriggerDataNtuplizer(const edm::ParameterSet &ps) : Ntuplizer(ps) {
-    	rawEventLabel = ps.getParameter<edm::InputTag>("RawEventLabel");
-    }
+//----------------------------------------------------------------------------------------------------
 
+TriggerDataNtuplizer::TriggerDataNtuplizer(const edm::ParameterSet &ps) : Ntuplizer(ps),
+    rawEventLabel(ps.getParameter<edm::InputTag>("RawEventLabel"))
+{
+}
+
+//----------------------------------------------------------------------------------------------------
 
 void TriggerDataNtuplizer::CreateBranches(const edm::EventSetup&, TTree *tree)
 {
@@ -35,7 +40,7 @@ void TriggerDataNtuplizer::CreateBranches(const edm::EventSetup&, TTree *tree)
 
 void TriggerDataNtuplizer::FillEvent(const edm::Event &event, const edm::EventSetup &es)
 {
-  Handle< Totem::RawEvent > input;
+  Handle< TotemRawEvent > input;
   event.getByLabel(rawEventLabel, input);
 
   data.type = input->triggerData.type;
