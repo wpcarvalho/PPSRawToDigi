@@ -2,3 +2,4 @@
 .svn
 *.pyc
 __init__.py
+*.swp
