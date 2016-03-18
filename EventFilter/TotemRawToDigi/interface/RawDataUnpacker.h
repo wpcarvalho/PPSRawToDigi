@@ -24,14 +24,13 @@
 class RawDataUnpacker
 {
   public:
-    typedef unsigned long long word;
-
-    /// standard equipment types
-    enum { etOptoRxVME = 120, etOptoRxSRS = 22 };
+    typedef uint64_t word;
 
     /// VFAT transmission modes
     enum { vmCluster = 0x80, vmRaw = 0x90 };
 
+    RawDataUnpacker() {}
+    
     RawDataUnpacker(const edm::ParameterSet &conf);
 
     /// Unpack data from FED with fedId into `coll' collection.
