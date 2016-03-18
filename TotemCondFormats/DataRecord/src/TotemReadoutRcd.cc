@@ -2,13 +2,11 @@
 *
 * This is a part of TOTEM offline software.
 * Authors: 
-*   Maciej Wróbel (wroblisko@gmail.com)
-*    
-* $Revision$
-* $Date$
+*   Jan Kaspar (jan.kaspar@gmail.com)
 *
 ****************************************************************************/
-#include "TotemCondFormats/DataRecord/interface/TotemDAQMappingRecord.h"
+
+#include "TotemCondFormats/DataRecord/interface/TotemReadoutRcd.h"
 #include "FWCore/Framework/interface/eventsetuprecord_registration_macro.h"
  
-EVENTSETUP_RECORD_REG(TotemDAQMappingRecord);
+EVENTSETUP_RECORD_REG(TotemReadoutRcd);
