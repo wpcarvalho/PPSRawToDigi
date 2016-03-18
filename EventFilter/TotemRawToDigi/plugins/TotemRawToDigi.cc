@@ -6,8 +6,6 @@
 *
 ****************************************************************************/
 
-// TODO: clean header files
-
 #include "FWCore/Framework/interface/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -16,14 +14,11 @@
 #include "DataFormats/FEDRawData/interface/FEDRawData.h"
 #include "DataFormats/FEDRawData/interface/FEDRawDataCollection.h"
 
-#include "DataFormats/Scalers/interface/L1AcceptBunchCrossing.h"
-#include "DataFormats/Scalers/interface/L1TriggerScalers.h"
-#include "DataFormats/Scalers/interface/Level1TriggerScalers.h"
-#include "DataFormats/Scalers/interface/Level1TriggerRates.h"
-#include "DataFormats/Scalers/interface/LumiScalers.h"
-#include "DataFormats/Scalers/interface/BeamSpotOnline.h"
-#include "DataFormats/Scalers/interface/DcsStatus.h"
-#include "DataFormats/Scalers/interface/ScalersRaw.h"
+// TODO: clean header files
+#include "DataFormats/TotemRPDataTypes/interface/RPStripDigi.h"
+
+
+#include <string>
 
 //----------------------------------------------------------------------------------------------------
 
@@ -37,7 +32,17 @@ class TotemRawToDigi : public edm::EDProducer
 
   private:
     edm::InputTag inputTag_;
+
+    /// product labels
+    std::string rpDataProductLabel;
+    std::string rpCCProductLabel;
+    std::string conversionStatusLabel;
 };
+
+//----------------------------------------------------------------------------------------------------
+
+using namespace edm;
+using namespace std;
 
 //----------------------------------------------------------------------------------------------------
 
@@ -65,8 +70,19 @@ TotemRawToDigi::TotemRawToDigi(const edm::ParameterSet& iConfig):
 */
 
 {
+  // TODO: Totem raw data
 
-  produces<L1AcceptBunchCrossingCollection>();
+  // RP data
+  rpDataProductLabel = conf.getUntrackedParameter<std::string>("rpDataProductLabel", "rpDataOutput");
+  produces< edm::DetSetVector<RPStripDigi> > (rpDataProductLabel);
+
+  // RP CC
+  rpCCProductLabel = conf.getUntrackedParameter<std::string>("rpCCProductLabel", "rpCCOutput");
+  produces < std::vector <RPCCBits> > (rpCCProductLabel);
+
+  // status
+  conversionStatusLabel = conf.getUntrackedParameter<std::string>("conversionStatusLabel", "conversionStatus");
+  produces <TotemRawToDigiStatus>(conversionStatusLabel);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -77,24 +93,42 @@ TotemRawToDigi::~TotemRawToDigi()
 
 //----------------------------------------------------------------------------------------------------
 
-// Method called to produce the data 
-void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup& /*eventSetup*/)
+void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
 {
-  using namespace edm;
+  // get DAQ mapping
+  ESHandle<TotemDAQMapping> mapping;
+  es.get<TotemReadoutRcd>().get(mapping);
 
-  // Get a handle to the FED data collection
-  edm::Handle<FEDRawDataCollection> rawdata;
-  event.getByLabel(inputTag_, rawdata);
+  // get analysis mask to mask channels
+  ESHandle<TotemAnalysisMask> analysisMask;
+  es.get<TotemReadoutRcd>().get(analysisMask);
 
-  //std::auto_ptr<DcsStatusCollection> pDcsStatus(new DcsStatusCollection());
+  // raw data handle
+  edm::Handle<FEDRawDataCollection> rawData;
+  event.getByLabel(inputTag_, rawData);
 
-  //const FEDRawData &fedData = rawdata->FEDData(ScalersRaw::SCALERS_FED_ID);
-  //unsigned short int length = fedData.size();
+  // book output products
+  auto_ptr< DetSetVector<RPStripDigi> > rpDataOutput(new edm::DetSetVector<RPStripDigi>);  
+  auto_ptr< vector<RPCCBits> > rpCCOutput(new std::vector<RPCCBits>);
+  auto_ptr<Raw2DigiStatus> conversionStatus(new Raw2DigiStatus());
+
+  // uptodate example
+  /*
+  std::auto_ptr<DcsStatusCollection> pDcsStatus(new DcsStatusCollection());
+
+  const FEDRawData &fedData = rawdata->FEDData(ScalersRaw::SCALERS_FED_ID);
+  unsigned short int length = fedData.size();
   
-  //const ScalersEventRecordRaw_v6 *raw = (struct ScalersEventRecordRaw_v6 *)fedData.data();
+  const ScalersEventRecordRaw_v6 *raw = (struct ScalersEventRecordRaw_v6 *)fedData.data();
 
 
-  //iEvent.put(pDcsStatus);
+  iEvent.put(pDcsStatus);
+  */
+
+  // commit products to event
+  e.put(rpDataOutput, rpDataProductLabel);
+  e.put(rpCCOutput, rpCCProductLabel);
+  e.put(conversionStatus, conversionStatusLabel);
 }
 
 //----------------------------------------------------------------------------------------------------
