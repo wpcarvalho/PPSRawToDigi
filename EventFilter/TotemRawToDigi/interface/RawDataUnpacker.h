@@ -24,7 +24,7 @@ class RawDataUnpacker
     RawDataUnpacker(const edm::ParameterSet &conf);
 
     /// unpack data from FED with fedId into `coll' collection
-    int Run(int fedId, const edm::FEDRawData &data, VFATFrameCollection &coll);
+    int Run(int fedId, const FEDRawData &data, VFATFrameCollection &coll);
 };
 
 #endif

@@ -20,12 +20,12 @@
 #include <cstdio>
 
 /**
- * A basic implementation of VFAT frame collection, as map: FramePosition --> VFATFrame.
+ * A basic implementation of VFAT frame collection, as map: TotemFramePosition --> VFATFrame.
 **/
 class SimpleVFATFrameCollection : public VFATFrameCollection
 {
   protected:
-    typedef std::map<FramePosition, VFATFrame> MapType;
+    typedef std::map<TotemFramePosition, VFATFrame> MapType;
 
     MapType data;
 
@@ -43,7 +43,7 @@ class SimpleVFATFrameCollection : public VFATFrameCollection
     }
 
     const VFATFrame* GetFrameByID(unsigned int ID) const;
-    const VFATFrame* GetFrameByIndex(FramePosition index) const;
+    const VFATFrame* GetFrameByIndex(TotemFramePosition index) const;
 
     virtual unsigned int Size() const
     {
@@ -55,15 +55,15 @@ class SimpleVFATFrameCollection : public VFATFrameCollection
       return (data.size() == 0);
     }
 
-    void Insert(const FramePosition &index, const VFATFrame &frame)
+    void Insert(const TotemFramePosition &index, const VFATFrame &frame)
     {
-      data.insert(std::pair<FramePosition, VFATFrame>(index, frame));
+      data.insert(std::pair<TotemFramePosition, VFATFrame>(index, frame));
     }
 
     /// inserts an empty (default) frame to the given position and returns pointer to the frame
-    VFATFrame* InsertEmptyFrame(FramePosition index)
+    VFATFrame* InsertEmptyFrame(TotemFramePosition index)
     {
-      return &data.insert(std::pair<FramePosition, VFATFrame>(index, VFATFrame())).first->second;
+      return &data.insert(std::pair<TotemFramePosition, VFATFrame>(index, VFATFrame())).first->second;
     }
 
     /// cleans completely the collection

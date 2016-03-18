@@ -11,7 +11,7 @@
 
 //----------------------------------------------------------------------------------------------------
     
-const VFATFrame* VFATFrameCollection::GetFrameByIndexID(FramePosition index, unsigned int ID)
+const VFATFrame* VFATFrameCollection::GetFrameByIndexID(TotemFramePosition index, unsigned int ID)
 {
   const VFATFrame* returnframe = GetFrameByIndex(index);
   if (returnframe == NULL)

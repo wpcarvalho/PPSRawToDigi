@@ -48,7 +48,7 @@ const VFATFrame* SimpleVFATFrameCollection::GetFrameByID(unsigned int ID) const
 
 //----------------------------------------------------------------------------------------------------
 
-const VFATFrame* SimpleVFATFrameCollection::GetFrameByIndex(FramePosition index) const
+const VFATFrame* SimpleVFATFrameCollection::GetFrameByIndex(TotemFramePosition index) const
 {
   MapType::const_iterator it = data.find(index);
   if (it != data.end())
@@ -62,7 +62,7 @@ const VFATFrame* SimpleVFATFrameCollection::GetFrameByIndex(FramePosition index)
 VFATFrameCollection::value_type SimpleVFATFrameCollection::BeginIterator() const
 {
   MapType::const_iterator it = data.begin();
-  return (it == data.end()) ? value_type(FramePosition(), NULL) : value_type(it->first, &it->second);
+  return (it == data.end()) ? value_type(TotemFramePosition(), NULL) : value_type(it->first, &it->second);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ VFATFrameCollection::value_type SimpleVFATFrameCollection::NextIterator(const va
   MapType::const_iterator it = data.find(value.first);
   it++;
 
-  return (it == data.end()) ? value_type(FramePosition(), NULL) : value_type(it->first, &it->second);
+  return (it == data.end()) ? value_type(TotemFramePosition(), NULL) : value_type(it->first, &it->second);
 }
 
 //----------------------------------------------------------------------------------------------------

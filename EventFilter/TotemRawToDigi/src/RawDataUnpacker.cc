@@ -6,7 +6,7 @@
 *
 ****************************************************************************/
 
-#include "EventFilter/TotemRawToDigi/RawDataUnpacker.h"
+#include "EventFilter/TotemRawToDigi/interface/RawDataUnpacker.h"
 
 //----------------------------------------------------------------------------------------------------
 
@@ -21,6 +21,8 @@ RawDataUnpacker::RawDataUnpacker(const edm::ParameterSet &conf)
 
 //----------------------------------------------------------------------------------------------------
 
-int RawDataUnpacker::Run(int fedId, const edm::FEDRawData &data, VFATFrameCollection &coll)
+int RawDataUnpacker::Run(int fedId, const FEDRawData &data, VFATFrameCollection &coll)
 {
+  // TODO
+  return 0;
 }

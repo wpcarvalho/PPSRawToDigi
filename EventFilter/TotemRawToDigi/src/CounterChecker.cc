@@ -11,20 +11,24 @@
 
 //-------------------------------------------------------------------------------------------------
 
-void CounterChecker::Fill(word counter, FramePosition fr)
+using namespace std;
+
+//-------------------------------------------------------------------------------------------------
+
+void CounterChecker::Fill(word counter, TotemFramePosition fr)
 {
   pair<CounterMap::iterator, bool> ret;
   
-  vector<FramePosition> list;
+  vector<TotemFramePosition> list;
   list.push_back(fr);
-  ret = relationMap.insert(pair<word, vector<FramePosition> >(counter, list));
+  ret = relationMap.insert(pair<word, vector<TotemFramePosition> >(counter, list));
   if (ret.second == false)
     relationMap[counter].push_back(fr);
 }
 
 //-------------------------------------------------------------------------------------------------
 
-void CounterChecker::Analyze(Raw2DigiStatus &status, bool error, ostream &es) 
+void CounterChecker::Analyze(TotemRawToDigiStatus &status, bool error, ostream &es) 
 {
   word mostFrequentCounter = 0;
   word mostFrequentSize = 0;
@@ -55,7 +59,7 @@ void CounterChecker::Analyze(Raw2DigiStatus &status, bool error, ostream &es)
 
   for (CounterMap::iterator iter = relationMap.begin(); iter != relationMap.end(); iter++) {
     if (iter->first != mostFrequentCounter) {
-      for (vector<FramePosition>::iterator fr = iter->second.begin(); fr !=  iter->second.end(); fr++) {
+      for (vector<TotemFramePosition>::iterator fr = iter->second.begin(); fr !=  iter->second.end(); fr++) {
         if (error) {
           if (type == ECChecker) 
             status[*fr].setECProgressError();

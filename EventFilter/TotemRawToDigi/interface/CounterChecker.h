@@ -15,13 +15,10 @@
 #include <vector>
 #include <iostream>
 
-#include "TotemRawDataLibrary/DataFormats/interface/FramePosition.h"
-#include "TotemRawDataLibrary/DataFormats/interface/CommonDef.h"
-#include "TotemRawData/RawToDigi/interface/Raw2DigiStatus.h"
+#include "DataFormats/TotemRawData/interface/TotemFramePosition.h"
+#include "DataFormats/TotemRawData/interface/TotemRawToDigiStatus.h"
 
-using namespace Totem;
-using namespace std;
-
+//----------------------------------------------------------------------------------------------------
 
 /**
  *\brief Class for finding the most popular both EC and BC counter, and filling the conversion
@@ -31,7 +28,7 @@ class CounterChecker
 {
  public:
   typedef unsigned short word;
-  typedef map<word, vector<FramePosition> > CounterMap;
+  typedef std::map<word, std::vector<TotemFramePosition> > CounterMap;
   enum CheckerType {BCChecker, ECChecker};
   
  private:
@@ -39,10 +36,10 @@ class CounterChecker
   {
     public:
       typedef unsigned short word;
-      bool operator()(const pair<word, vector<FramePosition> > &a, const pair<word, vector<FramePosition> > &b)
-        {
-          return a.second.size() < b.second.size();
-        }
+      bool operator()(const std::pair<word, std::vector<TotemFramePosition> > &a, const std::pair<word, std::vector<TotemFramePosition> > &b)
+      {
+        return a.second.size() < b.second.size();
+      }
   };  
 
   /// counter value -> list of frames with this value
@@ -52,7 +49,7 @@ class CounterChecker
   CheckerType type;
 
   /// the name of this check, used in error messages
-  string name;
+  std::string name;
 
   /// minimal required number of frames to search for the most frequent one
   unsigned int min;
@@ -71,15 +68,15 @@ class CounterChecker
    * \param name: name
    * \param min: minimal required number of frames to search for the most frequent one
    */
-  CounterChecker(CheckerType _type = CounterChecker::BCChecker, const string &_name="",
+  CounterChecker(CheckerType _type = CounterChecker::BCChecker, const std::string &_name="",
     unsigned int _min=0, double _fraction=0., unsigned int _verbosity=0) : type(_type),
     name(_name), min(_min), fraction(_fraction), verbosity(_verbosity) {}
 
   /// add new value to map, counter takes value of EC or BC number
-  void Fill(word counter, FramePosition fr);
+  void Fill(word counter, TotemFramePosition fr);
 
   /// summarizes and fill the status (wrong EC and BC progress error for some frames)
-  void Analyze(Raw2DigiStatus &status, bool error, ostream &es);
+  void Analyze(TotemRawToDigiStatus &status, bool error, std::ostream &es);
 };
 
 

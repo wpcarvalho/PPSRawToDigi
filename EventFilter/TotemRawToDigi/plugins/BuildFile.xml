@@ -1,4 +1,6 @@
+<use name="FWCore/Framework"/>
 <use name="EventFilter/TotemRawToDigi"/>
+
 <library file="*.cc" name="EventFilterTotemRawToDigiPlugins">
 	<flags EDM_PLUGIN="1"/>
 </library>

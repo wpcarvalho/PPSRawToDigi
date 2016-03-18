@@ -6,7 +6,7 @@
 *
 ****************************************************************************/
 
-#include "EventFilter/TotemRawToDigi/RawToDigiConverter.h"
+#include "EventFilter/TotemRawToDigi/interface/RawToDigiConverter.h"
 
 //----------------------------------------------------------------------------------------------------
 
@@ -23,4 +23,6 @@ RawToDigiConverter::RawToDigiConverter(const edm::ParameterSet &conf)
 
 int RawToDigiConverter::Run(const VFATFrameCollection &coll)
 {
+  // TODO
+  return 0;
 }

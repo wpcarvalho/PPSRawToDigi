@@ -10,7 +10,7 @@
 #ifndef _Totem_VFATFrameCollection_h_
 #define _Totem_VFATFrameCollection_h_
 
-#include "DataFormats/TotemRawData/interface/FramePosition.h"
+#include "DataFormats/TotemRawData/interface/TotemFramePosition.h"
 #include "EventFilter/TotemRawToDigi/interface/VFATFrame.h"
 
 #include <string>
@@ -31,10 +31,10 @@ class VFATFrameCollection
     virtual const VFATFrame* GetFrameByID(unsigned int ID) const = 0;
 
     /// returns frame at given position in Slink frame
-    virtual const VFATFrame* GetFrameByIndex(FramePosition index) const = 0;
+    virtual const VFATFrame* GetFrameByIndex(TotemFramePosition index) const = 0;
 
     /// returns frame at given position in Slink frame and checks 12bit ID
-    virtual const VFATFrame* GetFrameByIndexID(FramePosition index, unsigned int ID);
+    virtual const VFATFrame* GetFrameByIndexID(TotemFramePosition index, unsigned int ID);
 
     /// return the number of VFAT frames in the collection
     virtual unsigned int Size() const = 0;
@@ -43,7 +43,7 @@ class VFATFrameCollection
     virtual bool Empty() const = 0;
 
     /// pair: frame DAQ position, frame data
-    typedef std::pair<FramePosition, const VFATFrame*> value_type;
+    typedef std::pair<TotemFramePosition, const VFATFrame*> value_type;
 
     /// the VFATFrameCollection interator
     class Iterator {
@@ -60,7 +60,7 @@ class VFATFrameCollection
           { if (collection) value = collection->BeginIterator(); }
 
         /// returns the DAQ position of the current element
-        FramePosition Position()
+        TotemFramePosition Position()
           { return value.first; }
 
         /// returns the frame data of the current element
