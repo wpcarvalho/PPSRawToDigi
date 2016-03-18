@@ -57,27 +57,6 @@ using namespace std;
 
 TotemRawToDigi::TotemRawToDigi(const edm::ParameterSet &conf):
   inputTag_((char const *)"rawDataCollector")
-
-/*
-  verbosity(conf.getUntrackedParameter<unsigned int>("verbosity", 0)),
-  printErrorSummary(conf.getUntrackedParameter<unsigned int>("printErrorSummary", 1)),
-  printUnknownFrameSummary(conf.getUntrackedParameter<unsigned int>("printUnknownFrameSummary", 1)),
-
-  testFootprint(conf.getParameter<unsigned int>("testFootprint")),
-  testCRC(conf.getParameter<unsigned int>("testCRC")),
-  testID(conf.getParameter<unsigned int>("testID")),
-  testECRaw(conf.getParameter<unsigned int>("testECRaw")),
-  testECDAQ(conf.getParameter<unsigned int>("testECDAQ")),
-  testECMostFrequent(conf.getParameter<unsigned int>("testECMostFrequent")),
-  testBCMostFrequent(conf.getParameter<unsigned int>("testBCMostFrequent")),
-  
-  EC_min(conf.getUntrackedParameter<unsigned int>("EC_min", 10)),
-  BC_min(conf.getUntrackedParameter<unsigned int>("BC_min", 10)),
-  
-  EC_fraction(conf.getUntrackedParameter<double>("EC_fraction", 0.6)),
-  BC_fraction(conf.getUntrackedParameter<double>("BC_fraction", 0.6))
-*/
-
 {
   produces<TotemRawEvent>();
 

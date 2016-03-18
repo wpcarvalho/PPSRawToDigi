@@ -1,0 +1,26 @@
+/****************************************************************************
+*
+* This is a part of TOTEM offline software.
+* Authors: 
+*   Jan Kašpar (jan.kaspar@gmail.com)
+*
+****************************************************************************/
+
+#include "EventFilter/TotemRawToDigi/RawToDigiConverter.h"
+
+//----------------------------------------------------------------------------------------------------
+
+using namespace std;
+using namespace edm;
+
+//----------------------------------------------------------------------------------------------------
+
+RawToDigiConverter::RawToDigiConverter(const edm::ParameterSet &conf)
+{
+}
+
+//----------------------------------------------------------------------------------------------------
+
+int RawToDigiConverter::Run(const VFATFrameCollection &coll)
+{
+}
