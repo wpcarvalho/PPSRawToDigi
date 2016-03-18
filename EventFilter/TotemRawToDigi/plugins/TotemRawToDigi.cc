@@ -14,9 +14,7 @@
 #include "DataFormats/FEDRawData/interface/FEDRawData.h"
 #include "DataFormats/FEDRawData/interface/FEDRawDataCollection.h"
 
-// TODO: clean header files
 #include "DataFormats/TotemRPDataTypes/interface/RPStripDigi.h"
-
 
 #include <string>
 
@@ -120,7 +118,6 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
   unsigned short int length = fedData.size();
   
   const ScalersEventRecordRaw_v6 *raw = (struct ScalersEventRecordRaw_v6 *)fedData.data();
-
 
   iEvent.put(pDcsStatus);
   */
