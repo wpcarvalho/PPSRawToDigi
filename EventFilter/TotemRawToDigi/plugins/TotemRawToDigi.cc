@@ -10,12 +10,22 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/Utilities/interface/InputTag.h"
+#include "FWCore/Framework/interface/ESHandle.h"
+#include "FWCore/Framework/interface/EventSetup.h"
 
 #include "DataFormats/FEDRawData/interface/FEDRawData.h"
 #include "DataFormats/FEDRawData/interface/FEDRawDataCollection.h"
 
-// TODO: clean header files
+#include "DataFormats/Common/interface/DetSetVector.h"
+
 #include "DataFormats/TotemRPDataTypes/interface/RPStripDigi.h"
+#include "DataFormats/TotemL1Trigger/interface/RPCCBits.h"
+#include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
+#include "DataFormats/TotemRawData/interface/TotemRawToDigiStatus.h"
+
+#include "CondFormats/DataRecord/interface/TotemReadoutRcd.h"
+#include "CondFormats/TotemReadoutObjects/interface/TotemDAQMapping.h"
+#include "CondFormats/TotemReadoutObjects/interface/TotemAnalysisMask.h"
 
 #include <string>
 
@@ -45,7 +55,7 @@ using namespace std;
 
 //----------------------------------------------------------------------------------------------------
 
-TotemRawToDigi::TotemRawToDigi(const edm::ParameterSet& iConfig):
+TotemRawToDigi::TotemRawToDigi(const edm::ParameterSet &conf):
   inputTag_((char const *)"rawDataCollector")
 
 /*
@@ -69,7 +79,7 @@ TotemRawToDigi::TotemRawToDigi(const edm::ParameterSet& iConfig):
 */
 
 {
-  // TODO: Totem raw data
+  produces<TotemRawEvent>();
 
   // RP data
   rpDataProductLabel = conf.getUntrackedParameter<std::string>("rpDataProductLabel", "rpDataOutput");
@@ -107,26 +117,25 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
   event.getByLabel(inputTag_, rawData);
 
   // book output products
+  auto_ptr<TotemRawEvent> totemRawEvent(new TotemRawEvent);
+
   auto_ptr< DetSetVector<RPStripDigi> > rpDataOutput(new edm::DetSetVector<RPStripDigi>);  
   auto_ptr< vector<RPCCBits> > rpCCOutput(new std::vector<RPCCBits>);
-  auto_ptr<Raw2DigiStatus> conversionStatus(new Raw2DigiStatus());
+  auto_ptr< TotemRawToDigiStatus > conversionStatus(new TotemRawToDigiStatus());
 
   // uptodate example
   /*
-  std::auto_ptr<DcsStatusCollection> pDcsStatus(new DcsStatusCollection());
-
   const FEDRawData &fedData = rawdata->FEDData(ScalersRaw::SCALERS_FED_ID);
   unsigned short int length = fedData.size();
   
   const ScalersEventRecordRaw_v6 *raw = (struct ScalersEventRecordRaw_v6 *)fedData.data();
-
-  iEvent.put(pDcsStatus);
   */
 
   // commit products to event
-  e.put(rpDataOutput, rpDataProductLabel);
-  e.put(rpCCOutput, rpCCProductLabel);
-  e.put(conversionStatus, conversionStatusLabel);
+  event.put(totemRawEvent);
+  event.put(rpDataOutput, rpDataProductLabel);
+  event.put(rpCCOutput, rpCCProductLabel);
+  event.put(conversionStatus, conversionStatusLabel);
 }
 
 //----------------------------------------------------------------------------------------------------
