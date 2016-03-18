@@ -6,7 +6,7 @@
 *
 ****************************************************************************/
 
-#include "TotemCondFormats/DAQInformation/interface/TotemSymbId.h"
+#include "CondFormats/TotemReadoutObjects/interface/TotemSymbId.h"
 
 std::ostream& operator << (std::ostream& s, const TotemSymbID &sid)
 {
