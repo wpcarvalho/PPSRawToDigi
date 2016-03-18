@@ -2,18 +2,20 @@
 *
 * This is a part of TOTEM offline software.
 * Authors: 
-*   Jan Kaspar (jan.kaspar@gmail.com)
+*   Maciej Wróbel (wroblisko@gmail.com)
 *    
+* $Revision$
+* $Date$
+*
 ****************************************************************************/
-
 #ifndef TotemCondFormatsDataRecordTotemDAQMappingRecord_h
 #define TotemCondFormatsDataRecordTotemDAQMappingRecord_h
 
 #include "FWCore/Framework/interface/EventSetupRecordImplementation.h"
  
 /**
- *\brief EventSetup record for TOTEM readout-related information.
+ *\brief EventSetup record for DAQ information.
  **/
-class TotemReadoutRcd : public edm::eventsetup::EventSetupRecordImplementation<TotemReadoutRcd> {};
+class TotemDAQMappingRecord : public edm::eventsetup::EventSetupRecordImplementation<TotemDAQMappingRecord> {};
  
 #endif
