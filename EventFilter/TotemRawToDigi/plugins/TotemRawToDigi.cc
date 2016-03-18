@@ -42,6 +42,7 @@ class TotemRawToDigi : public edm::EDProducer
     ~TotemRawToDigi();
 
     virtual void produce(edm::Event&, const edm::EventSetup&) override;
+    virtual void endJob();
 
   private:
     edm::InputTag inputTag_;
@@ -130,6 +131,13 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
   event.put(rpDataOutput, rpDataProductLabel);
   event.put(rpCCOutput, rpCCProductLabel);
   event.put(conversionStatus, conversionStatusLabel);
+}
+
+//----------------------------------------------------------------------------------------------------
+
+void TotemRawToDigi::endJob()
+{
+  rawToDigiConverter.PrintSummaries();
 }
 
 //----------------------------------------------------------------------------------------------------

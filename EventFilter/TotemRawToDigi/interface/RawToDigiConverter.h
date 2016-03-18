@@ -27,14 +27,51 @@
 /// \brief Collection of code to convert TOTEM raw data into digi.
 class RawToDigiConverter
 {
+  private:
+  unsigned char verbosity;
+
+  unsigned int printErrorSummary;
+  unsigned int printUnknownFrameSummary;
+
+  enum TestFlag { tfNoTest, tfWarn, tfErr };
+
+  /// flags for which tests to run
+  unsigned int testFootprint;
+  unsigned int testCRC;
+  unsigned int testID;
+  unsigned int testECRaw;
+  unsigned int testECDAQ;
+  unsigned int testECMostFrequent;
+  unsigned int testBCMostFrequent;
+
+  /// the minimal required number of frames to determine the most frequent counter value
+  unsigned int EC_min, BC_min;
+
+  /// the minimal required (relative) occupancy of the most frequent counter value to be accepted
+  double EC_fraction, BC_fraction;
+
+  /// error summaries
+  std::map<TotemFramePosition, std::map<TotemVFATStatus, unsigned int> > errorSummary;
+  std::map<TotemFramePosition, unsigned int> unknownSummary;
+
   public:
     RawToDigiConverter(const edm::ParameterSet &conf);
 
     /// Converts vfat data in `coll'' into digi.
-    // TODO: add outputs
     int Run(const VFATFrameCollection &coll,
       const TotemDAQMapping &mapping, const TotemAnalysisMask &mask,
       edm::DetSetVector<RPStripDigi> &rpData, std::vector<RPCCBits> &rpCC, TotemRawToDigiStatus &status);
+
+    /// Produce Digi from one RP data VFAT.
+    void RPDataProduce(VFATFrameCollection::Iterator &fr, const TotemVFATInfo &info,
+      const TotemVFATAnalysisMask &analysisMask, edm::DetSetVector<RPStripDigi> &rpData);
+
+    /// Produce Digi from one RP trigger VFAT.
+    void RPCCProduce(VFATFrameCollection::Iterator &fr, const TotemVFATInfo &info,
+      const TotemVFATAnalysisMask &analysisMask, std::vector <RPCCBits> &rpCC);
+
+    /// Print error summaries.
+    void PrintSummaries();
 };
 
 #endif
