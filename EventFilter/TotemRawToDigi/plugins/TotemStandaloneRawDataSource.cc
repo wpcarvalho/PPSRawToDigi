@@ -173,6 +173,7 @@ void TotemStandaloneRawDataSource::readEvent_(EventPrincipal& eventPrincipal)
 
   // put raw data into the event
   e.put(currentFEDCollection);
+  e.commit_();
 
   if (printProgressFrequency > 0 && (eventID.event() % printProgressFrequency) == 0)
     cout << "\033[25Devent " << eventID.run() << ":" << eventID.event();
@@ -280,21 +281,14 @@ void TotemStandaloneRawDataSource::beginJob()
   // try to open all files
   for (unsigned int i = 0; i < fileNames.size(); i++)
   {
-	if(verbosity)
+	if (verbosity)
     {
-		cout<< "\n>> TotemStandaloneRawDataSource::beginJob > Opening file `" << fileNames[i] << "'." << endl;
+        printf(">> TotemStandaloneRawDataSource::beginJob > Opening file `%s'.\n", fileNames[i].c_str());
 	}
 
-    // add prefix
-    FileInfo fi;
-    char *cmsswPath = getenv("CMSSW_BASE");
-    fi.fileName = fileNames[i];
-    fi.fileName.erase(0, fi.fileName.find_first_not_of(' '));
-    if (fi.fileName[0] != '/' && fi.fileName.find("./") != 0 && fi.fileName.find("://") == string::npos)
-      if (cmsswPath)
-        fi.fileName = string(cmsswPath) + string("/src/") + fi.fileName;
-
     // run number
+    FileInfo fi;
+    fi.fileName = fileNames[i];
     fi.runNumber = i + 1;
 
     // open file
@@ -305,6 +299,8 @@ void TotemStandaloneRawDataSource::beginJob()
       fi.file = NULL;
       throw cms::Exception("TotemStandaloneRawDataSource") << "Cannot open file " << fileNames[i] << std::endl;
     }
+
+    files.push_back(fi);
   }
 
   if (!files.size())

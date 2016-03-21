@@ -12,6 +12,8 @@
 
 #include "DataFormats/FEDRawData/interface/FEDRawData.h"
 
+#include <cmath>
+
 //----------------------------------------------------------------------------------------------------
 
 using namespace std;
@@ -30,10 +32,6 @@ SRSFileReader::SRSFileReader() : dataPtr(NULL), dataPtrSize(0), infile(NULL)
 
 SRSFileReader::~SRSFileReader()
 {
-#ifdef DEBUG
-  printf(">> SRSFileReader::~SRSFileReader, this = %p, dataPtr = %p\n", (void *) this, dataPtr);
-#endif
-
   Close();
 
   if (dataPtr != NULL)
@@ -59,10 +57,6 @@ int SRSFileReader::Open(const std::string &fn)
 
 void SRSFileReader::Close()
 {
-#ifdef DEBUG
-  printf(">> SRSFileReader::Close, this = %p", (void*) this);
-#endif
-  
   if (infile)
     fclose(infile);
 
@@ -216,10 +210,6 @@ unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, TotemRawEvent &rawE
   printf("\teventTimestamp = %i\n", eventHeader->eventTimestamp);
 #endif
 
-  // TODO: remove
-  //printf("::::::::::: eventId = %i\n", EVENT_ID_GET_NB_IN_RUN(eventHeader->eventId));
-  //printf("::::::::::: timestamp = %i\n", eventHeader->eventTimestamp);
-  
   // store important GDC data
   rawEvent.dataEventNumber = EVENT_ID_GET_NB_IN_RUN(eventHeader->eventId) - 1;
   rawEvent.timestamp = eventHeader->eventTimestamp;
@@ -299,9 +289,12 @@ unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, TotemRawEvent &rawEvent,
     unsigned int payloadSize = eq->equipmentSize - equipmentHeaderStructSize;
 
     // check for presence of the "0xFAFAFAFA" word (32 bits)
-    unsigned long long *payloadPtr = (unsigned long long *)(ptr + offset + equipmentHeaderStructSize);
+    uint64_t *payloadPtr = (uint64_t *)(ptr + offset + equipmentHeaderStructSize);
     if ((*payloadPtr & 0xFFFFFFFF) == 0xFAFAFAFA)
-      payloadPtr = (unsigned long long *)(ptr + offset + equipmentHeaderStructSize + 4);
+    {
+      payloadPtr = (uint64_t *)(ptr + offset + equipmentHeaderStructSize + 4);
+      payloadSize -= 4;
+    }
 
 #ifdef DEBUG 
     printf("\t\t\tequipmentSize = %u\n", eq->equipmentSize);
@@ -309,7 +302,7 @@ unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, TotemRawEvent &rawEvent,
     printf("\t\t\tequipmentId = %u\n", eq->equipmentId);
     printf("\t\t\tequipmentTypeAttribute = %p\n", (void*) eq->equipmentTypeAttribute);
     printf("\t\t\tequipmentBasicElementSize = %u\n", eq->equipmentBasicElementSize);
-    printf("\t\t\t\t\tpayload size = %li\n", payloadSize);
+    printf("\t\t\t\t\tpayload size = %u\n", payloadSize);
     printf("\t\t\t\t\tpayload ptr = %p\n", (void*) payloadPtr);
 #endif
 
@@ -339,10 +332,13 @@ unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, TotemRawEvent &rawEvent,
 
 //----------------------------------------------------------------------------------------------------
 
-void SRSFileReader::MakeFEDRawData(void *payloadPtr, unsigned int payloadSize, FEDRawDataCollection &dataColl)
+void SRSFileReader::MakeFEDRawData(uint64_t *payloadPtr, unsigned int payloadSize, FEDRawDataCollection &dataColl)
 {
-  FEDRawData &rd = dataColl.FEDData(++fedIdx);
-  rd.resize(payloadSize);
+  FEDRawData &rd = dataColl.FEDData(fedIdx++);
+
+  unsigned int fedSize = payloadSize;
+  rd.resize(fedSize);
+
   unsigned char *buffer = rd.data();
   memcpy(buffer, payloadPtr, payloadSize);
 }

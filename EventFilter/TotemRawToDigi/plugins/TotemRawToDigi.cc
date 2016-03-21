@@ -45,7 +45,7 @@ class TotemRawToDigi : public edm::EDProducer
     virtual void endJob();
 
   private:
-    edm::InputTag inputTag_;
+    edm::EDGetTokenT<FEDRawDataCollection> fedDataToken;
 
     /// product labels
     std::string rpDataProductLabel;
@@ -64,10 +64,11 @@ using namespace std;
 //----------------------------------------------------------------------------------------------------
 
 TotemRawToDigi::TotemRawToDigi(const edm::ParameterSet &conf):
-  inputTag_((char const *)"rawDataCollector"),
   rawDataUnpacker(conf.getParameterSet("RawUnpacking")),
   rawToDigiConverter(conf.getParameterSet("RawToDigi"))
 {
+  fedDataToken = consumes<FEDRawDataCollection>(conf.getParameter<edm::InputTag>("rawDataTag"));
+
   produces<TotemRawEvent>();
 
   // RP data
@@ -93,6 +94,9 @@ TotemRawToDigi::~TotemRawToDigi()
 
 void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
 {
+  // TODO 
+  printf(">> TotemRawToDigi::produce\n");
+
   // get DAQ mapping
   ESHandle<TotemDAQMapping> mapping;
   es.get<TotemReadoutRcd>().get(mapping);
@@ -103,7 +107,7 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
 
   // raw data handle
   edm::Handle<FEDRawDataCollection> rawData;
-  event.getByLabel(inputTag_, rawData);
+  event.getByToken(fedDataToken, rawData);
 
   // book output products
   auto_ptr<TotemRawEvent> totemRawEvent(new TotemRawEvent);
@@ -115,12 +119,14 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
   // step 1: raw-data unpacking
   SimpleVFATFrameCollection vfatCollection;
 
-  vector<int> fedIds = {}; // TODO
+  vector<int> fedIds = { 0, 1, 2, 3, 4, 5, 6 }; // TODO
 
   for (const auto &fedId : fedIds)
   {
     rawDataUnpacker.Run(fedId, rawData->FEDData(fedId), vfatCollection, *totemRawEvent);
   }
+
+  printf("* vfatCollection.size = %u\n", vfatCollection.Size());
 
   // step 2: raw to digi
   rawToDigiConverter.Run(vfatCollection, *mapping, *analysisMask,

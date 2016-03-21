@@ -56,7 +56,7 @@ protected:
     virtual unsigned char ReadToBuffer(unsigned int bytesToRead, unsigned int offset);
 
     /// Inserts FEDRawData for each OptoRx.
-    void MakeFEDRawData(void *payloadPtr, unsigned int payloadSize, FEDRawDataCollection &dataColl);
+    void MakeFEDRawData(uint64_t *payloadPtr, unsigned int payloadSize, FEDRawDataCollection &dataColl);
 
     /// data pointer, to be allocated one time only
     char *dataPtr;
