@@ -7,7 +7,10 @@
 ****************************************************************************/
 
 #include "EventFilter/TotemRawToDigi/interface/SRSFileReader.h"
+
 #include "EventFilter/TotemRawToDigi/interface/event_3_14.h"
+
+#include "DataFormats/FEDRawData/interface/FEDRawData.h"
 
 //----------------------------------------------------------------------------------------------------
 
@@ -19,7 +22,7 @@ const unsigned int SRSFileReader::eventHeaderSize = sizeof(eventHeaderStruct);
 
 //----------------------------------------------------------------------------------------------------
 
-SRSFileReader::SRSFileReader() : dataPtr(NULL), dataPtrSize(0), infile(NULL), rawDataUnpacker()
+SRSFileReader::SRSFileReader() : dataPtr(NULL), dataPtrSize(0), infile(NULL)
 {
 }
 
@@ -114,7 +117,7 @@ unsigned char SRSFileReader::ReadToBuffer(unsigned int bytesToRead, unsigned int
 }
 //----------------------------------------------------------------------------------------------------
 
-unsigned char SRSFileReader::GetNextEvent(TotemRawEvent* event, SimpleVFATFrameCollection *oc)
+unsigned char SRSFileReader::GetNextEvent(TotemRawEvent &rawEvent, FEDRawDataCollection &dataColl)
 {
 #ifdef DEBUG
   printf(">> SRSFileReader::GetNextEvent, this = %p\n", (void*)this);
@@ -166,8 +169,7 @@ unsigned char SRSFileReader::GetNextEvent(TotemRawEvent* event, SimpleVFATFrameC
     return 1;
 
   // process the buffer
-  oc->Clear();
-  unsigned int errorCounter = ProcessDATESuperEvent(dataPtr, oc, event);
+  unsigned int errorCounter = ProcessDATESuperEvent(dataPtr, rawEvent, dataColl);
 
 #ifdef DEBUG
   printf("* %u, %u, %u\n",
@@ -180,7 +182,7 @@ unsigned char SRSFileReader::GetNextEvent(TotemRawEvent* event, SimpleVFATFrameC
   if (errorCounter > 0)
   {
     cerr << "Error in SRSFileReader::GetNextEvent > " << errorCounter << " GOH blocks have failed consistency checks in event "
-      << event->dataEventNumber << "." << endl;
+      << rawEvent.dataEventNumber << "." << endl;
   }
 
   return 0;
@@ -188,7 +190,7 @@ unsigned char SRSFileReader::GetNextEvent(TotemRawEvent* event, SimpleVFATFrameC
 
 //----------------------------------------------------------------------------------------------------
 
-unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, SimpleVFATFrameCollection *oc, TotemRawEvent *event)
+unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, TotemRawEvent &rawEvent, FEDRawDataCollection &dataColl)
 {
   eventHeaderStruct *eventHeader = (eventHeaderStruct *) ptr;
   bool superEvent = TEST_ANY_ATTRIBUTE(eventHeader->eventTypeAttribute, ATTR_SUPER_EVENT);
@@ -219,13 +221,14 @@ unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, SimpleVFATFrameColl
   //printf("::::::::::: timestamp = %i\n", eventHeader->eventTimestamp);
   
   // store important GDC data
-  event->dataEventNumber = EVENT_ID_GET_NB_IN_RUN(eventHeader->eventId) - 1;
-  event->timestamp = eventHeader->eventTimestamp;
+  rawEvent.dataEventNumber = EVENT_ID_GET_NB_IN_RUN(eventHeader->eventId) - 1;
+  rawEvent.timestamp = eventHeader->eventTimestamp;
 
   eventSizeType eventSize = eventHeader->eventSize;
   eventHeadSizeType headSize = eventHeader->eventHeadSize;
 
   // process all sub-events (LDC frames)
+  fedIdx = 0;
   unsigned int errorCounter = 0;
   if (superEvent)
   {
@@ -238,7 +241,7 @@ unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, SimpleVFATFrameColl
       eventStruct *subEvPtr = (eventStruct *) (ptr + offset); 
       eventSizeType subEvSize = subEvPtr->eventHeader.eventSize;
 
-      errorCounter += ProcessDATEEvent(ptr + offset, oc, event);
+      errorCounter += ProcessDATEEvent(ptr + offset, rawEvent, dataColl);
 
       offset += subEvSize;
 #ifdef DEBUG 
@@ -246,14 +249,14 @@ unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, SimpleVFATFrameColl
 #endif
     }
   } else
-    errorCounter += ProcessDATEEvent(ptr, oc, event);
+    errorCounter += ProcessDATEEvent(ptr, rawEvent, dataColl);
 
   return errorCounter;
 }
 
 //----------------------------------------------------------------------------------------------------
 
-unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, SimpleVFATFrameCollection *oc, TotemRawEvent *event)
+unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, TotemRawEvent &rawEvent, FEDRawDataCollection &dataColl)
 {
   eventHeaderStruct *eventHeader = (eventHeaderStruct *) ptr;
 
@@ -278,7 +281,7 @@ unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, SimpleVFATFrameCollectio
 #endif
 
   // store important LDC data
-  event->ldcTimeStamps[eventHeader->eventLdcId] = eventHeader->eventTimestamp;  
+  rawEvent.ldcTimeStamps[eventHeader->eventLdcId] = eventHeader->eventTimestamp;  
 
   unsigned long subEvSize = eventHeader->eventSize;
   unsigned long offset = eventHeader->eventHeadSize;
@@ -312,13 +315,11 @@ unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, SimpleVFATFrameCollectio
 
     if (payloadSize > 0)
     {
-      payloadSize /= 8; // bytes -> words
-
       switch (eq->equipmentType)
       {
         case etOptoRxVME:
         case etOptoRxSRS:
-          errorCounter += rawDataUnpacker.ProcessOptoRxFrame((uint64_t *) payloadPtr, payloadSize, oc, *event);
+            MakeFEDRawData(payloadPtr, payloadSize, dataColl);
           break;
 
         default:
@@ -334,4 +335,14 @@ unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, SimpleVFATFrameCollectio
   }
 
   return errorCounter;
+}
+
+//----------------------------------------------------------------------------------------------------
+
+void SRSFileReader::MakeFEDRawData(void *payloadPtr, unsigned int payloadSize, FEDRawDataCollection &dataColl)
+{
+  FEDRawData &rd = dataColl.FEDData(++fedIdx);
+  rd.resize(payloadSize);
+  unsigned char *buffer = rd.data();
+  memcpy(buffer, payloadPtr, payloadSize);
 }

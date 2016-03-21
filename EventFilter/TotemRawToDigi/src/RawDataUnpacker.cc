@@ -21,16 +21,11 @@ RawDataUnpacker::RawDataUnpacker(const edm::ParameterSet &conf)
 
 //----------------------------------------------------------------------------------------------------
 
-int RawDataUnpacker::Run(int fedId, const FEDRawData &data, VFATFrameCollection &coll, TotemRawEvent &rawEvent)
+int RawDataUnpacker::Run(int fedId, const FEDRawData &data, SimpleVFATFrameCollection &coll, TotemRawEvent &rawEvent)
 {
-  // FEDRawData will most likely contain OptoRx blocks
-
-  /*
-  unsigned short int length = fedData.size();
-  const ScalersEventRecordRaw_v6 *raw = (struct ScalersEventRecordRaw_v6 *)fedData.data();
-  */
-
-  // TODO: connect to ProcessOptoRxFrame
+  // implements the "best guess" by Michele
+  //    FEDRawData will most likely contain OptoRx blocks
+  ProcessOptoRxFrame((word *) data.data(), data.size(), &coll, rawEvent);
 
   return 10;
 }

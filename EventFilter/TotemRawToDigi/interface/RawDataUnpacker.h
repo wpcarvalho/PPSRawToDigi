@@ -34,7 +34,7 @@ class RawDataUnpacker
     RawDataUnpacker(const edm::ParameterSet &conf);
 
     /// Unpack data from FED with fedId into `coll' collection.
-    int Run(int fedId, const FEDRawData &data, VFATFrameCollection &coll, TotemRawEvent &rawEvent);
+    int Run(int fedId, const FEDRawData &data, SimpleVFATFrameCollection &coll, TotemRawEvent &rawEvent);
 
     /// Process one Opto-Rx (or LoneG) frame.
     int ProcessOptoRxFrame(word *buf, unsigned int frameSize, SimpleVFATFrameCollection *fc, TotemRawEvent &event);

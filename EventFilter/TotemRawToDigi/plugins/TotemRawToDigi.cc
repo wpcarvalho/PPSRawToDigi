@@ -71,15 +71,15 @@ TotemRawToDigi::TotemRawToDigi(const edm::ParameterSet &conf):
   produces<TotemRawEvent>();
 
   // RP data
-  rpDataProductLabel = conf.getUntrackedParameter<std::string>("rpDataProductLabel", "rpDataOutput");
+  rpDataProductLabel = conf.getUntrackedParameter<std::string>("rpDataProductLabel", "");
   produces< edm::DetSetVector<RPStripDigi> > (rpDataProductLabel);
 
   // RP CC
-  rpCCProductLabel = conf.getUntrackedParameter<std::string>("rpCCProductLabel", "rpCCOutput");
+  rpCCProductLabel = conf.getUntrackedParameter<std::string>("rpCCProductLabel", "");
   produces < std::vector <RPCCBits> > (rpCCProductLabel);
 
   // status
-  conversionStatusLabel = conf.getUntrackedParameter<std::string>("conversionStatusLabel", "conversionStatus");
+  conversionStatusLabel = conf.getUntrackedParameter<std::string>("conversionStatusLabel", "");
   produces <TotemRawToDigiStatus>(conversionStatusLabel);
 }
 

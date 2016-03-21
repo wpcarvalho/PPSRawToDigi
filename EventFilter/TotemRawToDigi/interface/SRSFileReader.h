@@ -13,7 +13,7 @@
 
 #include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
 
-#include "EventFilter/TotemRawToDigi/interface/RawDataUnpacker.h"
+#include "DataFormats/FEDRawData/interface/FEDRawDataCollection.h"
 
 #include <vector>
 #include <cstdio>
@@ -39,21 +39,24 @@ public:
 
     virtual void Close();
 
-    virtual unsigned char GetNextEvent(TotemRawEvent*, SimpleVFATFrameCollection *);
+    virtual unsigned char GetNextEvent(TotemRawEvent &rawEvent, FEDRawDataCollection &);
 
 protected:
     static const unsigned int eventHeaderSize;
 
     /// Processes one DATE super-event (GDC).
     /// returns the number of GOH blocks that failed consistency checks
-    unsigned int ProcessDATESuperEvent(char *ptr, SimpleVFATFrameCollection *, TotemRawEvent *);
+    unsigned int ProcessDATESuperEvent(char *ptr, TotemRawEvent &rawEvent, FEDRawDataCollection &dataColl);
 
     /// Processes one DATE event (LDC).
     /// returns the number of GOH blocks that failed consistency checks
-    unsigned int ProcessDATEEvent(char *ptr, SimpleVFATFrameCollection *, TotemRawEvent *);
+    unsigned int ProcessDATEEvent(char *ptr, TotemRawEvent &rawEvent, FEDRawDataCollection &dataColl);
 
     /// reads 'bytesToRead' bytes from the file to buffer, starting at the given offset
     virtual unsigned char ReadToBuffer(unsigned int bytesToRead, unsigned int offset);
+
+    /// Inserts FEDRawData for each OptoRx.
+    void MakeFEDRawData(void *payloadPtr, unsigned int payloadSize, FEDRawDataCollection &dataColl);
 
     /// data pointer, to be allocated one time only
     char *dataPtr;
@@ -64,8 +67,8 @@ protected:
  	/// input file pointer
  	FILE *infile;
 
-    /// Worker to unpack OptoRx data
-    RawDataUnpacker rawDataUnpacker;
+    /// Index for FEDRawDataCollection
+    unsigned int fedIdx;
 };
 
 #endif
