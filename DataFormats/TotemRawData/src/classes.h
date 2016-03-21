@@ -13,15 +13,21 @@
 #include "DataFormats/Common/interface/Wrapper.h"
 
 namespace { namespace {
-	TotemRawEvent dummy0;
-	edm::Wrapper<TotemRawEvent> dummy0_2;
+	TotemRawEvent dummy10;
+	edm::Wrapper<TotemRawEvent> dummy11;
+	
+    TotemRawEvent::OptoRxMetaData dummy20;
+    
+    TotemRawEvent::TriggerData dummy25;
 
-	TotemRawToDigiStatus dummy11;
-	edm::Wrapper< TotemRawToDigiStatus > dummy12;
+    TotemFramePosition dummy28;
 
-	TotemVFATStatus dummy13;
-	edm::Wrapper< TotemVFATStatus > dummy14;
+	TotemRawToDigiStatus dummy30;
+	edm::Wrapper< TotemRawToDigiStatus > dummy31;
 
-	std::bitset<8> dummy15;
-	edm::Wrapper< std::bitset<8> > dummy16;
+	TotemVFATStatus dummy40;
+	edm::Wrapper< TotemVFATStatus > dummy41;
+
+	std::bitset<8> dummy50;
+	edm::Wrapper< std::bitset<8> > dummy51;
 }}
