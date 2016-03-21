@@ -116,7 +116,16 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
   // step 1: raw-data unpacking
   SimpleVFATFrameCollection vfatCollection;
 
-  vector<int> fedIds = { 0, 1, 2, 3, 4, 5, 6 }; // TODO: replace with real FED Ids
+  // TODO: replace with real FED Ids
+  /* Hints from Michele
+      DEVICE      ID     DETECTOR          OLD ID
+      Trigger     577    LONEG             0x29c
+      RX 1        578    5-6 210m FAR      0x1a1
+      RX 2        579    5-6 210m NEAR     0x1a2
+      RX 3        580    4-5 210m FAR      0x1a9
+      RX 4        581    4-5 210m NEAR     0x1aa  
+  */
+  vector<int> fedIds = { 0, 1, 2, 3, 4, 5, 6 }; 
 
   for (const auto &fedId : fedIds)
   {
