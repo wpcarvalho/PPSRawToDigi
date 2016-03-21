@@ -16,9 +16,6 @@
 
 #include <map>
 
-// TODO: needed?
-#include <cstdio>
-
 /**
  * A basic implementation of VFAT frame collection, as map: TotemFramePosition --> VFATFrame.
 **/

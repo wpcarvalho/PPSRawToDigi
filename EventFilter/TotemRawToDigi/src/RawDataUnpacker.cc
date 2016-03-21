@@ -70,9 +70,6 @@ int RawDataUnpacker::ProcessOptoRxFrame(word *buf, unsigned int frameSize, Simpl
   md.BX = BX;
   md.LV1 = LV1;
 
-  // TODO: remove
-  //printf(">> ProcessOptoRxFrame > id = %i, FOV = %i\n", OptoRxId, FOV);
-
   // is it OptoRx transmitting LoneG data?
   if (OptoRxId == 0x29c)
   {
@@ -94,9 +91,6 @@ int RawDataUnpacker::ProcessOptoRxFrame(word *buf, unsigned int frameSize, Simpl
 
 int RawDataUnpacker::ProcessOptoRxFrameSerial(word *buf, unsigned int frameSize, SimpleVFATFrameCollection *fc)
 {
-  // TODO: remove
-  //printf(">> RawDataUnpacker::ProcessOptoRxFrameSerial\n");
-
   // get OptoRx metadata
   unsigned int OptoRxId = (buf[0] >> 8) & 0xFFF;
 
@@ -181,20 +175,9 @@ int RawDataUnpacker::ProcessOptoRxFrameSerial(word *buf, unsigned int frameSize,
 
 int RawDataUnpacker::ProcessOptoRxFrameParallel(word *buf, unsigned int frameSize, SimpleVFATFrameCollection *fc)
 {
-  // TODO: remove
-  //printf(">> RawDataUnpacker::ProcessOptoRxFrameParallel\n");
-
   // get OptoRx metadata
   unsigned long long head = buf[0];
   unsigned int OptoRxId = (head >> 8) & 0xFFF;
-
-  // TODO: remove
-  /*
-  unsigned long BX = (head >> 20) & 0xFFF;
-  unsigned long LV1 = (head >> 32) & 0xFFFFFF;
-  printf("========================================\n");
-  printf("OptoRxId = %u (0x%x), BX = %u, LV1 = %u\n", OptoRxId, OptoRxId, BX, LV1);
-  */
 
   // recast data as buffer or 16bit words
   // NOTE: it would be better to use uint16_t instead of unsigned short, but this requires C++11
@@ -236,9 +219,6 @@ int RawDataUnpacker::ProcessVFATDataParallel(unsigned short *buf, unsigned int O
   unsigned int gohIdx = (buf[0] >> 4) & 0xF;
   unsigned int fiberIdx = (buf[0] >> 0) & 0xF;
   TotemFramePosition fp(0, 0, OptoRxId, gohIdx, fiberIdx);
-
-  // TODO: remove
-  //printf("\t%i, %i, %i\n", hFlag, fiberIdx, gohIdx);
 
   // prepare temporary VFAT frame
   VFATFrame f;
@@ -320,9 +300,6 @@ int RawDataUnpacker::ProcessVFATDataParallel(unsigned short *buf, unsigned int O
   if (skipFrame)
     return wordsProcessed;
 
-  // TODO: remove
-  //printf("\tBC=%u, EC=%u, ID=%u, footprint OK=%u\n", f->getBC(), f->getEC(), f->getChipID(), f->checkFootprint());
-
   // get channel data - cluster mode
   if (hFlag == vmCluster)
   {
@@ -336,9 +313,6 @@ int RawDataUnpacker::ProcessVFATDataParallel(unsigned short *buf, unsigned int O
       // special case: size 0 means chip full
       if (clSize == 0)
         clSize = 128;
-
-      // TODO: remove
-      //printf("\t\t %2u --> %04hX (size %i, pos %i)\n", dataOffset+nCl, w, clSize, clPos);
 
       nCl++;
 
@@ -368,10 +342,6 @@ int RawDataUnpacker::ProcessVFATDataParallel(unsigned short *buf, unsigned int O
   // get channel data and CRC - raw mode
   if (hFlag == vmRaw)
   {
-    // TODO: remove
-    //for (unsigned int i = 0; i < 14; i++)
-    //.  printf("\t\t %2u --> %04hX\n", i, *(buf+i));
-
     for (unsigned int i = 0; i < 8; i++)
       fd[8 - i] = buf[dataOffset + i];
 
@@ -380,19 +350,7 @@ int RawDataUnpacker::ProcessVFATDataParallel(unsigned short *buf, unsigned int O
     fd[0] = buf[dataOffset + 8];
   }
 
-  // TODO: remove
-  //cout << fp << " > ";
-  //f.Print();
-
-  // TODO: remove
-  /*
-  vector<unsigned char> ch = f->getActiveChannels();
-  for (unsigned int i = 0; i < ch.size(); i++)
-    printf("%i, ", ch[i]);
-  printf("\n");
-  */
-
-  // TODO save frame to output
+  // save frame to output
   fc->Insert(fp, f);
 
   return wordsProcessed;

@@ -10,8 +10,6 @@
 #define _Totem_VFATFrame_h_
 
 #include <vector>
-
-// TODO: needed?
 #include <cstddef>
 
 /**
