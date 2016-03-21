@@ -22,8 +22,8 @@ process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemRea
 
 process.load('EventFilter.TotemRawToDigi.TotemRawToDigi_cfi')
 process.TotemRawToDigi.rawDataTag = cms.InputTag("source")
-process.TotemRawToDigi.RawToDigi.printErrorSummary = 0
-process.TotemRawToDigi.RawToDigi.printUnknownFrameSummary = 0
+process.TotemRawToDigi.RawToDigi.printErrorSummary = 1
+process.TotemRawToDigi.RawToDigi.printUnknownFrameSummary = 1
 
 process.PrintTotemDAQMapping = cms.EDAnalyzer("PrintTotemDAQMapping")
 

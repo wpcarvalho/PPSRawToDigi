@@ -27,8 +27,6 @@ RawToDigiConverter::RawToDigiConverter(const edm::ParameterSet &conf) :
   testFootprint(conf.getParameter<unsigned int>("testFootprint")),
   testCRC(conf.getParameter<unsigned int>("testCRC")),
   testID(conf.getParameter<unsigned int>("testID")),
-  testECRaw(conf.getParameter<unsigned int>("testECRaw")),
-  testECDAQ(conf.getParameter<unsigned int>("testECDAQ")),
   testECMostFrequent(conf.getParameter<unsigned int>("testECMostFrequent")),
   testBCMostFrequent(conf.getParameter<unsigned int>("testBCMostFrequent")),
   
@@ -48,11 +46,6 @@ int RawToDigiConverter::Run(const VFATFrameCollection &input,
 {
   // map which will contain FramePositions from mapping, which data is missing in raw event
   map<TotemFramePosition, TotemVFATInfo> missingFrames(mapping.VFATMapping);
-
-  // expected EC number for all frames in collection
-  // CMSSW events are counted from 1, raw events from 0 => the shift by -1
-  // TODO: this check is to be removed in future ?
-  unsigned long ECExpected = 0; 
 
   // EC and BC checks (wrt. the most frequent value), BC checks per subsystem
   CounterChecker ECChecker(CounterChecker::ECChecker, "EC", EC_min, EC_fraction, verbosity);
@@ -116,32 +109,6 @@ int RawToDigiConverter::Run(const VFATFrameCollection &input,
       }
     }
 
-    // EC progress check (wrt. raw data event number, i.e. EC expected)
-    if (testECRaw != tfNoTest && fr.Data()->isECPresent() && fr.Data()->getEC() != ECExpected)
-    {
-      fes << "    EC (" << fr.Data()->getEC() << ") doesn't match the expectation form event number (" << ECExpected << ")\n";
-      if (testECRaw == tfErr)
-      {
-        actualStatus.setECProgressError();
-        stopProcessing = true;
-      }
-    }
-
-    // check, if EC number from VFATFrame is the same as obtained from DAQ (only if the there is not ECProgressError)
-    // TODO: remove this test?
-    /*
-    if (testECDAQ != tfNoTest && fr.Data()->isECPresent() && !actualStatus.isECProgressError()
-        && ((fr.Data()->getEC()%0x100) != (&input->dataEventNumber%0x100)))
-    {
-      fes << "    EC (" << fr.Data()->getEC() << ") doesn't match DAQ event counter (" << input->dataEventNumber << ")\n";
-      if (testECDAQ == tfErr)
-      { 
-        actualStatus.setECProgressError();
-        stopProcessing = true;
-      }
-    }
-    */
-
     // if there were errors, put the information to ees buffer
     if (verbosity > 0 && !fes.rdbuf()->str().empty())
     {
@@ -188,15 +155,10 @@ int RawToDigiConverter::Run(const VFATFrameCollection &input,
   // print error message
   if (verbosity > 0 && !ees.rdbuf()->str().empty())
   {
-    // TODO
-    EventID eid;
-
-    char buf[20];
-    sprintf(buf, "%u.%04u", eid.run() / 10000, eid.run() % 10000);
     if (verbosity > 1)
-      cerr << "event " << buf << ":" << eid.event() << " contains the following problems:\n" << ees.rdbuf() << endl;
+      cerr << "event contains the following problems:\n" << ees.rdbuf() << endl;
     else
-      cerr << "event " << buf << ":" << eid.event() << " contains problems." << endl;
+      cerr << "event contains problems." << endl;
   }
 
   // update error summary

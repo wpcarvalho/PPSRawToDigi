@@ -20,8 +20,6 @@ TotemRawToDigi = cms.EDProducer("TotemRawToDigi",
     testFootprint = cms.uint32(2),
     testCRC = cms.uint32(2),
     testID = cms.uint32(2),               # compare the ID from data and mapping
-    testECRaw = cms.uint32(1),            # compare frame's EC with raw data (sequential) event number
-    testECDAQ = cms.uint32(1),            # compare frame's EC with the DAQ event number
     testECMostFrequent = cms.uint32(2),   # compare frame's EC with the most frequent value in the event
     testBCMostFrequent = cms.uint32(2),   # compare frame's BC with the most frequent value in the event
     
