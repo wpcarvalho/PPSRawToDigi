@@ -6,18 +6,18 @@
  *
  ****************************************************************************/
 
-#include "DataFormats/TotemL1Trigger/interface/RPCCId.h"
+#include "DataFormats/TotemRPL1/interface/TotemRPCCId.h"
 #include "FWCore/Utilities/interface/Exception.h"
 
-RPCCId::RPCCId():DetId(DetId::Totem,totem_rp_subdet_id)
+TotemRPCCId::TotemRPCCId():DetId(DetId::Totem,totem_rp_subdet_id)
 {}
 
 
-RPCCId::RPCCId(RPCCIdRaw id):DetId(id)
+TotemRPCCId::TotemRPCCId(RPCCIdRaw id):DetId(id)
 {
   if (det()!=DetId::Totem || subdetId()!=totem_rp_subdet_id)
     {
-      throw cms::Exception("InvalidDetId") << "RPCCId:"
+      throw cms::Exception("InvalidDetId") << "TotemRPCCId:"
 					   << " det: " << det()
 					   << " subdet: " << subdetId()
 					   << " is not a valid Totem RP id";
@@ -25,12 +25,12 @@ RPCCId::RPCCId(RPCCIdRaw id):DetId(id)
 }
 
 
-void RPCCId::init(unsigned int Arm, unsigned int Station,
+void TotemRPCCId::init(unsigned int Arm, unsigned int Station,
 		  unsigned int RomanPot, unsigned int Direction)
 {
   if( Arm>=2 || Station>=3 || RomanPot>=6 || Direction>=2)
     {
-      throw cms::Exception("InvalidDetId") << "RPCCId ctor:"
+      throw cms::Exception("InvalidDetId") << "TotemRPCCId ctor:"
 					   << " Invalid parameters: "
 					   << " Arm "<<Arm
 					   << " Station "<<Station
@@ -49,7 +49,7 @@ void RPCCId::init(unsigned int Arm, unsigned int Station,
 }
 
 
-RPCCId::RPCCId(unsigned int Arm, unsigned int Station,
+TotemRPCCId::TotemRPCCId(unsigned int Arm, unsigned int Station,
 	       unsigned int RomanPot, unsigned int Direction):
   DetId(DetId::Totem,totem_rp_subdet_id)
 {
@@ -57,7 +57,7 @@ RPCCId::RPCCId(unsigned int Arm, unsigned int Station,
 }
 
 
-std::ostream& operator<<( std::ostream& os, const RPCCId& id )
+std::ostream& operator<<( std::ostream& os, const TotemRPCCId& id )
 {
   os << " Arm "<<id.Arm()
      << " Station "<<id.Station()

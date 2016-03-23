@@ -15,8 +15,6 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
 #include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
-#include "DataFormats/TotemRPReco/interface/RPDetTrigger.h" // TODO: needed?
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"
@@ -331,14 +329,14 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   } catch (...) {}
 
   // fill coincidence chip data
-  edm::Handle < std::vector<RPCCBits> > cc_chip_bits;
+  edm::Handle < std::vector<TotemRPCCBits> > cc_chip_bits;
   e.getByLabel(modulLabelSimu_, productLabelSimu_, cc_chip_bits);
   if (cc_chip_bits.isValid())
   {
-  	std::vector<RPCCBits>::const_iterator itc;
+  	std::vector<TotemRPCCBits>::const_iterator itc;
   	for (itc = cc_chip_bits->begin(); itc != cc_chip_bits->end(); ++itc)
     {
-  	  RPCCId rawid(itc->getId());
+  	  TotemRPCCId rawid(itc->getId());
   	  RPId decid = rawid.Arm() * 100 + rawid.Station() * 10 + rawid.RomanPot();
 
   	  const bool *bits = itc->getRawBS();

@@ -42,7 +42,7 @@ RawToDigiConverter::RawToDigiConverter(const edm::ParameterSet &conf) :
 
 int RawToDigiConverter::Run(const VFATFrameCollection &input,
   const TotemDAQMapping &mapping, const TotemAnalysisMask &analysisMask,
-  edm::DetSetVector<TotemRPDigi> &rpData, std::vector <RPCCBits> &rpCC, TotemRawToDigiStatus &status)
+  edm::DetSetVector<TotemRPDigi> &rpData, std::vector <TotemRPCCBits> &rpCC, TotemRawToDigiStatus &status)
 {
   // map which will contain FramePositions from mapping, which data is missing in raw event
   map<TotemFramePosition, TotemVFATInfo> missingFrames(mapping.VFATMapping);
@@ -255,7 +255,7 @@ void RawToDigiConverter::RPDataProduce(VFATFrameCollection::Iterator &fr, const 
 //----------------------------------------------------------------------------------------------------
 
 void RawToDigiConverter::RPCCProduce(VFATFrameCollection::Iterator &fr, const TotemVFATInfo &info,
-    const TotemVFATAnalysisMask &analysisMask, std::vector <RPCCBits> &rpCC)
+    const TotemVFATAnalysisMask &analysisMask, std::vector <TotemRPCCBits> &rpCC)
 {
   // get IDs
   unsigned short symId = info.symbolicID.symbolicID;
@@ -313,8 +313,8 @@ void RawToDigiConverter::RPCCProduce(VFATFrameCollection::Iterator &fr, const To
 
   unsigned int evendetId = TotRPDetId::DecToRawId(symId * 10);
   unsigned int odddetId = TotRPDetId::DecToRawId(symId * 10 + 1);
-  RPCCBits ccbits_even(evendetId , bs_even);
-  RPCCBits ccbits_odd(odddetId, bs_odd);
+  TotemRPCCBits ccbits_even(evendetId , bs_even);
+  TotemRPCCBits ccbits_odd(odddetId, bs_odd);
   
   rpCC.push_back(ccbits_even);
   rpCC.push_back(ccbits_odd);

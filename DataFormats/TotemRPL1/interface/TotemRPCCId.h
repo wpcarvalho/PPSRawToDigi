@@ -6,8 +6,8 @@
  *
  ****************************************************************************/
 
-#ifndef DataFormatsTotemL1TriggerRPCCId_h
-#define DataFormatsTotemL1TriggerRPCCId_h
+#ifndef DataFormatsTotemRPL1RPCCId_h
+#define DataFormatsTotemRPL1RPCCId_h
 
 #include "DataFormats/DetId/interface/DetId.h"
 #include <FWCore/Utilities/interface/Exception.h>
@@ -17,17 +17,17 @@
 
 typedef uint32_t RPCCIdRaw;
 
-class RPCCId: public DetId
+class TotemRPCCId: public DetId
 {
  public:
-  RPCCId();
+  TotemRPCCId();
 
   /// Construct from a packed id. It is required that the Detector part of
   /// id is Totem and the SubDet part is RP, otherwise an exception is thrown.
-  explicit RPCCId(RPCCIdRaw id);
+  explicit TotemRPCCId(RPCCIdRaw id);
 
   /// Construct from fully qualified identifier.
-  RPCCId(unsigned int Arm, unsigned int Station,
+  TotemRPCCId(unsigned int Arm, unsigned int Station,
 	 unsigned int RomanPot, unsigned int Direction);
 
   /// Bit 24 = Arm: 1=z>0 0=z<0
@@ -63,8 +63,8 @@ class RPCCId: public DetId
  private:
   inline void init(unsigned int Arm, unsigned int Station,
 		   unsigned int RomanPot, unsigned int Direction);
-}; // RPCCId
+}; // TotemRPCCId
 
-std::ostream& operator<<(std::ostream& os, const RPCCId& id);
+std::ostream& operator<<(std::ostream& os, const TotemRPCCId& id);
 
-#endif  //DataFormatsTotemL1TriggerRPCCId_h
+#endif  //DataFormatsTotemRPL1RPCCId_h

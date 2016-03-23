@@ -19,7 +19,7 @@
 #include "DataFormats/Common/interface/DetSetVector.h"
 
 #include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
-#include "DataFormats/TotemL1Trigger/interface/RPCCBits.h"
+#include "DataFormats/TotemRPL1/interface/TotemRPCCBits.h"
 #include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
 #include "DataFormats/TotemRawData/interface/TotemRawToDigiStatus.h"
 
@@ -77,7 +77,7 @@ TotemRawToDigi::TotemRawToDigi(const edm::ParameterSet &conf):
 
   // RP CC
   rpCCProductLabel = conf.getUntrackedParameter<std::string>("rpCCProductLabel", "");
-  produces < std::vector <RPCCBits> > (rpCCProductLabel);
+  produces < std::vector <TotemRPCCBits> > (rpCCProductLabel);
 
   // status
   conversionStatusLabel = conf.getUntrackedParameter<std::string>("conversionStatusLabel", "");
@@ -110,7 +110,7 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
   auto_ptr<TotemRawEvent> totemRawEvent(new TotemRawEvent);
 
   auto_ptr< DetSetVector<TotemRPDigi> > rpDataOutput(new edm::DetSetVector<TotemRPDigi>);  
-  auto_ptr< vector<RPCCBits> > rpCCOutput(new std::vector<RPCCBits>);
+  auto_ptr< vector<TotemRPCCBits> > rpCCOutput(new std::vector<TotemRPCCBits>);
   auto_ptr< TotemRawToDigiStatus > conversionStatus(new TotemRawToDigiStatus());
 
   // step 1: raw-data unpacking

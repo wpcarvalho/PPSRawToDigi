@@ -5,10 +5,10 @@
  *  Leszek Grzanka (braciszek@gmail.com)
  ****************************************************************************/
 
-#ifndef DataFormatsTotemL1TriggerRPCCBits_h
-#define DataFormatsTotemL1TriggerRPCCBits_h
+#ifndef DataFormatsTotemRPL1RPCCBits_h
+#define DataFormatsTotemRPL1RPCCBits_h
 
-#include "DataFormats/TotemL1Trigger/interface/RPCCId.h"
+#include "DataFormats/TotemRPL1/interface/TotemRPCCId.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 
@@ -17,16 +17,16 @@
 #include <cstdlib>
 #include <bitset>
 
-class RPCCBits {
+class TotemRPCCBits {
  public:
   /// Construct from a packed id. It is required that the Detector part of
   /// id is Totem and the SubDet part is RP, otherwise an exception is thrown.
-  explicit RPCCBits(RPCCIdRaw id, std::bitset<16> bs) : id_(id){ setBS(bs); };
+  explicit TotemRPCCBits(RPCCIdRaw id, std::bitset<16> bs) : id_(id){ setBS(bs); };
 
   /// Construct from fully qualified identifier.
-  explicit RPCCBits( RPCCId id, std::bitset<16> bs) { id_ = id.rawId(); setBS(bs); };
+  explicit TotemRPCCBits( TotemRPCCId id, std::bitset<16> bs) { id_ = id.rawId(); setBS(bs); };
 
-  RPCCBits() : id_(0){ 
+  TotemRPCCBits() : id_(0){ 
       reset();
   };
   void reset(){
@@ -36,7 +36,7 @@ class RPCCBits {
   }
 
   void setId( RPCCIdRaw id ){id_ = id;};
-  void setId( RPCCId id ){id_ = id.rawId();};
+  void setId( TotemRPCCId id ){id_ = id.rawId();};
 
   inline RPCCIdRaw getId() const {return id_;};
 
@@ -63,10 +63,10 @@ class RPCCBits {
    RPCCIdRaw id_;
    bool bs_[16];
 
-}; // RPCCBits
+}; // TotemRPCCBits
 
 // Comparison operators
-inline bool operator<( const RPCCBits& one, const RPCCBits& other) {
+inline bool operator<( const TotemRPCCBits& one, const TotemRPCCBits& other) {
   if(one.getId() < other.getId())
     return true;
   else if(one.getId() == other.getId())
@@ -75,4 +75,4 @@ inline bool operator<( const RPCCBits& one, const RPCCBits& other) {
     return false;
 }
 
-#endif  //DataFormatsTotemL1TriggerRPCCBits_h
+#endif  //DataFormatsTotemRPL1RPCCBits_h

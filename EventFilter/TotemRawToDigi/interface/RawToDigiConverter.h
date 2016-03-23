@@ -18,7 +18,7 @@
 #include "CondFormats/TotemReadoutObjects/interface/TotemAnalysisMask.h"
 
 #include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
-#include "DataFormats/TotemL1Trigger/interface/RPCCBits.h"
+#include "DataFormats/TotemRPL1/interface/TotemRPCCBits.h"
 #include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
 #include "DataFormats/TotemRawData/interface/TotemRawToDigiStatus.h"
 
@@ -60,7 +60,7 @@ class RawToDigiConverter
     /// Converts vfat data in `coll'' into digi.
     int Run(const VFATFrameCollection &coll,
       const TotemDAQMapping &mapping, const TotemAnalysisMask &mask,
-      edm::DetSetVector<TotemRPDigi> &rpData, std::vector<RPCCBits> &rpCC, TotemRawToDigiStatus &status);
+      edm::DetSetVector<TotemRPDigi> &rpData, std::vector<TotemRPCCBits> &rpCC, TotemRawToDigiStatus &status);
 
     /// Produce Digi from one RP data VFAT.
     void RPDataProduce(VFATFrameCollection::Iterator &fr, const TotemVFATInfo &info,
@@ -68,7 +68,7 @@ class RawToDigiConverter
 
     /// Produce Digi from one RP trigger VFAT.
     void RPCCProduce(VFATFrameCollection::Iterator &fr, const TotemVFATInfo &info,
-      const TotemVFATAnalysisMask &analysisMask, std::vector <RPCCBits> &rpCC);
+      const TotemVFATAnalysisMask &analysisMask, std::vector <TotemRPCCBits> &rpCC);
 
     /// Print error summaries.
     void PrintSummaries();
