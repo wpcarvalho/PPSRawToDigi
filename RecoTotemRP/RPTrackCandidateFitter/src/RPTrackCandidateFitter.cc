@@ -7,15 +7,13 @@
 *
 ****************************************************************************/
 
-#include "FWCore/MessageLogger/interface/MessageLogger.h"
-
 #include "RecoTotemRP/RPTrackCandidateFitter/interface/RPTrackCandidateFitter.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
-#include "DataFormats/TotemRPReco/interface/RPMathUtils.h"
 
 #include "TMath.h"
 #include "TMatrixD.h"
 #include <iostream>
+
 
 
 RPTrackCandidateFitter::RPTrackCandidateFitter(const edm::ParameterSet &)
@@ -37,7 +35,7 @@ RPDetCoordinateAlgebraObjs RPTrackCandidateFitter::PrepareReconstAlgebraData(uns
 
   RPDetCoordinateAlgebraObjs det_algebra_obj;
 
-  det_algebra_obj.centre_of_det_global_position_ = tot_rp::convert3vector(tot_rp_geom.GetDetTranslation(det_id));
+  det_algebra_obj.centre_of_det_global_position_ = convert3vector(tot_rp_geom.GetDetTranslation(det_id));
  
   HepMC::ThreeVector rp_topology_stripaxis = rp_topology_.GetStripReadoutAxisDir();
   CLHEP::Hep3Vector rp_topology_stripaxis_clhep;
@@ -46,7 +44,7 @@ RPDetCoordinateAlgebraObjs RPTrackCandidateFitter::PrepareReconstAlgebraData(uns
   rp_topology_stripaxis_clhep.setY(rp_topology_stripaxis.y());
   rp_topology_stripaxis_clhep.setZ(rp_topology_stripaxis.z());
  
-  TVector3 rd_dir = tot_rp::convert3vector( 
+  TVector3 rd_dir = convert3vector( 
       tot_rp_geom.LocalToGlobalDirection(det_id, rp_topology_stripaxis_clhep ) );
   
   TVector2 v(rd_dir.X(), rd_dir.Y());

@@ -18,7 +18,6 @@
 #include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "RecoTotemRP/RPDetectorMaskingService/interface/RPDetectorAvailability.h"
 #include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
-#include "DataFormats/TotemRPReco/interface/RPMathUtils.h"
 
 #include "TVector3.h"
 #include "TVector2.h"
@@ -80,6 +79,10 @@ class RPTrackCandidateFitter
     /// A matrix multiplication shorthand.
     void MultiplyByDiagonalInPlace(TMatrixD &mt, const TVectorD &diag);
     
+    static TVector3 convert3vector(const CLHEP::Hep3Vector & v)
+    {
+      return TVector3(v.x(),v.y(),v.z()) ;
+    }
 };
 
 
