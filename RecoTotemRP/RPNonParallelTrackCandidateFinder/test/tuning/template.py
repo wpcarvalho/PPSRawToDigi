@@ -62,7 +62,7 @@ process.GeometryInfoReal.geometryType = cms.untracked.string("real")
 
 # 1-RP non-parallel pattern recognition
 process.load("RecoTotemRP.RPNonParallelTrackCandidateFinder.RPNonParallelTrackCandidateFinder_cfi")
-process.NonParallelTrackFinder.DetSetVectorRPRecoHitLabel = cms.InputTag("RPFastStationSimulation")
+process.NonParallelTrackFinder.DetSetVectorTotemRPRecHitLabel = cms.InputTag("RPFastStationSimulation")
 process.NonParallelTrackFinder.verbosity = 10
 process.NonParallelTrackFinder.clusterSize_a = 10  # in rad --> accept anything
 process.NonParallelTrackFinder.clusterSize_b = 10  # in mm --> accept anything

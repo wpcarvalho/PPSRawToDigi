@@ -1,7 +1,7 @@
-#ifndef DataFormats_TotemRPDataTypes_DET_TRIGGER_H
-#define DataFormats_TotemRPDataTypes_DET_TRIGGER_H
+#ifndef DataFormats_TotemRPReco_interface_RPDetTrigger_h
+#define DataFormats_TotemRPReco_interface_RPDetTrigger_h
 
-#include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 
 class RPDetTrigger {
  public:

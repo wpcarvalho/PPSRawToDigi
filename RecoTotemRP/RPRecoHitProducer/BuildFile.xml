@@ -5,7 +5,8 @@
 <use   name="DataFormats/Common"/>
 <use   name="RecoTotemRP/RPClusterSigmaService"/>
 <use   name="Geometry/TotemRPDetTopology"/>
-<use   name="DataFormats/TotemRPDataTypes"/>
+<use   name="DataFormats/TotemRPDigi"/>
+<use   name="DataFormats/TotemRPReco"/>
 <use   name="RecoTotemRP/RPServiceRecords"/>
 <use   name="boost"/>
 <use   name="root"/>

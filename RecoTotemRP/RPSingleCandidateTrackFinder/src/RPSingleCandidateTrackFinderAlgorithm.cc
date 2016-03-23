@@ -19,12 +19,12 @@ RPSingleCandidateTrackFinderAlgorithm::RPSingleCandidateTrackFinderAlgorithm(con
 
 void RPSingleCandidateTrackFinderAlgorithm::BuildSingleTrackCandidates(
     unsigned int rp_copy_no, 
-    const std::vector<RPRecoHit> & u_hits, const std::vector<RPRecoHit> &v_hits,
+    const std::vector<TotemRPRecHit> & u_hits, const std::vector<TotemRPRecHit> &v_hits,
     RPRecognizedPatternsCollection &patterns,
     RPTrackCandidateCollection& output, const TotemRPGeometry & rp_geometry)
 {
   // run search per projection 
-  std::vector< std::vector<RPRecoHit> > u_hits_clusters, v_hits_clusters;
+  std::vector< std::vector<TotemRPRecHit> > u_hits_clusters, v_hits_clusters;
   std::vector<double> u_hits_weights, v_hits_weights;
   
   patterns[rp_copy_no].source = RPRecognizedPatterns::sParallel;
@@ -123,8 +123,8 @@ unsigned int RPSingleCandidateTrackFinderAlgorithm::CheckTrackMultiplicity(
  * Output: vector of roads and vector of corresponding weights
  * 		road is represented by a vector of hits belonging to the road
  **/ 
-void RPSingleCandidateTrackFinderAlgorithm::FindRecoHitRoads(const std::vector<RPRecoHit> & hits, 
-    std::vector< std::vector<RPRecoHit> > & hits_clusters, std::vector<double> &weights,
+void RPSingleCandidateTrackFinderAlgorithm::FindRecoHitRoads(const std::vector<TotemRPRecHit> & hits, 
+    std::vector< std::vector<TotemRPRecHit> > & hits_clusters, std::vector<double> &weights,
     vector<RPRecognizedPatterns::Line> &lines,
     const TotemRPGeometry & rp_geometry)
 {
@@ -184,7 +184,7 @@ void RPSingleCandidateTrackFinderAlgorithm::FindRecoHitRoads(const std::vector<R
   
   
   // write out the results (conversion from vector<RecoHitCluster> to
-  // vector< vector<RPRecoHit> > hits_clusters and vector<double> weights)
+  // vector< vector<TotemRPRecHit> > hits_clusters and vector<double> weights)
   // (save only those with weights over threshold)
   //std::cout<<"FindRecoHitRoads: scan the hit clusters..."<<std::endl;
   for(unsigned int i=0; i<recohit_cluster_vect.size(); ++i)

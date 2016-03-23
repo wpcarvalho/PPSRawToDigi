@@ -42,7 +42,7 @@ RawToDigiConverter::RawToDigiConverter(const edm::ParameterSet &conf) :
 
 int RawToDigiConverter::Run(const VFATFrameCollection &input,
   const TotemDAQMapping &mapping, const TotemAnalysisMask &analysisMask,
-  edm::DetSetVector<RPStripDigi> &rpData, std::vector <RPCCBits> &rpCC, TotemRawToDigiStatus &status)
+  edm::DetSetVector<TotemRPDigi> &rpData, std::vector <RPCCBits> &rpCC, TotemRawToDigiStatus &status)
 {
   // map which will contain FramePositions from mapping, which data is missing in raw event
   map<TotemFramePosition, TotemVFATInfo> missingFrames(mapping.VFATMapping);
@@ -231,23 +231,23 @@ int RawToDigiConverter::Run(const VFATFrameCollection &input,
 //----------------------------------------------------------------------------------------------------
 
 void RawToDigiConverter::RPDataProduce(VFATFrameCollection::Iterator &fr, const TotemVFATInfo &info,
-    const TotemVFATAnalysisMask &analysisMask, edm::DetSetVector<RPStripDigi> &rpData)
+    const TotemVFATAnalysisMask &analysisMask, edm::DetSetVector<TotemRPDigi> &rpData)
 {
   // get IDs
   unsigned short symId = info.symbolicID.symbolicID;
   unsigned int detId = TotRPDetId::DecToRawId(symId / 10);
 
-  // add RPStripDigi for each hit
+  // add TotemRPDigi for each hit
   unsigned short offset = (symId % 10) * 128;
   const vector<unsigned char> activeCh = fr.Data()->getActiveChannels();
-  DetSet<RPStripDigi> &detSet = rpData.find_or_insert(detId);
+  DetSet<TotemRPDigi> &detSet = rpData.find_or_insert(detId);
 
   for (unsigned int j = 0; j < activeCh.size(); j++)
   {
     // skip masked channels
     if (!analysisMask.fullMask && analysisMask.maskedChannels.find(j) == analysisMask.maskedChannels.end())
     {
-      detSet.push_back(RPStripDigi(detId, offset + activeCh[j]));
+      detSet.push_back(TotemRPDigi(detId, offset + activeCh[j]));
     }
   }  
 }

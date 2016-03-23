@@ -9,7 +9,7 @@
 #ifndef RecoTotemRP_RPRecoDataFormats_RPRecognizedPatterns_h
 #define RecoTotemRP_RPRecoDataFormats_RPRecognizedPatterns_h
 
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 
 #include <vector>
 
@@ -31,7 +31,7 @@ class RPRecognizedPatterns
    *      TotemDQM/Modules/plugins/TotemDQMModuleRP.cc
    **/
   struct Line {
-    typedef std::vector<RPRecoHit> HitCollection;
+    typedef std::vector<TotemRPRecHit> HitCollection;
 
     double a;                       ///< slope in rad
     double b;                       ///< intercept in mm

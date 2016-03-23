@@ -24,13 +24,13 @@ RPClusterizerAlgorithm::~RPClusterizerAlgorithm()
 //  }
 //}
 
-//void RPClusterizerAlgorithm::SetDigi(const std::vector<RPStripDigi> &digi)
+//void RPClusterizerAlgorithm::SetDigi(const std::vector<TotemRPDigi> &digi)
 //{
 //  //Reset();
 //  strip_digi_set_.insert( digi.begin(), digi.end() );
 //}
 
-int RPClusterizerAlgorithm::BuildClusters(const std::vector<RPStripDigi> &digi, std::vector<RPDigCluster> &clusters)
+int RPClusterizerAlgorithm::BuildClusters(const std::vector<TotemRPDigi> &digi, std::vector<TotemRPCluster> &clusters)
 {
   strip_digi_set_.clear();
   clusters.clear();
@@ -51,7 +51,7 @@ int RPClusterizerAlgorithm::BuildClusters(const std::vector<RPStripDigi> &digi, 
   if(strip_digi_set_.begin()!=strip_digi_set_.end())
     rp_det_id = strip_digi_set_.begin()->GetDetId();
 
-  for(RPStripDigiSet::const_iterator i=strip_digi_set_.begin(); i!=strip_digi_set_.end(); ++i)
+  for(TotemRPDigiSet::const_iterator i=strip_digi_set_.begin(); i!=strip_digi_set_.end(); ++i)
   {
     cur_strip=i->GetStripNo();
     bool non_continuity = (cur_strip!=prev_strip+1);
@@ -65,7 +65,7 @@ int RPClusterizerAlgorithm::BuildClusters(const std::vector<RPStripDigi> &digi, 
     else if(non_continuity)
     {
       cluster_end=prev_strip;
-      clusters.push_back(RPDigCluster(rp_det_id, (unsigned short)cluster_beg, 
+      clusters.push_back(TotemRPCluster(rp_det_id, (unsigned short)cluster_beg, 
       (unsigned short) cluster_end));
       
 //    PushBackCurrentClusterLinks();
@@ -85,7 +85,7 @@ int RPClusterizerAlgorithm::BuildClusters(const std::vector<RPStripDigi> &digi, 
   if(!iter_beg)
   {
     cluster_end=prev_strip;
-    clusters.push_back(RPDigCluster(rp_det_id, (unsigned short)cluster_beg, 
+    clusters.push_back(TotemRPCluster(rp_det_id, (unsigned short)cluster_beg, 
     (unsigned short) cluster_end));
 //    PushBackCurrentClusterLinks();
   }

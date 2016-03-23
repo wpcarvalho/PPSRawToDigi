@@ -110,12 +110,12 @@ RPMulCandidateTrackFinderAlgorithm::RPMulCandidateTrackFinderAlgorithm(const edm
 
 void RPMulCandidateTrackFinderAlgorithm::BuildTrackCandidates(
     unsigned int rp_copy_no, 
-    const std::map<unsigned int, std::vector<RPRecoHit> > & det_u_hits, 
-    const std::map<unsigned int, std::vector<RPRecoHit> > & det_v_hits, 
+    const std::map<unsigned int, std::vector<TotemRPRecHit> > & det_u_hits, 
+    const std::map<unsigned int, std::vector<TotemRPRecHit> > & det_v_hits, 
     RPMulTrackCandidateCollection& output, 
     const TotemRPGeometry & rp_geometry)
 {
-  std::vector< std::vector<RPRecoHit> > u_roads, v_roads;    // hit vector for U and V roads
+  std::vector< std::vector<TotemRPRecHit> > u_roads, v_roads;    // hit vector for U and V roads
   std::vector<double> u_roads_mean, v_roads_mean;            // local mean position for U and V roads
 
   // Find roads from U and V hits separately
@@ -161,8 +161,8 @@ void RPMulCandidateTrackFinderAlgorithm::BuildTrackCandidates(
 
   if(output_)
   {
-    std::map<unsigned int, std::vector<RPRecoHit> >::const_iterator u_det_hits_it, v_det_hits_it;
-    std::vector<RPRecoHit>::const_iterator hits_it;
+    std::map<unsigned int, std::vector<TotemRPRecHit> >::const_iterator u_det_hits_it, v_det_hits_it;
+    std::vector<TotemRPRecHit>::const_iterator hits_it;
     int idx = rp_hits_map[rp_copy_no];
     int u_nhits = 0;
     int v_nhits = 0;
@@ -382,12 +382,12 @@ void RPMulCandidateTrackFinderAlgorithm::WriteAllPlots(TFile *of)
 
 /// ---------------------------------------------------------------------------------------------------
 
-void RPMulCandidateTrackFinderAlgorithm::FindRecoHitRoads(const std::map<unsigned int, std::vector<RPRecoHit> > & det_hits, 
-    std::vector< std::vector<RPRecoHit> > & hits_clusters, std::vector<double> & roads_mean, const TotemRPGeometry & rp_geometry)
+void RPMulCandidateTrackFinderAlgorithm::FindRecoHitRoads(const std::map<unsigned int, std::vector<TotemRPRecHit> > & det_hits, 
+    std::vector< std::vector<TotemRPRecHit> > & hits_clusters, std::vector<double> & roads_mean, const TotemRPGeometry & rp_geometry)
 {
   std::vector<RecoHitCluster> recohit_cluster_vect;
-  std::map<unsigned int, std::vector<RPRecoHit> >::const_iterator det_hits_it;
-  std::vector<RPRecoHit>::const_iterator hits_it;
+  std::map<unsigned int, std::vector<TotemRPRecHit> >::const_iterator det_hits_it;
+  std::vector<TotemRPRecHit>::const_iterator hits_it;
 
   for(det_hits_it = det_hits.begin(); det_hits_it != det_hits.end(); det_hits_it++)
   {
@@ -492,8 +492,8 @@ double RPMulCandidateTrackFinderAlgorithm::GetDetStripAlignment(unsigned int det
 // Calculate the reliability of a certain candidate track from a pair of U/V
 // hits clusters (or roads).
 double RPMulCandidateTrackFinderAlgorithm::CalcCandidateTrackWeight(const double u_mean, const double v_mean,
-    const std::vector<RPRecoHit> & u_hits_vec,
-    const std::vector<RPRecoHit> & v_hits_vec)
+    const std::vector<TotemRPRecHit> & u_hits_vec,
+    const std::vector<TotemRPRecHit> & v_hits_vec)
 {
   //TODO: Calculate reliability based on the hit distribution probability density function from 
   //      simulation and real data

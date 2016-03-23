@@ -18,7 +18,7 @@
 #include "FWCore/Framework/interface/ESWatcher.h"
 
 #include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
@@ -43,8 +43,8 @@ class RPNonParallelTrackCandidateFinder : public edm::EDProducer
     virtual void produce(edm::Event& e, const edm::EventSetup& c);
   
   private:
-    edm::InputTag detSetVectorRPRecoHitLabel;
-    edm::EDGetTokenT<edm::DetSetVector<RPRecoHit> > detSetVectorRPRecoHitToken;
+    edm::InputTag detSetVectorTotemRPRecHitLabel;
+    edm::EDGetTokenT<edm::DetSetVector<TotemRPRecHit> > detSetVectorTotemRPRecHitToken;
 
     unsigned int verbosity;
 
@@ -76,7 +76,7 @@ class RPNonParallelTrackCandidateFinder : public edm::EDProducer
 
     /// executes line recognition in a projection
     void RecognizeAndSelect(unsigned int RPId, double z0, double threshold,
-      const std::vector<const RPRecoHit *> &hits, std::vector<RPRecognizedPatterns::Line> &);
+      const std::vector<const TotemRPRecHit *> &hits, std::vector<RPRecognizedPatterns::Line> &);
 };
 
 //----------------------------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ using namespace edm;
 //----------------------------------------------------------------------------------------------------
 
 RPNonParallelTrackCandidateFinder::RPNonParallelTrackCandidateFinder(const edm::ParameterSet& conf) :
-  detSetVectorRPRecoHitLabel(conf.getParameter<edm::InputTag>("DetSetVectorRPRecoHitLabel")),
+  detSetVectorTotemRPRecHitLabel(conf.getParameter<edm::InputTag>("DetSetVectorTotemRPRecHitLabel")),
   verbosity(conf.getUntrackedParameter<unsigned int>("verbosity", 0)),
   minPlanesPerProjectionToSearch(conf.getParameter<unsigned int>("minPlanesPerProjectionToSearch")),
   minPlanesPerProjectionToFit(conf.getParameter<unsigned int>("minPlanesPerProjectionToFit")),
@@ -98,7 +98,7 @@ RPNonParallelTrackCandidateFinder::RPNonParallelTrackCandidateFinder(const edm::
   allowAmbiguousCombination(conf.getParameter<bool>("allowAmbiguousCombination")),
   exceptionalSettings(conf.getParameter< vector<ParameterSet> >("exceptionalSettings"))
 {
-  detSetVectorRPRecoHitToken = consumes<edm::DetSetVector<RPRecoHit> >(detSetVectorRPRecoHitLabel);
+  detSetVectorTotemRPRecHitToken = consumes<edm::DetSetVector<TotemRPRecHit> >(detSetVectorTotemRPRecHitLabel);
 
   produces<RPRecognizedPatternsCollection> ();
   produces<RPTrackCandidateCollection> ();
@@ -114,7 +114,7 @@ RPNonParallelTrackCandidateFinder::~RPNonParallelTrackCandidateFinder()
 //----------------------------------------------------------------------------------------------------
 
 void RPNonParallelTrackCandidateFinder::RecognizeAndSelect(unsigned int RPId, double z0, double threshold_loc,
-    const vector<const RPRecoHit *> &hits, vector<RPRecognizedPatterns::Line> &lines)
+    const vector<const TotemRPRecHit *> &hits, vector<RPRecognizedPatterns::Line> &lines)
 {
   lrcgn->GetLines(hits, z0, threshold_loc, lines);
 
@@ -139,24 +139,24 @@ void RPNonParallelTrackCandidateFinder::produce(edm::Event& event, const edm::Ev
     lrcgn->ResetGeometry(geometry.product());
   
   // get input and prepare output
-  edm::Handle< edm::DetSetVector<RPRecoHit> > input;
-  event.getByToken(detSetVectorRPRecoHitToken, input);
+  edm::Handle< edm::DetSetVector<TotemRPRecHit> > input;
+  event.getByToken(detSetVectorTotemRPRecHitToken, input);
 
   auto_ptr<RPTrackCandidateCollection> output(new RPTrackCandidateCollection());
   auto_ptr<RPRecognizedPatternsCollection> patternsCollection(new RPRecognizedPatternsCollection());
   
   // map hits to RP ids
-  map< unsigned int, pair< vector<const RPRecoHit*>, vector<const RPRecoHit*> > > hitMap;
+  map< unsigned int, pair< vector<const TotemRPRecHit*>, vector<const TotemRPRecHit*> > > hitMap;
   map< unsigned int, pair< map<unsigned char, unsigned int>, map<unsigned char, unsigned int> > > planeOccupancyMap;
 
-  for (DetSetVector<RPRecoHit>::const_iterator dit = input->begin(); dit != input->end(); ++dit)
+  for (DetSetVector<TotemRPRecHit>::const_iterator dit = input->begin(); dit != input->end(); ++dit)
   {
     unsigned int detId = TotRPDetId::RawToDecId(dit->detId());
     unsigned int RPId = TotRPDetId::RPOfDet(detId);
     unsigned int plane = detId % 10;
     bool uDir = TotRPDetId::IsStripsCoordinateUDirection(detId);
 
-    for (DetSet<RPRecoHit>::const_iterator hit = dit->begin(); hit != dit->end(); ++hit)
+    for (DetSet<TotemRPRecHit>::const_iterator hit = dit->begin(); hit != dit->end(); ++hit)
     {
       if (uDir)
       {
@@ -170,7 +170,7 @@ void RPNonParallelTrackCandidateFinder::produce(edm::Event& event, const edm::Ev
   }
 
   // track recognition pot by pot
-  for (map< unsigned int, pair< vector<const RPRecoHit*>, vector<const RPRecoHit*> > >::iterator it = hitMap.begin();
+  for (map< unsigned int, pair< vector<const TotemRPRecHit*>, vector<const TotemRPRecHit*> > >::iterator it = hitMap.begin();
       it != hitMap.end(); ++it)
   {
     unsigned int rpId = it->first;

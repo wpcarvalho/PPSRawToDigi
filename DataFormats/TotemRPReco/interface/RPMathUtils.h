@@ -1,5 +1,5 @@
-#ifndef DataFormats_TotemRPDataTypes_RPMathUtils_h
-#define DataFormats_TotemRPDataTypes_RPMathUtils_h
+#ifndef DataFormats_TotemRPReco_interface_RPMathUtils_h
+#define DataFormats_TotemRPReco_interface_RPMathUtils_h
 
 #include "CLHEP/Geometry/Point3D.h"
 #include "CLHEP/Vector/LorentzVector.h"

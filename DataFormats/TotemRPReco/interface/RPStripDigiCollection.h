@@ -1,8 +1,9 @@
-#ifndef DataFormats_TotemRPDataTypes_RP_STRIPDIGI_COLLECTION_H
-#define DataFormats_TotemRPDataTypes_RP_STRIPDIGI_COLLECTION_H
+#ifndef DataFormats_TotemRPReco_interface_RPStripDigiCollection_h
+#define DataFormats_TotemRPReco_interface_RPStripDigiCollection_h
+
+#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 
 #include <set>
-#include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
 
 class RPStripDigiCollection {
  public:

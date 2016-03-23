@@ -6,7 +6,7 @@
 *
 ****************************************************************************/
 
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatterns.h"
 #include "RecoTotemRP/RPNonParallelTrackCandidateFinder/interface/FastLineRecognition.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
@@ -120,14 +120,14 @@ FastLineRecognition::GeomData FastLineRecognition::GetGeomData(unsigned int id)
 
 //----------------------------------------------------------------------------------------------------
 
-void FastLineRecognition::GetLines(const std::vector<const RPRecoHit *> &input, double z0,
+void FastLineRecognition::GetLines(const std::vector<const TotemRPRecHit *> &input, double z0,
   double threshold, std::vector<RPRecognizedPatterns::Line> &lines)
 {
   // build collection of points in the global coordinate system
   std::vector<Point> points;
-  for (vector<const RPRecoHit *>::const_iterator it = input.begin(); it != input.end(); ++it)
+  for (vector<const TotemRPRecHit *>::const_iterator it = input.begin(); it != input.end(); ++it)
   {
-    const RPRecoHit *hit = *it;
+    const TotemRPRecHit *hit = *it;
     const GeomData &gd = GetGeomData(hit->DetId());
 
     double h = hit->Position() + gd.s;

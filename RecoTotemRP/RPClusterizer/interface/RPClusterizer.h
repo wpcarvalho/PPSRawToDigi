@@ -21,7 +21,7 @@
 //Data Formats
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSet.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPStripDigi.h"
+#include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
 //Clusterizer
 #include "RecoTotemRP/RPClusterizer/interface/RPClusterizerAlgorithm.h"
  
@@ -43,7 +43,7 @@ class RPClusterizer : public edm::EDProducer
     virtual void produce(edm::Event& e, const edm::EventSetup& c);
   
   private:
-    void run(const edm::DetSetVector<RPStripDigi>& input,std::vector<edm::DetSet<RPDigCluster> > & output);
+    void run(const edm::DetSetVector<TotemRPDigi>& input,std::vector<edm::DetSet<TotemRPCluster> > & output);
     edm::ParameterSet conf_;
     int verbosity_;
     RPClusterizerAlgorithm RPClusterizerAlgorithm_;
@@ -51,7 +51,7 @@ class RPClusterizer : public edm::EDProducer
     //std::string digiLabel_;
     //std::string clusterLabel_;
     edm::InputTag digiInputTag_;
-    edm::EDGetTokenT<edm::DetSetVector<RPStripDigi> >digiInputTagToken_;
+    edm::EDGetTokenT<edm::DetSetVector<TotemRPDigi> >digiInputTagToken_;
 
 
 

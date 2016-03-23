@@ -15,10 +15,10 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "RecoTotemRP/RPDetectorMaskingService/interface/RPDetectorAvailability.h"
 #include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPMathUtils.h"
+#include "DataFormats/TotemRPReco/interface/RPMathUtils.h"
 
 #include "TVector3.h"
 #include "TVector2.h"
@@ -55,10 +55,10 @@ class RPTrackCandidateFitter
     void Reset();
 
 #if 0
-    TVector2 ComputeXYPointInZDir(const RPRecoHit& hit_0, const RPRecoHit& hit_1,
+    TVector2 ComputeXYPointInZDir(const TotemRPRecHit& hit_0, const TotemRPRecHit& hit_1,
       const TotemRPGeometry &tot_geom);
 
-    TVector2 ComputeXYPointOfTheGivenLine(const RPRecoHit& hit_0, const RPRecoHit& hit_1,
+    TVector2 ComputeXYPointOfTheGivenLine(const TotemRPRecHit& hit_0, const TotemRPRecHit& hit_1,
       double tx, double ty, double z0, const TotemRPGeometry &tot_geom);
 #endif
 

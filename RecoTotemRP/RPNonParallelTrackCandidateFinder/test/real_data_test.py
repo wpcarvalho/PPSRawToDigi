@@ -54,7 +54,7 @@ process.load("RecoTotemRP.RPClusterSigmaService.ClusterSigmaServiceConf_cfi")
 process.load("RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi")
 
 # reco hit production
-process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
+process.load("RecoTotemRP.TotemRPRecHitProducer.TotemRPRecHitProdConf_cfi")
 
 
 # geometry
@@ -104,7 +104,7 @@ process.p = cms.Path(
     * process.TriggerBits 
     * process.RPCC 
     * process.RPClustProd 
-    * process.RPRecoHitProd
+    * process.TotemRPRecHitProd
     * process.NonParallelTrackFinder 
     * process.RPSingleTrackCandCollFit
     * process.RP220Reconst

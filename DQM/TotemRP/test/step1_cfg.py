@@ -23,7 +23,7 @@ process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/TotemRPData/data/
 process.TotemRPDQMSource = cms.EDAnalyzer("TotemRPDQMSource",
     tagStripDigi = cms.InputTag("Raw2DigiProducer", "rpDataOutput"),
 	tagDigiCluster = cms.InputTag("RPClustProd"),
-	tagRecoHit = cms.InputTag("RPRecoHitProd"),
+	tagRecoHit = cms.InputTag("TotemRPRecHitProd"),
 	tagPatternColl = cms.InputTag("NonParallelTrackFinder"),
 	tagTrackColl = cms.InputTag("RPSingleTrackCandCollFit"),
 	tagTrackCandColl = cms.InputTag("NonParallelTrackFinder"),

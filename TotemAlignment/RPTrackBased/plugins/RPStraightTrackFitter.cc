@@ -160,7 +160,7 @@ void RPStraightTrackFitter::analyze(const edm::Event &event, const edm::EventSet
 //      continue;
 //
 //    unsigned int stId = rpId/10;
-//    const vector<RPRecoHit> &cHits = it->second.TrackRecoHits();
+//    const vector<TotemRPRecHit> &cHits = it->second.TrackRecoHits();
 //    for (unsigned int i = 0; i < cHits.size(); i++)
 //      hits[stId].push_back(cHits[i]);
 //  }

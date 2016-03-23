@@ -9,7 +9,7 @@
 #ifndef RecoTotemRP_RPRecoDataFormats_RPStationTrackFit_h
 #define RecoTotemRP_RPRecoDataFormats_RPStationTrackFit_h
 
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 
 #include "TMatrixD.h"
 
@@ -60,7 +60,7 @@ class RPStationTrackFit
     bool valid;
 
     /// list of contributing hits
-    std::vector<RPRecoHit> hits;
+    std::vector<TotemRPRecHit> hits;
 
     RPStationTrackFit();
 };

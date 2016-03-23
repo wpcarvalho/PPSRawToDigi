@@ -2,7 +2,7 @@
 #define RecoTotemRP_RPRecoDataFormats_RPTrackCandidateCollection_h
  
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 
 #include <map>
  

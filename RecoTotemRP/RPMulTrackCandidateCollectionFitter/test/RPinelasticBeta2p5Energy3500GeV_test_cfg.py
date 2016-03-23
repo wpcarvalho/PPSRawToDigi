@@ -79,7 +79,7 @@ process.load("SimTotem.RPDigiProducer.RPSiDetConf_cfi")
 process.load("RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi")
 # process.RPClustProd.Verbosity = 1
 
-process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
+process.load("RecoTotemRP.TotemRPRecHitProducer.TotemRPRecHitProdConf_cfi")
 # process.RPHecoHitProd.Verbosity = 1
 
 process.load("RecoTotemRP.RPMulCandidateTrackFinder.RPMulTrackCandFindConf_cfi")

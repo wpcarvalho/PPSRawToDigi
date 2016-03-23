@@ -11,7 +11,7 @@
 
 // Data Formats
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSet.h"
@@ -32,7 +32,7 @@ class RPSingleCandidateTrackFinder : public edm::EDProducer
     virtual void produce(edm::Event& e, const edm::EventSetup& c);
   
   private:
-    void run(const edm::DetSetVector<RPRecoHit> & input,
+    void run(const edm::DetSetVector<TotemRPRecHit> & input,
         RPRecognizedPatternsCollection &patternCollection,
         RPTrackCandidateCollection& output, const TotemRPGeometry & rp_geometry);
     const edm::ParameterSet conf_;
@@ -41,7 +41,7 @@ class RPSingleCandidateTrackFinder : public edm::EDProducer
 //    std::string recohit_label_;
 //    std::string single_track_candidate_collect_label_;
     edm::InputTag recohit_label_;
-    edm::EDGetTokenT<edm::DetSetVector<RPRecoHit> >recohit_label_Token_;
+    edm::EDGetTokenT<edm::DetSetVector<TotemRPRecHit> >recohit_label_Token_;
     RPSingleCandidateTrackFinderAlgorithm RPSingleCandidateTrackFinderAlgorithm_;
 };
 

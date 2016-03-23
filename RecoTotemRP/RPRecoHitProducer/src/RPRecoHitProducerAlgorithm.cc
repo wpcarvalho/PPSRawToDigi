@@ -1,9 +1,9 @@
 #include "RecoTotemRP/RPRecoHitProducer/interface/RPRecoHitProducerAlgorithm.h"
 
-void RPRecoHitProducerAlgorithm::BuildRecoHits(const edm::DetSet<RPDigCluster>& input, 
-    edm::DetSet<RPRecoHit>& output)
+void RPRecoHitProducerAlgorithm::BuildRecoHits(const edm::DetSet<TotemRPCluster>& input, 
+    edm::DetSet<TotemRPRecHit>& output)
 {
-  for(edm::DetSet<RPDigCluster>::const_iterator it = input.begin(); it!=input.end(); 
+  for(edm::DetSet<TotemRPCluster>::const_iterator it = input.begin(); it!=input.end(); 
       ++it)
   {
     double sigma; //in [mm]
@@ -16,7 +16,7 @@ void RPRecoHitProducerAlgorithm::BuildRecoHits(const edm::DetSet<RPDigCluster>& 
     {
       sigma = 0.0191;
     }
-    output.push_back(RPRecoHit(it->DetId(), 
+    output.push_back(TotemRPRecHit(it->DetId(), 
         rp_topology_.GetHitPositionInReadoutDirection(it->CentreStripPos()), sigma));
   }  
 }

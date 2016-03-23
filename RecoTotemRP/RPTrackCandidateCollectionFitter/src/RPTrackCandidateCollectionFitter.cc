@@ -140,14 +140,14 @@ void RPTrackCandidateCollectionFitter::run(const RPTrackCandidateCollection & in
         }
 
         std::cout<<"Printing clusters:"<<std::endl;
-        for(edm::DetSetVector<RPDigCluster>::const_iterator it_1 = input_clusters.begin();
+        for(edm::DetSetVector<TotemRPCluster>::const_iterator it_1 = input_clusters.begin();
           it_1 != input_clusters.end(); it_1++)
         {
           TotRPDetId id_clust(it_1->id);
           if(id_clust.RPCopyNumber() == in_it->first)
           {
             std::cout<<"===digi clusters det. id.:"<<id_clust.DetectorDecId()<<std::endl;
-            for(edm::DetSet<RPDigCluster>::const_iterator it_cluster = (*it_1).begin(); 
+            for(edm::DetSet<TotemRPCluster>::const_iterator it_cluster = (*it_1).begin(); 
               it_cluster!=(*it_1).end(); ++it_cluster)
             {
               std::cout<<"clu. pos:"<<it_cluster->CentreStripPos()<<std::endl;

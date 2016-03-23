@@ -6,13 +6,13 @@
 *
 ****************************************************************************/
 
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
 #include "TotemAlignment/RPTrackBased/interface/HitCollection.h"
 
 #include <cmath>
 
-Hit::Hit(const RPRecoHit &rh) : 
+Hit::Hit(const TotemRPRecHit &rh) : 
   id(TotRPDetId::RawToDecId(rh.DetId())),
   position(rh.Position()),
   sigma(rh.Sigma())

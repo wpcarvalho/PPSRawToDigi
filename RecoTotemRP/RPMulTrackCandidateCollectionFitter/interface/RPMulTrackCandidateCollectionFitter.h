@@ -24,7 +24,7 @@
 
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 #include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
 #include "RecoTotemRP/RPTrackCandidateFitter/interface/RPTrackCandidateFitter.h"
@@ -54,7 +54,7 @@ class RPMulTrackCandidateCollectionFitter : public edm::EDProducer
   private:
     edm::InputTag rPMulTrackCandidateCollectionLabel;
     edm::EDGetTokenT< RPMulTrackCandidateCollection > rPMulTrackCandidateCollectionToken;
-    double calculateMeanValue(const std::vector<RPRecoHit> &coll, std::vector<RPRecoHit> &obj_coll);
+    double calculateMeanValue(const std::vector<TotemRPRecHit> &coll, std::vector<TotemRPRecHit> &obj_coll);
     
     int verbosity_;
     RPTrackCandidateFitter the_track_candidate_fitter_;

@@ -31,7 +31,7 @@ process.load("RecoTotemRP.RPClusterSigmaService.ClusterSigmaServiceConf_cfi")
 process.load("RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi")
 
 # reco hit production
-process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
+process.load("RecoTotemRP.TotemRPRecHitProducer.TotemRPRecHitProdConf_cfi")
 
 # geometry
 process.load("Configuration.TotemCommon.geometryRP_cfi")
@@ -96,9 +96,9 @@ process.output = cms.OutputModule("PoolOutputModule",
         'keep RPMulFittedTrackCollection_*_*_*',
         'keep RPFittedTrackCollection_*_*_*',
         'keep *_RPSingleTrackCandCollFit_*_*',
-        'keep RPRecoHitedmDetSetVector_*_*_*',
+        'keep TotemRPRecHitedmDetSetVector_*_*_*',
         'keep RPRecognizedPatternsCollection_*_*_*',
-        'keep RPStripDigiedmDetSetVector_*_*_*',
+        'keep TotemRPDigiedmDetSetVector_*_*_*',
         'keep RPMulTrackCandidateCollection_*_*_*',
         'keep RPTrackCandidateCollection_*_*_*'
     )

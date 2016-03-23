@@ -11,7 +11,7 @@
 
 #include "RecoTotemRP/RPTrackCandidateFitter/interface/RPTrackCandidateFitter.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPMathUtils.h"
+#include "DataFormats/TotemRPReco/interface/RPMathUtils.h"
 
 #include "TMath.h"
 #include "TMatrixD.h"
@@ -75,7 +75,7 @@ RPDetCoordinateAlgebraObjs * RPTrackCandidateFitter::GetDetAlgebraData(
 }
 
 #if 0
-TVector2 RPTrackCandidateFitter::ComputeXYPointInZDir(const RPRecoHit& hit_0, const RPRecoHit& hit_1, const TotemRPGeometry &tot_geom)
+TVector2 RPTrackCandidateFitter::ComputeXYPointInZDir(const TotemRPRecHit& hit_0, const TotemRPRecHit& hit_1, const TotemRPGeometry &tot_geom)
 {
   RPDetCoordinateAlgebraObjs *alg_obj_0 = GetDetAlgebraData(hit_0.DetId(), tot_geom);
   RPDetCoordinateAlgebraObjs *alg_obj_1 = GetDetAlgebraData(hit_1.DetId(), tot_geom);
@@ -97,7 +97,7 @@ TVector2 RPTrackCandidateFitter::ComputeXYPointInZDir(const RPRecoHit& hit_0, co
 #endif
 
 #if 0
-TVector2 RPTrackCandidateFitter::ComputeXYPointOfTheGivenLine(const RPRecoHit& hit_0, const RPRecoHit& hit_1, double tx, double ty, double z0, const TotemRPGeometry &tot_geom)
+TVector2 RPTrackCandidateFitter::ComputeXYPointOfTheGivenLine(const TotemRPRecHit& hit_0, const TotemRPRecHit& hit_1, double tx, double ty, double z0, const TotemRPGeometry &tot_geom)
 {
   RPDetCoordinateAlgebraObjs *alg_obj_0 = GetDetAlgebraData(hit_0.DetId(), tot_geom);
   RPDetCoordinateAlgebraObjs *alg_obj_1 = GetDetAlgebraData(hit_1.DetId(), tot_geom);
@@ -138,8 +138,8 @@ bool RPTrackCandidateFitter::FitTrack(const RPTrackCandidate& track_cand,
   }
   
   //std::cout<<"RPTrackCandidateFitter::FitTrack, track_cand weight="<<track_cand.Weight()<<" Size="<<track_cand.Size()<<std::endl;
-  const std::vector<RPRecoHit> &hits = track_cand.TrackRecoHits();
-  std::vector<const RPRecoHit*> applicable_hits;
+  const std::vector<TotemRPRecHit> &hits = track_cand.TrackRecoHits();
+  std::vector<const TotemRPRecHit*> applicable_hits;
   for(unsigned int i=0; i<hits.size(); ++i)
   {
     if(GetDetAlgebraData(hits[i].DetId(), tot_geom)->available_)

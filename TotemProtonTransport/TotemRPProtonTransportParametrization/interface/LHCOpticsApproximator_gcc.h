@@ -9,7 +9,6 @@
 #include "TMatrixD.h"
 
 #include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/TMultiDimFet.h"
-//#include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
 
 
 struct MadKinematicDescriptor

@@ -20,9 +20,9 @@
 #include "DQMServices/Core/interface/MonitorElement.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 
-#include "DataFormats/TotemRPDataTypes/interface/RPStripDigi.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPDigCluster.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
@@ -50,9 +50,9 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     void endRun(edm::Run const& run, edm::EventSetup const& eSetup);
 
   private:
-    edm::EDGetTokenT< edm::DetSetVector<RPStripDigi> > tokenStripDigi;
-    edm::EDGetTokenT< edm::DetSetVector<RPDigCluster> > tokenDigiCluster;
-    edm::EDGetTokenT< edm::DetSetVector<RPRecoHit> > tokenRecoHit;
+    edm::EDGetTokenT< edm::DetSetVector<TotemRPDigi> > tokenStripDigi;
+    edm::EDGetTokenT< edm::DetSetVector<TotemRPCluster> > tokenDigiCluster;
+    edm::EDGetTokenT< edm::DetSetVector<TotemRPRecHit> > tokenRecoHit;
     edm::EDGetTokenT< RPRecognizedPatternsCollection > tokenPatternColl;
     edm::EDGetTokenT< RPTrackCandidateCollection > tokenTrackCandColl;
     edm::EDGetTokenT< RPFittedTrackCollection > tokenTrackColl;

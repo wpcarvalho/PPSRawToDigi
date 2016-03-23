@@ -221,9 +221,9 @@ TotemRPDQMSource::TotemRPDQMSource(const edm::ParameterSet& ps) :
   correlationPlotsLimit(ps.getUntrackedParameter<unsigned int>("correlationPlotsLimit", 50)),
   correlationPlotsSelector(ps.getUntrackedParameter<std::string>("correlationPlotsFilter", ""))
 {
-  tokenStripDigi = consumes< DetSetVector<RPStripDigi> >(ps.getParameter<edm::InputTag>("tagStripDigi"));
-  tokenDigiCluster = consumes< edm::DetSetVector<RPDigCluster> >(ps.getParameter<edm::InputTag>("tagDigiCluster"));
-  tokenRecoHit = consumes< edm::DetSetVector<RPRecoHit> >(ps.getParameter<edm::InputTag>("tagRecoHit"));
+  tokenStripDigi = consumes< DetSetVector<TotemRPDigi> >(ps.getParameter<edm::InputTag>("tagStripDigi"));
+  tokenDigiCluster = consumes< edm::DetSetVector<TotemRPCluster> >(ps.getParameter<edm::InputTag>("tagDigiCluster"));
+  tokenRecoHit = consumes< edm::DetSetVector<TotemRPRecHit> >(ps.getParameter<edm::InputTag>("tagRecoHit"));
   tokenPatternColl = consumes< RPRecognizedPatternsCollection >(ps.getParameter<edm::InputTag>("tagPatternColl"));
   tokenTrackCandColl = consumes< RPTrackCandidateCollection >(ps.getParameter<edm::InputTag>("tagTrackCandColl"));
   tokenTrackColl = consumes< RPFittedTrackCollection >(ps.getParameter<edm::InputTag>("tagTrackColl"));
@@ -309,13 +309,13 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   eventSetup.get<RealGeometryRecord>().get(geometry);
 
   // get event data
-  Handle< DetSetVector<RPStripDigi> > digi;
+  Handle< DetSetVector<TotemRPDigi> > digi;
   event.getByToken(tokenStripDigi, digi);
 
-  Handle< DetSetVector<RPDigCluster> > digCluster;
+  Handle< DetSetVector<TotemRPCluster> > digCluster;
   event.getByToken(tokenDigiCluster, digCluster);
 
-  Handle< DetSetVector<RPRecoHit> > hits;
+  Handle< DetSetVector<TotemRPRecHit> > hits;
   event.getByToken(tokenRecoHit, hits);
 
   Handle<RPRecognizedPatternsCollection> patterns;
@@ -358,37 +358,37 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   // Plane Plots
 
   // digi profile cumulative
-  for (DetSetVector<RPStripDigi>::const_iterator it = digi->begin(); it != digi->end(); ++it)
+  for (DetSetVector<TotemRPDigi>::const_iterator it = digi->begin(); it != digi->end(); ++it)
   {
     unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
-    for (DetSet<RPStripDigi>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
+    for (DetSet<TotemRPDigi>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
     {
       planePlots[DetId].digi_profile_cumulative->Fill(dit->GetStripNo());
     }
   }
 
   // cluster profile cumulative
-  for (DetSetVector<RPDigCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
+  for (DetSetVector<TotemRPCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
   {
     unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
-    for (DetSet<RPDigCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
+    for (DetSet<TotemRPCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
     {
       planePlots[DetId].cluster_profile_cumulative->Fill(dit->CentreStripPos());
     }
   }
 
   // hit multiplicity
-  for (DetSetVector<RPDigCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
+  for (DetSetVector<TotemRPCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
   {
     unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
     planePlots[DetId].hit_multiplicity->Fill(it->size());
   }
 
   // cluster size
-  for (DetSetVector<RPDigCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
+  for (DetSetVector<TotemRPCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
   {
     unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
-    for (DetSet<RPDigCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
+    for (DetSet<TotemRPCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
       planePlots[DetId].cluster_size->Fill(dit->GetNumberOfStrips());
   }
 
@@ -399,7 +399,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   map<unsigned int, set<unsigned int> > planes;
   map<unsigned int, set<unsigned int> > planes_u;
   map<unsigned int, set<unsigned int> > planes_v;
-  for (DetSetVector<RPRecoHit>::const_iterator it = hits->begin(); it != hits->end(); ++it)
+  for (DetSetVector<TotemRPRecHit>::const_iterator it = hits->begin(); it != hits->end(); ++it)
   {
     unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
     unsigned int RPId = TotRPDetId::RPOfDet(DetId);
@@ -418,13 +418,13 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     it->second.activity_v->Fill(planes_v[it->first].size());
   }
   
-  for (DetSetVector<RPDigCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
+  for (DetSetVector<TotemRPCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
   {
     unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
     unsigned int RPId = TotRPDetId::RPOfDet(DetId);
     unsigned int planeNum = DetId % 10;
     PotPlots &pp = potPlots[RPId];
-    for (DetSet<RPDigCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
+    for (DetSet<TotemRPCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
       pp.hit_plane_hist->Fill(planeNum, dit->CentreStripPos());   
   }
 
@@ -503,9 +503,9 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   // Correlation profile
   if (buildCorrelationPlots)
   {
-    for (DetSetVector<RPStripDigi>::const_iterator i = digi->begin(); i != digi->end(); i++)
+    for (DetSetVector<TotemRPDigi>::const_iterator i = digi->begin(); i != digi->end(); i++)
     {
-      for (DetSetVector<RPStripDigi>::const_iterator j = i; j != digi->end(); j++)
+      for (DetSetVector<TotemRPDigi>::const_iterator j = i; j != digi->end(); j++)
       {
         if (i == j)
           continue;
@@ -522,9 +522,9 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
         unsigned int RPPlaneId2 = DetId2 % 100;
         if (stationPlots[StationId1].hist[RPPlaneId1][RPPlaneId2])
         {
-          for (DetSet<RPStripDigi>::const_iterator di = i->begin(); di != i->end(); di++)
+          for (DetSet<TotemRPDigi>::const_iterator di = i->begin(); di != i->end(); di++)
           {
-            for (DetSet<RPStripDigi>::const_iterator dj = j->begin(); dj != j->end(); dj++)
+            for (DetSet<TotemRPDigi>::const_iterator dj = j->begin(); dj != j->end(); dj++)
               stationPlots[StationId1].hist[RPPlaneId1][RPPlaneId2]->Fill(di->GetStripNo(), dj->GetStripNo());
           }
         }

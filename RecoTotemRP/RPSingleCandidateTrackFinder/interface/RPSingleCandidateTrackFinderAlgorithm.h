@@ -21,7 +21,7 @@ class RPSingleCandidateTrackFinderAlgorithm
     RPSingleCandidateTrackFinderAlgorithm(const edm::ParameterSet& conf);
 
     void BuildSingleTrackCandidates(unsigned int rp_copy_no, 
-        const std::vector<RPRecoHit> & u_hits, const std::vector<RPRecoHit> &v_hits,
+        const std::vector<TotemRPRecHit> & u_hits, const std::vector<TotemRPRecHit> &v_hits,
         RPRecognizedPatternsCollection &patterns,
         RPTrackCandidateCollection& output, 
         const TotemRPGeometry & rp_geometry);
@@ -32,20 +32,20 @@ class RPSingleCandidateTrackFinderAlgorithm
     {
       public:
         RecoHitCluster() : pos_sum_(0.0), tot_weight_(0.0) {}
-        inline const std::vector<RPRecoHit> &GetRecHits() {return hit_vect_;}
+        inline const std::vector<TotemRPRecHit> &GetRecHits() {return hit_vect_;}
         //inline const std::vector<double> &GetRecHitsWeights() {return weight_vector_;}
         inline double GetMeanPosition() {return pos_sum_/tot_weight_;}
         inline double GetTotalWeight() {return tot_weight_;}
         inline int GetHitsNumber() {return hit_vect_.size();}
         
-        void AddHit(const RPRecoHit &hit, double pos, double weight) 
+        void AddHit(const TotemRPRecHit &hit, double pos, double weight) 
         {
           hit_vect_.push_back(hit); /*weight_vector_.push_back(weight); */
           pos_sum_+=pos*weight; tot_weight_+=weight;
         }
         
       private:
-        std::vector<RPRecoHit> hit_vect_;
+        std::vector<TotemRPRecHit> hit_vect_;
         /*std::vector<double> weight_vector_;*/
         double pos_sum_;
         double tot_weight_;
@@ -67,8 +67,8 @@ class RPSingleCandidateTrackFinderAlgorithm
     unsigned int MaxElementIndex(const std::vector<double> &vect);
     unsigned int CheckTrackMultiplicity(const std::vector<double> &vect);
     double GetDetStripAlignment(unsigned int det_id, const TotemRPGeometry & rp_geometry);
-    void FindRecoHitRoads(const std::vector<RPRecoHit> & hits, 
-        std::vector< std::vector<RPRecoHit> > & hits_clusters, std::vector<double> &weights,
+    void FindRecoHitRoads(const std::vector<TotemRPRecHit> & hits, 
+        std::vector< std::vector<TotemRPRecHit> > & hits_clusters, std::vector<double> &weights,
         vector<RPRecognizedPatterns::Line> &lines,
         const TotemRPGeometry & rp_geometry);
   

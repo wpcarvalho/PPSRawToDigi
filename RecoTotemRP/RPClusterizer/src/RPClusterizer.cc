@@ -15,13 +15,13 @@ RPClusterizer::RPClusterizer(edm::ParameterSet const& conf) :
   verbosity_ = conf.getParameter<int>("Verbosity");
 //  digiProducer_ = conf.getParameter<std::string>("DigiProducer");
   if(!conf.exists("DigiLabel")){
-	  std::cout<<"expecting DigiLabel with data type RPStripDigi"<<std::endl;
+	  std::cout<<"expecting DigiLabel with data type TotemRPDigi"<<std::endl;
   }
   digiInputTag_ = conf.getParameter<edm::InputTag>("DigiLabel");
 //  clusterLabel_ = conf.getParameter<std::string>("ClusterLabel");
-  //produces< edm::DetSetVector<RPDigCluster> > (clusterLabel_);
-  produces< edm::DetSetVector<RPDigCluster> > ();
-  digiInputTagToken_ = consumes<edm::DetSetVector<RPStripDigi> >(digiInputTag_);
+  //produces< edm::DetSetVector<TotemRPCluster> > (clusterLabel_);
+  produces< edm::DetSetVector<TotemRPCluster> > ();
+  digiInputTagToken_ = consumes<edm::DetSetVector<TotemRPDigi> >(digiInputTag_);
 
 
 }
@@ -45,10 +45,10 @@ void RPClusterizer::beginJob()
 void RPClusterizer::produce(edm::Event& e, const edm::EventSetup& es)
 {
   // Step B: Get Inputs
-  edm::Handle< edm::DetSetVector<RPStripDigi> >  input;
+  edm::Handle< edm::DetSetVector<TotemRPDigi> >  input;
  
   // Step C: produce output product
-  std::vector< edm::DetSet<RPDigCluster> > vRPStripCluster;
+  std::vector< edm::DetSet<TotemRPCluster> > vRPStripCluster;
   vRPStripCluster.reserve(240);
   
 //  e.getByLabel(digiInputTag_, input);  //FIXME: fix this label
@@ -57,41 +57,41 @@ void RPClusterizer::produce(edm::Event& e, const edm::EventSetup& es)
 //  e.getByType(input);  //FIXME: fix this label
  
   if(verbosity_)
-    std::cout << " Reading " << input->size() << " of RPStripDigi" << std::endl;
+    std::cout << " Reading " << input->size() << " of TotemRPDigi" << std::endl;
  
   if(input->size())
     run(*input,vRPStripCluster);
    
   // Step D: create and fill output collection
-  std::auto_ptr< edm::DetSetVector<RPDigCluster> > output(new edm::DetSetVector<RPDigCluster>(vRPStripCluster) );
+  std::auto_ptr< edm::DetSetVector<TotemRPCluster> > output(new edm::DetSetVector<TotemRPCluster>(vRPStripCluster) );
  
   if(verbosity_)
-    std::cout << " Saving " << output->size() << " of RPDigCluster" << std::endl;
+    std::cout << " Saving " << output->size() << " of TotemRPCluster" << std::endl;
 
   // Step D: write output to file
   e.put(output);
 }
 
 
-void RPClusterizer::run(const edm::DetSetVector<RPStripDigi>& input,std::vector<edm::DetSet<RPDigCluster> > & output)
+void RPClusterizer::run(const edm::DetSetVector<TotemRPDigi>& input,std::vector<edm::DetSet<TotemRPCluster> > & output)
 {
     int number_detunits = 0;
     int total_cluster_no = 0;
  
     //loop on all detset inside the input collection
-    edm::DetSetVector<RPStripDigi>::const_iterator DSViter=input.begin();
+    edm::DetSetVector<TotemRPDigi>::const_iterator DSViter=input.begin();
     for (; DSViter!=input.end();DSViter++)
     {
       ++number_detunits;
       if(verbosity_)
         LogDebug("RPClusterizer")  << "[RPClusterizer::run] DetID " << DSViter->id;
  
-      edm::DetSet<RPDigCluster> ssc(DSViter->id);
+      edm::DetSet<TotemRPCluster> ssc(DSViter->id);
       RPClusterizerAlgorithm_.BuildClusters(DSViter->data, ssc.data);
       total_cluster_no += ssc.data.size();
        
       if (ssc.data.size())
-        output.push_back(ssc);  // insert the DetSet<RPDigCluster> in the  DetSetVec<RPDigCluster> only if there is at least a digi
+        output.push_back(ssc);  // insert the DetSet<TotemRPCluster> in the  DetSetVec<TotemRPCluster> only if there is at least a digi
     }
     if(verbosity_)
       LogDebug("RPClusterizer") << "[RPClusterizer] generating " << total_cluster_no << " SiStripClusters in " << number_detunits << " DetUnits.";

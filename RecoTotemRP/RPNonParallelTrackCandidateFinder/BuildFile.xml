@@ -2,7 +2,8 @@
 <use   name="FWCore/ParameterSet"/>
 <use   name="FWCore/MessageLogger"/>
 <use   name="DataFormats/Common"/>
-<use   name="DataFormats/TotemRPDataTypes"/>
+<use   name="DataFormats/TotemRPDigi"/>
+<use   name="DataFormats/TotemRPReco"/>
 <use   name="Geometry/TotemRPGeometryBuilder"/>
 <use   name="RecoTotemRP/RPRecoDataFormats"/>
 <use   name="Geometry/Records"/>

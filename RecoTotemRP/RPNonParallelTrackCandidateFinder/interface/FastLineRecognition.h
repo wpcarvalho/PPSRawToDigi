@@ -10,7 +10,7 @@
 #define _FastLineRecognition_h_
 
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 
 //#define TUNE 1
 
@@ -55,12 +55,12 @@ class FastLineRecognition
 
     struct Point
     {
-      const RPRecoHit* hit; ///< pointer to original reco hit
+      const TotemRPRecHit* hit; ///< pointer to original reco hit
       double h;             ///< hit position in global coordinate system
       double z;             ///< z position with respect to z0
       double w;             ///< weight
       bool usable;          ///< whether the point can still be used
-      Point(const RPRecoHit* _hit=NULL, double _h=0., double _z=0., double _w=0.) :
+      Point(const TotemRPRecHit* _hit=NULL, double _h=0., double _z=0., double _w=0.) :
         hit(_hit), h(_h), z(_z), w(_w), usable(true) {}
     };
     
@@ -108,7 +108,7 @@ class FastLineRecognition
       geometryMap.clear();
     }
 
-    void GetLines(const std::vector<const RPRecoHit *> &input, double _z0, double threshold,
+    void GetLines(const std::vector<const TotemRPRecHit *> &input, double _z0, double threshold,
       std::vector<RPRecognizedPatterns::Line> &lines);
 };
 

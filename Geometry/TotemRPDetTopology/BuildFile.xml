@@ -9,7 +9,8 @@
 <use   name="boost"/>
 <use   name="hepmc"/>
 <use   name="rootrflx"/>
-<use   name="DataFormats/TotemRPDataTypes"/>
+<use   name="DataFormats/TotemRPDigi"/>
+<use   name="DataFormats/TotemRPReco"/>
 <export>
   <lib   name="1"/>
 </export>

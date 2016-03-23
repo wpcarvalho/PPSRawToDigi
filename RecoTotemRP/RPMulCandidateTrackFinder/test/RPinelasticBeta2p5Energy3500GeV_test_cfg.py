@@ -60,7 +60,7 @@ process.g4SimHits.Generator.HepMCProductLabel = 'source'
 # process.mix*
 # process.RPSiDetDigitizer*
 # process.RPClustProd*
-# process.RPRecoHitProd*
+# process.TotemRPRecHitProd*
 # process.RPSinglTrackCandFind*
 # process.RPSingleTrackCandCollFit
 
@@ -79,8 +79,8 @@ process.load("SimTotem.RPDigiProducer.RPSiDetConf_cfi")
 process.load("RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi")
 #RPClustProd.Verbosity = 1
 
-process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
-#RPRecoHitProd.Verbosity = 1
+process.load("RecoTotemRP.TotemRPRecHitProducer.TotemRPRecHitProdConf_cfi")
+#TotemRPRecHitProd.Verbosity = 1
 
 process.load("RecoTotemRP.RPMulCandidateTrackFinder.RPMulTrackCandFindConf_cfi")
 #RPMulTrackCandFind.Verbosity = 1
@@ -94,10 +94,10 @@ process.load("RecoTotemRP.RPMulCandidateTrackFinder.RPMulTrackCandFindConf_cfi")
 
 # process.load("MyAnalyzers.MixAnalyzer.Mix_Analyzer_cfi")
 
-# process.load("MyAnalyzers.RPRecoHitAnalyzer.RPRecoHit_Analyzer_cfi")
+# process.load("MyAnalyzers.TotemRPRecHitAnalyzer.TotemRPRecHit_Analyzer_cfi")
 
-process.p1 = cms.Path(process.SmearingGenerator*process.g4SimHits*process.mix*process.RPSiDetDigitizer*process.RPClustProd*process.RPRecoHitProd*process.RPMulTrackCandFind)
+process.p1 = cms.Path(process.SmearingGenerator*process.g4SimHits*process.mix*process.RPSiDetDigitizer*process.RPClustProd*process.TotemRPRecHitProd*process.RPMulTrackCandFind)
 
-# process.p1 = cms.Path(process.SmearingGenerator*process.g4SimHits*process.mix*process.RPSiDetDigitizer*process.RPClustProd*process.RPRecoHitProd*process.RPSinglTrackCandFind*process.RPSingleTrackCandCollFit)
+# process.p1 = cms.Path(process.SmearingGenerator*process.g4SimHits*process.mix*process.RPSiDetDigitizer*process.RPClustProd*process.TotemRPRecHitProd*process.RPSinglTrackCandFind*process.RPSingleTrackCandCollFit)
 process.outpath = cms.EndPath(process.o1)
 

@@ -57,8 +57,8 @@ class RPMulCandidateTrackFinderAlgorithm
   public:
     RPMulCandidateTrackFinderAlgorithm(const edm::ParameterSet& conf);
     void BuildTrackCandidates(unsigned int rp_copy_no, 
-        const std::map<unsigned int, std::vector<RPRecoHit> > & det_u_hits, 
-        const std::map<unsigned int, std::vector<RPRecoHit> > & det_v_hits, 
+        const std::map<unsigned int, std::vector<TotemRPRecHit> > & det_u_hits, 
+        const std::map<unsigned int, std::vector<TotemRPRecHit> > & det_v_hits, 
         RPMulTrackCandidateCollection& output, 
         const TotemRPGeometry & rp_geometry);
     void WriteAllPlots(TFile *of);
@@ -71,14 +71,14 @@ class RPMulCandidateTrackFinderAlgorithm
     {
       public:
         RecoHitCluster() : g_pos_sum_(0.0), l_pos_sum_(0.0) {}
-        inline const std::vector<RPRecoHit> & GetRecHits() { return hit_vect_; }
+        inline const std::vector<TotemRPRecHit> & GetRecHits() { return hit_vect_; }
         inline const std::map<unsigned int, int> & GetHitNumDetMap() { return det_nhit_map_; }
         inline double GetMeanPosition() { return g_pos_sum_ / hit_vect_.size(); }
         inline double GetMeanPositionLocal() { return l_pos_sum_ / hit_vect_.size(); }
         inline unsigned int GetHitsNumber() { return hit_vect_.size(); }
         inline unsigned int GetActiveDetsNumber() { return det_nhit_map_.size(); }
 
-        void AddHit(const RPRecoHit &hit, double pos)
+        void AddHit(const TotemRPRecHit &hit, double pos)
         {
           hit_vect_.push_back(hit);
           g_pos_sum_ += pos;
@@ -88,7 +88,7 @@ class RPMulCandidateTrackFinderAlgorithm
 
       private:
         // the vector of all hits belonging to this cluster (or road)
-        std::vector<RPRecoHit> hit_vect_;
+        std::vector<TotemRPRecHit> hit_vect_;
         // the map of detector id (0 - 9) ==> hits number
         std::map<unsigned int, int, std::less<unsigned int> > det_nhit_map_;
         // the sum of all hits from this cluster (or road) to calculating the global mean position
@@ -100,13 +100,13 @@ class RPMulCandidateTrackFinderAlgorithm
     };
 
     double GetDetStripAlignment(unsigned int det_id, const TotemRPGeometry & rp_geometry);
-    void FindRecoHitRoads(const std::map<unsigned int, std::vector<RPRecoHit> > & det_hits,
-        std::vector< std::vector<RPRecoHit> > & hits_clusters,
+    void FindRecoHitRoads(const std::map<unsigned int, std::vector<TotemRPRecHit> > & det_hits,
+        std::vector< std::vector<TotemRPRecHit> > & hits_clusters,
         std::vector<double> & roads_mean,
         const TotemRPGeometry & rp_geometry);
     double CalcCandidateTrackWeight(const double u_mean, const double v_mean,
-        const std::vector<RPRecoHit> & u_hits_vec,
-        const std::vector<RPRecoHit> & v_hits_vec);
+        const std::vector<TotemRPRecHit> & u_hits_vec,
+        const std::vector<TotemRPRecHit> & v_hits_vec);
     void DrawRPPlaneEnvelope();
  
     const edm::ParameterSet& conf_;

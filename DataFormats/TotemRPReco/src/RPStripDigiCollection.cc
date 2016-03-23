@@ -1,4 +1,4 @@
-#include "DataFormats/TotemRPDataTypes/interface/RPStripDigiCollection.h"
+#include "DataFormats/TotemRPReco/interface/RPStripDigiCollection.h"
 
 //trig_mode: 0=no trigger, 1=one sector per chip, 2=4 sectors, 3=8 sectors, 4=gem mode (not implemented)
 RPStripDigiCollection::RPStripDigiCollection(RPDetId det_id, unsigned int trig_mode)

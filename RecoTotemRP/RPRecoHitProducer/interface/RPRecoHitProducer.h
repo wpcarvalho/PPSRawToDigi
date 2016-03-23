@@ -21,8 +21,8 @@
 //Data Formats
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSet.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPDigCluster.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 //RecoHitProducer
 #include "RecoTotemRP/RPRecoHitProducer/interface/RPRecoHitProducerAlgorithm.h"
 #include "RecoTotemRP/RPClusterSigmaService/interface/RPDetClusterSigmas.h"
@@ -45,7 +45,7 @@ class RPRecoHitProducer : public edm::EDProducer
     virtual void produce(edm::Event& e, const edm::EventSetup& c);
   
   private:
-    void run(const edm::DetSetVector<RPDigCluster>& input,std::vector<edm::DetSet<RPRecoHit> > & output);
+    void run(const edm::DetSetVector<TotemRPCluster>& input,std::vector<edm::DetSet<TotemRPRecHit> > & output);
     const edm::ParameterSet conf_;
     int verbosity_;
     RPRecoHitProducerAlgorithm RPRecoHitProducerAlgorithm_;
@@ -54,7 +54,7 @@ class RPRecoHitProducer : public edm::EDProducer
     //std::string cluster_label_;
     //std::string rec_hit_label_;
     edm::InputTag cluster_label_;
-    edm::EDGetTokenT<edm::DetSetVector<RPDigCluster> >cluster_label_Token_;
+    edm::EDGetTokenT<edm::DetSetVector<TotemRPCluster> >cluster_label_Token_;
     edm::ESHandle<RPDetClusterSigmas> cluster_sigmas_;
 };
 

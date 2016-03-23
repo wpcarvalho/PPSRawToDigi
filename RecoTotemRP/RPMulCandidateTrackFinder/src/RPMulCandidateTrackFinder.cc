@@ -15,8 +15,8 @@ RPMulCandidateTrackFinder::RPMulCandidateTrackFinder(const edm::ParameterSet& co
   of = NULL;
 
   produces< RPMulTrackCandidateCollection > ();
-  recohit_label_ = conf.getParameter<edm::InputTag>("RPRecoHitDetSetLabel");
-  recohit_label_Token_ = consumes< edm::DetSetVector<RPRecoHit> >(recohit_label_);
+  recohit_label_ = conf.getParameter<edm::InputTag>("TotemRPRecHitDetSetLabel");
+  recohit_label_Token_ = consumes< edm::DetSetVector<TotemRPRecHit> >(recohit_label_);
 }
 
 
@@ -63,7 +63,7 @@ void RPMulCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup& c)
   c.get<RealGeometryRecord>().get(Totem_RP_geometry);
 
   // Step B: Get Inputs
-  edm::Handle< edm::DetSetVector<RPRecoHit> > input;
+  edm::Handle< edm::DetSetVector<TotemRPRecHit> > input;
   e.getByToken(recohit_label_Token_, input);
 
   // Step C: produce output product
@@ -82,30 +82,30 @@ void RPMulCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup& c)
 }
 
 
-void RPMulCandidateTrackFinder::run(const edm::DetSetVector<RPRecoHit> & input,
+void RPMulCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & input,
     RPMulTrackCandidateCollection& output, const TotemRPGeometry & rp_geometry)
 {
     /**
-     * This method takes DetSetVector<RPRecoHit> and decouples U and V hits into their
+     * This method takes DetSetVector<TotemRPRecHit> and decouples U and V hits into their
      * corresponding detector.
      * The the result is map<RPId, uv_pair_det_vec_reco_hits>
      *    uv_pair_vec_reco_hits is pair< det_vec_reco_hits , det_vec_reco_hits >
-     *    det_vec_reco_hits is map<unsigned int, std::vector<RPRecoHit> > whose key is the detector id
+     *    det_vec_reco_hits is map<unsigned int, std::vector<TotemRPRecHit> > whose key is the detector id
      * first part for U, second for V
      * The map is traversed and for each entry the following method is called
      * RPMulCandidateTrackFinderAlgorithm_.BuildTrackCandidates(RPId, U hits, V hits, output, rp_geometry)
      **/
-  typedef std::map<unsigned int, std::vector<RPRecoHit>, std::less<unsigned int> > det_vec_reco_hits;
+  typedef std::map<unsigned int, std::vector<TotemRPRecHit>, std::less<unsigned int> > det_vec_reco_hits;
   typedef std::pair<det_vec_reco_hits, det_vec_reco_hits> uv_pair_det_vec_reco_hits;
   typedef std::map<unsigned int, uv_pair_det_vec_reco_hits> rp_copy_no_hits_uv_map;
   rp_copy_no_hits_uv_map the_map;
   std::map<unsigned int, unsigned int> rp_hits_num_map;
 
   // gather the hits in the roman pots separately for u and v strip coordinates
-  edm::DetSetVector<RPRecoHit>::const_iterator it;
+  edm::DetSetVector<TotemRPRecHit>::const_iterator it;
   for(it=input.begin(); it!=input.end(); ++it)
   {
-    edm::DetSet<RPRecoHit>::const_iterator hits_it;
+    edm::DetSet<TotemRPRecHit>::const_iterator hits_it;
     for(hits_it = it->begin(); hits_it != it->end(); ++hits_it)
     {
       TotRPDetId tot_rp_det_id(hits_it->DetId());
@@ -117,12 +117,12 @@ void RPMulCandidateTrackFinder::run(const edm::DetSetVector<RPRecoHit> & input,
 
       if(tot_rp_det_id.IsStripsCoordinateUDirection())
       {
-        std::vector<RPRecoHit> &vec_ref = pair_ref.first[det_id];
+        std::vector<TotemRPRecHit> &vec_ref = pair_ref.first[det_id];
         vec_ref.push_back(*hits_it);
       }
       else
       {
-        std::vector<RPRecoHit> &vec_ref = pair_ref.second[det_id];
+        std::vector<TotemRPRecHit> &vec_ref = pair_ref.second[det_id];
         vec_ref.push_back(*hits_it);
       }
     }

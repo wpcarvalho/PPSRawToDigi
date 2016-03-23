@@ -2,7 +2,7 @@ import FWCore.ParameterSet.Config as cms
 
 NonParallelTrackFinder = cms.EDProducer("RPNonParallelTrackCandidateFinder",
     # input selection
-    DetSetVectorRPRecoHitLabel = cms.InputTag("RPRecoHitProd"),
+    DetSetVectorTotemRPRecHitLabel = cms.InputTag("TotemRPRecHitProd"),
 
     verbosity = cms.untracked.uint32(0),
     

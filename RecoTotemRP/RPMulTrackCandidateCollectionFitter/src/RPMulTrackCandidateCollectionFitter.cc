@@ -90,7 +90,7 @@ void RPMulTrackCandidateCollectionFitter::produceFromMultitrackCandidates(edm::E
 }
 
 
-double RPMulTrackCandidateCollectionFitter::calculateMeanValue(const std::vector<RPRecoHit> &coll, std::vector<RPRecoHit> &obj_coll)
+double RPMulTrackCandidateCollectionFitter::calculateMeanValue(const std::vector<TotemRPRecHit> &coll, std::vector<TotemRPRecHit> &obj_coll)
 {
   obj_coll.clear();
   double mean = 0.;
@@ -136,7 +136,7 @@ void RPMulTrackCandidateCollectionFitter::produceFromReconstructedPatterns(edm::
     {
       for (std::vector<RPRecognizedPatterns::Line>::const_iterator vlit = rpit->second.vLines.begin(); vlit != rpit->second.vLines.end(); ++vlit)
       {
-        std::vector<RPRecoHit> u_roads, v_roads;
+        std::vector<TotemRPRecHit> u_roads, v_roads;
                 
         double mean_u = calculateMeanValue(ulit->hits, u_roads);
         double mean_v = calculateMeanValue(vlit->hits, v_roads);

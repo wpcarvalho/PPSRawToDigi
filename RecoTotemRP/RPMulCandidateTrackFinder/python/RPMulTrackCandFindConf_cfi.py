@@ -16,5 +16,5 @@ RPMulTrackCandFind = cms.EDProducer("RPMulCandidateTrackFinder",
     ProduceRPRoadsPlot = cms.int32(1),    # produce U-V roads number for each Roman Pot histograms or not
     ProduceRPTracksPlot = cms.int32(1),   # produce (UV) candidate track for each Roman Pot histogram or not
 
-    RPRecoHitDetSetLabel = cms.InputTag("RPRecoHitProd")
+    TotemRPRecHitDetSetLabel = cms.InputTag("TotemRPRecHitProd")
 )

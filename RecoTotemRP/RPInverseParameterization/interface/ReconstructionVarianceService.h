@@ -7,7 +7,7 @@
 #include "TMath.h"
 #include "TMatrixD.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 
 //the class calculates the covariance matrix based on the multiple scattering in the 
 //detectors preceeding the ones used for the readout

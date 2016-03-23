@@ -4,7 +4,8 @@
 <use   name="clhep"/>
 <use   name="root"/>
 <use   name="DataFormats/Common"/>
-<use   name="DataFormats/TotemRPDataTypes"/>
+<use   name="DataFormats/TotemRPDigi"/>
+<use   name="DataFormats/TotemRPReco"/>
 <use   name="DataFormats/TotemRPDetId"/>
 <use   name="DataFormats/TotemL1Trigger"/>
 <use   name="RecoTotemRP/RPRecoDataFormats"/>

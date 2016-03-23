@@ -10,7 +10,7 @@
 #ifndef RecoTotemRP_RPRecoDataFormats_RPFittedTrack_h
 #define RecoTotemRP_RPRecoDataFormats_RPFittedTrack_h
 
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
 
 #include "TROOT.h"
@@ -19,15 +19,15 @@
 #include "TVectorD.h"
 #include "TMath.h"
 
-class RPDetHitPoint: public RPRecoHit {
+class RPDetHitPoint: public TotemRPRecHit {
 public:
-	RPDetHitPoint(const RPRecoHit &hit, const TVector3 &space_point_on_det,
+	RPDetHitPoint(const TotemRPRecHit &hit, const TVector3 &space_point_on_det,
 			double residual, double pull) :
-			RPRecoHit(hit), space_point_on_det_(space_point_on_det), residual_(
+			TotemRPRecHit(hit), space_point_on_det_(space_point_on_det), residual_(
 					residual), pull_(pull) {
 	}
 	RPDetHitPoint() :
-			RPRecoHit(), residual_(0), pull_(0) {
+			TotemRPRecHit(), residual_(0), pull_(0) {
 	}
 	virtual ~RPDetHitPoint() {
 	}

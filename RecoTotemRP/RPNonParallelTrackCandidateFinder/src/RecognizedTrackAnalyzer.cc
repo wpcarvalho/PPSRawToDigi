@@ -3,7 +3,7 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSet.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
@@ -32,9 +32,9 @@ class RecognizedTrackAnalyzer : public edm::EDAnalyzer
 
 	private:
 		edm::InputTag RPTrackCandidateCollectionLabel;
-		edm::InputTag detSetVectorRPRecoHitLabel;
+		edm::InputTag detSetVectorTotemRPRecHitLabel;
 		edm::EDGetTokenT<RPTrackCandidateCollection> RPTrackCandidateCollectionToken;
-		edm::EDGetTokenT<edm::DetSetVector<RPRecoHit>> detSetVectorRPRecoHitToken;
+		edm::EDGetTokenT<edm::DetSetVector<TotemRPRecHit>> detSetVectorTotemRPRecHitToken;
 		unsigned char verbosity;
 		std::string outputFile;
 		TFile *of;
@@ -52,7 +52,7 @@ class RecognizedTrackAnalyzer : public edm::EDAnalyzer
 RecognizedTrackAnalyzer::RecognizedTrackAnalyzer(const edm::ParameterSet& conf) : of(NULL)
 {
 	RPTrackCandidateCollectionLabel = conf.getParameter<edm::InputTag>("RPTrackCandidateCollectionLabel");
-	detSetVectorRPRecoHitLabel = conf.getParameter<edm::InputTag>("DetSetVectorRPRecoHitLabel");
+	detSetVectorTotemRPRecHitLabel = conf.getParameter<edm::InputTag>("DetSetVectorTotemRPRecHitLabel");
 	verbosity = conf.getUntrackedParameter<unsigned int>("verbosity", 0);
 	outputFile = conf.getParameter<std::string>("outputFile");
 }
@@ -95,35 +95,35 @@ void RecognizedTrackAnalyzer::analyze(const edm::Event& event, const edm::EventS
 	ESHandle<TotemRPGeometry> geometry;
 	eSetup.get<RealGeometryRecord>().get(geometry);
 
-	Handle< edm::DetSetVector<RPRecoHit> > allHits;
-	event.getByToken(detSetVectorRPRecoHitToken, allHits);
+	Handle< edm::DetSetVector<TotemRPRecHit> > allHits;
+	event.getByToken(detSetVectorTotemRPRecHitToken, allHits);
 	Handle<RPTrackCandidateCollection> selHits;
 	event.getByToken(RPTrackCandidateCollectionToken, selHits);
 
 	if (verbosity) printf("\nEVENT %llu\n", event.id().event());
 
 	// process all hits collection
-	map< unsigned int, pair< vector<const RPRecoHit *>, vector<const RPRecoHit *> > > allHitsMap;
-	for (DetSetVector<RPRecoHit>::const_iterator dit = allHits->begin(); dit != allHits->end(); ++dit) {
+	map< unsigned int, pair< vector<const TotemRPRecHit *>, vector<const TotemRPRecHit *> > > allHitsMap;
+	for (DetSetVector<TotemRPRecHit>::const_iterator dit = allHits->begin(); dit != allHits->end(); ++dit) {
 		unsigned int detId = TotRPDetId::RawToDecId(dit->detId());
 		unsigned int RPId = TotRPDetId::RPOfDet(detId);
 		bool uDir = TotRPDetId::IsStripsCoordinateUDirection(detId);
 
-		for (DetSet<RPRecoHit>::const_iterator hit = dit->begin(); hit != dit->end(); ++hit) {
+		for (DetSet<TotemRPRecHit>::const_iterator hit = dit->begin(); hit != dit->end(); ++hit) {
 			if (uDir) allHitsMap[RPId].first.push_back(& (*hit));
 			else allHitsMap[RPId].second.push_back(& (*hit));
 		}
 	}
 
 	// process selected hits collection
-	map< unsigned int, pair< vector<const RPRecoHit *>, vector<const RPRecoHit *> > > selHitsMap;
+	map< unsigned int, pair< vector<const TotemRPRecHit *>, vector<const TotemRPRecHit *> > > selHitsMap;
 	for (RPTrackCandidateCollection::const_iterator dit = selHits->begin(); dit != selHits->end(); ++dit) {
 		if (!dit->second.Fittable())
 			continue;
 
 		unsigned int RPId = dit->first;
-		const vector<RPRecoHit> &rhs = dit->second.TrackRecoHits();
-		for (vector<RPRecoHit>::const_iterator hit = rhs.begin(); hit != rhs.end(); ++hit) {
+		const vector<TotemRPRecHit> &rhs = dit->second.TrackRecoHits();
+		for (vector<TotemRPRecHit>::const_iterator hit = rhs.begin(); hit != rhs.end(); ++hit) {
 			unsigned int detId = TotRPDetId::RawToDecId(hit->DetId());
 			bool uDir = TotRPDetId::IsStripsCoordinateUDirection(detId);
 
@@ -133,7 +133,7 @@ void RecognizedTrackAnalyzer::analyze(const edm::Event& event, const edm::EventS
 	}
 
 	// print out data and fill graphs
-	for (map< unsigned int, pair< vector<const RPRecoHit *>, vector<const RPRecoHit *> > >::iterator it = allHitsMap.begin();
+	for (map< unsigned int, pair< vector<const TotemRPRecHit *>, vector<const TotemRPRecHit *> > >::iterator it = allHitsMap.begin();
 			it != allHitsMap.end(); ++it) {
 		unsigned int RPId = it->first;
 
@@ -145,30 +145,30 @@ void RecognizedTrackAnalyzer::analyze(const edm::Event& event, const edm::EventS
 		can->Clear();
 
 		if (verbosity > 5) printf(">> RP %i\n>> all u hits:\n", RPId);
-		for (vector<const RPRecoHit *>::iterator hit = it->second.first.begin(); hit != it->second.first.end(); ++hit) {
+		for (vector<const TotemRPRecHit *>::iterator hit = it->second.first.begin(); hit != it->second.first.end(); ++hit) {
 			double z = geometry->GetDetector((*hit)->DetId())->translation().z();
 			if (verbosity > 5) printf("\t%.3f\t%.3f\n", z, (*hit)->Position());
 			allHits_u->SetPoint(allHits_u->GetN(), z, (*hit)->Position());
 		}
 		if (verbosity > 5) printf(">> all v hits:\n");
-		for (vector<const RPRecoHit *>::iterator hit = it->second.second.begin(); hit != it->second.second.end(); ++hit) {
+		for (vector<const TotemRPRecHit *>::iterator hit = it->second.second.begin(); hit != it->second.second.end(); ++hit) {
 			double z = geometry->GetDetector((*hit)->DetId())->translation().z();
 			if (verbosity > 5) printf("\t%.3f\t%.3f\n", z, (*hit)->Position());
 			allHits_v->SetPoint(allHits_v->GetN(), z, (*hit)->Position());
 		}
 		
-		map< unsigned int, pair< vector<const RPRecoHit *>, vector<const RPRecoHit *> > >::iterator sit = selHitsMap.find(RPId);
+		map< unsigned int, pair< vector<const TotemRPRecHit *>, vector<const TotemRPRecHit *> > >::iterator sit = selHitsMap.find(RPId);
 		if (sit == selHitsMap.end()) {
 			if (verbosity > 5) printf(">> no selected hits\n");
 		} else {
 			if (verbosity > 5) printf(">> RP %i\n>> sel u hits:\n", RPId);
-			for (vector<const RPRecoHit *>::iterator hit = sit->second.first.begin(); hit != sit->second.first.end(); ++hit) {
+			for (vector<const TotemRPRecHit *>::iterator hit = sit->second.first.begin(); hit != sit->second.first.end(); ++hit) {
 				double z = geometry->GetDetector((*hit)->DetId())->translation().z();
 				if (verbosity > 5) printf("\t%.3f\t%.3f\n", z, (*hit)->Position());
 				selHits_u->SetPoint(selHits_u->GetN(), z, (*hit)->Position());
 			}
 			if (verbosity > 5) printf(">> sel v hits:\n");
-			for (vector<const RPRecoHit *>::iterator hit = sit->second.second.begin(); hit != sit->second.second.end(); ++hit) {
+			for (vector<const TotemRPRecHit *>::iterator hit = sit->second.second.begin(); hit != sit->second.second.end(); ++hit) {
 				double z = geometry->GetDetector((*hit)->DetId())->translation().z();
 				if (verbosity > 5) printf("\t%.3f\t%.3f\n", z, (*hit)->Position());
 				selHits_v->SetPoint(selHits_v->GetN(), z, (*hit)->Position());

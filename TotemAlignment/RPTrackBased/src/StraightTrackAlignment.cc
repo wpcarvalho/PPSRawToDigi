@@ -295,7 +295,7 @@ void StraightTrackAlignment::ProcessEvent(const Event& event, const EventSetup&)
     if (skipHorRP && (rpNum == 2 || rpNum == 3))
       continue;
     
-    const vector<RPRecoHit> &hits = it->second.TrackRecoHits();
+    const vector<TotemRPRecHit> &hits = it->second.TrackRecoHits();
     for (unsigned int i = 0; i < hits.size(); i++)
       selection.push_back(hits[i]);
   }

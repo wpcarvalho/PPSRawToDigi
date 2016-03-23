@@ -10,9 +10,8 @@
 #ifndef TotRPDetId_h
 #define TotRPDetId_h
 
-
 #include "DataFormats/DetId/interface/DetId.h"
-#include <FWCore/Utilities/interface/Exception.h>
+#include "FWCore/Utilities/interface/Exception.h"
 
 #include <iosfwd>
 #include <iostream>
@@ -185,4 +184,3 @@ class TotRPDetId : public DetId
 std::ostream& operator<<(std::ostream& os, const TotRPDetId& id);
 
 #endif 
-

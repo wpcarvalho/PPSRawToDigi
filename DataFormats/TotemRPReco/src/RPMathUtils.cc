@@ -1,4 +1,4 @@
-#include "DataFormats/TotemRPDataTypes/interface/RPMathUtils.h"
+#include "DataFormats/TotemRPReco/interface/RPMathUtils.h"
 
 namespace tot_rp
 {

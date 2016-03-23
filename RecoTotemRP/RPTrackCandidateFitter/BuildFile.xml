@@ -1,7 +1,8 @@
 <use   name="FWCore/Framework"/>
 <use   name="boost"/>
 <use   name="DataFormats/Common"/>
-<use   name="DataFormats/TotemRPDataTypes"/>
+<use   name="DataFormats/TotemRPDigi"/>
+<use   name="DataFormats/TotemRPReco"/>
 <use   name="root"/>
 <use   name="clhep"/>
 <use   name="Geometry/TotemRPGeometryBuilder"/>

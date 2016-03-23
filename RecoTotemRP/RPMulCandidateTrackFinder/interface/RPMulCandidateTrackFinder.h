@@ -24,7 +24,7 @@
 
 //Data Formats
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulTrackCandidateCollection.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPRecoHit.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSet.h"
 
@@ -58,8 +58,8 @@ class RPMulCandidateTrackFinder : public edm::EDProducer
 
   private:
     edm::InputTag recohit_label_;
-    edm::EDGetTokenT<edm::DetSetVector<RPRecoHit> > recohit_label_Token_;
-    void run(const edm::DetSetVector<RPRecoHit> & input, RPMulTrackCandidateCollection& output, const TotemRPGeometry & rp_geometry);
+    edm::EDGetTokenT<edm::DetSetVector<TotemRPRecHit> > recohit_label_Token_;
+    void run(const edm::DetSetVector<TotemRPRecHit> & input, RPMulTrackCandidateCollection& output, const TotemRPGeometry & rp_geometry);
     const edm::ParameterSet conf_;
     RPMulCandidateTrackFinderAlgorithm RPMulCandidateTrackFinderAlgorithm_;
     int verbosity_;

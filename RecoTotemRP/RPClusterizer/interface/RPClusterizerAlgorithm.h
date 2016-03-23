@@ -3,10 +3,10 @@
 
 #include <vector>
 #include <set>
-#include "DataFormats/TotemRPDataTypes/interface/RPStripDigi.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPDigCluster.h"
+#include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 
 #include "SimDataFormats/TrackingHit/interface/PSimHit.h"
 
@@ -19,7 +19,7 @@ class RPClusterizerAlgorithm
     RPClusterizerAlgorithm(const edm::ParameterSet& param);
     ~RPClusterizerAlgorithm();
     
-    int BuildClusters(const std::vector<RPStripDigi> &digi, std::vector<RPDigCluster> &clusters);
+    int BuildClusters(const std::vector<TotemRPDigi> &digi, std::vector<TotemRPCluster> &clusters);
     
 //    inline int GetClusterMultiplicity() const {return clusters_.size();};
 //    double GetClusterSpread() const; //in strips
@@ -27,12 +27,12 @@ class RPClusterizerAlgorithm
 
   private:
     void Reset();
-    typedef std::set<RPStripDigi> RPStripDigiSet;
-    RPStripDigiSet strip_digi_set_;  //input digi set, strip by strip
+    typedef std::set<TotemRPDigi> TotemRPDigiSet;
+    TotemRPDigiSet strip_digi_set_;  //input digi set, strip by strip
 //    typedef map<int, RPTypes::SingleDigiPrimaryMapType > RPStripLinksMap;
 //    RPStripLinksMap strip_links_map_;  //input digi links, strip by strip
     
-    typedef std::vector<RPDigCluster> RP_Cluster_Map;
+    typedef std::vector<TotemRPCluster> RP_Cluster_Map;
 //    RP_Cluster_Map clusters_;  //std::vector of clusters produced for the current event
     
 //    typedef std::vector<RPTypes::SingleDigiPrimaryMapType> RP_Cluster_Primary_Links_Map;

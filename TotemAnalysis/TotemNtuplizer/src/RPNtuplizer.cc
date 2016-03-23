@@ -10,12 +10,12 @@
 #include "TotemAnalysis/TotemNtuplizer/interface/RPNtuplizer.h"
 
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPTypes.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPDigCluster.h"
+#include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
 #include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
-#include "DataFormats/TotemRPDataTypes/interface/RPDetTrigger.h"
+#include "DataFormats/TotemRPReco/interface/RPDetTrigger.h" // TODO: needed?
 #include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
@@ -53,7 +53,7 @@ RPNtuplizer::RPNtuplizer(const edm::ParameterSet& conf) :
   primaryProtons = false;
   rpFittedTrackCollectionLabel = conf.getParameter<edm::InputTag>("RPFittedTrackCollectionLabel");
   rpMulFittedTrackCollectionLabel = conf.getParameter<edm::InputTag>("RPMulFittedTrackCollectionLabel");
-  rpStripDigiSetLabel = conf.getParameter<edm::InputTag>("RPStripDigiSetLabel");
+  rpStripDigiSetLabel = conf.getParameter<edm::InputTag>("TotemRPDigiSetLabel");
   rpDigClusterLabel = conf.getParameter<edm::InputTag>("RPDigClusterLabel");
   rpReconstructedProtonCollectionLabel = conf.getParameter<edm::InputTag>("RPReconstructedProtonCollectionLabel");
   rpReconstructedProtonPairCollectionLabel = conf.getParameter<edm::InputTag>("RPReconstructedProtonPairCollectionLabel");
@@ -235,16 +235,16 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
 
   if (includeDigi)
   {
-  	edm::Handle < edm::DetSetVector<RPDigCluster> > clusters;
+  	edm::Handle < edm::DetSetVector<TotemRPCluster> > clusters;
   	e.getByLabel(rpDigClusterLabel, clusters);
   
-  	edm::DetSetVector<RPDigCluster>::const_iterator inputIteratorCl = clusters->begin();
+  	edm::DetSetVector<TotemRPCluster>::const_iterator inputIteratorCl = clusters->begin();
   	for (; inputIteratorCl != clusters->end(); inputIteratorCl++)
     {
   	  TotRPDetId detectorId(inputIteratorCl->id);
   	  
-      //inputIterator->data : vector< RPDigCluster>
-      //(inputIterator->data)[i] : RPDigCluster
+      //inputIterator->data : vector< TotemRPCluster>
+      //(inputIterator->data)[i] : TotemRPCluster
       for (unsigned int i = 0; i < (inputIteratorCl->data).size(); ++i)
       {
         unsigned int detNo = TotRPDetId::RawToDecId((inputIteratorCl->data)[i].DetId());
