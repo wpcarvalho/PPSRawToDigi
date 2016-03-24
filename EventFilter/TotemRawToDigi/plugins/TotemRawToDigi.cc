@@ -125,6 +125,10 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
       RX 3        580    4-5 210m FAR      0x1a9
       RX 4        581    4-5 210m NEAR     0x1aa  
   */
+  /* 
+      The FED Ids should be stored in and read from:
+        DataFormats/FEDRawData/interface/FEDNumbering.h
+  */
   vector<int> fedIds = { 0, 1, 2, 3, 4, 5, 6 }; 
 
   for (const auto &fedId : fedIds)
