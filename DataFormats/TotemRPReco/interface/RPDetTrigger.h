@@ -1,5 +1,12 @@
-#ifndef DataFormats_TotemRPReco_interface_RPDetTrigger_h
-#define DataFormats_TotemRPReco_interface_RPDetTrigger_h
+/****************************************************************************
+*
+* This is a part of TOTEM offline software.
+* Authors:
+*
+****************************************************************************/
+
+#ifndef DataFormats_TotemRPReco_RPDetTrigger
+#define DataFormats_TotemRPReco_RPDetTrigger
 
 class RPDetTrigger {
  public:

@@ -5,8 +5,8 @@
  *  Leszek Grzanka (braciszek@gmail.com)
  ****************************************************************************/
 
-#ifndef DataFormatsL1TotemRPRPCCBits_h
-#define DataFormatsL1TotemRPRPCCBits_h
+#ifndef DataFormats_L1TotemRP_TotemRPCCBits
+#define DataFormats_L1TotemRP_TotemRPCCBits
 
 #include "DataFormats/L1TotemRP/interface/TotemRPCCId.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"

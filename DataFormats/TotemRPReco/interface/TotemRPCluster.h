@@ -7,8 +7,8 @@
 *
 ****************************************************************************/
 
-#ifndef DataFormats_TotemRPReco_interface_TotemRPCluster_h
-#define DataFormats_TotemRPReco_interface_TotemRPCluster_h
+#ifndef DataFormats_TotemRPReco_TotemRPCluster
+#define DataFormats_TotemRPReco_TotemRPCluster
 
 /**
  *\brief Cluster of TOTEM RP strip hits.

@@ -8,8 +8,8 @@
 *    
 ****************************************************************************/
 
-#ifndef TotemRawToDigiStatus_h
-#define TotemRawToDigiStatus_h
+#ifndef DataFormats_TotemRawData_TotemRawToDigiStatus
+#define DataFormats_TotemRawData_TotemRawToDigiStatus
 
 #include "CondFormats/TotemReadoutObjects/interface/TotemFramePosition.h"
 

@@ -1,5 +1,12 @@
-#ifndef DataFormats_TotemRPReco_interface_RPTimingDetectorHit_h
-#define DataFormats_TotemRPReco_interface_RPTimingDetectorHit_h
+/****************************************************************************
+*
+* This is a part of TOTEM offline software.
+* Authors:
+*
+****************************************************************************/
+
+#ifndef DataFormats_TotemRPReco_RPTimingDetectorHit
+#define DataFormats_TotemRPReco_RPTimingDetectorHit
 
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
 

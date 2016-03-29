@@ -6,8 +6,8 @@
 *    
 ****************************************************************************/
 
-#ifndef _Totem_RawEvent_h_
-#define _Totem_RawEvent_h_
+#ifndef DataFormats_TotemRawData_TotemRawEvent
+#define DataFormats_TotemRawData_TotemRawEvent
 
 #include <ctime>
 #include <map>

@@ -7,8 +7,8 @@
 ****************************************************************************/
 
 
-#ifndef _Totem_VFATFrameCollection_h_
-#define _Totem_VFATFrameCollection_h_
+#ifndef EventFilter_TotemRawToDigi_VFATFrameCollection
+#define EventFilter_TotemRawToDigi_VFATFrameCollection
 
 #include "CondFormats/TotemReadoutObjects/interface/TotemFramePosition.h"
 

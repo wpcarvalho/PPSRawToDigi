@@ -6,8 +6,8 @@
  *
  ****************************************************************************/
 
-#ifndef DataFormatsL1TotemRPRPCCId_h
-#define DataFormatsL1TotemRPRPCCId_h
+#ifndef DataFormats_L1TotemRP_TotemRPCCId
+#define DataFormats_L1TotemRP_TotemRPCCId
 
 #include "DataFormats/DetId/interface/DetId.h"
 #include <FWCore/Utilities/interface/Exception.h>

@@ -7,8 +7,8 @@
 *
 ****************************************************************************/
 
-#ifndef _TotemDAQMapping_h_
-#define _TotemDAQMapping_h_
+#ifndef CondFormats_TotemReadoutObjects_TotemDAQMapping
+#define CondFormats_TotemReadoutObjects_TotemDAQMapping
 
 #include "CondFormats/TotemReadoutObjects/interface/TotemFramePosition.h"
 

@@ -6,8 +6,8 @@
 *
 ****************************************************************************/
 
-#ifndef _SRSFileReader_h_
-#define _SRSFileReader_h_
+#ifndef EventFilter_TotemRawToDigi_SRSFileReader
+#define EventFilter_TotemRawToDigi_SRSFileReader
 
 #include "EventFilter/TotemRawToDigi/interface/SimpleVFATFrameCollection.h"
 

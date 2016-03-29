@@ -1,15 +1,13 @@
 /****************************************************************************
 *
-* This is a part of the TOTEM testbeam/monitoring software.
 * This is a part of the TOTEM offline software.
 * Authors: 
 *   Jan Kašpar (jan.kaspar@gmail.com) 
 *
 ****************************************************************************/
 
-
-#ifndef _TotemFramePosition_h_
-#define _TotemFramePosition_h_
+#ifndef CondFormats_TotemReadoutObjects_TotemFramePosition
+#define CondFormats_TotemReadoutObjects_TotemFramePosition
 
 #include <iostream>
 #include <string>

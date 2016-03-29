@@ -7,8 +7,8 @@
 *
 ****************************************************************************/
 
-#ifndef DataFormats_TotemRPReco_interface_TotemTotemRPRecHit_h
-#define DataFormats_TotemRPReco_interface_TotemTotemRPRecHit_h
+#ifndef DataFormats_TotemRPReco_TotemTotemRPRecHit
+#define DataFormats_TotemRPReco_TotemTotemRPRecHit
 
 /**
  *\brief Reconstructed hit in TOTEM RP.

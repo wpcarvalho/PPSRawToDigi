@@ -7,8 +7,8 @@
 *
 ****************************************************************************/
 
-#ifndef DataFormats_TotemRPDigi_interface_TotemRPDigi_h
-#define DataFormats_TotemRPDigi_interface_TotemRPDigi_h
+#ifndef DataFormats_TotemRPDigi_TotemRPDigi
+#define DataFormats_TotemRPDigi_TotemRPDigi
 
 class TotemRPDigi
 {

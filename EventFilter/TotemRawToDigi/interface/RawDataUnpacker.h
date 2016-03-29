@@ -1,13 +1,13 @@
 /****************************************************************************
 *
-* This is a part of TOTEM offline software.
+* This is a part of the TOTEM offline software.
 * Authors: 
 *   Jan Kašpar (jan.kaspar@gmail.com)
 *
 ****************************************************************************/
 
-#ifndef _RawDataUnpacker_h_
-#define _RawDataUnpacker_h_
+#ifndef EventFilter_TotemRawToDigi_RawDataUnpacker
+#define EventFilter_TotemRawToDigi_RawDataUnpacker
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
