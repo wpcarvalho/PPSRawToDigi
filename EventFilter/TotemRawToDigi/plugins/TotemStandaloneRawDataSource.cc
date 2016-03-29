@@ -130,7 +130,7 @@ std::shared_ptr<RunAuxiliary> TotemStandaloneRawDataSource::readRunAuxiliary_()
   printf(">> TotemStandaloneRawDataSource::readRunAuxiliary_\n");
 #endif
 
-  Timestamp ts_beg(currentRawEvent->timestamp << 32);
+  Timestamp ts_beg(currentRawEvent->getTimestamp() << 32);
   Timestamp ts_end(Timestamp::endOfTime().value() - 0);
 
   return std::shared_ptr < RunAuxiliary > (new RunAuxiliary(eventID.run(), ts_beg, ts_end));
@@ -145,8 +145,8 @@ std::shared_ptr<LuminosityBlockAuxiliary> TotemStandaloneRawDataSource::readLumi
 #endif
 
   // we create luminosity blocks of 1s duration
-  Timestamp ts_beg(currentRawEvent->timestamp << 32);
-  Timestamp ts_end(((currentRawEvent->timestamp + 1) << 32) - 1);
+  Timestamp ts_beg(currentRawEvent->getTimestamp() << 32);
+  Timestamp ts_end(((currentRawEvent->getTimestamp() + 1) << 32) - 1);
 
   return std::shared_ptr <LuminosityBlockAuxiliary> (new LuminosityBlockAuxiliary(eventID.run(),
     eventID.luminosityBlock(), ts_beg, ts_end));
@@ -157,11 +157,11 @@ std::shared_ptr<LuminosityBlockAuxiliary> TotemStandaloneRawDataSource::readLumi
 void TotemStandaloneRawDataSource::readEvent_(EventPrincipal& eventPrincipal)
 {
 #ifdef DEBUG
-  printf(">> TotemStandaloneRawDataSource::readEvent_ : %lu, %lu | %u\n", currentRawEvent->dataEventNumber, currentRawEvent->timestamp, eventID.event());
+  printf(">> TotemStandaloneRawDataSource::readEvent_ : %lu, %lu | %u\n", currentRawEvent->dataEventNumber, currentRawEvent->getTimestamp(), eventID.event());
 #endif
   
   // create Event structure and fill with auxiliary data
-  Timestamp ts(currentRawEvent->timestamp << 32);  // conversion from UNIX timestamp: see src/DataFormats/Provenance/interface/Timestamp.h
+  Timestamp ts(currentRawEvent->getTimestamp() << 32);  // conversion from UNIX timestamp: see src/DataFormats/Provenance/interface/Timestamp.h
   bool isRealData = true;
   EventAuxiliary::ExperimentType expType(EventAuxiliary::Undefined);
   EventAuxiliary aux(eventID, processGUID(), ts, isRealData, expType);
@@ -214,7 +214,7 @@ void TotemStandaloneRawDataSource::LoadRawDataEvent()
   }
 
 #ifdef DEBUG
-  printf("\t%lu, %lu\n", currentRawEvent->dataEventNumber, currentRawEvent->timestamp);
+  printf("\t%lu, %lu\n", currentRawEvent->dataEventNumber, currentRawEvent->getTimestamp());
 #endif
 
   bool beginning = (eventID.run() == 0);
@@ -227,19 +227,19 @@ void TotemStandaloneRawDataSource::LoadRawDataEvent()
 
     eventID = EventID(files[fileIdx].runNumber, 1, 1);
 
-    previousTimestamp = currentRawEvent->timestamp;
+    previousTimestamp = currentRawEvent->getTimestamp();
 
     return;
   } 
 
   // new luminosity block ??
-  if (currentRawEvent->timestamp != previousTimestamp)  // 1s resolution
+  if (currentRawEvent->getTimestamp() != previousTimestamp)  // 1s resolution
   {
     items.push_back(IsLumi);
     eventID = EventID(eventID.run(), eventID.luminosityBlock() + 1, eventID.event()); // advance lumi number
   }
 
-  previousTimestamp = currentRawEvent->timestamp;
+  previousTimestamp = currentRawEvent->getTimestamp();
 
   eventID = EventID(eventID.run(), eventID.luminosityBlock(), eventID.event() + 1); // advance event number
   items.push_back(IsEvent);

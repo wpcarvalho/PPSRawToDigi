@@ -176,7 +176,7 @@ unsigned char SRSFileReader::GetNextEvent(TotemRawEvent &rawEvent, FEDRawDataCol
   if (errorCounter > 0)
   {
     cerr << "Error in SRSFileReader::GetNextEvent > " << errorCounter << " GOH blocks have failed consistency checks in event "
-      << rawEvent.dataEventNumber << "." << endl;
+      << rawEvent.getDataEventNumber() << "." << endl;
   }
 
   return 0;
@@ -211,8 +211,8 @@ unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, TotemRawEvent &rawE
 #endif
 
   // store important GDC data
-  rawEvent.dataEventNumber = EVENT_ID_GET_NB_IN_RUN(eventHeader->eventId) - 1;
-  rawEvent.timestamp = eventHeader->eventTimestamp;
+  rawEvent.getDataEventNumber() = EVENT_ID_GET_NB_IN_RUN(eventHeader->eventId) - 1;
+  rawEvent.getTimestamp() = eventHeader->eventTimestamp;
 
   eventSizeType eventSize = eventHeader->eventSize;
   eventHeadSizeType headSize = eventHeader->eventHeadSize;
@@ -271,7 +271,7 @@ unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, TotemRawEvent &rawEvent,
 #endif
 
   // store important LDC data
-  rawEvent.ldcTimeStamps[eventHeader->eventLdcId] = eventHeader->eventTimestamp;  
+  rawEvent.getLdcTimeStamps()[eventHeader->eventLdcId] = eventHeader->eventTimestamp;  
 
   unsigned long subEvSize = eventHeader->eventSize;
   unsigned long offset = eventHeader->eventHeadSize;
