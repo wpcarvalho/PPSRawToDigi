@@ -13,7 +13,7 @@ TotemRPCCId::TotemRPCCId():DetId(DetId::VeryForward, totem_rp_subdet_id)
 {}
 
 
-TotemRPCCId::TotemRPCCId(RPCCIdRaw id):DetId(id)
+TotemRPCCId::TotemRPCCId(uint32_t id):DetId(id)
 {
   if (det()!=DetId::VeryForward || subdetId()!=totem_rp_subdet_id)
     {

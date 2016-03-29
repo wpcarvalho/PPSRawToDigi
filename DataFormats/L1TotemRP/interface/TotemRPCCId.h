@@ -15,8 +15,6 @@
 #include <iosfwd>
 #include <iostream>
 
-typedef uint32_t RPCCIdRaw;
-
 class TotemRPCCId: public DetId
 {
  public:
@@ -24,7 +22,7 @@ class TotemRPCCId: public DetId
 
   /// Construct from a packed id. It is required that the Detector part of
   /// id is Totem and the SubDet part is RP, otherwise an exception is thrown.
-  explicit TotemRPCCId(RPCCIdRaw id);
+  explicit TotemRPCCId(uint32_t id);
 
   /// Construct from fully qualified identifier.
   TotemRPCCId(unsigned int Arm, unsigned int Station,
