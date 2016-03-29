@@ -1,8 +1,6 @@
 #ifndef DataFormats_TotemRPReco_interface_RPDetTrigger_h
 #define DataFormats_TotemRPReco_interface_RPDetTrigger_h
 
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
-
 class RPDetTrigger {
  public:
   RPDetTrigger(unsigned int det_id=0, unsigned short sector_no=0)

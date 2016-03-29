@@ -16,7 +16,6 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHitDebug.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPair.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPRecoElasticEvent.h"

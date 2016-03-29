@@ -10,8 +10,6 @@
 #ifndef DataFormats_TotemRPDigi_interface_TotemRPDigi_h
 #define DataFormats_TotemRPDigi_interface_TotemRPDigi_h
 
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
-
 class TotemRPDigi
 {
   public:

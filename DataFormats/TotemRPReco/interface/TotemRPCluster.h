@@ -10,8 +10,6 @@
 #ifndef DataFormats_TotemRPReco_interface_TotemRPCluster_h
 #define DataFormats_TotemRPReco_interface_TotemRPCluster_h
 
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
-
 /**
  *\brief Cluster of TOTEM RP strip hits.
  **/

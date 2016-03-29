@@ -10,7 +10,6 @@
 #include <Minuit2/MnUserParameters.h>
 #include <Minuit2/CombinedMinimizer.h>
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPair.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"

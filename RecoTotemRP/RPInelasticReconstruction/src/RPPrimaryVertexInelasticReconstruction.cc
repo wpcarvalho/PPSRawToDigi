@@ -11,7 +11,6 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
 #include "RecoTotemRP/RPRomanPotResolutionService/interface/RPFitResolution.h"
 #include "TotemCondFormats/BeamOpticsParamsObjects/interface/BeamOpticsParams.h"

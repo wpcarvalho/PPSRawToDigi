@@ -24,7 +24,6 @@
 
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 #include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
 #include "RecoTotemRP/RPTrackCandidateFitter/interface/RPTrackCandidateFitter.h"

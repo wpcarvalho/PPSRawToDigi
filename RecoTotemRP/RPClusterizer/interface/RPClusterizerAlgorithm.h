@@ -6,7 +6,6 @@
 #include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 
 #include "SimDataFormats/TrackingHit/interface/PSimHit.h"
 

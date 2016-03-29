@@ -1,8 +1,6 @@
 #ifndef RecoTotemRP_RPClusterSigmaService_RPDetClusterSigmas_h
 #define RecoTotemRP_RPClusterSigmaService_RPDetClusterSigmas_h
 
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
-
 class RPDetClusterSigmas
 {
   public:

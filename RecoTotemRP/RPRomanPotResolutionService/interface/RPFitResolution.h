@@ -4,7 +4,6 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
 
 //Data Formats

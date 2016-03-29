@@ -10,8 +10,6 @@
 #ifndef DataFormats_TotemRPReco_interface_TotemTotemRPRecHit_h
 #define DataFormats_TotemRPReco_interface_TotemTotemRPRecHit_h
 
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
-
 /**
  *\brief Reconstructed hit in TOTEM RP.
  *

@@ -1,8 +1,6 @@
 #ifndef DataFormats_TotemRPReco_interface_RPTimingDetectorHit_h
 #define DataFormats_TotemRPReco_interface_RPTimingDetectorHit_h
 
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
-
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
 
 class RPTimingDetectorHit {

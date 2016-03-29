@@ -11,7 +11,6 @@
 #define RecoTotemRP_RPRecoDataFormats_RPTrackCandidate_h
 
 #include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 
 #include <vector>
 #include <set>

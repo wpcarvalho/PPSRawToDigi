@@ -3,7 +3,6 @@
 
 #include "TNamed.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHitDebug.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "TVector2.h"
 #include <map>
 #include <ostream>
