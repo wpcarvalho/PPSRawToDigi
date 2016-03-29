@@ -138,7 +138,7 @@ void GeometryTestModule::analyze(const edm::Event& iEvent, const edm::EventSetup
 	*/
 
 	for (TotemRPGeometry::mapType::const_iterator it = idealRPMap->beginDet(); it != idealRPMap->endDet(); ++it) {
-		TotRPDetId id(it->first);
+		TotemRPDetId id(it->first);
 		cout << "possition of detector " << id.DetectorDecId() << endl
 			<< "	ideal " << it->second->translation() << endl
 //			<< "	real " << (*realRPMap)[id]->translation() << endl

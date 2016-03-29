@@ -50,7 +50,7 @@ TotemRPDQMSource::DiagonalPlots::DiagonalPlots(DQMStore::IBooker &ibooker, int _
 
 TotemRPDQMSource::ArmPlots::ArmPlots(DQMStore::IBooker &ibooker, int _id) : id(_id)
 {
-  ibooker.setCurrentFolder(string("Totem/") + TotRPDetId::ArmName(id, TotRPDetId::nPath));
+  ibooker.setCurrentFolder(string("Totem/") + TotemRPDetId::ArmName(id, TotemRPDetId::nPath));
 
   h_numRPWithTrack_top = ibooker.book1D("number of top RPs with tracks", "number of top RPs with tracks;number of top RPs with tracks", 5, -0.5, 4.5);
   h_numRPWithTrack_hor = ibooker.book1D("number of hor RPs with tracks", "number of hor RPs with tracks;number of hor RPs with tracks", 5, -0.5, 4.5);
@@ -81,7 +81,7 @@ TotemRPDQMSource::StationPlots::StationPlots(DQMStore::IBooker &ibooker, int _id
   bool allocateCorrelationPlots, CorrelationPlotsSelector *correlationPlotsSelector, int limit) : 
     id(_id)
 {
-  ibooker.setCurrentFolder(string("Totem/") + TotRPDetId::StationName(id, TotRPDetId::nPath));
+  ibooker.setCurrentFolder(string("Totem/") + TotemRPDetId::StationName(id, TotemRPDetId::nPath));
 
   if (allocateCorrelationPlots)
     Add(ibooker, planes, correlationPlotsSelector, limit);
@@ -115,8 +115,8 @@ void TotemRPDQMSource::StationPlots::Add(DQMStore::IBooker &ibooker, std::set<un
           unsigned int RPPlaneId2 = plane2 + 100 * id;
           std::string RPPlane1 = "";
           std::string RPPlane2 = "";
-          RPPlane1 += TotRPDetId::PlaneName(RPPlaneId1, TotRPDetId::nPath);
-          RPPlane2 += TotRPDetId::PlaneName(RPPlaneId2, TotRPDetId::nPath);
+          RPPlane1 += TotemRPDetId::PlaneName(RPPlaneId1, TotemRPDetId::nPath);
+          RPPlane2 += TotemRPDetId::PlaneName(RPPlaneId2, TotemRPDetId::nPath);
           size_t pos1 = RPPlane1.rfind('/');
           size_t pos2 = RPPlane2.rfind('/');
           
@@ -172,7 +172,7 @@ void TotemRPDQMSource::StationPlots::Add(DQMStore::IBooker &ibooker, std::set<un
 
 TotemRPDQMSource::PotPlots::PotPlots(DQMStore::IBooker &ibooker, unsigned int id)
 {
-  ibooker.setCurrentFolder(string("Totem/") + TotRPDetId::RPName(id, TotRPDetId::nPath));
+  ibooker.setCurrentFolder(string("Totem/") + TotemRPDetId::RPName(id, TotemRPDetId::nPath));
 
   activity = ibooker.book1D("active planes", "active planes;number of active planes", 11, -0.5, 10.5);
   activity_u = ibooker.book1D("active planes U", "active planes U;number of active U planes", 11, -0.5, 10.5);
@@ -205,7 +205,7 @@ TotemRPDQMSource::PotPlots::PotPlots(DQMStore::IBooker &ibooker, unsigned int id
 
 TotemRPDQMSource::PlanePlots::PlanePlots(DQMStore::IBooker &ibooker, unsigned int id)
 {
-  ibooker.setCurrentFolder(string("Totem/") + TotRPDetId::PlaneName(id, TotRPDetId::nPath));
+  ibooker.setCurrentFolder(string("Totem/") + TotemRPDetId::PlaneName(id, TotemRPDetId::nPath));
 
   digi_profile_cumulative = ibooker.book1D("digi profile", "digi profile;strip number", 512, -0.5, 511.5);
   cluster_profile_cumulative = ibooker.book1D("cluster profile", "cluster profile;cluster center", 1024, -0.25, 511.75);
@@ -360,7 +360,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   // digi profile cumulative
   for (DetSetVector<TotemRPDigi>::const_iterator it = digi->begin(); it != digi->end(); ++it)
   {
-    unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
+    unsigned int DetId = TotemRPDetId::RawToDecId(it->detId());
     for (DetSet<TotemRPDigi>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
     {
       planePlots[DetId].digi_profile_cumulative->Fill(dit->GetStripNo());
@@ -370,7 +370,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   // cluster profile cumulative
   for (DetSetVector<TotemRPCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
   {
-    unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
+    unsigned int DetId = TotemRPDetId::RawToDecId(it->detId());
     for (DetSet<TotemRPCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
     {
       planePlots[DetId].cluster_profile_cumulative->Fill(dit->CentreStripPos());
@@ -380,14 +380,14 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   // hit multiplicity
   for (DetSetVector<TotemRPCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
   {
-    unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
+    unsigned int DetId = TotemRPDetId::RawToDecId(it->detId());
     planePlots[DetId].hit_multiplicity->Fill(it->size());
   }
 
   // cluster size
   for (DetSetVector<TotemRPCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
   {
-    unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
+    unsigned int DetId = TotemRPDetId::RawToDecId(it->detId());
     for (DetSet<TotemRPCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
       planePlots[DetId].cluster_size->Fill(dit->GetNumberOfStrips());
   }
@@ -401,11 +401,11 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   map<unsigned int, set<unsigned int> > planes_v;
   for (DetSetVector<TotemRPRecHit>::const_iterator it = hits->begin(); it != hits->end(); ++it)
   {
-    unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
-    unsigned int RPId = TotRPDetId::RPOfDet(DetId);
+    unsigned int DetId = TotemRPDetId::RawToDecId(it->detId());
+    unsigned int RPId = TotemRPDetId::RPOfDet(DetId);
     unsigned int planeNum = DetId % 10;
     planes[RPId].insert(planeNum);
-    if (TotRPDetId::IsStripsCoordinateUDirection(DetId))
+    if (TotemRPDetId::IsStripsCoordinateUDirection(DetId))
       planes_u[RPId].insert(planeNum);
     else
       planes_v[RPId].insert(planeNum);
@@ -420,8 +420,8 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   
   for (DetSetVector<TotemRPCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)
   {
-    unsigned int DetId = TotRPDetId::RawToDecId(it->detId());
-    unsigned int RPId = TotRPDetId::RPOfDet(DetId);
+    unsigned int DetId = TotemRPDetId::RawToDecId(it->detId());
+    unsigned int RPId = TotemRPDetId::RPOfDet(DetId);
     unsigned int planeNum = DetId % 10;
     PotPlots &pp = potPlots[RPId];
     for (DetSet<TotemRPCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
@@ -466,8 +466,8 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     for (int hi = 0; hi < ft.GetHitEntries(); hi++)
     {
       unsigned int rawId = ft.GetHit(hi).DetId();  
-      unsigned int decId = TotRPDetId::RawToDecId(rawId);
-      if (TotRPDetId::IsStripsCoordinateUDirection(decId))
+      unsigned int decId = TotemRPDetId::RawToDecId(rawId);
+      if (TotemRPDetId::IsStripsCoordinateUDirection(decId))
         n_pl_in_fit_u++;
       else
         n_pl_in_fit_v++;
@@ -476,14 +476,14 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     pp.h_planes_fit_v->Fill(n_pl_in_fit_v);
 
     // mean position of U and V planes
-    double rp_x = ( geometry->GetDetector(TotRPDetId::DecToRawId(RPId*10 + 0))->translation().x() +
-                    geometry->GetDetector(TotRPDetId::DecToRawId(RPId*10 + 1))->translation().x() ) / 2.;
-    double rp_y = ( geometry->GetDetector(TotRPDetId::DecToRawId(RPId*10 + 0))->translation().y() +
-                    geometry->GetDetector(TotRPDetId::DecToRawId(RPId*10 + 1))->translation().y() ) / 2.;
+    double rp_x = ( geometry->GetDetector(TotemRPDetId::DecToRawId(RPId*10 + 0))->translation().x() +
+                    geometry->GetDetector(TotemRPDetId::DecToRawId(RPId*10 + 1))->translation().x() ) / 2.;
+    double rp_y = ( geometry->GetDetector(TotemRPDetId::DecToRawId(RPId*10 + 0))->translation().y() +
+                    geometry->GetDetector(TotemRPDetId::DecToRawId(RPId*10 + 1))->translation().y() ) / 2.;
 
     // mean read-out direction of U and V planes
-    CLHEP::Hep3Vector rod_U = geometry->LocalToGlobalDirection(TotRPDetId::DecToRawId(RPId*10 + 1), CLHEP::Hep3Vector(0., 1., 0.));
-    CLHEP::Hep3Vector rod_V = geometry->LocalToGlobalDirection(TotRPDetId::DecToRawId(RPId*10 + 0), CLHEP::Hep3Vector(0., 1., 0.));
+    CLHEP::Hep3Vector rod_U = geometry->LocalToGlobalDirection(TotemRPDetId::DecToRawId(RPId*10 + 1), CLHEP::Hep3Vector(0., 1., 0.));
+    CLHEP::Hep3Vector rod_V = geometry->LocalToGlobalDirection(TotemRPDetId::DecToRawId(RPId*10 + 0), CLHEP::Hep3Vector(0., 1., 0.));
 
     double x = ft.X0() - rp_x;
     double y = ft.Y0() - rp_y;
@@ -510,8 +510,8 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
         if (i == j)
           continue;
 
-        unsigned int DetId1 = TotRPDetId::RawToDecId(i->detId());
-        unsigned int DetId2 = TotRPDetId::RawToDecId(j->detId());
+        unsigned int DetId1 = TotemRPDetId::RawToDecId(i->detId());
+        unsigned int DetId2 = TotemRPDetId::RawToDecId(j->detId());
         unsigned int StationId1 = DetId1 / 100;
         unsigned int StationId2 = DetId2 / 100;
 

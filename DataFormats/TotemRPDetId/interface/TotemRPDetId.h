@@ -7,10 +7,11 @@
  *
  ****************************************************************************/
 
-#ifndef TotRPDetId_h
-#define TotRPDetId_h
+#ifndef DataFormats_TotemRPDetId_TotemRPDetId
+#define DataFormats_TotemRPDetId_TotemRPDetId
 
 #include "DataFormats/DetId/interface/DetId.h"
+
 #include "FWCore/Utilities/interface/Exception.h"
 
 #include <iosfwd>
@@ -21,7 +22,7 @@
  *\brief Roman Pot detector ID.
  *
  * There are 3 types of IDs used in CMSSW in the context of RP.
- * \li "class ID" - this class TotRPDetId, a daughter of DetId
+ * \li "class ID" - this class TotemRPDetId, a daughter of DetId
  * \li "raw ID" - unsigned int, the result of rawId() method
  * \li "decimal or symbolic ID" - 4 decimal digit unsigned int, |arm|station|RP|det|
  *
@@ -47,17 +48,17 @@
  * Moreover there is an official naming scheme (EDMS 906715). It is supported by the ...Name() methods.
 **/
 
-class TotRPDetId : public DetId
+class TotemRPDetId : public DetId
 {  
  public:
-  TotRPDetId();
+  TotemRPDetId();
   
   /// Construct from a raw id. It is required that the Detector part of
   /// id is Totem and the SubDet part is RP, otherwise an exception is thrown.
-  explicit TotRPDetId(uint32_t id);
+  explicit TotemRPDetId(uint32_t id);
   
   /// Construct from fully qualified identifier.
-  TotRPDetId(unsigned int Arm, unsigned int Station,
+  TotemRPDetId(unsigned int Arm, unsigned int Station,
 	     unsigned int RomanPot, unsigned int Detector);
       
   
@@ -181,6 +182,6 @@ class TotRPDetId : public DetId
   inline void init(unsigned int Arm, unsigned int Station, unsigned int RomanPot, unsigned int Detector);
 };
 
-std::ostream& operator<<(std::ostream& os, const TotRPDetId& id);
+std::ostream& operator<<(std::ostream& os, const TotemRPDetId& id);
 
 #endif 

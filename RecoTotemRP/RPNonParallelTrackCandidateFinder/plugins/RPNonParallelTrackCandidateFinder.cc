@@ -17,7 +17,7 @@
 #include "FWCore/Framework/interface/EDProducer.h"
 #include "FWCore/Framework/interface/ESWatcher.h"
 
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
@@ -151,10 +151,10 @@ void RPNonParallelTrackCandidateFinder::produce(edm::Event& event, const edm::Ev
 
   for (DetSetVector<TotemRPRecHit>::const_iterator dit = input->begin(); dit != input->end(); ++dit)
   {
-    unsigned int detId = TotRPDetId::RawToDecId(dit->detId());
-    unsigned int RPId = TotRPDetId::RPOfDet(detId);
+    unsigned int detId = TotemRPDetId::RawToDecId(dit->detId());
+    unsigned int RPId = TotemRPDetId::RPOfDet(detId);
     unsigned int plane = detId % 10;
-    bool uDir = TotRPDetId::IsStripsCoordinateUDirection(detId);
+    bool uDir = TotemRPDetId::IsStripsCoordinateUDirection(detId);
 
     for (DetSet<TotemRPRecHit>::const_iterator hit = dit->begin(); hit != dit->end(); ++hit)
     {

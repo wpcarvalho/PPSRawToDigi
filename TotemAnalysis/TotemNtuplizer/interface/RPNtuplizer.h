@@ -16,7 +16,7 @@
 #include "DataFormats/L1TotemRP/interface/TotemRPCCBits.h"
 
 #include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/Wrapper.h"
 #include "fastjet/ClusterSequence.hh"

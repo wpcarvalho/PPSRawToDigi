@@ -190,7 +190,7 @@ void GeometryInfoModule::PrintGeometry(const TotemRPGeometry &geometry, const ed
     printf("      |   x (mm)   |   y (mm)   |   z  (m)   |    dx    |    dy    |\n");
     for (TotemRPGeometry::mapType::const_iterator it = geometry.beginDet(); it != geometry.endDet(); ++it)
     {
-      TotRPDetId id(it->first);
+      TotemRPDetId id(it->first);
   
       double x = it->second->translation().x();
       double y = it->second->translation().y();
@@ -212,9 +212,9 @@ void GeometryInfoModule::PrintGeometry(const TotemRPGeometry &geometry, const ed
 
     for (TotemRPGeometry::mapType::const_iterator it = geometry.beginDet(); it != geometry.endDet(); ++it)
     {
-      unsigned int decId = TotRPDetId::RawToDecId(it->first);
+      unsigned int decId = TotemRPDetId::RawToDecId(it->first);
       unsigned int rpId = decId / 10;
-      bool uDirection = TotRPDetId::IsStripsCoordinateUDirection(decId);
+      bool uDirection = TotemRPDetId::IsStripsCoordinateUDirection(decId);
   
       double x = it->second->translation().x();
       double y = it->second->translation().y();

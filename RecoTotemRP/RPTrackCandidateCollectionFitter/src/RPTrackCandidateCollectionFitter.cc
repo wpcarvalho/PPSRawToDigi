@@ -135,7 +135,7 @@ void RPTrackCandidateCollectionFitter::run(const RPTrackCandidateCollection & in
         std::cout<<"RecoHits:"<<std::endl;
         for(RPTrackCandidate::const_iterator it = rg.first; it!=rg.second; ++it)
         {
-          TotRPDetId id_dec(it->DetId());
+          TotemRPDetId id_dec(it->DetId());
           std::cout<<"det id: "<<id_dec.DetectorDecId()<<" pos:"<<it->Position()<<std::endl;
         }
 
@@ -143,7 +143,7 @@ void RPTrackCandidateCollectionFitter::run(const RPTrackCandidateCollection & in
         for(edm::DetSetVector<TotemRPCluster>::const_iterator it_1 = input_clusters.begin();
           it_1 != input_clusters.end(); it_1++)
         {
-          TotRPDetId id_clust(it_1->id);
+          TotemRPDetId id_clust(it_1->id);
           if(id_clust.RPCopyNumber() == in_it->first)
           {
             std::cout<<"===digi clusters det. id.:"<<id_clust.DetectorDecId()<<std::endl;

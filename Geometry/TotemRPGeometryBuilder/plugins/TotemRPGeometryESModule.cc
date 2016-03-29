@@ -35,7 +35,7 @@
 #include "Geometry/TotemRPGeometryBuilder/interface/DetGeomDesc.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 #include "TotemAlignment/RPDataFormats/interface/RPAlignmentCorrections.h"
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/DDDTotemRPConstruction.h"
 
 #include <TMatrixD.h>
@@ -124,7 +124,7 @@ void TotemRPGeometryESModule::ApplyAlignments(const ESHandle<DetGeomDesc> &ideal
     // Is it sensor? If yes, apply full sensor alignments
     if (! pD->name().name().compare(DDD_TOTEM_RP_DETECTOR_NAME))
     {
-      unsigned int decId = TotRPDetId::RawToDecId(pD->geographicalID().rawId());
+      unsigned int decId = TotemRPDetId::RawToDecId(pD->geographicalID().rawId());
 
       if (alignments.isValid())
       {

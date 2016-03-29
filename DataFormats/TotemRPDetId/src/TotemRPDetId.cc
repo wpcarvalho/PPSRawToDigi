@@ -8,23 +8,24 @@
  ****************************************************************************/
 
 
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "FWCore/Utilities/interface/Exception.h"
 
 using namespace std;
 
+//----------------------------------------------------------------------------------------------------
 
-TotRPDetId::TotRPDetId():DetId(DetId::VeryForward, totem_rp_subdet_id)
+TotemRPDetId::TotemRPDetId():DetId(DetId::VeryForward, totem_rp_subdet_id)
 {
 }
 
 //----------------------------------------------------------------------------------------------------
 
-TotRPDetId::TotRPDetId(uint32_t id):DetId(id)
+TotemRPDetId::TotemRPDetId(uint32_t id):DetId(id)
 {
   if (! Check(id))
     {
-      throw cms::Exception("InvalidDetId") << "TotRPDetId ctor:"
+      throw cms::Exception("InvalidDetId") << "TotemRPDetId ctor:"
 					   << " det: " << det()
 					   << " subdet: " << subdetId()
 					   << " is not a valid Totem RP id";  
@@ -33,11 +34,11 @@ TotRPDetId::TotRPDetId(uint32_t id):DetId(id)
 
 //----------------------------------------------------------------------------------------------------
 
-void TotRPDetId::init(unsigned int Arm, unsigned int Station, unsigned int RomanPot, unsigned int Detector)
+void TotemRPDetId::init(unsigned int Arm, unsigned int Station, unsigned int RomanPot, unsigned int Detector)
 {
   if( Arm>=2 || Station>=3 || RomanPot>=6 || Detector>=10)
     {
-      throw cms::Exception("InvalidDetId") << "TotRPDetId ctor:" 
+      throw cms::Exception("InvalidDetId") << "TotemRPDetId ctor:" 
 					   << " Invalid parameters: " 
 					   << " Arm "<<Arm
 					   << " Station "<<Station
@@ -57,7 +58,7 @@ void TotRPDetId::init(unsigned int Arm, unsigned int Station, unsigned int Roman
 
 //----------------------------------------------------------------------------------------------------
 
-TotRPDetId::TotRPDetId(unsigned int Arm, unsigned int Station, unsigned int RomanPot, unsigned int Detector):       
+TotemRPDetId::TotemRPDetId(unsigned int Arm, unsigned int Station, unsigned int RomanPot, unsigned int Detector):       
   DetId(DetId::VeryForward,totem_rp_subdet_id)
 {
   this->init(Arm,Station,RomanPot,Detector);
@@ -65,7 +66,7 @@ TotRPDetId::TotRPDetId(unsigned int Arm, unsigned int Station, unsigned int Roma
 
 //----------------------------------------------------------------------------------------------------
 
-std::ostream& operator<<( std::ostream& os, const TotRPDetId& id )
+std::ostream& operator<<( std::ostream& os, const TotemRPDetId& id )
 {
   os << " Arm "<<id.Arm()
      << " Station "<<id.Station()
@@ -77,7 +78,7 @@ std::ostream& operator<<( std::ostream& os, const TotRPDetId& id )
 
 //----------------------------------------------------------------------------------------------------
 
-string TotRPDetId::SystemName(NameFlag flag)
+string TotemRPDetId::SystemName(NameFlag flag)
 {
   string name;
   if (flag == nFull) name = "rp";
@@ -88,7 +89,7 @@ string TotRPDetId::SystemName(NameFlag flag)
 
 //----------------------------------------------------------------------------------------------------
 
-string TotRPDetId::ArmName(unsigned int id, NameFlag flag)
+string TotemRPDetId::ArmName(unsigned int id, NameFlag flag)
 {
   string name;
   if (flag == nFull) name = SystemName(flag) + "_";
@@ -102,7 +103,7 @@ string TotRPDetId::ArmName(unsigned int id, NameFlag flag)
 
 //----------------------------------------------------------------------------------------------------
 
-string TotRPDetId::StationName(unsigned int id, NameFlag flag)
+string TotemRPDetId::StationName(unsigned int id, NameFlag flag)
 {
   string name;
   if (flag == nFull) name = ArmName(id / 10, flag) + "_";
@@ -116,7 +117,7 @@ string TotRPDetId::StationName(unsigned int id, NameFlag flag)
 
 //----------------------------------------------------------------------------------------------------
 
-string TotRPDetId::RPName(unsigned int id, NameFlag flag)
+string TotemRPDetId::RPName(unsigned int id, NameFlag flag)
 {
   string name; 
   if (flag == nFull) name = StationName(id / 10, flag) + "_";
@@ -133,7 +134,7 @@ string TotRPDetId::RPName(unsigned int id, NameFlag flag)
 
 //----------------------------------------------------------------------------------------------------
 
-string TotRPDetId::PlaneName(unsigned int id, NameFlag flag)
+string TotemRPDetId::PlaneName(unsigned int id, NameFlag flag)
 {
   string name;
   if (flag == nFull) name = RPName(id / 10, flag) + "_";
@@ -147,7 +148,7 @@ string TotRPDetId::PlaneName(unsigned int id, NameFlag flag)
 
 //----------------------------------------------------------------------------------------------------
 
-string TotRPDetId::ChipName(unsigned int id, NameFlag flag)
+string TotemRPDetId::ChipName(unsigned int id, NameFlag flag)
 {
   string name;
   if (flag == nFull) name = PlaneName(id / 10, flag) + "_";
@@ -161,7 +162,7 @@ string TotRPDetId::ChipName(unsigned int id, NameFlag flag)
 
 //----------------------------------------------------------------------------------------------------
 
-string TotRPDetId::StripName(unsigned int id, unsigned char strip, NameFlag flag)
+string TotemRPDetId::StripName(unsigned int id, unsigned char strip, NameFlag flag)
 {
   string name;
   if (flag == nFull) name = ChipName(id, flag) + "_";
@@ -175,7 +176,7 @@ string TotRPDetId::StripName(unsigned int id, unsigned char strip, NameFlag flag
 
 //----------------------------------------------------------------------------------------------------
 
-string TotRPDetId::OfficialName(ElementLevel level, unsigned int id, NameFlag flag, unsigned char strip)
+string TotemRPDetId::OfficialName(ElementLevel level, unsigned int id, NameFlag flag, unsigned char strip)
 {
   switch (level) {
     case lSystem: return SystemName(flag);

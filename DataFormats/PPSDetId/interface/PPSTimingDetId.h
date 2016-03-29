@@ -21,7 +21,7 @@
  *\brief Roman Pot detector ID.
  *
  * There are 3 types of IDs used in CMSSW in the context of RP.
- * \li "class ID" - this class TotRPDetId, a daughter of DetId
+ * \li "class ID" - this class TotemRPDetId, a daughter of DetId
  * \li "raw ID" - unsigned int, the result of rawId() method
  * \li "decimal or symbolic ID" - 4 decimal digit unsigned int, |arm|station|RP|det|
  *
@@ -208,7 +208,7 @@ class PPSTimingDetId : public DetId
   inline void init(unsigned int Arm, unsigned int Station, unsigned int RomanPot, unsigned int Detector);
 };
 
-//std::ostream& operator<<(std::ostream& os, const TotRPDetId& id);
+//std::ostream& operator<<(std::ostream& os, const TotemRPDetId& id);
 std::ostream& operator<<(std::ostream& os, const PPSTimingDetId& id);
 
 #endif 

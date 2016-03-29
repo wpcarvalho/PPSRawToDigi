@@ -9,7 +9,7 @@
 #include "Geometry/TotemRPGeometryBuilder/interface/DDDTotemRPConstruction.h"
 #include "DetectorDescription/Core/interface/DDFilteredView.h"
 #include "DetectorDescription/Core/interface/DDCompactView.h"
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 
 // this might be useful one day
 //.#include "Geometry/TrackerNumberingBuilder/interface/ExtractStringFromDDD.h"
@@ -83,8 +83,8 @@ void DDDTotemRPContruction::buildDetGeomDesc(DDFilteredView *fv, DetGeomDesc *gd
 			unsigned int rp = A % 10;
 			unsigned int detector = cN[cN.size() - 1];
       //.std::cout<<"arm:"<<arm<<", station:"<<station<<", rp:"<<rp<<", detector:"<<detector<<std::endl;
-      //.std::cout<<"TotRPDetId(arm, station, rp, detector) "<<TotRPDetId(arm, station, rp, detector).DetectorDecId()<<", "<<TotRPDetId(arm, station, rp, detector).rawId()<<std::endl;
-			newGD->setGeographicalID(TotRPDetId(arm, station, rp, detector));
+      //.std::cout<<"TotemRPDetId(arm, station, rp, detector) "<<TotemRPDetId(arm, station, rp, detector).DetectorDecId()<<", "<<TotemRPDetId(arm, station, rp, detector).rawId()<<std::endl;
+			newGD->setGeographicalID(TotemRPDetId(arm, station, rp, detector));
 			//.cout << "A = " << A << "; arm = " << arm << " st = " << station << " rp = " << rp << " det = " << detector << " --> "<< gd->geographicalID().rawId() << endl;
 		}
 

@@ -13,7 +13,7 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"
@@ -238,13 +238,13 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   	edm::DetSetVector<TotemRPCluster>::const_iterator inputIteratorCl = clusters->begin();
   	for (; inputIteratorCl != clusters->end(); inputIteratorCl++)
     {
-  	  TotRPDetId detectorId(inputIteratorCl->id);
+  	  TotemRPDetId detectorId(inputIteratorCl->id);
   	  
       //inputIterator->data : vector< TotemRPCluster>
       //(inputIterator->data)[i] : TotemRPCluster
       for (unsigned int i = 0; i < (inputIteratorCl->data).size(); ++i)
       {
-        unsigned int detNo = TotRPDetId::RawToDecId((inputIteratorCl->data)[i].DetId());
+        unsigned int detNo = TotemRPDetId::RawToDecId((inputIteratorCl->data)[i].DetId());
   	  	unsigned int planeNo = detNo % 10;
   	  	unsigned int RPNo = detNo / 10;
 
@@ -255,7 +255,7 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   	  	if (digi_info_[RPNo].numberOfClusters[planeNo] == 0)
         {
   	  		digi_info_[RPNo].numberOfPlanesOn++;
-            if (TotRPDetId::IsStripsCoordinateUDirection(planeNo))
+            if (TotemRPDetId::IsStripsCoordinateUDirection(planeNo))
   	  		  digi_info_[RPNo].uPlanesOn++;
             else
   	  		  digi_info_[RPNo].vPlanesOn++;

@@ -5,7 +5,7 @@
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include <iostream>
 
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -115,7 +115,7 @@ void RPSingleCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & 
     edm::DetSet<TotemRPRecHit>::const_iterator hits_it;
     for(hits_it = it->begin(); hits_it != it->end(); ++hits_it)
     {
-      TotRPDetId tot_rp_det_id(hits_it->DetId());
+      TotemRPDetId tot_rp_det_id(hits_it->DetId());
       unsigned int rp_id = tot_rp_det_id.RPCopyNumber();
       
       uv_pair_vec_reco_hits &pair_ref = the_map[rp_id];

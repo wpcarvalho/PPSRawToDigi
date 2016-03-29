@@ -16,7 +16,7 @@
 #include "TotemAlignment/RPDataFormats/interface/RPAlignmentCorrectionsSequence.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 #include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 
 #include <string>
 
@@ -121,7 +121,7 @@ void BuildElasticCorrectionsFile::beginRun(edm::Run const&, edm::EventSetup cons
   RPAlignmentCorrections output;
   for (RPAlignmentCorrections::mapType::const_iterator it = input.GetSensorMap().begin();
       it != input.GetSensorMap().end(); ++it) { 
-    unsigned int rawId = TotRPDetId::DecToRawId(it->first);
+    unsigned int rawId = TotemRPDetId::DecToRawId(it->first);
     CLHEP::Hep3Vector d = geom->LocalToGlobalDirection(rawId, CLHEP::Hep3Vector(0., 1., 0.));
 
     RPAlignmentCorrection ac = input.GetFullSensorCorrection(it->first);
@@ -133,7 +133,7 @@ void BuildElasticCorrectionsFile::beginRun(edm::Run const&, edm::EventSetup cons
   printf("\tID      shift in x    shift in y    rotation about z\n");
   for (RPAlignmentCorrections::mapType::const_iterator it = output.GetSensorMap().begin();
       it != output.GetSensorMap().end(); ++it) { 
-    unsigned int rawId = TotRPDetId::DecToRawId(it->first);
+    unsigned int rawId = TotemRPDetId::DecToRawId(it->first);
     CLHEP::Hep3Vector d = geom->LocalToGlobalDirection(rawId, CLHEP::Hep3Vector(0., 1., 0.));
     double dx = d.x(), dy = d.y();
     CLHEP::Hep3Vector c = geom->GetDetTranslation(rawId);
@@ -206,7 +206,7 @@ void BuildElasticCorrectionsFile::beginRun(edm::Run const&, edm::EventSetup cons
     unsigned idx = 0;
     for (RPAlignmentCorrections::mapType::const_iterator it = output.GetSensorMap().begin();
         it != output.GetSensorMap().end(); ++it) {
-      unsigned int rawId = TotRPDetId::DecToRawId(it->first);
+      unsigned int rawId = TotemRPDetId::DecToRawId(it->first);
 
       CLHEP::Hep3Vector d = geom->LocalToGlobalDirection(rawId, CLHEP::Hep3Vector(0., 1., 0.));
       DDTranslation c = geom->GetDetector(rawId)->translation();
@@ -251,7 +251,7 @@ void BuildElasticCorrectionsFile::ProcessOnePot(unsigned int rpId, double a, dou
   
   for (unsigned int i = 0; i < 10; i++) {
     unsigned int symId = rpId*10 + i;
-    unsigned int rawId = TotRPDetId::DecToRawId(symId);
+    unsigned int rawId = TotemRPDetId::DecToRawId(symId);
     CLHEP::Hep3Vector dc = geom.GetDetTranslation(rawId);
 
     double de_x = (cos(a) - 1.) * dc.x() - sin(a) * dc.y();

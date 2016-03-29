@@ -2,7 +2,7 @@
 #include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSet.h"
@@ -105,9 +105,9 @@ void RecognizedTrackAnalyzer::analyze(const edm::Event& event, const edm::EventS
 	// process all hits collection
 	map< unsigned int, pair< vector<const TotemRPRecHit *>, vector<const TotemRPRecHit *> > > allHitsMap;
 	for (DetSetVector<TotemRPRecHit>::const_iterator dit = allHits->begin(); dit != allHits->end(); ++dit) {
-		unsigned int detId = TotRPDetId::RawToDecId(dit->detId());
-		unsigned int RPId = TotRPDetId::RPOfDet(detId);
-		bool uDir = TotRPDetId::IsStripsCoordinateUDirection(detId);
+		unsigned int detId = TotemRPDetId::RawToDecId(dit->detId());
+		unsigned int RPId = TotemRPDetId::RPOfDet(detId);
+		bool uDir = TotemRPDetId::IsStripsCoordinateUDirection(detId);
 
 		for (DetSet<TotemRPRecHit>::const_iterator hit = dit->begin(); hit != dit->end(); ++hit) {
 			if (uDir) allHitsMap[RPId].first.push_back(& (*hit));
@@ -124,8 +124,8 @@ void RecognizedTrackAnalyzer::analyze(const edm::Event& event, const edm::EventS
 		unsigned int RPId = dit->first;
 		const vector<TotemRPRecHit> &rhs = dit->second.TrackRecoHits();
 		for (vector<TotemRPRecHit>::const_iterator hit = rhs.begin(); hit != rhs.end(); ++hit) {
-			unsigned int detId = TotRPDetId::RawToDecId(hit->DetId());
-			bool uDir = TotRPDetId::IsStripsCoordinateUDirection(detId);
+			unsigned int detId = TotemRPDetId::RawToDecId(hit->DetId());
+			bool uDir = TotemRPDetId::IsStripsCoordinateUDirection(detId);
 
 			if (uDir) selHitsMap[RPId].first.push_back(& (*hit));
 			else selHitsMap[RPId].second.push_back(& (*hit));
