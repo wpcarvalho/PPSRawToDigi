@@ -45,7 +45,7 @@ int RPClusterizerAlgorithm::BuildClusters(unsigned int detId, const std::vector<
   
   for (TotemRPDigiSet::const_iterator i=strip_digi_set_.begin(); i!=strip_digi_set_.end(); ++i)
   {
-    cur_strip=i->GetStripNo();
+    cur_strip=i->getStripNumber();
     bool non_continuity = (cur_strip!=prev_strip+1);
     
     if (iter_beg)

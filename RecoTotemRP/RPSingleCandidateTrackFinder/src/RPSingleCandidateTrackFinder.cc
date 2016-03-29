@@ -116,11 +116,11 @@ void RPSingleCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & 
     for(hits_it = it->begin(); hits_it != it->end(); ++hits_it)
     {
       TotemRPDetId tot_rp_det_id(hits_it->DetId());
-      unsigned int rp_id = tot_rp_det_id.RPCopyNumber();
+      unsigned int rp_id = tot_rp_det_id.rpCopyNumber();
       
       uv_pair_vec_reco_hits &pair_ref = the_map[rp_id];
       
-      if(tot_rp_det_id.IsStripsCoordinateUDirection())
+      if(tot_rp_det_id.isStripsCoordinateUDirection())
       {
         pair_ref.first.push_back(*hits_it);
         //std::cout<<"U, ";
@@ -131,7 +131,7 @@ void RPSingleCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & 
         //std::cout<<"V, ";
       }
 
-    //std::cout<<"rp_id="<<rp_id<<" DetectorDecId()="<<tot_rp_det_id.DetectorDecId()<<" Position="<<hits_it->Position()<<std::endl;
+    //std::cout<<"rp_id="<<rp_id<<" DetectorDecId()="<<tot_rp_det_id.detectorDecId()<<" Position="<<hits_it->Position()<<std::endl;
     }
   }
   

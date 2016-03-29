@@ -160,10 +160,10 @@ void TotemRPGeometry::BuildSets()
 
   // build
   for (mapType::const_iterator it = theMap.begin(); it != theMap.end(); ++it) {
-    unsigned int id = TotemRPDetId::RawToDecId((*it).first);
-    stationsInArm[TotemRPDetId::ArmOfDet(id)].insert(TotemRPDetId::StOfDet(id));
-    rpsInStation[TotemRPDetId::StOfDet(id)].insert(TotemRPDetId::RPOfDet(id));
-    detsInRP[TotemRPDetId::RPOfDet(id)].insert(id);
+    unsigned int id = TotemRPDetId::rawToDecId((*it).first);
+    stationsInArm[TotemRPDetId::armOfDet(id)].insert(TotemRPDetId::stOfDet(id));
+    rpsInStation[TotemRPDetId::stOfDet(id)].insert(TotemRPDetId::rpOfDet(id));
+    detsInRP[TotemRPDetId::rpOfDet(id)].insert(id);
   }
 }
 

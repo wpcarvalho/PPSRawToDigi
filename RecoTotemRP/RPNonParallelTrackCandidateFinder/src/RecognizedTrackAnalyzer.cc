@@ -105,9 +105,9 @@ void RecognizedTrackAnalyzer::analyze(const edm::Event& event, const edm::EventS
 	// process all hits collection
 	map< unsigned int, pair< vector<const TotemRPRecHit *>, vector<const TotemRPRecHit *> > > allHitsMap;
 	for (DetSetVector<TotemRPRecHit>::const_iterator dit = allHits->begin(); dit != allHits->end(); ++dit) {
-		unsigned int detId = TotemRPDetId::RawToDecId(dit->detId());
-		unsigned int RPId = TotemRPDetId::RPOfDet(detId);
-		bool uDir = TotemRPDetId::IsStripsCoordinateUDirection(detId);
+		unsigned int detId = TotemRPDetId::rawToDecId(dit->detId());
+		unsigned int RPId = TotemRPDetId::rpOfDet(detId);
+		bool uDir = TotemRPDetId::isStripsCoordinateUDirection(detId);
 
 		for (DetSet<TotemRPRecHit>::const_iterator hit = dit->begin(); hit != dit->end(); ++hit) {
 			if (uDir) allHitsMap[RPId].first.push_back(& (*hit));
@@ -124,8 +124,8 @@ void RecognizedTrackAnalyzer::analyze(const edm::Event& event, const edm::EventS
 		unsigned int RPId = dit->first;
 		const vector<TotemRPRecHit> &rhs = dit->second.TrackRecoHits();
 		for (vector<TotemRPRecHit>::const_iterator hit = rhs.begin(); hit != rhs.end(); ++hit) {
-			unsigned int detId = TotemRPDetId::RawToDecId(hit->DetId());
-			bool uDir = TotemRPDetId::IsStripsCoordinateUDirection(detId);
+			unsigned int detId = TotemRPDetId::rawToDecId(hit->DetId());
+			bool uDir = TotemRPDetId::isStripsCoordinateUDirection(detId);
 
 			if (uDir) selHitsMap[RPId].first.push_back(& (*hit));
 			else selHitsMap[RPId].second.push_back(& (*hit));

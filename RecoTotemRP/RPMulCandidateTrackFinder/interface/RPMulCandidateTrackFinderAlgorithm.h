@@ -83,7 +83,7 @@ class RPMulCandidateTrackFinderAlgorithm
           hit_vect_.push_back(hit);
           g_pos_sum_ += pos;
           l_pos_sum_ += hit.Position();
-          ++det_nhit_map_[TotemRPDetId(hit.DetId()).Detector()];
+          ++det_nhit_map_[TotemRPDetId(hit.DetId()).detector()];
         }
 
       private:

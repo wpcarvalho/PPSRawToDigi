@@ -124,7 +124,7 @@ void TotemRPGeometryESModule::ApplyAlignments(const ESHandle<DetGeomDesc> &ideal
     // Is it sensor? If yes, apply full sensor alignments
     if (! pD->name().name().compare(DDD_TOTEM_RP_DETECTOR_NAME))
     {
-      unsigned int decId = TotemRPDetId::RawToDecId(pD->geographicalID().rawId());
+      unsigned int decId = TotemRPDetId::rawToDecId(pD->geographicalID().rawId());
 
       if (alignments.isValid())
       {

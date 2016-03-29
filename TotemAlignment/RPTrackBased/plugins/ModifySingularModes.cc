@@ -85,7 +85,7 @@ void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
   RPAlignmentCorrections output;
   for (RPAlignmentCorrections::mapType::const_iterator it = input.GetSensorMap().begin();
       it != input.GetSensorMap().end(); ++it) { 
-    unsigned int rawId = TotemRPDetId::DecToRawId(it->first);
+    unsigned int rawId = TotemRPDetId::decToRawId(it->first);
     CLHEP::Hep3Vector d = geom->LocalToGlobalDirection(rawId, CLHEP::Hep3Vector(0., 1., 0.));
 
     RPAlignmentCorrection ac = input.GetFullSensorCorrection(it->first);
@@ -97,7 +97,7 @@ void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
   printf("\tID      shift in x    shift in y    rotation about z\n");
   for (RPAlignmentCorrections::mapType::const_iterator it = output.GetSensorMap().begin();
       it != output.GetSensorMap().end(); ++it) { 
-    unsigned int rawId = TotemRPDetId::DecToRawId(it->first);
+    unsigned int rawId = TotemRPDetId::decToRawId(it->first);
     CLHEP::Hep3Vector d = geom->LocalToGlobalDirection(rawId, CLHEP::Hep3Vector(0., 1., 0.));
     double dx = d.x(), dy = d.y();
     CLHEP::Hep3Vector c = geom->GetDetTranslation(rawId);
@@ -172,7 +172,7 @@ void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
     unsigned idx = 0;
     for (RPAlignmentCorrections::mapType::const_iterator it = output.GetSensorMap().begin();
         it != output.GetSensorMap().end(); ++it) {
-      unsigned int rawId = TotemRPDetId::DecToRawId(it->first);
+      unsigned int rawId = TotemRPDetId::decToRawId(it->first);
 
       CLHEP::Hep3Vector d = geom->LocalToGlobalDirection(rawId, CLHEP::Hep3Vector(0., 1., 0.));
       DDTranslation c = geom->GetDetector(rawId)->translation();

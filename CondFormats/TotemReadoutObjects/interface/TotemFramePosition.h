@@ -51,35 +51,35 @@ class TotemFramePosition
     {
     }
 
-    unsigned short GetSubSystemId() const { return (rawPosition >> offsetSubSystemId) & maskSubSystemId; }
-    unsigned short GetTOTFEDId() const    { return (rawPosition >> offsetTOTFEDId) & maskTOTFEDId;}
-    unsigned short GetOptoRxId() const    { return (rawPosition >> offsetOptoRxId) & maskOptoRxId; }
-    unsigned short GetGOHId() const       { return (rawPosition >> offsetGOHId) & maskGOHId; }
-    unsigned short GetIdxInFiber() const  { return (rawPosition >> offsetIdxInFiber) & maskIdxInFiber; }
+    unsigned short getSubSystemId() const { return (rawPosition >> offsetSubSystemId) & maskSubSystemId; }
+    unsigned short getTOTFEDId() const    { return (rawPosition >> offsetTOTFEDId) & maskTOTFEDId;}
+    unsigned short getOptoRxId() const    { return (rawPosition >> offsetOptoRxId) & maskOptoRxId; }
+    unsigned short getGOHId() const       { return (rawPosition >> offsetGOHId) & maskGOHId; }
+    unsigned short getIdxInFiber() const  { return (rawPosition >> offsetIdxInFiber) & maskIdxInFiber; }
     
-    void SetSubSystemId(unsigned short v)
+    void setSubSystemId(unsigned short v)
     { v &= maskSubSystemId; rawPosition &= 0xFFFFFFFF - (maskSubSystemId << offsetSubSystemId); rawPosition |= (v << offsetSubSystemId); }
 
-    void SetTOTFEDId(unsigned short v)
+    void setTOTFEDId(unsigned short v)
     { v &= maskTOTFEDId; rawPosition &= 0xFFFFFFFF - (maskTOTFEDId << offsetTOTFEDId); rawPosition |= (v << offsetTOTFEDId); }
 
-    void SetOptoRxId(unsigned short v)
+    void setOptoRxId(unsigned short v)
     { v &= maskOptoRxId; rawPosition &= 0xFFFFFFFF - (maskOptoRxId << offsetOptoRxId); rawPosition |= (v << offsetOptoRxId); }
 
-    void SetGOHId(unsigned short v)
+    void setGOHId(unsigned short v)
     { v &= maskGOHId; rawPosition &= 0xFFFFFFFF - (maskGOHId << offsetGOHId); rawPosition |= (v << offsetGOHId); }
 
-    void SetIdxInFiber(unsigned short v)
+    void setIdxInFiber(unsigned short v)
     { v &= maskIdxInFiber; rawPosition &= 0xFFFFFFFF - (maskIdxInFiber << offsetIdxInFiber); rawPosition |= (v << offsetIdxInFiber); }
 
-    void SetAllIDs(unsigned short SubSystemId, unsigned short TOTFEDId, unsigned short OptoRxId, unsigned short GOHId, unsigned short IdxInFiber)
+    void setAllIDs(unsigned short SubSystemId, unsigned short TOTFEDId, unsigned short OptoRxId, unsigned short GOHId, unsigned short IdxInFiber)
     {
       rawPosition = (IdxInFiber<<offsetIdxInFiber | GOHId<<offsetGOHId | OptoRxId<<offsetOptoRxId
         | TOTFEDId<<offsetTOTFEDId | SubSystemId<<offsetSubSystemId);
     }
 
     /// don't use this method unless you have a good reason
-    unsigned int GetRawPosition() const
+    unsigned int getRawPosition() const
     {
       return rawPosition;
     }
@@ -110,20 +110,20 @@ class TotemFramePosition
     static const std::string tagSSFEC;
 
     /// prints XML formatted DAQ channel to stdout
-    void PrintXML();
+    void printXML();
 
     /// Sets attribute with XML name 'attribute' and value 'value'.
     /// Also turns on attribute presents bit in the flag parameter
     /// returns 0 if the attribute is known, non-zero value else
-    unsigned char SetXMLAttribute(const std::string &attribute, const std::string &value, unsigned char &flag);
+    unsigned char setXMLAttribute(const std::string &attribute, const std::string &value, unsigned char &flag);
 
     /// returns true if all attributes have been set
-    static bool CheckXMLAttributeFlag(unsigned char flag)
+    static bool checkXMLAttributeFlag(unsigned char flag)
     {
       return ((flag == 0x1f) | (flag == 0x20) | (flag == 0x40));
     }
 
-    unsigned short GetFullOptoRxId() const
+    unsigned short getFullOptoRxId() const
     {
       return (rawPosition >> 8) & 0xFFF;
     }

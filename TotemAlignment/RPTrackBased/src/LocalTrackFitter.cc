@@ -171,7 +171,7 @@ void LocalTrackFitter::RemoveInsufficientPots(HitCollection &selection, bool &se
   for (HitCollection::iterator it = selection.begin(); it != selection.end(); ++it) {
     unsigned int decId = it->id;
     unsigned int rpId = decId / 10;
-    if (TotemRPDetId::IsStripsCoordinateUDirection(decId))
+    if (TotemRPDetId::isStripsCoordinateUDirection(decId))
       planeMap[rpId].first.insert(decId);
     else
       planeMap[rpId].second.insert(decId);

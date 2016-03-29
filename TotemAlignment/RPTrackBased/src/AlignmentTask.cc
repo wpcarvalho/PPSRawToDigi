@@ -49,7 +49,7 @@ void AlignmentTask::BuildGeometry(const vector<unsigned int> &RPIds,
   for (vector<unsigned int>::const_iterator rp = RPIds.begin(); rp != RPIds.end(); ++rp) {
     set<unsigned int> DetIds = input->DetsInRP(*rp);
     for (set<unsigned int>::iterator det = DetIds.begin(); det != DetIds.end(); ++det) {
-      unsigned int rawId = TotemRPDetId::DecToRawId(*det);
+      unsigned int rawId = TotemRPDetId::decToRawId(*det);
 
       CLHEP::Hep3Vector d = input->LocalToGlobalDirection(rawId, CLHEP::Hep3Vector(0., 1., 0.));
       DDTranslation c = input->GetDetector(rawId)->translation();

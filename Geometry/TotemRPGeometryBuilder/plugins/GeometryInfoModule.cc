@@ -199,7 +199,7 @@ void GeometryInfoModule::PrintGeometry(const TotemRPGeometry &geometry, const ed
       double dx = 0., dy = 0.;
       geometry.GetReadoutDirection(it->first, dx, dy);
   
-      printf("%4i  |  %8.3f  |  %8.3f  |  %9.4f | %8.3f | %8.3f |\n", id.DetectorDecId(), x, y, z, dx, dy);
+      printf("%4i  |  %8.3f  |  %8.3f  |  %9.4f | %8.3f | %8.3f |\n", id.detectorDecId(), x, y, z, dx, dy);
     }
   }
   
@@ -212,9 +212,9 @@ void GeometryInfoModule::PrintGeometry(const TotemRPGeometry &geometry, const ed
 
     for (TotemRPGeometry::mapType::const_iterator it = geometry.beginDet(); it != geometry.endDet(); ++it)
     {
-      unsigned int decId = TotemRPDetId::RawToDecId(it->first);
+      unsigned int decId = TotemRPDetId::rawToDecId(it->first);
       unsigned int rpId = decId / 10;
-      bool uDirection = TotemRPDetId::IsStripsCoordinateUDirection(decId);
+      bool uDirection = TotemRPDetId::isStripsCoordinateUDirection(decId);
   
       double x = it->second->translation().x();
       double y = it->second->translation().y();

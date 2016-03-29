@@ -61,63 +61,63 @@ class TotemRPDetId : public DetId
     TotemRPDetId(unsigned int Arm, unsigned int Station, unsigned int RomanPot, unsigned int Detector);
 
     static const unsigned int totem_rp_subdet_id = 3;
-
-    static const unsigned int startArmBit = 24, maskArm = 0x1;
-    static const unsigned int startStationBit = 22, maskStation = 0x3;
-    static const unsigned int startRPBit = 19, maskRP = 0x7;
-    static const unsigned int startDetBit = 15, maskDet = 0xF;
+  
+    static const unsigned int startArmBit = 24, maskArm = 0x1, maxArm = 1;
+    static const unsigned int startStationBit = 22, maskStation = 0x3, maxStation = 2;
+    static const unsigned int startRPBit = 19, maskRP = 0x7, maxRP = 5;
+    static const unsigned int startDetBit = 15, maskDet = 0xF, maxDet = 9;
      
-    inline int Arm() const
+    inline int arm() const
     {
       return int ((id_>>startArmBit) & maskArm);
     }
 
-    inline int Station() const
+    inline int station() const
     {
       return int ((id_>>startStationBit) & maskStation);
     }
 
-    inline int RomanPot() const
+    inline int romanPot() const
     {
       return int ((id_>>startRPBit) & maskRP);
     }
 
-    inline int Detector() const
+    inline int detector() const
     {
       return int ((id_>>startDetBit) & maskDet);
     }
 
-    int RPCopyNumber() const
+    int rpCopyNumber() const
     {
-      return RomanPot() + 10*Station() + 100*Arm();
+      return romanPot() + 10*station() + 100*arm();
     }
 
-    bool IsStripsCoordinateUDirection() const
+    bool isStripsCoordinateUDirection() const
     {
-      return Detector()%2;
+      return detector()%2;
     }
 
-    bool IsStripsCoordinateVDirection() const
+    bool isStripsCoordinateVDirection() const
     {
-      return !IsStripsCoordinateUDirection();
+      return !isStripsCoordinateUDirection();
     }
     
-    inline unsigned int DetectorDecId() const
+    inline unsigned int detectorDecId() const
     {
-      return Detector()+RomanPot()*10+Station()*100+Arm()*1000;
+      return detector() + romanPot()*10 + station()*100 + arm()*1000;
     }
 
     //-------------------------------- static members ---------------------------------------
     
     /// returs true it the raw ID is a TOTEM RP one
-    static bool Check(unsigned int raw)
+    static bool check(unsigned int raw)
     {
       return ((raw >> DetId::kDetOffset) & 0xF) == DetId::VeryForward &&
         ((raw >> DetId::kSubdetOffset) & 0x7) == totem_rp_subdet_id;
     }
 
     /// fast conversion Raw to Decimal ID
-    static unsigned int RawToDecId(unsigned int raw)
+    static unsigned int rawToDecId(unsigned int raw)
     {
       return ((raw >> startArmBit) & maskArm) * 1000
         + ((raw >> startStationBit) & maskStation) * 100
@@ -126,7 +126,7 @@ class TotemRPDetId : public DetId
     }
 
     /// fast conversion Decimal to Raw ID
-    static unsigned int DecToRawId(unsigned int dec)
+    static unsigned int decToRawId(unsigned int dec)
     {
       unsigned int i = (DetId::VeryForward << DetId::kDetOffset) | (totem_rp_subdet_id << DetId::kSubdetOffset);
       i &= 0xFE000000;
@@ -138,27 +138,27 @@ class TotemRPDetId : public DetId
     }
 
     /// returns ID of RP for given detector ID ''i''
-    static unsigned int RPOfDet(unsigned int i) { return i / 10; }
+    static unsigned int rpOfDet(unsigned int i) { return i / 10; }
 
     /// returns ID of station for given detector ID ''i''
-    static unsigned int StOfDet(unsigned int i) { return i / 100; }
+    static unsigned int stOfDet(unsigned int i) { return i / 100; }
 
     /// returns ID of arm for given detector ID ''i''
-    static unsigned int ArmOfDet(unsigned int i) { return i / 1000; }
+    static unsigned int armOfDet(unsigned int i) { return i / 1000; }
 
     /// returns ID of station for given RP ID ''i''
-    static unsigned int StOfRP(unsigned int i) { return i / 10; }
+    static unsigned int stOfRP(unsigned int i) { return i / 10; }
 
     /// returns ID of arm for given RP ID ''i''
-    static unsigned int ArmOfRP(unsigned int i) { return i / 100; }
+    static unsigned int armOfRP(unsigned int i) { return i / 100; }
 
     /// returns ID of arm for given station ID ''i''
-    static unsigned int ArmOfSt(unsigned int i) { return i / 10; }
+    static unsigned int armOfSt(unsigned int i) { return i / 10; }
      
 
     /// is Detector u-detector?
     /// expect symbolic/decimal ID
-    static bool IsStripsCoordinateUDirection(int Detector)
+    static bool isStripsCoordinateUDirection(int Detector)
     {
       return Detector%2;
     }
@@ -171,28 +171,28 @@ class TotemRPDetId : public DetId
     enum ElementLevel {lSystem, lArm, lStation, lRP, lPlane, lChip, lStrip};
 
     /// returns the name of the RP system
-    static std::string SystemName(NameFlag flag = nFull);
+    static std::string systemName(NameFlag flag = nFull);
 
     /// returns official name of an arm characterized by ''id''; if ''full'' is true, prefix rp_ added
-    static std::string ArmName(unsigned int id, NameFlag flag = nFull);
+    static std::string armName(unsigned int id, NameFlag flag = nFull);
 
     /// returns official name of a station characterized by ''id''; if ''full'' is true, name of arm is prefixed
-    static std::string StationName(unsigned int id, NameFlag flag = nFull);
+    static std::string stationName(unsigned int id, NameFlag flag = nFull);
   
     /// returns official name of a RP characterized by ''id''; if ''full'' is true, name of station is prefixed
-    static std::string RPName(unsigned int id, NameFlag flag = nFull);
+    static std::string rpName(unsigned int id, NameFlag flag = nFull);
   
     /// returns official name of a plane characterized by ''id''; if ''full'' is true, name of RP is prefixed
-    static std::string PlaneName(unsigned int id, NameFlag flag = nFull);
+    static std::string planeName(unsigned int id, NameFlag flag = nFull);
   
     /// returns official name of a chip characterized by ''id''; if ''full'' is true, name of plane is prefixed
-    static std::string ChipName(unsigned int id, NameFlag flag = nFull);
+    static std::string chipName(unsigned int id, NameFlag flag = nFull);
   
     /// returns official name of a strip characterized by ''id'' (of chip) and strip number; if ''full'' is true, name of chip is prefixed
-    static std::string StripName(unsigned int id, unsigned char strip, NameFlag flag = nFull);
+    static std::string stripName(unsigned int id, unsigned char strip, NameFlag flag = nFull);
 
     /// shortcut to use any of the *Name methods, given the ElementLevel
-    static std::string OfficialName(ElementLevel level, unsigned int id, NameFlag flag = nFull, unsigned char strip = 0);
+    static std::string officialName(ElementLevel level, unsigned int id, NameFlag flag = nFull, unsigned char strip = 0);
 
   private:
     inline void init(unsigned int Arm, unsigned int Station, unsigned int RomanPot, unsigned int Detector);

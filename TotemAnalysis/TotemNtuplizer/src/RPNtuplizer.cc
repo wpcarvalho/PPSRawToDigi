@@ -244,7 +244,7 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
       //(inputIterator->data)[i] : TotemRPCluster
       for (unsigned int i = 0; i < (inputIteratorCl->data).size(); ++i)
       {
-        unsigned int detNo = TotemRPDetId::RawToDecId((inputIteratorCl->data)[i].DetId());
+        unsigned int detNo = TotemRPDetId::rawToDecId((inputIteratorCl->data)[i].DetId());
   	  	unsigned int planeNo = detNo % 10;
   	  	unsigned int RPNo = detNo / 10;
 
@@ -255,7 +255,7 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   	  	if (digi_info_[RPNo].numberOfClusters[planeNo] == 0)
         {
   	  		digi_info_[RPNo].numberOfPlanesOn++;
-            if (TotemRPDetId::IsStripsCoordinateUDirection(planeNo))
+            if (TotemRPDetId::isStripsCoordinateUDirection(planeNo))
   	  		  digi_info_[RPNo].uPlanesOn++;
             else
   	  		  digi_info_[RPNo].vPlanesOn++;
@@ -336,11 +336,11 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   	for (itc = cc_chip_bits->begin(); itc != cc_chip_bits->end(); ++itc)
     {
   	  TotemRPCCId rawid(itc->getId());
-  	  unsigned int decid = rawid.Arm() * 100 + rawid.Station() * 10 + rawid.RomanPot();
+  	  unsigned int decid = rawid.arm() * 100 + rawid.station() * 10 + rawid.romanPot();
 
   	  const bool *bits = itc->getRawBS();
 
-      if (rawid.IsStripsCoordinateUDirection())
+      if (rawid.isStripsCoordinateUDirection())
       {
   		for (int i = 0; i < 16; ++i)
         {

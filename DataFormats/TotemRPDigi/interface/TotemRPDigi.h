@@ -17,7 +17,7 @@ class TotemRPDigi
     {
     };
 
-    unsigned short GetStripNo() const
+    unsigned short getStripNumber() const
     {
       return strip_no_;
     }
@@ -29,7 +29,7 @@ class TotemRPDigi
 
 inline bool operator< (const TotemRPDigi& one, const TotemRPDigi& other)
 {
-  return one.GetStripNo() < other.GetStripNo();
+  return one.getStripNumber() < other.getStripNumber();
 }
 
 #endif

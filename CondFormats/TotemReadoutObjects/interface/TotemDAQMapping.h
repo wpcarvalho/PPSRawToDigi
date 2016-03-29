@@ -46,7 +46,7 @@ class TotemDAQMapping
   public:
     std::map<TotemFramePosition, TotemVFATInfo> VFATMapping;
     
-    void Insert(const TotemFramePosition &fp, const TotemVFATInfo &vi);
+    void insert(const TotemFramePosition &fp, const TotemVFATInfo &vi);
 };
 
 #endif

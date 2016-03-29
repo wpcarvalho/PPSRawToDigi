@@ -42,7 +42,7 @@ class TotemAnalysisMask
   public:
     std::map<TotemSymbID, TotemVFATAnalysisMask> analysisMask;
 
-    void Insert(const TotemSymbID &sid, const TotemVFATAnalysisMask &vam);
+    void insert(const TotemSymbID &sid, const TotemVFATAnalysisMask &vam);
 };
 
 #endif

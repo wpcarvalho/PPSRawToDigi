@@ -414,7 +414,7 @@ void TotemDAQMappingESSourceXML::ParseTreeRP(ParseType pType, xercesc::DOMNode *
         vfatInfo.type = TotemVFATInfo::CC;
       }
 
-      mapping->Insert(framepos, vfatInfo);
+      mapping->insert(framepos, vfatInfo);
 
       continue;
     }
@@ -430,7 +430,7 @@ void TotemDAQMappingESSourceXML::ParseTreeRP(ParseType pType, xercesc::DOMNode *
       am.fullMask = fullMask;
       GetChannels(n, am.maskedChannels);
 
-      mask->Insert(symbId, am);
+      mask->insert(symbId, am);
 
       continue;
     }
@@ -699,7 +699,7 @@ void TotemDAQMappingESSourceXML::ParseTreeT2(ParseType pType, xercesc::DOMNode *
         vfatInfo.hwID = hw_id;
         vfatInfo.symbolicID.subSystem = TotemSymbID::T2;
         vfatInfo.type = TotemVFATInfo::data;
-        data->Insert(framepos, vfatInfo);
+        data->insert(framepos, vfatInfo);
       }
 
       // save mask data
@@ -715,7 +715,7 @@ void TotemDAQMappingESSourceXML::ParseTreeT2(ParseType pType, xercesc::DOMNode *
         else
           GetChannels(n, vfatMask.maskedChannels);
 
-        mask->Insert(symbId, vfatMask);
+        mask->insert(symbId, vfatMask);
         //cout << "saved mask, ID = " << symbId.symbolicID << ", full mask: " << vfatMask.fullMask << endl;
       }
     } else {
@@ -904,7 +904,7 @@ void TotemDAQMappingESSourceXML::ParseTreeT1(ParseType pType, xercesc::DOMNode *
 		TotemVFATAnalysisMask am;
 		am.fullMask = fullMask;
 		GetChannels(n, am.maskedChannels);
-		mask->Insert(symbId, am);
+		mask->insert(symbId, am);
 		//cout << "saved mask, ID = " << symbId.symbolicID << ", full mask: " << am.fullMask << endl;
 	}
     
@@ -942,7 +942,7 @@ void TotemDAQMappingESSourceXML::ParseTreeT1(ParseType pType, xercesc::DOMNode *
       vfatInfo.hwID = hw_id;
       vfatInfo.symbolicID.subSystem = TotemSymbID::T1;
       vfatInfo.type = TotemVFATInfo::data;
-      mapping->Insert(framepos, vfatInfo);
+      mapping->insert(framepos, vfatInfo);
     } else {
       // Look for the children of n (recursion)
       // 3° argument=parentId  is needed for calculate VFAT-id startintg from the parent plane
@@ -963,7 +963,7 @@ TotemFramePosition TotemDAQMappingESSourceXML::ChipFramePosition(xercesc::DOMNod
   for (unsigned int j = 0; j < attr->getLength(); j++)
   {
     DOMNode *a = attr->item(j);
-    if (fp.SetXMLAttribute(XMLString::transcode(a->getNodeName()), XMLString::transcode(a->getNodeValue()), attributeFlag) > 1)
+    if (fp.setXMLAttribute(XMLString::transcode(a->getNodeName()), XMLString::transcode(a->getNodeValue()), attributeFlag) > 1)
     {
       throw cms::Exception("TotemDAQMappingESSourceXML") <<
         "Unrecognized tag `" << XMLString::transcode(a->getNodeName()) <<
@@ -972,7 +972,7 @@ TotemFramePosition TotemDAQMappingESSourceXML::ChipFramePosition(xercesc::DOMNod
     }
   }
 
-  if (!fp.CheckXMLAttributeFlag(attributeFlag))
+  if (!fp.checkXMLAttributeFlag(attributeFlag))
   {
     throw cms::Exception("TotemDAQMappingESSourceXML") <<
       "Wrong/incomplete DAQ channel specification (attributeFlag = " << attributeFlag << ")." << endl;

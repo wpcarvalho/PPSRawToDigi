@@ -26,22 +26,22 @@ const string TotemFramePosition::tagSSFEC = "FEC";
 std::ostream& operator << (std::ostream& s, const TotemFramePosition &fp)
 {
   return s << std::hex
-    << fp.GetSubSystemId() << ":"
+    << fp.getSubSystemId() << ":"
     << std::setw(2) << std::setfill('0')
-    << fp.GetTOTFEDId() << ":"
-    << fp.GetOptoRxId() << ":"
-    << fp.GetGOHId() << ":"
-    << fp.GetIdxInFiber()
+    << fp.getTOTFEDId() << ":"
+    << fp.getOptoRxId() << ":"
+    << fp.getGOHId() << ":"
+    << fp.getIdxInFiber()
     << std::dec;
 }
 
 //----------------------------------------------------------------------------------------------------
 
-void TotemFramePosition::PrintXML()
+void TotemFramePosition::printXML()
 {
   cout << dec << "SubSystemId=\"";
 
-  const unsigned char &ss = GetSubSystemId();
+  const unsigned char &ss = getSubSystemId();
   switch (ss)
   {
     case ssT1: cout << "T1"; break;
@@ -53,16 +53,16 @@ void TotemFramePosition::PrintXML()
     default: cout << "None";
   }
 
-  cout << "\" TOTFEDId=\"" << GetTOTFEDId()
-    << "\" OptoRxId=\"" << GetOptoRxId()
-    << "\" GOHId=\"" << GetGOHId()
-    << "\" IdxInFiber=\"" << GetIdxInFiber()
+  cout << "\" TOTFEDId=\"" << getTOTFEDId()
+    << "\" OptoRxId=\"" << getOptoRxId()
+    << "\" GOHId=\"" << getGOHId()
+    << "\" IdxInFiber=\"" << getIdxInFiber()
     << "\"";
 }
 
 //----------------------------------------------------------------------------------------------------
 
-unsigned char TotemFramePosition::SetXMLAttribute(const std::string &attribute, const std::string &value,
+unsigned char TotemFramePosition::setXMLAttribute(const std::string &attribute, const std::string &value,
     unsigned char &flag)
 {
   if (attribute == "DAQPosition")
@@ -83,20 +83,20 @@ unsigned char TotemFramePosition::SetXMLAttribute(const std::string &attribute, 
     unsigned short gi = strtol(value.substr(dd3+1, dd4-dd3).c_str(), NULL, 16);
     unsigned short fi = strtol(value.substr(dd4+1).c_str(), NULL, 16);
 
-    SetAllIDs(ss, ti, oi, gi, fi);
+    setAllIDs(ss, ti, oi, gi, fi);
     flag |= 0x40;
     return 0;
   }
 
   if (attribute == "SubSystemId")
   {
-    if (value == tagSSNone) SetSubSystemId(ssNone);
-    else if (value == tagSST1) SetSubSystemId(ssT1);
-    else if (value == tagSST2) SetSubSystemId(ssT2);
-    else if (value == tagSSRP) SetSubSystemId(ssRP);
-    else if (value == tagSSTrigger) SetSubSystemId(ssTrigger);
-    else if (value == tagSSTTC) SetSubSystemId(ssTTC);
-    else if (value == tagSSFEC) SetSubSystemId(ssFEC);
+    if (value == tagSSNone) setSubSystemId(ssNone);
+    else if (value == tagSST1) setSubSystemId(ssT1);
+    else if (value == tagSST2) setSubSystemId(ssT2);
+    else if (value == tagSSRP) setSubSystemId(ssRP);
+    else if (value == tagSSTrigger) setSubSystemId(ssTrigger);
+    else if (value == tagSSTTC) setSubSystemId(ssTTC);
+    else if (value == tagSSFEC) setSubSystemId(ssFEC);
       else return 2;
 
     flag |= 0x10;
@@ -107,28 +107,28 @@ unsigned char TotemFramePosition::SetXMLAttribute(const std::string &attribute, 
 
   if (attribute == "TOTFEDId")
   {
-    SetTOTFEDId(v);
+    setTOTFEDId(v);
     flag |= 0x8;
     return 0;
   }
 
   if (attribute == "OptoRxId")
   {
-    SetOptoRxId(v);
+    setOptoRxId(v);
     flag |= 0x4;
     return 0;
   }
 
   if (attribute == "GOHId")
   {
-    SetGOHId(v);
+    setGOHId(v);
     flag |= 0x2;
     return 0;
   }
 
   if (attribute == "IdxInFiber")
   {
-    SetIdxInFiber(v);
+    setIdxInFiber(v);
     flag |= 0x1;
     return 0;
   }

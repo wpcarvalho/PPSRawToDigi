@@ -13,7 +13,7 @@
 #include <cmath>
 
 Hit::Hit(const TotemRPRecHit &rh) : 
-  id(TotemRPDetId::RawToDecId(rh.DetId())),
+  id(TotemRPDetId::rawToDecId(rh.DetId())),
   position(rh.Position()),
   sigma(rh.Sigma())
 {

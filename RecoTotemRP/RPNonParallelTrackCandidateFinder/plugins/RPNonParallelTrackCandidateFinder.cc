@@ -151,10 +151,10 @@ void RPNonParallelTrackCandidateFinder::produce(edm::Event& event, const edm::Ev
 
   for (DetSetVector<TotemRPRecHit>::const_iterator dit = input->begin(); dit != input->end(); ++dit)
   {
-    unsigned int detId = TotemRPDetId::RawToDecId(dit->detId());
-    unsigned int RPId = TotemRPDetId::RPOfDet(detId);
+    unsigned int detId = TotemRPDetId::rawToDecId(dit->detId());
+    unsigned int RPId = TotemRPDetId::rpOfDet(detId);
     unsigned int plane = detId % 10;
-    bool uDir = TotemRPDetId::IsStripsCoordinateUDirection(detId);
+    bool uDir = TotemRPDetId::isStripsCoordinateUDirection(detId);
 
     for (DetSet<TotemRPRecHit>::const_iterator hit = dit->begin(); hit != dit->end(); ++hit)
     {

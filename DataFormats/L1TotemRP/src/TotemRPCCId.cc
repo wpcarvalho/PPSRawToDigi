@@ -2,42 +2,47 @@
  *
  * This is a part of TOTEM offline software.
  * Authors:
- *	Leszek Grzanka (braciszek@gmail.com)
+ *  Leszek Grzanka (braciszek@gmail.com)
  *
  ****************************************************************************/
 
 #include "DataFormats/L1TotemRP/interface/TotemRPCCId.h"
 #include "FWCore/Utilities/interface/Exception.h"
 
-TotemRPCCId::TotemRPCCId():DetId(DetId::VeryForward, totem_rp_subdet_id)
-{}
+//----------------------------------------------------------------------------------------------------
 
-
-TotemRPCCId::TotemRPCCId(uint32_t id):DetId(id)
+TotemRPCCId::TotemRPCCId() : DetId(DetId::VeryForward, totem_rp_subdet_id)
 {
-  if (det()!=DetId::VeryForward || subdetId()!=totem_rp_subdet_id)
-    {
-      throw cms::Exception("InvalidDetId") << "TotemRPCCId:"
-					   << " det: " << det()
-					   << " subdet: " << subdetId()
-					   << " is not a valid Totem RP id";
-    }
 }
 
+//----------------------------------------------------------------------------------------------------
+
+TotemRPCCId::TotemRPCCId(uint32_t id) : DetId(id)
+{
+  if (det()!=DetId::VeryForward || subdetId()!=totem_rp_subdet_id)
+  {
+    throw cms::Exception("InvalidDetId") << "TotemRPCCId:"
+           << " det: " << det()
+           << " subdet: " << subdetId()
+           << " is not a valid Totem RP id";
+  }
+}
+
+//----------------------------------------------------------------------------------------------------
 
 void TotemRPCCId::init(unsigned int Arm, unsigned int Station,
-		  unsigned int RomanPot, unsigned int Direction)
+      unsigned int RomanPot, unsigned int Direction)
 {
-  if( Arm>=2 || Station>=3 || RomanPot>=6 || Direction>=2)
-    {
-      throw cms::Exception("InvalidDetId") << "TotemRPCCId ctor:"
-					   << " Invalid parameters: "
-					   << " Arm "<<Arm
-					   << " Station "<<Station
-					   << " RomanPot "<<RomanPot
-					   << " Direction "<<Direction
-					   << std::endl;
-    }
+  if ( Arm>=2 || Station>=3 || RomanPot>=6 || Direction>=2)
+  {
+    throw cms::Exception("InvalidDetId") << "TotemRPCCId ctor:"
+           << " Invalid parameters: "
+           << " Arm "<<Arm
+           << " Station "<<Station
+           << " RomanPot "<<RomanPot
+           << " Direction "<<Direction
+           << std::endl;
+  }
 
   uint32_t ok=0xfe000000;
   id_ &= ok;
@@ -48,21 +53,22 @@ void TotemRPCCId::init(unsigned int Arm, unsigned int Station,
   id_ |= ((Direction&0xf) << startDirBit);
 }
 
+//----------------------------------------------------------------------------------------------------
 
-TotemRPCCId::TotemRPCCId(unsigned int Arm, unsigned int Station,
-	       unsigned int RomanPot, unsigned int Direction):
-  DetId(DetId::VeryForward,totem_rp_subdet_id)
+TotemRPCCId::TotemRPCCId(unsigned int Arm, unsigned int Station, unsigned int RomanPot, unsigned int Direction) :
+  DetId(DetId::VeryForward, totem_rp_subdet_id)
 {
-  this->init(Arm,Station,RomanPot,Direction);
+  init(Arm, Station, RomanPot, Direction);
 }
 
+//----------------------------------------------------------------------------------------------------
 
-std::ostream& operator<<( std::ostream& os, const TotemRPCCId& id )
+std::ostream& operator<< (std::ostream& os, const TotemRPCCId& id)
 {
-  os << " Arm "<<id.Arm()
-     << " Station "<<id.Station()
-     << " RomanPot "<<id.RomanPot()
-     << " Direction "<<id.Direction();
+  os << " Arm "<<id.arm()
+     << " Station "<<id.station()
+     << " RomanPot "<<id.romanPot()
+     << " Direction "<<id.direction();
 
   return os;
 }

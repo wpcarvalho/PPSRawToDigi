@@ -9,7 +9,6 @@
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
-#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "TotemAlignment/RPTrackBased/interface/JanAlignmentAlgorithm.h"
 #include "TotemAlignment/RPTrackBased/interface/MatrixTools.h"
 #include "TotemAlignment/RPTrackBased/interface/AlignmentTask.h"

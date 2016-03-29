@@ -109,13 +109,13 @@ void RPMulCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & inp
     for(hits_it = it->begin(); hits_it != it->end(); ++hits_it)
     {
       TotemRPDetId tot_rp_det_id(hits_it->DetId());
-      unsigned int rp_id = tot_rp_det_id.RPCopyNumber();
-      unsigned int det_id = tot_rp_det_id.Detector();
+      unsigned int rp_id = tot_rp_det_id.rpCopyNumber();
+      unsigned int det_id = tot_rp_det_id.detector();
 
       uv_pair_det_vec_reco_hits &pair_ref = the_map[rp_id];
       ++rp_hits_num_map[rp_id];
 
-      if(tot_rp_det_id.IsStripsCoordinateUDirection())
+      if(tot_rp_det_id.isStripsCoordinateUDirection())
       {
         std::vector<TotemRPRecHit> &vec_ref = pair_ref.first[det_id];
         vec_ref.push_back(*hits_it);
