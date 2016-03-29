@@ -5,10 +5,10 @@
  *  Leszek Grzanka (braciszek@gmail.com)
  ****************************************************************************/
 
-#ifndef DataFormatsTotemRPL1RPCCBits_h
-#define DataFormatsTotemRPL1RPCCBits_h
+#ifndef DataFormatsL1TotemRPRPCCBits_h
+#define DataFormatsL1TotemRPRPCCBits_h
 
-#include "DataFormats/TotemRPL1/interface/TotemRPCCId.h"
+#include "DataFormats/L1TotemRP/interface/TotemRPCCId.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 
@@ -75,4 +75,4 @@ inline bool operator<( const TotemRPCCBits& one, const TotemRPCCBits& other) {
     return false;
 }
 
-#endif  //DataFormatsTotemRPL1RPCCBits_h
+#endif  //DataFormatsL1TotemRPRPCCBits_h

@@ -6,7 +6,7 @@
  *
  ****************************************************************************/
 
-#include "DataFormats/TotemRPL1/interface/TotemRPCCId.h"
+#include "DataFormats/L1TotemRP/interface/TotemRPCCId.h"
 #include "FWCore/Utilities/interface/Exception.h"
 
 TotemRPCCId::TotemRPCCId():DetId(DetId::VeryForward, totem_rp_subdet_id)

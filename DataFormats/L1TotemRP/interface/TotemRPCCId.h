@@ -6,8 +6,8 @@
  *
  ****************************************************************************/
 
-#ifndef DataFormatsTotemRPL1RPCCId_h
-#define DataFormatsTotemRPL1RPCCId_h
+#ifndef DataFormatsL1TotemRPRPCCId_h
+#define DataFormatsL1TotemRPRPCCId_h
 
 #include "DataFormats/DetId/interface/DetId.h"
 #include <FWCore/Utilities/interface/Exception.h>
@@ -67,4 +67,4 @@ class TotemRPCCId: public DetId
 
 std::ostream& operator<<(std::ostream& os, const TotemRPCCId& id);
 
-#endif  //DataFormatsTotemRPL1RPCCId_h
+#endif  //DataFormatsL1TotemRPRPCCId_h

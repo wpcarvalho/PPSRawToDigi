@@ -18,7 +18,7 @@
 #include "CondFormats/TotemReadoutObjects/interface/TotemAnalysisMask.h"
 
 #include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
-#include "DataFormats/TotemRPL1/interface/TotemRPCCBits.h"
+#include "DataFormats/L1TotemRP/interface/TotemRPCCBits.h"
 #include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
 #include "DataFormats/TotemRawData/interface/TotemRawToDigiStatus.h"
 
