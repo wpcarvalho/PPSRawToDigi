@@ -50,136 +50,152 @@
 
 class TotemRPDetId : public DetId
 {  
- public:
-  TotemRPDetId();
+  public:
+    TotemRPDetId();
   
-  /// Construct from a raw id. It is required that the Detector part of
-  /// id is Totem and the SubDet part is RP, otherwise an exception is thrown.
-  explicit TotemRPDetId(uint32_t id);
+    /// Construct from a raw id. It is required that the Detector part of
+    /// id is Totem and the SubDet part is RP, otherwise an exception is thrown.
+    explicit TotemRPDetId(uint32_t id);
   
-  /// Construct from fully qualified identifier.
-  TotemRPDetId(unsigned int Arm, unsigned int Station,
-	     unsigned int RomanPot, unsigned int Detector);
-      
-  
-  inline int Arm() const
-    {
-      return int((id_>>startArmBit) & 0x1);
-    }
-  inline int Station() const
-    {
-      return int((id_>>startStationBit) & 0x3);
-    }
-  inline int RomanPot() const
-    {
-      return int((id_>>startRPBit) & 0x7);
-    }
-  inline int Detector() const
-    {
-      return int((id_>>startDetBit) & 0xf);
-    }
-  int RPCopyNumber() const {return RomanPot() + 10*Station() + 100*Arm();}
+    /// Construct from fully qualified identifier.
+    TotemRPDetId(unsigned int Arm, unsigned int Station, unsigned int RomanPot, unsigned int Detector);
 
-  bool IsStripsCoordinateUDirection() const {return Detector()%2;}
-  bool IsStripsCoordinateVDirection() const {return !IsStripsCoordinateUDirection();}
+    static const unsigned int totem_rp_subdet_id = 3;
 
-  /// is Detector u-detector?
-  /// expect symbolic/decimal ID
-  static bool IsStripsCoordinateUDirection(int Detector) { return Detector%2; }
+    static const unsigned int startArmBit = 24, maskArm = 0x1;
+    static const unsigned int startStationBit = 22, maskStation = 0x3;
+    static const unsigned int startRPBit = 19, maskRP = 0x7;
+    static const unsigned int startDetBit = 15, maskDet = 0xF;
+     
+    inline int Arm() const
+    {
+      return int ((id_>>startArmBit) & maskArm);
+    }
+
+    inline int Station() const
+    {
+      return int ((id_>>startStationBit) & maskStation);
+    }
+
+    inline int RomanPot() const
+    {
+      return int ((id_>>startRPBit) & maskRP);
+    }
+
+    inline int Detector() const
+    {
+      return int ((id_>>startDetBit) & maskDet);
+    }
+
+    int RPCopyNumber() const
+    {
+      return RomanPot() + 10*Station() + 100*Arm();
+    }
+
+    bool IsStripsCoordinateUDirection() const
+    {
+      return Detector()%2;
+    }
+
+    bool IsStripsCoordinateVDirection() const
+    {
+      return !IsStripsCoordinateUDirection();
+    }
     
-  inline unsigned int DetectorDecId() const
+    inline unsigned int DetectorDecId() const
     {
       return Detector()+RomanPot()*10+Station()*100+Arm()*1000;
     }
 
-  //-------------------------------- static members ---------------------------------------
-
-  static const unsigned int startArmBit = 24;
-  static const unsigned int startStationBit = 22;
-  static const unsigned int startRPBit = 19;
-  static const unsigned int startDetBit = 15;
-  static const unsigned int totem_rp_subdet_id = 3;
-
-  /// returs true it the raw ID is a TOTEM RP one
-  static bool Check(unsigned int raw)
-  {
-    return (((raw >>DetId::kDetOffset) & 0xF) == DetId::VeryForward &&
-      ((raw >> DetId::kSubdetOffset) & 0x7) == totem_rp_subdet_id);
-  }
-
-  /// fast conversion Raw to Decimal ID
-  static unsigned int RawToDecId(unsigned int raw)
+    //-------------------------------- static members ---------------------------------------
+    
+    /// returs true it the raw ID is a TOTEM RP one
+    static bool Check(unsigned int raw)
     {
-      return ((raw >> startArmBit) & 0x1) * 1000 + ((raw >> startStationBit) & 0x3) * 100 +
-	((raw >> startRPBit) & 0x7) * 10 + ((raw >> startDetBit) & 0xf);
+      return ((raw >> DetId::kDetOffset) & 0xF) == DetId::VeryForward &&
+        ((raw >> DetId::kSubdetOffset) & 0x7) == totem_rp_subdet_id;
     }
 
-  /// fast conversion Decimal to Raw ID
-  static unsigned int DecToRawId(unsigned int dec)
+    /// fast conversion Raw to Decimal ID
+    static unsigned int RawToDecId(unsigned int raw)
     {
-      unsigned int i = (DetId::VeryForward << DetId::kDetOffset)
-        | (totem_rp_subdet_id << DetId::kSubdetOffset);
-      i &= 0xfe000000;
-      i |= ((dec % 10) & 0xf) << startDetBit; dec /= 10;
-      i |= ((dec % 10) & 0x7) << startRPBit; dec /= 10;
-      i |= ((dec % 10) & 0x3) << startStationBit; dec /= 10;
-      i |= ((dec % 10) & 0x1) << startArmBit;
+      return ((raw >> startArmBit) & maskArm) * 1000
+        + ((raw >> startStationBit) & maskStation) * 100
+        + ((raw >> startRPBit) & maskRP) * 10
+        + ((raw >> startDetBit) & maskDet);
+    }
+
+    /// fast conversion Decimal to Raw ID
+    static unsigned int DecToRawId(unsigned int dec)
+    {
+      unsigned int i = (DetId::VeryForward << DetId::kDetOffset) | (totem_rp_subdet_id << DetId::kSubdetOffset);
+      i &= 0xFE000000;
+      i |= ((dec % 10) & maskDet) << startDetBit; dec /= 10;
+      i |= ((dec % 10) & maskRP) << startRPBit; dec /= 10;
+      i |= ((dec % 10) & maskStation) << startStationBit; dec /= 10;
+      i |= ((dec % 10) & maskArm) << startArmBit;
       return i;
     }
 
-  /// returns ID of RP for given detector ID ''i''
-  static unsigned int RPOfDet(unsigned int i) { return i / 10; }
+    /// returns ID of RP for given detector ID ''i''
+    static unsigned int RPOfDet(unsigned int i) { return i / 10; }
 
-  /// returns ID of station for given detector ID ''i''
-  static unsigned int StOfDet(unsigned int i) { return i / 100; }
+    /// returns ID of station for given detector ID ''i''
+    static unsigned int StOfDet(unsigned int i) { return i / 100; }
 
-  /// returns ID of arm for given detector ID ''i''
-  static unsigned int ArmOfDet(unsigned int i) { return i / 1000; }
+    /// returns ID of arm for given detector ID ''i''
+    static unsigned int ArmOfDet(unsigned int i) { return i / 1000; }
 
-  /// returns ID of station for given RP ID ''i''
-  static unsigned int StOfRP(unsigned int i) { return i / 10; }
+    /// returns ID of station for given RP ID ''i''
+    static unsigned int StOfRP(unsigned int i) { return i / 10; }
 
-  /// returns ID of arm for given RP ID ''i''
-  static unsigned int ArmOfRP(unsigned int i) { return i / 100; }
+    /// returns ID of arm for given RP ID ''i''
+    static unsigned int ArmOfRP(unsigned int i) { return i / 100; }
 
-  /// returns ID of arm for given station ID ''i''
-  static unsigned int ArmOfSt(unsigned int i) { return i / 10; }
+    /// returns ID of arm for given station ID ''i''
+    static unsigned int ArmOfSt(unsigned int i) { return i / 10; }
      
 
+    /// is Detector u-detector?
+    /// expect symbolic/decimal ID
+    static bool IsStripsCoordinateUDirection(int Detector)
+    {
+      return Detector%2;
+    }
 
-  /// type of name returned by *Name functions
-  enum NameFlag {nShort, nFull, nPath};
 
-  /// level identifier in the RP hierarchy
-  enum ElementLevel {lSystem, lArm, lStation, lRP, lPlane, lChip, lStrip};
+    /// type of name returned by *Name functions
+    enum NameFlag {nShort, nFull, nPath};
 
-  /// returns the name of the RP system
-  static std::string SystemName(NameFlag flag = nFull);
+    /// level identifier in the RP hierarchy
+    enum ElementLevel {lSystem, lArm, lStation, lRP, lPlane, lChip, lStrip};
 
-  /// returns official name of an arm characterized by ''id''; if ''full'' is true, prefix rp_ added
-  static std::string ArmName(unsigned int id, NameFlag flag = nFull);
+    /// returns the name of the RP system
+    static std::string SystemName(NameFlag flag = nFull);
 
-  /// returns official name of a station characterized by ''id''; if ''full'' is true, name of arm is prefixed
-  static std::string StationName(unsigned int id, NameFlag flag = nFull);
-  //
-  /// returns official name of a RP characterized by ''id''; if ''full'' is true, name of station is prefixed
-  static std::string RPName(unsigned int id, NameFlag flag = nFull);
+    /// returns official name of an arm characterized by ''id''; if ''full'' is true, prefix rp_ added
+    static std::string ArmName(unsigned int id, NameFlag flag = nFull);
+
+    /// returns official name of a station characterized by ''id''; if ''full'' is true, name of arm is prefixed
+    static std::string StationName(unsigned int id, NameFlag flag = nFull);
   
-  /// returns official name of a plane characterized by ''id''; if ''full'' is true, name of RP is prefixed
-  static std::string PlaneName(unsigned int id, NameFlag flag = nFull);
+    /// returns official name of a RP characterized by ''id''; if ''full'' is true, name of station is prefixed
+    static std::string RPName(unsigned int id, NameFlag flag = nFull);
   
-  /// returns official name of a chip characterized by ''id''; if ''full'' is true, name of plane is prefixed
-  static std::string ChipName(unsigned int id, NameFlag flag = nFull);
+    /// returns official name of a plane characterized by ''id''; if ''full'' is true, name of RP is prefixed
+    static std::string PlaneName(unsigned int id, NameFlag flag = nFull);
   
-  /// returns official name of a strip characterized by ''id'' (of chip) and strip number; if ''full'' is true, name of chip is prefixed
-  static std::string StripName(unsigned int id, unsigned char strip, NameFlag flag = nFull);
+    /// returns official name of a chip characterized by ''id''; if ''full'' is true, name of plane is prefixed
+    static std::string ChipName(unsigned int id, NameFlag flag = nFull);
+  
+    /// returns official name of a strip characterized by ''id'' (of chip) and strip number; if ''full'' is true, name of chip is prefixed
+    static std::string StripName(unsigned int id, unsigned char strip, NameFlag flag = nFull);
 
-  /// shortcut to use any of the *Name methods, given the ElementLevel
-  static std::string OfficialName(ElementLevel level, unsigned int id, NameFlag flag = nFull, unsigned char strip = 0);
+    /// shortcut to use any of the *Name methods, given the ElementLevel
+    static std::string OfficialName(ElementLevel level, unsigned int id, NameFlag flag = nFull, unsigned char strip = 0);
 
-
- private:
-  inline void init(unsigned int Arm, unsigned int Station, unsigned int RomanPot, unsigned int Detector);
+  private:
+    inline void init(unsigned int Arm, unsigned int Station, unsigned int RomanPot, unsigned int Detector);
 };
 
 std::ostream& operator<<(std::ostream& os, const TotemRPDetId& id);
