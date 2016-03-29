@@ -30,49 +30,70 @@ class TotemFramePosition
     /// the official enumeration of DAQ subsystems
     enum SubSystemType {ssNone=0, ssT1=1, ssT2=2, ssRP=3, ssTrigger=4, ssTTC=5, ssFEC=6};
 
+    static const unsigned int offsetIdxInFiber = 0, maskIdxInFiber = 0xF;
+    static const unsigned int offsetGOHId = 4, maskGOHId = 0xF;
+    static const unsigned int offsetOptoRxId = 8, maskOptoRxId = 0x3;
+    static const unsigned int offsetTOTFEDId = 10, maskTOTFEDId = 0x1F;
+    static const unsigned int offsetSubSystemId = 15, maskSubSystemId = 0x7;
+
     /// the preferred constructor
     TotemFramePosition(unsigned short SubSystemId, unsigned short TOTFEDId, unsigned short OptoRxId, unsigned short GOHId, unsigned short IdxInFiber) :
-      rawPosition(IdxInFiber | GOHId<<4 | OptoRxId<<8 | TOTFEDId<<10 | SubSystemId<<15) {}
+      rawPosition(IdxInFiber<<offsetIdxInFiber | GOHId<<offsetGOHId | OptoRxId<<offsetOptoRxId | TOTFEDId<<offsetTOTFEDId | SubSystemId<<offsetSubSystemId)
+    {
+    }
 
     /// don't use this constructor unless you have a good reason
-    TotemFramePosition(unsigned int pos = 0) : rawPosition(pos) {}
+    TotemFramePosition(unsigned int pos = 0) : rawPosition(pos)
+    {
+    }
 
-    ~TotemFramePosition() {}
+    ~TotemFramePosition()
+    {
+    }
 
-    unsigned short GetSubSystemId() const { return (rawPosition>>15)&0x7; }
-    unsigned short GetTOTFEDId() const    { return (rawPosition>>10)&0x1F;}
-    unsigned short GetOptoRxId() const    { return (rawPosition>> 8)&0x3; }
-    unsigned short GetGOHId() const       { return (rawPosition>> 4)&0xF; }
-    unsigned short GetIdxInFiber() const  { return (rawPosition>> 0)&0xF; }
+    unsigned short GetSubSystemId() const { return (rawPosition >> offsetSubSystemId) & maskSubSystemId; }
+    unsigned short GetTOTFEDId() const    { return (rawPosition >> offsetTOTFEDId) & maskTOTFEDId;}
+    unsigned short GetOptoRxId() const    { return (rawPosition >> offsetOptoRxId) & maskOptoRxId; }
+    unsigned short GetGOHId() const       { return (rawPosition >> offsetGOHId) & maskGOHId; }
+    unsigned short GetIdxInFiber() const  { return (rawPosition >> offsetIdxInFiber) & maskIdxInFiber; }
     
     void SetSubSystemId(unsigned short v)
-     { v &= 0x7; rawPosition &= 0xFFFC7FFF; rawPosition |= (v << 15); }
+    { v &= maskSubSystemId; rawPosition &= 0xFFFFFFFF - (maskSubSystemId << offsetSubSystemId); rawPosition |= (v << offsetSubSystemId); }
 
     void SetTOTFEDId(unsigned short v)
-     { v &= 0x1F; rawPosition &= 0xFFFF83FF; rawPosition |= (v << 10); }
+    { v &= maskTOTFEDId; rawPosition &= 0xFFFFFFFF - (maskTOTFEDId << offsetTOTFEDId); rawPosition |= (v << offsetTOTFEDId); }
 
     void SetOptoRxId(unsigned short v)
-     { v &= 0x3; rawPosition &= 0xFFFFFCFF; rawPosition |= (v << 8); }
+    { v &= maskOptoRxId; rawPosition &= 0xFFFFFFFF - (maskOptoRxId << offsetOptoRxId); rawPosition |= (v << offsetOptoRxId); }
 
     void SetGOHId(unsigned short v)
-     { v &= 0xF; rawPosition &= 0xFFFFFF0F; rawPosition |= (v << 4); }
+    { v &= maskGOHId; rawPosition &= 0xFFFFFFFF - (maskGOHId << offsetGOHId); rawPosition |= (v << offsetGOHId); }
 
     void SetIdxInFiber(unsigned short v)
-     { v &= 0xF; rawPosition &= 0xFFFFFFF0; rawPosition |= (v << 0); }
+    { v &= maskIdxInFiber; rawPosition &= 0xFFFFFFFF - (maskIdxInFiber << offsetIdxInFiber); rawPosition |= (v << offsetIdxInFiber); }
 
     void SetAllIDs(unsigned short SubSystemId, unsigned short TOTFEDId, unsigned short OptoRxId, unsigned short GOHId, unsigned short IdxInFiber)
-      { rawPosition = (IdxInFiber | GOHId<<4 | OptoRxId<<8 | TOTFEDId<<10 | SubSystemId<<15); }
+    {
+      rawPosition = (IdxInFiber<<offsetIdxInFiber | GOHId<<offsetGOHId | OptoRxId<<offsetOptoRxId
+        | TOTFEDId<<offsetTOTFEDId | SubSystemId<<offsetSubSystemId);
+    }
 
     /// don't use this method unless you have a good reason
     unsigned int GetRawPosition() const
-      { return rawPosition; }
+    {
+      return rawPosition;
+    }
 
   public:
     bool operator < (const TotemFramePosition &pos) const
-      { return (rawPosition < pos.rawPosition); }
+    {
+      return (rawPosition < pos.rawPosition);
+    }
 
     bool operator == (const TotemFramePosition &pos) const
-      { return (rawPosition == pos.rawPosition); }
+    {
+      return (rawPosition == pos.rawPosition);
+    }
 
     /// Condensed representation of the DAQ channel.
     /// prints 5-digit hex number, the digits correspond to SubSystem, TOTFED ID, OptoRx ID, 
@@ -83,7 +104,7 @@ class TotemFramePosition
     static const std::string tagSSNone; 
     static const std::string tagSSTrigger; 
     static const std::string tagSST1; 
-    static const std::string tagSST2; 
+    static const std::string tagSST2;
     static const std::string tagSSRP;
     static const std::string tagSSTTC;
     static const std::string tagSSFEC;
@@ -98,10 +119,14 @@ class TotemFramePosition
 
     /// returns true if all attributes have been set
     static bool CheckXMLAttributeFlag(unsigned char flag)
-      { return ((flag == 0x1f) | (flag == 0x20) | (flag == 0x40)); } 
+    {
+      return ((flag == 0x1f) | (flag == 0x20) | (flag == 0x40));
+    }
 
     unsigned short GetFullOptoRxId() const
-      { return (rawPosition >> 8) & 0xFFF; }
+    {
+      return (rawPosition >> 8) & 0xFFF;
+    }
 
   protected:
     unsigned int rawPosition;
