@@ -6,13 +6,13 @@
 
 #include <map>
  
-class RPTrackCandidateCollection : public std::map<RPId, RPTrackCandidate>
+class RPTrackCandidateCollection : public std::map<unsigned int, RPTrackCandidate>
 {
   public:
-    //inline RPId RomanPotId() {return rp_id_;}
-    //inline void RomanPotId(RPId rp_id) {rp_id_ = rp_id;}
+    //inline unsigned int RomanPotId() {return rp_id_;}
+    //inline void RomanPotId(unsigned int rp_id) {rp_id_ = rp_id;}
   private:
-    //RPId rp_id_;
+    //unsigned int rp_id_;
 };
 
 #endif

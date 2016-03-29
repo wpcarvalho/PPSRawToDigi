@@ -95,7 +95,7 @@ void RPSingleCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & 
 {
 	/**
 	 * This method takes DetSetVector<TotemRPRecHit> and decouples U and V hits.
-	 * Then, the result is map<RPId, uv_pair_vec_reco_hits>
+	 * Then, the result is map<unsigned int, uv_pair_vec_reco_hits>
 	 * 		uv_pair_vec_reco_hits is pair< vector<TotemRPRecHit> , vector<TotemRPRecHit> >
 	 * 			first part for U, second for V
 	 * The map is traversed and for each entry the following method is called

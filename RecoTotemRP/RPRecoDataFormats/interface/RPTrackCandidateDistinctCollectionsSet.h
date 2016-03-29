@@ -8,13 +8,13 @@
 
 
 class RPTrackCandidateDistinctCollectionsSet
-   : public std::map<RPId, std::vector<RPTrackCandidateCollection> >
+   : public std::map<unsigned int, std::vector<RPTrackCandidateCollection> >
 {
   public:
-    //inline RPId RomanPotId() {return rp_id_;}
-    //inline void RomanPotId(RPId rp_id) {rp_id_ = rp_id;}
+    //inline unsigned int RomanPotId() {return rp_id_;}
+    //inline void RomanPotId(unsigned int rp_id) {rp_id_ = rp_id;}
   private:
-    //RPId rp_id_;
+    //unsigned int rp_id_;
 };
 
 

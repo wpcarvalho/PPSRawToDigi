@@ -33,7 +33,7 @@
 class RPPrimaryVertex2ArmReconstruction : public edm::EDProducer
 {
   public:
-    typedef std::map<RPId, RP2DHit> rec_tracks_collection;
+    typedef std::map<unsigned int, RP2DHit> rec_tracks_collection;
     
     explicit RPPrimaryVertex2ArmReconstruction(const edm::ParameterSet& conf);
     virtual ~RPPrimaryVertex2ArmReconstruction();

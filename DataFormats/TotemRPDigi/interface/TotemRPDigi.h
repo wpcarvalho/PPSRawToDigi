@@ -15,17 +15,17 @@
 class TotemRPDigi
 {
   public:
-    TotemRPDigi(RPDetId det_id=0, unsigned short strip_no=0)
+    TotemRPDigi(unsigned int det_id=0, unsigned short strip_no=0)
     {
       det_id_=det_id; 
       strip_no_=strip_no;
     };
 
-    inline RPDetId GetDetId() const {return det_id_;}
+    inline unsigned int GetDetId() const {return det_id_;}
     inline unsigned short GetStripNo() const {return strip_no_;}
   
   private:
-    RPDetId det_id_;
+    unsigned int det_id_;
     unsigned short strip_no_;
 };
 

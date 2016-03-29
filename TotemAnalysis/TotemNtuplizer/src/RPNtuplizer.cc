@@ -337,7 +337,7 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   	for (itc = cc_chip_bits->begin(); itc != cc_chip_bits->end(); ++itc)
     {
   	  TotemRPCCId rawid(itc->getId());
-  	  RPId decid = rawid.Arm() * 100 + rawid.Station() * 10 + rawid.RomanPot();
+  	  unsigned int decid = rawid.Arm() * 100 + rawid.Station() * 10 + rawid.RomanPot();
 
   	  const bool *bits = itc->getRawBS();
 

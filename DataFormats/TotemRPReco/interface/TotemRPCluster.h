@@ -18,14 +18,14 @@
 class TotemRPCluster
 {
  public:
-  TotemRPCluster(RPDetId det_id, unsigned short str_beg, unsigned short str_end)
+  TotemRPCluster(unsigned int det_id, unsigned short str_beg, unsigned short str_end)
     : det_id_(det_id), str_beg_(str_beg), str_end_(str_end)
     {}
 
   TotemRPCluster() : det_id_(0), str_beg_(0), str_end_(0) {}
 
-  inline void DetId(RPDetId det_id) {det_id_ = det_id;}
-  inline RPDetId DetId() const {return det_id_;}
+  inline void DetId(unsigned int det_id) {det_id_ = det_id;}
+  inline unsigned int DetId() const {return det_id_;}
 
   inline void StrBeg(unsigned short str_beg) {str_beg_ = str_beg;}
   inline unsigned short StrBeg() const {return str_beg_;}
@@ -38,7 +38,7 @@ class TotemRPCluster
   inline double CentreStripPos() const {return (str_beg_+str_end_)/2.0;}
 
  private:
-  RPDetId det_id_;
+  unsigned int det_id_;
   unsigned short str_beg_;
   unsigned short str_end_;
 };

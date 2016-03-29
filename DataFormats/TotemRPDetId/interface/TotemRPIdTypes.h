@@ -10,8 +10,4 @@
 #ifndef DataFormats_TotemRPDetId_interface_TotemRPIdTypes_h
 #define DataFormats_TotemRPDetId_interface_TotemRPIdTypes_h
 
-typedef unsigned int RPStationId;
-typedef unsigned int RPId;
-typedef unsigned int RPDetId;
-
 #endif

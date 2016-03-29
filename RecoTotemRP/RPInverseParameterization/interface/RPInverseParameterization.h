@@ -40,8 +40,8 @@
 class RPInverseParameterization : public ROOT::Minuit2::FCNBase/*, public TMVA::IFitterTarget*/
 {
   public:
-    typedef std::map<RPId, LHCOpticsApproximator> transport_to_rp_type;
-    typedef std::map<RPId, RP2DHit> hits_at_rp_type;
+    typedef std::map<unsigned int, LHCOpticsApproximator> transport_to_rp_type;
+    typedef std::map<unsigned int, RP2DHit> hits_at_rp_type;
     
     RPInverseParameterization(double beam_direction, const edm::ParameterSet& conf,
         const BeamOpticsParams & BOPar);
@@ -53,11 +53,11 @@ class RPInverseParameterization : public ROOT::Minuit2::FCNBase/*, public TMVA::
 //    Double_t EstimatorFunction( std::vector<Double_t>& parameters);
     virtual double Up() const {return 1.0;}
 
-    void AddRomanPot(RPId rp_id, const LHCOpticsApproximator &approx);
+    void AddRomanPot(unsigned int rp_id, const LHCOpticsApproximator &approx);
     void SetParameterizations(const transport_to_rp_type& param_map) {transport_to_rp_ = param_map;}
     void RemoveRomanPots() {transport_to_rp_.clear(); ClearEvent();}
     void ClearEvent() {hits_at_rp_.clear(); primary_vertex_set_=false; xi_rec_constrained_=false;}
-    void AddProtonAtRP(RPId rp_id, const RP2DHit &hit) {hits_at_rp_[rp_id]=hit;}
+    void AddProtonAtRP(unsigned int rp_id, const RP2DHit &hit) {hits_at_rp_[rp_id]=hit;}
     void AddProtonAtRPCollection(const hits_at_rp_type &hits_at_rp);
     void SetPrimaryVertex(const TVector3 &vert, const TVector3 &error);
 //    void SetPrimaryProton(const HepMC::FourVector &ip_proton) {ip_proton_=ip_proton;}

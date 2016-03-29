@@ -47,7 +47,7 @@ int RPClusterizerAlgorithm::BuildClusters(const std::vector<TotemRPDigi> &digi, 
   
 //  ResetInternalHitLinkMap();
 
-  RPDetId rp_det_id = 0;
+  unsigned int rp_det_id = 0;
   if(strip_digi_set_.begin()!=strip_digi_set_.end())
     rp_det_id = strip_digi_set_.begin()->GetDetId();
 

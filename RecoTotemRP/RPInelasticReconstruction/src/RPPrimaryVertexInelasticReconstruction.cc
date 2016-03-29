@@ -37,7 +37,7 @@
 class RPPrimaryVertexInelasticReconstruction : public edm::EDProducer
 {
   public:
-    typedef std::map<RPId, RP2DHit> rec_tracks_collection;
+    typedef std::map<unsigned int, RP2DHit> rec_tracks_collection;
 
     explicit RPPrimaryVertexInelasticReconstruction(const edm::ParameterSet& conf);
     virtual ~RPPrimaryVertexInelasticReconstruction();
@@ -129,7 +129,7 @@ RPPrimaryVertexInelasticReconstruction::RPPrimaryVertexInelasticReconstruction(c
 
 void RPPrimaryVertexInelasticReconstruction::InitInverseParametrizationFitter()
 {
-  typedef std::map<RPId, LHCOpticsApproximator> rp_param_map_type;
+  typedef std::map<unsigned int, LHCOpticsApproximator> rp_param_map_type;
   rp_param_map_type rp_param_map_right;
   rp_param_map_type rp_param_map_left;
   std::string par_name;

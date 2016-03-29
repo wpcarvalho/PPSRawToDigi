@@ -38,7 +38,7 @@
 class RPPrimaryVertexInelasticReconstruction_RunI : public edm::EDProducer
 {
   public:
-    typedef std::map<RPId, RP2DHit> rec_tracks_collection;
+    typedef std::map<unsigned int, RP2DHit> rec_tracks_collection;
     
     explicit RPPrimaryVertexInelasticReconstruction_RunI(const edm::ParameterSet& conf);
     virtual ~RPPrimaryVertexInelasticReconstruction_RunI();

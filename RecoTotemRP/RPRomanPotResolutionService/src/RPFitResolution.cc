@@ -15,7 +15,7 @@ RPFitResolution::RPFitResolution(const edm::ParameterSet& conf)
 }
 
 
-RP2DHit RPFitResolution::Create2DHit(RPId rp_id, const RPFittedTrack &track)
+RP2DHit RPFitResolution::Create2DHit(unsigned int rp_id, const RPFittedTrack &track)
 {
   RP2DHit tmp(track.X0(), track.Y0(), track.X0Variance()*var_degrad_, 
       track.Y0Variance()*var_degrad_, track.Z0());

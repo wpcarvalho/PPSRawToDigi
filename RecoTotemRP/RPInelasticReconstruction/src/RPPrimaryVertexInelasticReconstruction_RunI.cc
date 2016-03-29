@@ -26,7 +26,7 @@ RPPrimaryVertexInelasticReconstruction_RunI::RPPrimaryVertexInelasticReconstruct
 
 void RPPrimaryVertexInelasticReconstruction_RunI::InitInverseParametrizationFitter()
 {
-  typedef std::map<RPId, LHCOpticsApproximator> rp_param_map_type;
+  typedef std::map<unsigned int, LHCOpticsApproximator> rp_param_map_type;
   rp_param_map_type rp_param_map_right;
   rp_param_map_type rp_param_map_left;
   std::string par_name;

@@ -22,11 +22,11 @@
 #include <map>
 
 
-class RPMulFittedTrackCollection : public std::map<RPId, std::vector<RPFittedTrack> >
+class RPMulFittedTrackCollection : public std::map<unsigned int, std::vector<RPFittedTrack> >
 {
 };
 
-class RPMulFittedTrackSetsCollection : public std::map<RPId, std::vector<std::vector<RPFittedTrack> > >
+class RPMulFittedTrackSetsCollection : public std::map<unsigned int, std::vector<std::vector<RPFittedTrack> > >
 {
 };
 

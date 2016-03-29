@@ -5,13 +5,13 @@
 
 class RPDetTrigger {
  public:
-  RPDetTrigger(RPDetId det_id=0, unsigned short sector_no=0)
+  RPDetTrigger(unsigned int det_id=0, unsigned short sector_no=0)
     {det_id_=det_id; sector_no_=sector_no;};
-  inline RPDetId GetDetId() const {return det_id_;}
+  inline unsigned int GetDetId() const {return det_id_;}
   inline unsigned short GetSector() const {return sector_no_;}
   
  private:
-  RPDetId det_id_;
+  unsigned int det_id_;
   unsigned short sector_no_;
 };
 

@@ -8,7 +8,7 @@
 #include <map>
 
 
-class RPFittedTrackCollection : public std::map<RPId, RPFittedTrack>
+class RPFittedTrackCollection : public std::map<unsigned int, RPFittedTrack>
 {
 };
 

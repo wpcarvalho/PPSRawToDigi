@@ -21,11 +21,11 @@
 #include <map>
 
  
-class RPMulTrackCandidateCollection : public std::map<RPId, std::vector<RPTrackCandidate> >
+class RPMulTrackCandidateCollection : public std::map<unsigned int, std::vector<RPTrackCandidate> >
 {
 };
 
-class RPMulTrackCandidateSetsCollection : public std::map<RPId, std::vector<std::vector<RPTrackCandidate> > >
+class RPMulTrackCandidateSetsCollection : public std::map<unsigned int, std::vector<std::vector<RPTrackCandidate> > >
 {
 };
 

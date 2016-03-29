@@ -17,7 +17,7 @@
 /**
  *\brief A collection (per RP) of pattern-recognition results.
  **/
-class RPRecognizedPatternsCollection : public std::map<RPId, RPRecognizedPatterns>
+class RPRecognizedPatternsCollection : public std::map<unsigned int, RPRecognizedPatterns>
 {
 };
 

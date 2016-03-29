@@ -88,12 +88,12 @@ void RPMulCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & inp
     /**
      * This method takes DetSetVector<TotemRPRecHit> and decouples U and V hits into their
      * corresponding detector.
-     * The the result is map<RPId, uv_pair_det_vec_reco_hits>
+     * The the result is map<unsigned int, uv_pair_det_vec_reco_hits>
      *    uv_pair_vec_reco_hits is pair< det_vec_reco_hits , det_vec_reco_hits >
      *    det_vec_reco_hits is map<unsigned int, std::vector<TotemRPRecHit> > whose key is the detector id
      * first part for U, second for V
      * The map is traversed and for each entry the following method is called
-     * RPMulCandidateTrackFinderAlgorithm_.BuildTrackCandidates(RPId, U hits, V hits, output, rp_geometry)
+     * RPMulCandidateTrackFinderAlgorithm_.BuildTrackCandidates(unsigned int, U hits, V hits, output, rp_geometry)
      **/
   typedef std::map<unsigned int, std::vector<TotemRPRecHit>, std::less<unsigned int> > det_vec_reco_hits;
   typedef std::pair<det_vec_reco_hits, det_vec_reco_hits> uv_pair_det_vec_reco_hits;
