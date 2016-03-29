@@ -8,7 +8,7 @@
 ****************************************************************************/
 
 
-#include "DataFormats/TotemRawData/interface/TotemFramePosition.h"
+#include "CondFormats/TotemReadoutObjects/interface/TotemFramePosition.h"
 
 #include <iomanip>
 #include <cstdlib>

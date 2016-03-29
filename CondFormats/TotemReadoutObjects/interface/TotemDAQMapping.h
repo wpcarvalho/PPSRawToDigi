@@ -10,7 +10,7 @@
 #ifndef _TotemDAQMapping_h_
 #define _TotemDAQMapping_h_
 
-#include "DataFormats/TotemRawData/interface/TotemFramePosition.h"
+#include "CondFormats/TotemReadoutObjects/interface/TotemFramePosition.h"
 
 #include "CondFormats/TotemReadoutObjects/interface/TotemSymbId.h"
 

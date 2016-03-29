@@ -11,7 +11,7 @@
 #ifndef TotemRawToDigiStatus_h
 #define TotemRawToDigiStatus_h
 
-#include "DataFormats/TotemRawData/interface/TotemFramePosition.h"
+#include "CondFormats/TotemReadoutObjects/interface/TotemFramePosition.h"
 
 #include <bitset>
 #include <map>

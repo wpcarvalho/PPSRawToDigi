@@ -19,11 +19,10 @@
 #include "FWCore/Framework/interface/SourceFactory.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "DataFormats/TotemRawData/interface/TotemFramePosition.h"
-
 #include "CondFormats/DataRecord/interface/TotemReadoutRcd.h"
 #include "CondFormats/TotemReadoutObjects/interface/TotemDAQMapping.h"
 #include "CondFormats/TotemReadoutObjects/interface/TotemAnalysisMask.h"
+#include "CondFormats/TotemReadoutObjects/interface/TotemFramePosition.h"
 
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/dom/DOM.hpp>

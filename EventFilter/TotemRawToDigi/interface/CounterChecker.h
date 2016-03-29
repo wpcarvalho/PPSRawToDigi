@@ -15,7 +15,8 @@
 #include <vector>
 #include <iostream>
 
-#include "DataFormats/TotemRawData/interface/TotemFramePosition.h"
+#include "CondFormats/TotemReadoutObjects/interface/TotemFramePosition.h"
+
 #include "DataFormats/TotemRawData/interface/TotemRawToDigiStatus.h"
 
 //----------------------------------------------------------------------------------------------------

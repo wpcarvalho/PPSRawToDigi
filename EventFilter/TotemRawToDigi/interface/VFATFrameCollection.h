@@ -10,7 +10,8 @@
 #ifndef _Totem_VFATFrameCollection_h_
 #define _Totem_VFATFrameCollection_h_
 
-#include "DataFormats/TotemRawData/interface/TotemFramePosition.h"
+#include "CondFormats/TotemReadoutObjects/interface/TotemFramePosition.h"
+
 #include "EventFilter/TotemRawToDigi/interface/VFATFrame.h"
 
 #include <string>
