@@ -604,7 +604,6 @@ void TotemDAQMappingESSourceXML::ParseTreeT2(ParseType pType, xercesc::DOMNode *
             unsigned int testHS=pl*2+pls;
             if(testHS!=position_t2) {
               edm::LogPrint("TotemDAQMappingESSourceXML") <<"T2 Xml inconsistence in pl-pls attributes and position. Only 'position attribute' taken ";
-              testHS=position_t2;
             }
 
             // For plane, ID_t2 should go from 0..39 position_t2 from 0..9
