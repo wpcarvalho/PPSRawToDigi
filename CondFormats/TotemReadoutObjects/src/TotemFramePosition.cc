@@ -1,12 +1,10 @@
 /****************************************************************************
 *
-* This is a part of the TOTEM testbeam/monitoring software.
 * This is a part of the TOTEM offline software.
 * Authors: 
 *   Jan Kašpar (jan.kaspar@gmail.com) 
 *
 ****************************************************************************/
-
 
 #include "CondFormats/TotemReadoutObjects/interface/TotemFramePosition.h"
 
@@ -15,13 +13,13 @@
 
 using namespace std;
 
-const string TotemFramePosition::tagSSNone ="None"; 
-const string TotemFramePosition::tagSST1 ="T1";   
-const string TotemFramePosition::tagSST2 ="T2";  
-const string TotemFramePosition::tagSSRP ="RP"; 
-const string TotemFramePosition::tagSSTrigger ="Trigger"; 
-const string TotemFramePosition::tagSSTTC ="TTC"; 
-const string TotemFramePosition::tagSSFEC ="FEC"; 
+const string TotemFramePosition::tagSSNone = "None"; 
+const string TotemFramePosition::tagSST1 = "T1";   
+const string TotemFramePosition::tagSST2 = "T2";  
+const string TotemFramePosition::tagSSRP = "RP"; 
+const string TotemFramePosition::tagSSTrigger = "Trigger"; 
+const string TotemFramePosition::tagSSTTC = "TTC"; 
+const string TotemFramePosition::tagSSFEC = "FEC"; 
 
 //----------------------------------------------------------------------------------------------------
 
@@ -44,7 +42,8 @@ void TotemFramePosition::PrintXML()
   cout << dec << "SubSystemId=\"";
 
   const unsigned char &ss = GetSubSystemId();
-  switch (ss) {
+  switch (ss)
+  {
     case ssT1: cout << "T1"; break;
     case ssT2: cout << "T2"; break;
     case ssRP: cout << "RP"; break;
@@ -66,7 +65,8 @@ void TotemFramePosition::PrintXML()
 unsigned char TotemFramePosition::SetXMLAttribute(const std::string &attribute, const std::string &value,
     unsigned char &flag)
 {
-  if (attribute.compare("DAQPosition") == 0) {
+  if (attribute == "DAQPosition")
+  {
     size_t dd1 = value.find(':', 0);
     size_t dd2 = value.find(':', dd1+1);
     size_t dd3 = value.find(':', dd2+1);
@@ -88,15 +88,16 @@ unsigned char TotemFramePosition::SetXMLAttribute(const std::string &attribute, 
     return 0;
   }
 
-  if (attribute.compare("SubSystemId") == 0) {
-    if (value.compare(tagSSNone) == 0) SetSubSystemId(ssNone);
-    else if (value.compare(tagSST1) == 0) SetSubSystemId(ssT1);
-      else if (value.compare(tagSST2) == 0) SetSubSystemId(ssT2);
-        else if (value.compare(tagSSRP) == 0) SetSubSystemId(ssRP);
-          else if (value.compare(tagSSTrigger) == 0) SetSubSystemId(ssTrigger);
-            else if (value.compare(tagSSTTC) == 0) SetSubSystemId(ssTTC);
-              else if (value.compare(tagSSFEC) == 0) SetSubSystemId(ssFEC);
-                else return 2;
+  if (attribute == "SubSystemId")
+  {
+    if (value == tagSSNone) SetSubSystemId(ssNone);
+    else if (value == tagSST1) SetSubSystemId(ssT1);
+    else if (value == tagSST2) SetSubSystemId(ssT2);
+    else if (value == tagSSRP) SetSubSystemId(ssRP);
+    else if (value == tagSSTrigger) SetSubSystemId(ssTrigger);
+    else if (value == tagSSTTC) SetSubSystemId(ssTTC);
+    else if (value == tagSSFEC) SetSubSystemId(ssFEC);
+      else return 2;
 
     flag |= 0x10;
     return 0;
@@ -104,25 +105,29 @@ unsigned char TotemFramePosition::SetXMLAttribute(const std::string &attribute, 
 
   unsigned int v = atoi(value.c_str());
 
-  if (attribute.compare("TOTFEDId") == 0) {
+  if (attribute == "TOTFEDId")
+  {
     SetTOTFEDId(v);
     flag |= 0x8;
     return 0;
   }
 
-  if (attribute.compare("OptoRxId") == 0) {
+  if (attribute == "OptoRxId")
+  {
     SetOptoRxId(v);
     flag |= 0x4;
     return 0;
   }
 
-  if (attribute.compare("GOHId") == 0) {
+  if (attribute == "GOHId")
+  {
     SetGOHId(v);
     flag |= 0x2;
     return 0;
   }
 
-  if (attribute.compare("IdxInFiber") == 0) {
+  if (attribute == "IdxInFiber")
+  {
     SetIdxInFiber(v);
     flag |= 0x1;
     return 0;
