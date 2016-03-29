@@ -1,6 +1,5 @@
 /****************************************************************************
 *
-* This is a part of the TOTEM testbeam/monitoring software.
 * This is a part of TOTEM offline software.
 * Authors: 
 *   Maciej Wróbel (wroblisko@gmail.com)

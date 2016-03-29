@@ -10,7 +10,6 @@
 #define DataFormats_L1TotemRP_TotemRPCCId
 
 #include "DataFormats/DetId/interface/DetId.h"
-#include <FWCore/Utilities/interface/Exception.h>
 
 #include <iosfwd>
 #include <iostream>

@@ -9,7 +9,6 @@
 #define DataFormats_L1TotemRP_TotemRPCCBits
 
 #include "DataFormats/L1TotemRP/interface/TotemRPCCId.h"
-#include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 #include <iosfwd>
 #include <iostream>
