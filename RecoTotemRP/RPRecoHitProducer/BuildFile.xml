@@ -10,5 +10,4 @@
 <use   name="RecoTotemRP/RPServiceRecords"/>
 <use   name="boost"/>
 <use   name="root"/>
-<use   name="rootrflx"/>
 <flags   EDM_PLUGIN="1"/>

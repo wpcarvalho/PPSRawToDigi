@@ -8,7 +8,6 @@
 <use   name="DataFormats/TotemRPDigi"/>
 <use   name="DataFormats/TotemRPReco"/>
 <use   name="root"/>
-<use   name="rootrflx"/>
 <export>
   <lib   name="1"/>
 </export>
