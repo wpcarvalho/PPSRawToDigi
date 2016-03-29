@@ -247,7 +247,7 @@ void RawToDigiConverter::RPDataProduce(VFATFrameCollection::Iterator &fr, const 
     // skip masked channels
     if (!analysisMask.fullMask && analysisMask.maskedChannels.find(j) == analysisMask.maskedChannels.end())
     {
-      detSet.push_back(TotemRPDigi(detId, offset + activeCh[j]));
+      detSet.push_back(TotemRPDigi(offset + activeCh[j]));
     }
   }  
 }

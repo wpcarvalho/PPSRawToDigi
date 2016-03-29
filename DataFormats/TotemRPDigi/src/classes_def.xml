@@ -1,6 +1,6 @@
 <lcgdict>
   <class name="TotemRPDigi" ClassVersion="2">
-	<version ClassVersion="2" checksum="1002587778"/>
+    <version ClassVersion="2" checksum="3444194306"/>
   </class>
 
   <class name="edm::DetSet<TotemRPDigi>"/>

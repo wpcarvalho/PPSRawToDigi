@@ -13,29 +13,23 @@
 class TotemRPDigi
 {
   public:
-    TotemRPDigi(unsigned int det_id=0, unsigned short strip_no=0)
+    TotemRPDigi(unsigned short strip_no=0) : strip_no_(strip_no)
     {
-      det_id_=det_id; 
-      strip_no_=strip_no;
     };
 
-    inline unsigned int GetDetId() const {return det_id_;}
-    inline unsigned short GetStripNo() const {return strip_no_;}
+    unsigned short GetStripNo() const
+    {
+      return strip_no_;
+    }
   
   private:
-    unsigned int det_id_;
     unsigned short strip_no_;
 };
 
 
 inline bool operator< (const TotemRPDigi& one, const TotemRPDigi& other)
 {
-  if(one.GetDetId() < other.GetDetId())
-    return true;
-  else if(one.GetDetId() == other.GetDetId())
-    return one.GetStripNo() < other.GetStripNo();
-  else 
-    return false;
+  return one.GetStripNo() < other.GetStripNo();
 }
 
 #endif
