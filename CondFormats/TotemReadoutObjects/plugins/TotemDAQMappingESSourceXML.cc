@@ -240,20 +240,7 @@ void TotemDAQMappingESSourceXML::setIntervalFor(const edm::eventsetup::EventSetu
 DOMDocument* TotemDAQMappingESSourceXML::GetDOMDocument(string file)
 {
   XercesDOMParser* parser = new XercesDOMParser();
-  //parser->setValidationScheme(XercesDOMParser::Val_Always);
-  //parser->setDoNamespaces(true);
-
-  try {
-    parser->parse(file.c_str());
-  }
-  catch (...) {
-    throw cms::Exception("TotemDAQMappingESSourceXML::GetDOMDocument") << "Cannot parse file `" << file
-      << "' (exception)." << endl;
-  }
-
-  if (!parser)
-    throw cms::Exception("TotemDAQMappingESSourceXML::GetDOMDocument") << "Cannot parse file `" << file
-      << "' (parser = NULL)." << endl;
+  parser->parse(file.c_str());
 
   DOMDocument* xmlDoc = parser->getDocument();
 

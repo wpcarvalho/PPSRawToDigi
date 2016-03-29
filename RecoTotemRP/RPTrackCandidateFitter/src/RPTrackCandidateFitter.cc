@@ -182,10 +182,14 @@ bool RPTrackCandidateFitter::FitTrack(const RPTrackCandidate& track_cand,
   //V_a*=H;
   //std::cout<<"V_a_mult"<<std::endl;
   //V_a.Invert();
-  try {
+  try
+  {
     V_a_mult.Invert();
   }
-  catch (...) {
+
+  // TODO: put here specifically the exception type that ROOT throws
+  catch (...)
+  {
     edm::LogProblem("RPTrackCandidateFitter") << ">> RPTrackCandidateFitter > Fit matrix is singular.";
     return false;
   }

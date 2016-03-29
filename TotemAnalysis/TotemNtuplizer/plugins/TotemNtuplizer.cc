@@ -124,13 +124,8 @@ void TotemNtuplizer::beginJob()
 void TotemNtuplizer::analyze(const edm::Event &ev, const edm::EventSetup &es)
 {
   // let all workes fill their event data
-  for (vector<Ntuplizer *>::iterator it = workers.begin(); it != workers.end(); ++it) {
-    try {
-      (*it)->FillEvent(ev, es);
-    }
-    catch (...) {
-    }
-  }
+  for (vector<Ntuplizer *>::iterator it = workers.begin(); it != workers.end(); ++it)
+    (*it)->FillEvent(ev, es);
 
   // commit the data
   tree->Fill();
