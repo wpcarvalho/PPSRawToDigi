@@ -81,7 +81,7 @@ unsigned int IdealResult::Solve(const std::vector<AlignmentConstraint> &constrai
 
   // collect true misalignments
   for (AlignmentGeometry::const_iterator dit = task->geometry.begin(); dit != task->geometry.end(); ++dit) {
-      unsigned int rawId = TotRPDetId::DecToRawId(dit->first);
+      unsigned int rawId = TotemRPDetId::decToRawId(dit->first);
       
       DetGeomDesc *real = gReal->GetDetector(rawId);
       DetGeomDesc *misal = gMisaligned->GetDetector(rawId);

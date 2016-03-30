@@ -1,13 +1,13 @@
 /****************************************************************************
 *
-* This is a part of TOTEM offline software.
+* This is a part of the TOTEM offline software.
 * Authors: 
 *   Jan Kašpar (jan.kaspar@gmail.com)
 *
 ****************************************************************************/
 
-#ifndef _RawToDigiConverter_h_
-#define _RawToDigiConverter_h_
+#ifndef EventFilter_TotemRawToDigi_RawToDigiConverter
+#define EventFilter_TotemRawToDigi_RawToDigiConverter
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
@@ -18,7 +18,7 @@
 #include "CondFormats/TotemReadoutObjects/interface/TotemAnalysisMask.h"
 
 #include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
-#include "DataFormats/TotemRPL1/interface/TotemRPCCBits.h"
+#include "DataFormats/L1TotemRP/interface/TotemRPCCBits.h"
 #include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
 #include "DataFormats/TotemRawData/interface/TotemRawToDigiStatus.h"
 

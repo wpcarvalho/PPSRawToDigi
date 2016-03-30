@@ -1,5 +1,5 @@
 <use name="FWCore/Framework"/>
-<use name="rootrflx"/>
+<use name="CondFormats/TotemReadoutObjects"/>
 
 <export>
 	<lib name="1"/>

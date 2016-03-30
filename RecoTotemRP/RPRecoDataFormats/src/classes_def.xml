@@ -1,11 +1,11 @@
 <lcgdict>
   <class name="RPTrackCandidate"/>
   <class name="std::vector<RPTrackCandidate>"/>
-  <class name="std::pair<RPId, RPTrackCandidate>"/>
-  <class name="std::pair<RPId, std::vector<RPTrackCandidate> >"/>
-  <class name="std::map<RPId, RPTrackCandidate>"/>
-  <class name="std::map<RPId, std::vector<RPTrackCandidate> >"/>
-  <class name="std::map<RPId, std::vector<RPTrackCandidateCollection> >"/>
+  <class name="std::pair<unsigned int, RPTrackCandidate>"/>
+  <class name="std::pair<unsigned int, std::vector<RPTrackCandidate> >"/>
+  <class name="std::map<unsigned int, RPTrackCandidate>"/>
+  <class name="std::map<unsigned int, std::vector<RPTrackCandidate> >"/>
+  <class name="std::map<unsigned int, std::vector<RPTrackCandidateCollection> >"/>
   <class name="RPTrackCandidateCollection"/>
   <class name="edm::Wrapper<RPTrackCandidateCollection>"/>
   <class name="RPMulTrackCandidateCollection"/>
@@ -18,27 +18,27 @@
   
   <class name="std::vector<std::vector<RPFittedTrack> >"/>
   <class name="edm::Wrapper<std::vector<std::vector<RPFittedTrack> > >"/>
-  <class name="std::map<RPId, std::vector<std::vector<RPFittedTrack> > >"/>
-  <class name="edm::Wrapper<std::map<RPId, std::vector<std::vector<RPFittedTrack> > > >"/>
+  <class name="std::map<unsigned int, std::vector<std::vector<RPFittedTrack> > >"/>
+  <class name="edm::Wrapper<std::map<unsigned int, std::vector<std::vector<RPFittedTrack> > > >"/>
   <class name="edm::Wrapper<RPMulFittedTrackSetsCollection>"/>
   <class name="std::vector<std::vector<RPTrackCandidate> >"/>
-  <class name="std::map<RPId, std::vector<std::vector<RPTrackCandidate> > >"/>
+  <class name="std::map<unsigned int, std::vector<std::vector<RPTrackCandidate> > >"/>
   <class name="RPMulTrackCandidateSetsCollection"/>
   <class name="edm::Wrapper<std::vector<std::vector<RPTrackCandidate> > >"/>
-  <class name="edm::Wrapper<std::map<RPId, std::vector<std::vector<RPTrackCandidate> > > >"/>
+  <class name="edm::Wrapper<std::map<unsigned int, std::vector<std::vector<RPTrackCandidate> > > >"/>
   <class name="edm::Wrapper<RPMulTrackCandidateSetsCollection>"/>
   
   <class name="RPFittedTrack"/>
   <class name="std::vector<RPFittedTrack>"/>
-  <class name="std::pair<RPId, RPFittedTrack>"/>
-  <class name="std::pair<RPId, std::vector<RPFittedTrack> >"/>
+  <class name="std::pair<unsigned int, RPFittedTrack>"/>
+  <class name="std::pair<unsigned int, std::vector<RPFittedTrack> >"/>
   <class name="RPDetHitPoint"/>
   <class name="TVector3"/>
   <class name="std::vector<RPDetHitPoint>"/>
-  <class name="std::map<RPId, RPFittedTrack>"/>
-  <class name="std::map<RPId, std::vector<RPFittedTrack> >"/>
-  <class name="edm::Wrapper<std::map<RPId, RPFittedTrack> >"/>
-  <class name="edm::Wrapper<std::map<RPId, std::vector<RPFittedTrack> > >"/>
+  <class name="std::map<unsigned int, RPFittedTrack>"/>
+  <class name="std::map<unsigned int, std::vector<RPFittedTrack> >"/>
+  <class name="edm::Wrapper<std::map<unsigned int, RPFittedTrack> >"/>
+  <class name="edm::Wrapper<std::map<unsigned int, std::vector<RPFittedTrack> > >"/>
   <class name="RPFittedTrackCollection"/>
   <class name="edm::Wrapper<RPFittedTrackCollection> "/>
   <class name="RPMulFittedTrackCollection"/>
@@ -63,8 +63,8 @@
   <class name="RP2DHitDebug"/>
   <class name="std::pair<unsigned int,RP2DHitDebug>"/>
   <class name="edm::Wrapper<RP2DHitDebug>"/>
-  <class name="std::map<RPId, RP2DHitDebug>"/>
-  <class name="edm::Wrapper<std::map<RPId, RP2DHitDebug> >"/>
+  <class name="std::map<unsigned int, RP2DHitDebug>"/>
+  <class name="edm::Wrapper<std::map<unsigned int, RP2DHitDebug> >"/>
   
   <class name="RPReconstructedProtonPair"/>
   <class name="edm::Wrapper<RPReconstructedProtonPair>"/>

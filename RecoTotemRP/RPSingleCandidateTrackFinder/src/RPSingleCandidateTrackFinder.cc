@@ -5,7 +5,7 @@
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include <iostream>
 
 #include "FWCore/Framework/interface/MakerMacros.h"
@@ -95,7 +95,7 @@ void RPSingleCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & 
 {
 	/**
 	 * This method takes DetSetVector<TotemRPRecHit> and decouples U and V hits.
-	 * Then, the result is map<RPId, uv_pair_vec_reco_hits>
+	 * Then, the result is map<unsigned int, uv_pair_vec_reco_hits>
 	 * 		uv_pair_vec_reco_hits is pair< vector<TotemRPRecHit> , vector<TotemRPRecHit> >
 	 * 			first part for U, second for V
 	 * The map is traversed and for each entry the following method is called
@@ -115,12 +115,12 @@ void RPSingleCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & 
     edm::DetSet<TotemRPRecHit>::const_iterator hits_it;
     for(hits_it = it->begin(); hits_it != it->end(); ++hits_it)
     {
-      TotRPDetId tot_rp_det_id(hits_it->DetId());
-      unsigned int rp_id = tot_rp_det_id.RPCopyNumber();
+      TotemRPDetId tot_rp_det_id(hits_it->DetId());
+      unsigned int rp_id = tot_rp_det_id.rpCopyNumber();
       
       uv_pair_vec_reco_hits &pair_ref = the_map[rp_id];
       
-      if(tot_rp_det_id.IsStripsCoordinateUDirection())
+      if(tot_rp_det_id.isStripsCoordinateUDirection())
       {
         pair_ref.first.push_back(*hits_it);
         //std::cout<<"U, ";
@@ -131,7 +131,7 @@ void RPSingleCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & 
         //std::cout<<"V, ";
       }
 
-    //std::cout<<"rp_id="<<rp_id<<" DetectorDecId()="<<tot_rp_det_id.DetectorDecId()<<" Position="<<hits_it->Position()<<std::endl;
+    //std::cout<<"rp_id="<<rp_id<<" DetectorDecId()="<<tot_rp_det_id.detectorDecId()<<" Position="<<hits_it->Position()<<std::endl;
     }
   }
   

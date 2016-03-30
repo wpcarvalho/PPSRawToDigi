@@ -1,100 +1,76 @@
-// File: RPClusterizer.cc
-// Description:  see RPClusterizer.h
-// Author:  Hubert Niewiadomski, CERN
-// Creation Date:  OGU Aug. 1 2005 Initial version.
-//
-//--------------------------------------------
+/****************************************************************************
+*
+* This is a part of TOTEM offline software.
+* Authors:
+*   Hubert Niewiadomski
+*   Jan Kašpar (jan.kaspar@gmail.com)
+*
+****************************************************************************/
+
+#include "FWCore/Framework/interface/MakerMacros.h"
  
 #include "RecoTotemRP/RPClusterizer/interface/RPClusterizer.h"
-#include "FWCore/Framework/interface/MakerMacros.h"
+
+//----------------------------------------------------------------------------------------------------
 
 RPClusterizer::RPClusterizer(edm::ParameterSet const& conf) :
   conf_(conf), RPClusterizerAlgorithm_(conf)
 {
-  edm::LogInfo("RPClusterizer") << "[RPClusterizer::RPClusterizer] Constructing object...";
   verbosity_ = conf.getParameter<int>("Verbosity");
-//  digiProducer_ = conf.getParameter<std::string>("DigiProducer");
-  if(!conf.exists("DigiLabel")){
-	  std::cout<<"expecting DigiLabel with data type TotemRPDigi"<<std::endl;
-  }
+
   digiInputTag_ = conf.getParameter<edm::InputTag>("DigiLabel");
-//  clusterLabel_ = conf.getParameter<std::string>("ClusterLabel");
-  //produces< edm::DetSetVector<TotemRPCluster> > (clusterLabel_);
-  produces< edm::DetSetVector<TotemRPCluster> > ();
+  
   digiInputTagToken_ = consumes<edm::DetSetVector<TotemRPDigi> >(digiInputTag_);
 
-
+  produces< edm::DetSetVector<TotemRPCluster> > ();
 }
+
+//----------------------------------------------------------------------------------------------------
  
-// Virtual destructor needed.
 RPClusterizer::~RPClusterizer()
 {
-  edm::LogInfo("RPClusterizer") << "[RPClusterizer::~RPClusterizer] Destructing object...";
 }
+
+//----------------------------------------------------------------------------------------------------
  
-//Get at the beginning
 void RPClusterizer::beginJob()
 {
-  if(verbosity_)
-  {
-    edm::LogInfo("RPClusterizer") << "[RPClusterizer::beginJob]";
-  }
 }
+
+//----------------------------------------------------------------------------------------------------
  
-// Functions that gets called by framework every event
 void RPClusterizer::produce(edm::Event& e, const edm::EventSetup& es)
 {
-  // Step B: Get Inputs
-  edm::Handle< edm::DetSetVector<TotemRPDigi> >  input;
+  // get input
+  edm::Handle< edm::DetSetVector<TotemRPDigi> > input;
  
-  // Step C: produce output product
-  std::vector< edm::DetSet<TotemRPCluster> > vRPStripCluster;
-  vRPStripCluster.reserve(240);
+  // prepare output
+  std::auto_ptr< edm::DetSetVector<TotemRPCluster> > output(new edm::DetSetVector<TotemRPCluster>() );
   
-//  e.getByLabel(digiInputTag_, input);  //FIXME: fix this label
-   e.getByToken(digiInputTagToken_, input);
-
-//  e.getByType(input);  //FIXME: fix this label
- 
-  if(verbosity_)
+  // run clusterisation
+  if (verbosity_)
     std::cout << " Reading " << input->size() << " of TotemRPDigi" << std::endl;
  
-  if(input->size())
-    run(*input,vRPStripCluster);
+  if (input->size())
+    run(*input, *output);
    
-  // Step D: create and fill output collection
-  std::auto_ptr< edm::DetSetVector<TotemRPCluster> > output(new edm::DetSetVector<TotemRPCluster>(vRPStripCluster) );
- 
-  if(verbosity_)
+  if (verbosity_)
     std::cout << " Saving " << output->size() << " of TotemRPCluster" << std::endl;
 
-  // Step D: write output to file
+  // save output to event
   e.put(output);
 }
 
+//----------------------------------------------------------------------------------------------------
 
-void RPClusterizer::run(const edm::DetSetVector<TotemRPDigi>& input,std::vector<edm::DetSet<TotemRPCluster> > & output)
+void RPClusterizer::run(const edm::DetSetVector<TotemRPDigi>& input, edm::DetSetVector<TotemRPCluster> &output)
 {
-    int number_detunits = 0;
-    int total_cluster_no = 0;
- 
-    //loop on all detset inside the input collection
-    edm::DetSetVector<TotemRPDigi>::const_iterator DSViter=input.begin();
-    for (; DSViter!=input.end();DSViter++)
-    {
-      ++number_detunits;
-      if(verbosity_)
-        LogDebug("RPClusterizer")  << "[RPClusterizer::run] DetID " << DSViter->id;
- 
-      edm::DetSet<TotemRPCluster> ssc(DSViter->id);
-      RPClusterizerAlgorithm_.BuildClusters(DSViter->data, ssc.data);
-      total_cluster_no += ssc.data.size();
-       
-      if (ssc.data.size())
-        output.push_back(ssc);  // insert the DetSet<TotemRPCluster> in the  DetSetVec<TotemRPCluster> only if there is at least a digi
-    }
-    if(verbosity_)
-      LogDebug("RPClusterizer") << "[RPClusterizer] generating " << total_cluster_no << " SiStripClusters in " << number_detunits << " DetUnits.";
+  for (const auto &ds_digi : input)
+  {
+    edm::DetSet<TotemRPCluster> &ds_cluster = output.find_or_insert(ds_digi.id);
+
+    RPClusterizerAlgorithm_.BuildClusters(ds_digi.id, ds_digi.data, ds_cluster.data);
+  }
 }
 
 DEFINE_FWK_MODULE(RPClusterizer);

@@ -6,7 +6,7 @@
 *
 ****************************************************************************/
 
-#include "FWCore/Framework/interface/EDProducer.h"
+#include "FWCore/Framework/interface/one/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/Utilities/interface/InputTag.h"
@@ -19,7 +19,7 @@
 #include "DataFormats/Common/interface/DetSetVector.h"
 
 #include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
-#include "DataFormats/TotemRPL1/interface/TotemRPCCBits.h"
+#include "DataFormats/L1TotemRP/interface/TotemRPCCBits.h"
 #include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
 #include "DataFormats/TotemRawData/interface/TotemRawToDigiStatus.h"
 
@@ -35,7 +35,7 @@
 
 //----------------------------------------------------------------------------------------------------
 
-class TotemRawToDigi : public edm::EDProducer 
+class TotemRawToDigi : public edm::one::EDProducer<>
 {
   public:
     explicit TotemRawToDigi(const edm::ParameterSet&);

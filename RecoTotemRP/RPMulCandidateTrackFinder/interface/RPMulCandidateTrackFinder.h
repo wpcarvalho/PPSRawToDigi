@@ -24,7 +24,6 @@
 
 //Data Formats
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulTrackCandidateCollection.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSet.h"
 

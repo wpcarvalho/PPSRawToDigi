@@ -10,7 +10,7 @@
 #include "DataFormats/DetId/interface/DetId.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/DDDTotemRPCommon.h"
 #include <iostream>
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 
 //----------------------------------------------------------------------------------------------------
 
@@ -160,10 +160,10 @@ void TotemRPGeometry::BuildSets()
 
   // build
   for (mapType::const_iterator it = theMap.begin(); it != theMap.end(); ++it) {
-    unsigned int id = TotRPDetId::RawToDecId((*it).first);
-    stationsInArm[TotRPDetId::ArmOfDet(id)].insert(TotRPDetId::StOfDet(id));
-    rpsInStation[TotRPDetId::StOfDet(id)].insert(TotRPDetId::RPOfDet(id));
-    detsInRP[TotRPDetId::RPOfDet(id)].insert(id);
+    unsigned int id = TotemRPDetId::rawToDecId((*it).first);
+    stationsInArm[TotemRPDetId::armOfDet(id)].insert(TotemRPDetId::stOfDet(id));
+    rpsInStation[TotemRPDetId::stOfDet(id)].insert(TotemRPDetId::rpOfDet(id));
+    detsInRP[TotemRPDetId::rpOfDet(id)].insert(id);
   }
 }
 
@@ -193,8 +193,8 @@ double TotemRPGeometry::GetStationCentreZPosition(unsigned int id) const
   unsigned int st_id = id%10;
   unsigned int arm_id = id/10;
   
-  TotRPDetId near = TotRPDetId(arm_id, st_id, 0, 0);
-  TotRPDetId far = TotRPDetId(arm_id, st_id, 5, 9);
+  TotemRPDetId near = TotemRPDetId(arm_id, st_id, 0, 0);
+  TotemRPDetId far = TotemRPDetId(arm_id, st_id, 5, 9);
   
   return (GetDetTranslation(near).z() + GetDetTranslation(far).z()) / 2.0;
 }

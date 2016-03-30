@@ -3,7 +3,6 @@
 
 #include "TNamed.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHitDebug.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "TVector2.h"
 #include <map>
 #include <ostream>
@@ -26,7 +25,7 @@ class RPReconstructedProton
     RPReconstructedProton();
     virtual ~RPReconstructedProton() {}
     
-    typedef std::map<RPId, RP2DHitDebug> debug_hits_map_type;
+    typedef std::map<unsigned int, RP2DHitDebug> debug_hits_map_type;
     inline double X() const {return variables_[nx];}
     inline double Y() const {return variables_[ny];}
     inline double Theta_x() const {return variables_[ntheta_x];}
@@ -72,7 +71,7 @@ class RPReconstructedProton
     
     int FreeParametersNumber() const;
     
-    void AddDebugHit(RPId rp_id, const RP2DHitDebug& deb_hit) {debug_hits_[rp_id]=deb_hit;}
+    void AddDebugHit(unsigned int rp_id, const RP2DHitDebug& deb_hit) {debug_hits_[rp_id]=deb_hit;}
     const debug_hits_map_type& DebugHits() const {return debug_hits_;}
     RPRecoProtMADXVariables GetMADXVariables() const;
     

@@ -1,5 +1,4 @@
 #include "RecoTotemRP/RPClusterSigmaService/interface/RPClusterSigmaService.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "FWCore/Utilities/interface/typelookup.h"
 
 RPDetClusterSigmas::RPDetClusterSigmas()
@@ -8,4 +7,3 @@ RPDetClusterSigmas::RPDetClusterSigmas()
 
 
 TYPELOOKUP_DATA_REG(RPDetClusterSigmas);
-

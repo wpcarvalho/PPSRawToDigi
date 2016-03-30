@@ -7,10 +7,8 @@
 *
 ****************************************************************************/
 
-#ifndef DataFormats_TotemRPReco_interface_TotemTotemRPRecHit_h
-#define DataFormats_TotemRPReco_interface_TotemTotemRPRecHit_h
-
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
+#ifndef DataFormats_TotemRPReco_TotemTotemRPRecHit
+#define DataFormats_TotemRPReco_TotemTotemRPRecHit
 
 /**
  *\brief Reconstructed hit in TOTEM RP.
@@ -20,7 +18,7 @@
 class TotemRPRecHit
 {
  public:
-  TotemRPRecHit(RPDetId det_id, double position, double sigma) : det_id_(det_id), 
+  TotemRPRecHit(unsigned int det_id, double position, double sigma) : det_id_(det_id), 
     position_(position), sigma_(sigma) {}
   TotemRPRecHit() : det_id_(0), position_(0), sigma_(0) {}
 
@@ -30,13 +28,13 @@ class TotemRPRecHit
   inline void Sigma(double sigma) {sigma_=sigma;}
   inline double Sigma() const {return sigma_;}
 
-  inline void DetId(RPDetId det_id) {det_id_=det_id;}
+  inline void DetId(unsigned int det_id) {det_id_=det_id;}
   inline unsigned int DetId() const {return det_id_;}
 
   inline TotemRPRecHit *clone() const {return new TotemRPRecHit(*this); }
 
  private:
-  RPDetId det_id_;    ///< the raw ID of detector
+  unsigned int det_id_;    ///< the raw ID of detector
   double position_;   ///< position of the hit in mm, wrt detector center (see RPTopology::GetHitPositionInReadoutDirection)
   double sigma_;      ///< position uncertainty, in mm
 };

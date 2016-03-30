@@ -10,7 +10,7 @@
 
 #include "EventFilter/TotemRawToDigi/interface/CounterChecker.h"
 
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 
 //----------------------------------------------------------------------------------------------------
 
@@ -235,7 +235,7 @@ void RawToDigiConverter::RPDataProduce(VFATFrameCollection::Iterator &fr, const 
 {
   // get IDs
   unsigned short symId = info.symbolicID.symbolicID;
-  unsigned int detId = TotRPDetId::DecToRawId(symId / 10);
+  unsigned int detId = TotemRPDetId::decToRawId(symId / 10);
 
   // add TotemRPDigi for each hit
   unsigned short offset = (symId % 10) * 128;
@@ -247,7 +247,7 @@ void RawToDigiConverter::RPDataProduce(VFATFrameCollection::Iterator &fr, const 
     // skip masked channels
     if (!analysisMask.fullMask && analysisMask.maskedChannels.find(j) == analysisMask.maskedChannels.end())
     {
-      detSet.push_back(TotemRPDigi(detId, offset + activeCh[j]));
+      detSet.push_back(TotemRPDigi(offset + activeCh[j]));
     }
   }  
 }
@@ -311,8 +311,8 @@ void RawToDigiConverter::RPCCProduce(VFATFrameCollection::Iterator &fr, const To
   //     std::cout << "Odd " << bs_odd << std::endl;
   //      std::cout << "Even " << bs_even << std::endl;
 
-  unsigned int evendetId = TotRPDetId::DecToRawId(symId * 10);
-  unsigned int odddetId = TotRPDetId::DecToRawId(symId * 10 + 1);
+  unsigned int evendetId = TotemRPDetId::decToRawId(symId * 10);
+  unsigned int odddetId = TotemRPDetId::decToRawId(symId * 10 + 1);
   TotemRPCCBits ccbits_even(evendetId , bs_even);
   TotemRPCCBits ccbits_odd(odddetId, bs_odd);
   

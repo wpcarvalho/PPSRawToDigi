@@ -10,7 +10,6 @@
 #include <Minuit2/MnUserParameters.h>
 #include <Minuit2/CombinedMinimizer.h>
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPair.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"
@@ -35,8 +34,8 @@
 class RPInverse2SidedParameterization : public ROOT::Minuit2::FCNBase
 {
   public:
-    typedef std::map<RPId, LHCOpticsApproximator> transport_to_rp_type;
-    typedef std::map<RPId, RP2DHit> hits_at_rp_type;
+    typedef std::map<unsigned int, LHCOpticsApproximator> transport_to_rp_type;
+    typedef std::map<unsigned int, RP2DHit> hits_at_rp_type;
     
     RPInverse2SidedParameterization(const edm::ParameterSet& conf,
         const BeamOpticsParams & BOPar);
@@ -46,12 +45,12 @@ class RPInverse2SidedParameterization : public ROOT::Minuit2::FCNBase
     double FullVarianceCalculation(const std::vector<double>& par) const;
     virtual double Up() const {return 1.0;}
 
-    void AddRomanPot(RPId rp_id, const LHCOpticsApproximator &approx);
+    void AddRomanPot(unsigned int rp_id, const LHCOpticsApproximator &approx);
     void AddParameterizationsRight(const transport_to_rp_type& param_map);
     void AddParameterizationsLeft(const transport_to_rp_type& param_map);
     void RemoveRomanPots();
     void ClearEvent();
-    void AddProtonAtRP(RPId rp_id, const RP2DHit &hit);
+    void AddProtonAtRP(unsigned int rp_id, const RP2DHit &hit);
     void AddProtonAtRPCollection(const hits_at_rp_type &hits_at_rp);
     void SetPrimaryVertex(const TVector3 &vert, const TVector3 &error);
     
@@ -76,8 +75,8 @@ class RPInverse2SidedParameterization : public ROOT::Minuit2::FCNBase
 //    void FindInitialParameterValues(RPReconstructedProtonPair &rec_proton_pair, 
 //            unsigned int param_id);
 //    void FindInitialParameterValuesPrecisely(RPReconstructedProtonPair &rec_proton_pair);
-    inline bool RightArm(RPId id) const {return id>=100;}
-    inline bool LeftArm(RPId id) const {return id<100;}
+    inline bool RightArm(unsigned int id) const {return id>=100;}
+    inline bool LeftArm(unsigned int id) const {return id<100;}
     
     transport_to_rp_type transport_to_rp_;
     hits_at_rp_type hits_at_rp_;

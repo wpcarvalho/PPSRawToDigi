@@ -1,36 +1,35 @@
+/****************************************************************************
+*
+* This is a part of TOTEM offline software.
+* Authors: 
+*   Hubert Niewiadomski, CERN
+*
+****************************************************************************/
+
 #ifndef RPClusterizer_h
 #define RPClusterizer_h
 
-/** \class RPClusterizer
- *
- * RPClusterizer is the EDProducer subclass which clusters
- * SiStripDigi/interface/StripDigi.h to SiStripCluster/interface/SiStripCluster.h
- *
- * \author Hubert Niewiadomski, CERN
- *
- *
- ************************************************************/
- 
-//edm
-#include "FWCore/Framework/interface/EDProducer.h"
+#include "FWCore/Framework/interface/one/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
-//Data Formats
+
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSet.h"
 #include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
-//Clusterizer
+
 #include "RecoTotemRP/RPClusterizer/interface/RPClusterizerAlgorithm.h"
  
 #include <iostream>
 #include <memory>
 #include <string>
  
- 
-class RPClusterizer : public edm::EDProducer
+/**
+ * Merges neighbouring active TOTEM RP strips into clusters.
+ **/
+class RPClusterizer : public edm::one::EDProducer<>
 {
   public:
   
@@ -43,18 +42,14 @@ class RPClusterizer : public edm::EDProducer
     virtual void produce(edm::Event& e, const edm::EventSetup& c);
   
   private:
-    void run(const edm::DetSetVector<TotemRPDigi>& input,std::vector<edm::DetSet<TotemRPCluster> > & output);
     edm::ParameterSet conf_;
     int verbosity_;
-    RPClusterizerAlgorithm RPClusterizerAlgorithm_;
-    //std::string digiProducer_;
-    //std::string digiLabel_;
-    //std::string clusterLabel_;
     edm::InputTag digiInputTag_;
     edm::EDGetTokenT<edm::DetSetVector<TotemRPDigi> >digiInputTagToken_;
 
+    RPClusterizerAlgorithm RPClusterizerAlgorithm_;
 
-
+    void run(const edm::DetSetVector<TotemRPDigi> &input, edm::DetSetVector<TotemRPCluster> &output);
 };
   
 #endif

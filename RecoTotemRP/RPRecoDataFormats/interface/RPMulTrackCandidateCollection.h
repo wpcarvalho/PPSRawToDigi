@@ -15,17 +15,16 @@
 #define RecoTotemRP_RPRecoDataFormats_RPMulTrackCandidateCollection_h
  
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 
 #include <vector>
 #include <map>
 
  
-class RPMulTrackCandidateCollection : public std::map<RPId, std::vector<RPTrackCandidate> >
+class RPMulTrackCandidateCollection : public std::map<unsigned int, std::vector<RPTrackCandidate> >
 {
 };
 
-class RPMulTrackCandidateSetsCollection : public std::map<RPId, std::vector<std::vector<RPTrackCandidate> > >
+class RPMulTrackCandidateSetsCollection : public std::map<unsigned int, std::vector<std::vector<RPTrackCandidate> > >
 {
 };
 

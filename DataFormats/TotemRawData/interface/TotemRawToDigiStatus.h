@@ -1,6 +1,5 @@
 /****************************************************************************
 *
-* This is a part of the TOTEM testbeam/monitoring software.
 * This is a part of TOTEM offline software.
 * Authors: 
 *   Maciej Wróbel (wroblisko@gmail.com)
@@ -8,10 +7,10 @@
 *    
 ****************************************************************************/
 
-#ifndef TotemRawToDigiStatus_h
-#define TotemRawToDigiStatus_h
+#ifndef DataFormats_TotemRawData_TotemRawToDigiStatus
+#define DataFormats_TotemRawData_TotemRawToDigiStatus
 
-#include "DataFormats/TotemRawData/interface/TotemFramePosition.h"
+#include "CondFormats/TotemReadoutObjects/interface/TotemFramePosition.h"
 
 #include <bitset>
 #include <map>

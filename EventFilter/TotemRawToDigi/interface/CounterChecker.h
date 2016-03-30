@@ -1,21 +1,22 @@
 /****************************************************************************
  *
- * This is a part of TOTEM offline software.
+ * This is a part of the TOTEM offline software.
  * Authors: 
  *   Maciej Wróbel (wroblisko@gmail.com)
  *   Jan Kašpar (jan.kaspar@gmail.com)
  *
  ****************************************************************************/
 
-#ifndef CounterChecker_h
-#define CounterChecker_h
+#ifndef EventFilter_TotemRawToDigi_CounterChecker
+#define EventFilter_TotemRawToDigi_CounterChecker
 
 #include <map>
 #include <string>
 #include <vector>
 #include <iostream>
 
-#include "DataFormats/TotemRawData/interface/TotemFramePosition.h"
+#include "CondFormats/TotemReadoutObjects/interface/TotemFramePosition.h"
+
 #include "DataFormats/TotemRawData/interface/TotemRawToDigiStatus.h"
 
 //----------------------------------------------------------------------------------------------------

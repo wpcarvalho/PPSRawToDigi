@@ -9,7 +9,7 @@
 #ifndef Geometry_TotemRPGeometry_H
 #define Geometry_TotemRPGeometry_H
 
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/Rotation.h"
 //#include "HepMC/SimpleVector.h"
@@ -82,7 +82,7 @@ class TotemRPGeometry
     /// performs necessary checks, returns NULL if fails
     /// input is raw ID
     DetGeomDesc *GetDetector(unsigned int) const;
-    DetGeomDesc *GetDetector(const TotRPDetId & id) const { return GetDetector(id.rawId()); }
+    DetGeomDesc *GetDetector(const TotemRPDetId & id) const { return GetDetector(id.rawId()); }
     /// same as GetDetector
     DetGeomDesc *operator[] (unsigned int id) const { return GetDetector(id); }
 

@@ -1,5 +1,5 @@
 #include "RecoTotemRP/RPMulCandidateTrackFinder/interface/RPMulCandidateTrackFinder.h"
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 
 #include "FWCore/Framework/interface/MakerMacros.h"
 
@@ -88,12 +88,12 @@ void RPMulCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & inp
     /**
      * This method takes DetSetVector<TotemRPRecHit> and decouples U and V hits into their
      * corresponding detector.
-     * The the result is map<RPId, uv_pair_det_vec_reco_hits>
+     * The the result is map<unsigned int, uv_pair_det_vec_reco_hits>
      *    uv_pair_vec_reco_hits is pair< det_vec_reco_hits , det_vec_reco_hits >
      *    det_vec_reco_hits is map<unsigned int, std::vector<TotemRPRecHit> > whose key is the detector id
      * first part for U, second for V
      * The map is traversed and for each entry the following method is called
-     * RPMulCandidateTrackFinderAlgorithm_.BuildTrackCandidates(RPId, U hits, V hits, output, rp_geometry)
+     * RPMulCandidateTrackFinderAlgorithm_.BuildTrackCandidates(unsigned int, U hits, V hits, output, rp_geometry)
      **/
   typedef std::map<unsigned int, std::vector<TotemRPRecHit>, std::less<unsigned int> > det_vec_reco_hits;
   typedef std::pair<det_vec_reco_hits, det_vec_reco_hits> uv_pair_det_vec_reco_hits;
@@ -108,14 +108,14 @@ void RPMulCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & inp
     edm::DetSet<TotemRPRecHit>::const_iterator hits_it;
     for(hits_it = it->begin(); hits_it != it->end(); ++hits_it)
     {
-      TotRPDetId tot_rp_det_id(hits_it->DetId());
-      unsigned int rp_id = tot_rp_det_id.RPCopyNumber();
-      unsigned int det_id = tot_rp_det_id.Detector();
+      TotemRPDetId tot_rp_det_id(hits_it->DetId());
+      unsigned int rp_id = tot_rp_det_id.rpCopyNumber();
+      unsigned int det_id = tot_rp_det_id.detector();
 
       uv_pair_det_vec_reco_hits &pair_ref = the_map[rp_id];
       ++rp_hits_num_map[rp_id];
 
-      if(tot_rp_det_id.IsStripsCoordinateUDirection())
+      if(tot_rp_det_id.isStripsCoordinateUDirection())
       {
         std::vector<TotemRPRecHit> &vec_ref = pair_ref.first[det_id];
         vec_ref.push_back(*hits_it);

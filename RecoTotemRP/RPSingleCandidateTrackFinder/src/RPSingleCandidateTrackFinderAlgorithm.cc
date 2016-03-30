@@ -2,7 +2,7 @@
 #include "DataFormats/GeometryVector/interface/GlobalVector.h"
 #include "DataFormats/GeometryVector/interface/LocalVector.h"
 #include "HepMC/SimpleVector.h"
-#include "DataFormats/TotemRPDetId/interface/TotRPDetId.h"
+#include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "TMath.h"
 #include <iostream>
 
@@ -215,7 +215,7 @@ double RPSingleCandidateTrackFinderAlgorithm::GetDetStripAlignment(unsigned int 
   strip_rough_alignment_map::iterator it = the_align_map_.find(det_id);
   if(it!=the_align_map_.end())
   {
-    //std::cout<<"readout shift="<<it->second<<" det.id."<<TotRPDetId(det_id).DetectorDecId()<<std::endl;
+    //std::cout<<"readout shift="<<it->second<<" det.id."<<TotemRPDetId(det_id).DetectorDecId()<<std::endl;
     return it->second;
   }
   

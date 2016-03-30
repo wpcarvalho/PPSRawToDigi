@@ -2,7 +2,6 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
 
 #include <iostream>
@@ -15,7 +14,7 @@ RPFitResolution::RPFitResolution(const edm::ParameterSet& conf)
 }
 
 
-RP2DHit RPFitResolution::Create2DHit(RPId rp_id, const RPFittedTrack &track)
+RP2DHit RPFitResolution::Create2DHit(unsigned int rp_id, const RPFittedTrack &track)
 {
   RP2DHit tmp(track.X0(), track.Y0(), track.X0Variance()*var_degrad_, 
       track.Y0Variance()*var_degrad_, track.Z0());

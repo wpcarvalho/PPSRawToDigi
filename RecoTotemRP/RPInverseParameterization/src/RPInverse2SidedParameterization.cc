@@ -247,7 +247,7 @@ void RPInverse2SidedParameterization::ClearEvent()
   inverse_param_left_->ClearEvent();
 }
 
-void RPInverse2SidedParameterization::AddProtonAtRP(RPId rp_id, const RP2DHit &hit)
+void RPInverse2SidedParameterization::AddProtonAtRP(unsigned int rp_id, const RP2DHit &hit)
 {
   hits_at_rp_[rp_id]=hit;
   if(RightArm(rp_id))

@@ -13,7 +13,6 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
 #include "TVector3.h"
 #include "CLHEP/Vector/LorentzVector.h"
@@ -33,7 +32,7 @@
 class RPPrimaryVertex2ArmReconstruction : public edm::EDProducer
 {
   public:
-    typedef std::map<RPId, RP2DHit> rec_tracks_collection;
+    typedef std::map<unsigned int, RP2DHit> rec_tracks_collection;
     
     explicit RPPrimaryVertex2ArmReconstruction(const edm::ParameterSet& conf);
     virtual ~RPPrimaryVertex2ArmReconstruction();

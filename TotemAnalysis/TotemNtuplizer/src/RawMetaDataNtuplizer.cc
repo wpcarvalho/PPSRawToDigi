@@ -46,14 +46,12 @@ void RawMetaDataNtuplizer::FillEvent(const edm::Event &event, const edm::EventSe
   data.run_no = event.id().run();
   data.event_no = event.id().event();
   data.timestamp = event.time().unixTime();
-  data.daq_event_number = input->dataEventNumber;
-
-  //printf("%lu, %lu: %lu\n", data.run_no, data.event_no, input->optoRxMetaData.size());
+  data.daq_event_number = input->getDataEventNumber();
 
   data.optoRx_Id.clear();
   data.optoRx_BX.clear();
   data.optoRx_LV1.clear();
-  for (const auto &it : input->optoRxMetaData)
+  for (const auto &it : input->getOptoRxMetaData())
   {
     data.optoRx_Id.push_back(it.first);
     data.optoRx_BX.push_back(it.second.BX);

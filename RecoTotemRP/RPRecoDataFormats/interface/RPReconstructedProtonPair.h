@@ -3,7 +3,6 @@
 
 #include "TNamed.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHitDebug.h"
-#include "DataFormats/TotemRPDetId/interface/TotemRPIdTypes.h"
 #include "TVector2.h"
 #include <map>
 #include <ostream>
@@ -28,7 +27,7 @@ class RPReconstructedProtonPair
     RPReconstructedProtonPair();
     virtual ~RPReconstructedProtonPair() {}
     
-    typedef std::map<RPId, RP2DHitDebug> debug_hits_map_type;
+    typedef std::map<unsigned int, RP2DHitDebug> debug_hits_map_type;
     inline double X3D() const {return variables_[nx];}
     inline double Y3D() const {return variables_[ny];}
     inline double Z3D() const {return variables_[nz];}
@@ -107,7 +106,7 @@ class RPReconstructedProtonPair
     inline void DegreesOfFreedom(int val) {degrees_of_freedom_=val;}
     inline int DegreesOfFreedom() const {return degrees_of_freedom_;}
     
-    void AddDebugHit(RPId rp_id, const RP2DHitDebug& deb_hit) {debug_hits_[rp_id]=deb_hit;}
+    void AddDebugHit(unsigned int rp_id, const RP2DHitDebug& deb_hit) {debug_hits_[rp_id]=deb_hit;}
     const debug_hits_map_type& DebugHits() const {return debug_hits_;}
     
 //    double Momentum_to_t(double px, double py, double pz) const;  //GeV
