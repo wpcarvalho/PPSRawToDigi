@@ -50,27 +50,17 @@ class TotemRPCCBits
 
     inline std::bitset<16> getBS() const
     {
-      std::bitset<16> res;
-      for (unsigned short i = 0 ; i < 16 ; ++i)
-        res[i] = bs_[i];
-
-      return res;
+      return bs_;
     };
   
-    inline const bool* getRawBS() const
+    void setBS(const std::bitset<16> &bs)
     {
-      return bs_; 
-    }
-
-    void setBS(std::bitset<16> bs)
-    {
-      for( unsigned short i = 0 ; i < 16 ; ++i)
-        bs_[i] = bs[i];
+        bs_ = bs;
     };
 
   private:
     uint32_t id_;
-    bool bs_[16];
+    std::bitset<16> bs_;
 };
 
 

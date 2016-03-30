@@ -340,7 +340,7 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   	  TotemRPDetId rawid(itc->getId());
   	  unsigned int decid = rawid.arm() * 100 + rawid.station() * 10 + rawid.romanPot();
 
-  	  const bool *bits = itc->getRawBS();
+  	  const auto &bits = itc->getBS();
 
       if (rawid.isStripsCoordinateUDirection())
       {
