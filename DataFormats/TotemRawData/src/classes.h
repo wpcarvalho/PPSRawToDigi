@@ -21,7 +21,7 @@ namespace {
 
     TotemRawEvent::TriggerData dummy25;
 
-    TotemFramePosition dummy28;
+    TotemStructuralVFATId dummy28;
 
     TotemRawToDigiStatus dummy30;
     edm::Wrapper< TotemRawToDigiStatus > dummy31;
