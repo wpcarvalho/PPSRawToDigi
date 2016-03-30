@@ -296,36 +296,38 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
       RPTrackCandidateCollection::const_iterator sr = trCand->find(rp);
       par_patterns_info_[rp].fittable = (sr != trCand->end()) ? sr->second.Fittable() : false;
     }
-  } catch (const std::exception& e) { std::cout << "Exception: " << e.what() << std::endl; }
+  }
+  catch (const std::exception& e)
+  {
+    std::cout << "Exception: " << e.what() << std::endl;
+  }
 
   // fill in pattern-recognition results (non-parallel)
-  try {
-    edm::Handle< RPRecognizedPatternsCollection > patterns;
-    e.getByLabel("NonParallelTrackFinder", patterns);
+  edm::Handle< RPRecognizedPatternsCollection > patterns;
+  e.getByLabel("NonParallelTrackFinder", patterns);
 
-    edm::Handle< RPTrackCandidateCollection > trCand;
-    e.getByLabel("NonParallelTrackFinder", trCand);
+  edm::Handle< RPTrackCandidateCollection > trCand;
+  e.getByLabel("NonParallelTrackFinder", trCand);
 
-    for (RPRecognizedPatternsCollection::const_iterator rpit = patterns->begin(); rpit != patterns->end(); ++rpit)
+  for (RPRecognizedPatternsCollection::const_iterator rpit = patterns->begin(); rpit != patterns->end(); ++rpit)
+  {
+    unsigned int rp = rpit->first;
+
+    for (std::vector<RPRecognizedPatterns::Line>::const_iterator lit = rpit->second.uLines.begin(); lit != rpit->second.uLines.end(); ++lit)
     {
-      unsigned int rp = rpit->first;
-
-      for (std::vector<RPRecognizedPatterns::Line>::const_iterator lit = rpit->second.uLines.begin(); lit != rpit->second.uLines.end(); ++lit)
-      {
-        nonpar_patterns_info_[rp].u.push_back(RPRootDumpPattern(lit->a, lit->b, lit->w));
-        nonpar_patterns_info_[rp].u_no = nonpar_patterns_info_[rp].u.size(); 
-      }
-      
-      for (std::vector<RPRecognizedPatterns::Line>::const_iterator lit = rpit->second.vLines.begin(); lit != rpit->second.vLines.end(); ++lit)
-      {
-        nonpar_patterns_info_[rp].v.push_back(RPRootDumpPattern(lit->a, lit->b, lit->w));
-        nonpar_patterns_info_[rp].v_no = nonpar_patterns_info_[rp].v.size();
-      }
-
-      RPTrackCandidateCollection::const_iterator sr = trCand->find(rp);
-      nonpar_patterns_info_[rp].fittable = (sr != trCand->end()) ? sr->second.Fittable() : false;
+      nonpar_patterns_info_[rp].u.push_back(RPRootDumpPattern(lit->a, lit->b, lit->w));
+      nonpar_patterns_info_[rp].u_no = nonpar_patterns_info_[rp].u.size(); 
     }
-  } catch (...) {}
+    
+    for (std::vector<RPRecognizedPatterns::Line>::const_iterator lit = rpit->second.vLines.begin(); lit != rpit->second.vLines.end(); ++lit)
+    {
+      nonpar_patterns_info_[rp].v.push_back(RPRootDumpPattern(lit->a, lit->b, lit->w));
+      nonpar_patterns_info_[rp].v_no = nonpar_patterns_info_[rp].v.size();
+    }
+
+    RPTrackCandidateCollection::const_iterator sr = trCand->find(rp);
+    nonpar_patterns_info_[rp].fittable = (sr != trCand->end()) ? sr->second.Fittable() : false;
+  }
 
   // fill coincidence chip data
   edm::Handle < std::vector<TotemRPCCBits> > cc_chip_bits;
@@ -335,7 +337,7 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   	std::vector<TotemRPCCBits>::const_iterator itc;
   	for (itc = cc_chip_bits->begin(); itc != cc_chip_bits->end(); ++itc)
     {
-  	  TotemRPCCId rawid(itc->getId());
+  	  TotemRPDetId rawid(itc->getId());
   	  unsigned int decid = rawid.arm() * 100 + rawid.station() * 10 + rawid.romanPot();
 
   	  const bool *bits = itc->getRawBS();

@@ -255,8 +255,12 @@ void RawToDigiConverter::RPDataProduce(VFATFrameCollection::Iterator &fr, const 
 //----------------------------------------------------------------------------------------------------
 
 void RawToDigiConverter::RPCCProduce(VFATFrameCollection::Iterator &fr, const TotemVFATInfo &info,
-    const TotemVFATAnalysisMask &analysisMask, std::vector <TotemRPCCBits> &rpCC)
+    const TotemVFATAnalysisMask &analysisMask, std::vector<TotemRPCCBits> &rpCC)
 {
+  // stop if fully masked
+  if (analysisMask.fullMask)
+    return;
+
   // get IDs
   unsigned short symId = info.symbolicID.symbolicID;
 
@@ -270,49 +274,50 @@ void RawToDigiConverter::RPCCProduce(VFATFrameCollection::Iterator &fr, const To
 
   unsigned int stripNo;
 
-  // if all channels are masked out, do not process all frame
-  if (!analysisMask.fullMask) 
-    for (unsigned int j = 0; j < activeCh.size(); j++)
-      {
-  //      std::cout << "Active channel " << j << " value " << (int)(activeCh[j]) << std::endl;
-  // check, whether j channel is not masked out
-  if (analysisMask.maskedChannels.find(j) == analysisMask.maskedChannels.end())
-    {
-      stripNo = (unsigned int) (activeCh[j]);
-      unsigned int ch = stripNo + 2; // TODO check if +2 is necessary
-      //  std::cout << "Strip no " << (unsigned int)(activeCh[j]) << std::endl;
-      //  std::cout << "Channel no " << ch << std::endl;
-      if (ch >= 72 && ch <= 100 && (ch % 4 == 0)) 
-        {
-    bs_even.set(ch/4-18);
-    continue;
-        }
-      if (ch >= 40 && ch <= 68 && (ch % 4 == 0)) 
-        {
-    bs_even.set(ch/4 - 2);
-    continue;
-        }
-      if (ch == 38) {
-        bs_odd.set(15);
-        continue;
-      }
-      if (ch >= 104 && ch <= 128 && (ch % 4 == 0)) 
-        {
-    bs_odd.set(ch/4 - 18);
-    continue;
-        }
-      if (ch >= 42 && ch <= 70 && (ch % 4 == 2)) 
-        {
-    bs_odd.set((ch-2)/4 - 9 - 1);
-    continue;
-        }
-    } // end if
-      } // end for
-  //     std::cout << "Odd " << bs_odd << std::endl;
-  //      std::cout << "Even " << bs_even << std::endl;
 
+  for (unsigned int j = 0; j < activeCh.size(); j++)
+  {
+    // skip if channel is masked out
+    if (analysisMask.maskedChannels.find(j) != analysisMask.maskedChannels.end())
+      continue;
+
+    stripNo = (unsigned int) (activeCh[j]);
+    unsigned int ch = stripNo + 2; // TODO check if +2 is necessary
+    if (ch >= 72 && ch <= 100 && (ch % 4 == 0)) 
+    {
+      bs_even.set(ch/4-18);
+      continue;
+    }
+
+    if (ch >= 40 && ch <= 68 && (ch % 4 == 0)) 
+    {
+      bs_even.set(ch/4 - 2);
+      continue;
+    }
+
+    if (ch == 38)
+    {
+      bs_odd.set(15);
+      continue;
+    }
+
+    if (ch >= 104 && ch <= 128 && (ch % 4 == 0)) 
+    {
+      bs_odd.set(ch/4 - 18);
+      continue;
+    }
+
+    if (ch >= 42 && ch <= 70 && (ch % 4 == 2)) 
+    {
+      bs_odd.set((ch-2)/4 - 9 - 1);
+      continue;
+    }
+  }
+
+  // TODO: correct?
   unsigned int evendetId = TotemRPDetId::decToRawId(symId * 10);
   unsigned int odddetId = TotemRPDetId::decToRawId(symId * 10 + 1);
+
   TotemRPCCBits ccbits_even(evendetId , bs_even);
   TotemRPCCBits ccbits_odd(odddetId, bs_odd);
   
