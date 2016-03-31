@@ -18,7 +18,6 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHitDebug.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPair.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecoElasticEvent.h"
 
 #include <vector>
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatterns.h"
@@ -113,13 +112,6 @@ namespace {
     RPReconstructedProtonPairCollection pc;
     edm::Wrapper<RPReconstructedProtonPairCollection> wpc;
 
-	RPRecoElasticEvent rpree;
-	RPRecoElasticEvent::road_type rpreert;
-	std::vector<RPRecoElasticEvent::road_type> vrpreert;
-	RPRecoElasticEvent::fit_type rpreerft;
-	std::vector<RPRecoElasticEvent::fit_type> vrpreerft;
-	edm::Wrapper<RPRecoElasticEvent> wrpree;
-	
     RPRecognizedPatterns rprp;
     RPRecognizedPatterns::Line rprpl;
 	std::vector<RPRecognizedPatterns::Line> vrprpl;
