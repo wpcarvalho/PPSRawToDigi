@@ -3,6 +3,8 @@ import FWCore.ParameterSet.Config as cms
 TotemRawToDigi = cms.EDProducer("TotemRawToDigi",
   rawDataTag = cms.InputTag(""),
 
+  fedIds = cms.vuint32(0, 1, 2, 3, 4, 5, 6),
+
   RawUnpacking = cms.PSet(
   ),
 
