@@ -12,13 +12,10 @@ process.MessageLogger = cms.Service("MessageLogger",
 )
 
 # raw data source
-process.load('EventFilter.TotemRawToDigi.TotemStandaloneRawDataSource_cfi')
-process.source.verbosity = 10
-process.source.printProgressFrequency = 0
-process.source.fileNames.append('/afs/cern.ch/user/j/jkaspar/public/run_9987_EVB11_1.003.srs')
+# TODO: put here the CMS raw-data source module
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1)  # TODO: here set the number of events to process
+    input = cms.untracked.int32(1)  # TODO: number of events to process
 )
 
 # raw to digi conversion
