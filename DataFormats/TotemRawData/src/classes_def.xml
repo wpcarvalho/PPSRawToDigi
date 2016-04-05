@@ -13,7 +13,7 @@
   </class>
 
   <class name="TotemStructuralVFATId" ClassVersion="2">
-    <version ClassVersion="2" checksum="2790056223"/>
+    <version ClassVersion="2" checksum="4075201214"/>
   </class>
 
   <class name="TotemRawToDigiStatus"/>

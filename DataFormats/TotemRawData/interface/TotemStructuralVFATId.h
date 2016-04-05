@@ -50,7 +50,7 @@ class TotemStructuralVFATId
     uint32_t detId;
 
     /// Describes position of a chip within the detector
-    uint32_t chipPosition;
+    uint8_t chipPosition;
 };
 
 #endif
