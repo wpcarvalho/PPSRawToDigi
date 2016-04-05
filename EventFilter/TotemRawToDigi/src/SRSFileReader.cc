@@ -211,8 +211,8 @@ unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, TotemRawEvent &rawE
 #endif
 
   // store important GDC data
-  rawEvent.getDataEventNumber() = EVENT_ID_GET_NB_IN_RUN(eventHeader->eventId) - 1;
-  rawEvent.getTimestamp() = eventHeader->eventTimestamp;
+  rawEvent.setDataEventNumber(EVENT_ID_GET_NB_IN_RUN(eventHeader->eventId) - 1);
+  rawEvent.setTimestamp(eventHeader->eventTimestamp);
 
   eventSizeType eventSize = eventHeader->eventSize;
   eventHeadSizeType headSize = eventHeader->eventHeadSize;
@@ -271,7 +271,7 @@ unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, TotemRawEvent &rawEvent,
 #endif
 
   // store important LDC data
-  rawEvent.getLdcTimeStamps()[eventHeader->eventLdcId] = eventHeader->eventTimestamp;  
+  rawEvent.setLdcTimeStamp(eventHeader->eventLdcId, eventHeader->eventTimestamp);
 
   unsigned long subEvSize = eventHeader->eventSize;
   unsigned long offset = eventHeader->eventHeadSize;

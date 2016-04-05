@@ -38,19 +38,14 @@ class TotemRawEvent
       unsigned int run_num, trigger_num, inhibited_triggers_num, input_status_bits;
     };
 
-    unsigned long& getDataEventNumber()
-    {
-      return dataEventNumber;
-    }
-
     unsigned long getDataEventNumber() const
     {
       return dataEventNumber;
     }
 
-    unsigned long& getDataConfNumber()
+    void setDataEventNumber(unsigned long val)
     {
-      return dataConfNumber;
+      dataEventNumber = val;
     }
 
     unsigned long getDataConfNumber() const
@@ -58,9 +53,9 @@ class TotemRawEvent
       return dataConfNumber;
     }
 
-    time_t& getTimestamp()
+    void setDataConfNumber(unsigned long val)
     {
-      return timestamp;
+      dataConfNumber = val;
     }
 
     time_t getTimestamp() const
@@ -68,9 +63,9 @@ class TotemRawEvent
       return timestamp;
     }
 
-    std::map<unsigned int, OptoRxMetaData>& getOptoRxMetaData()
+    void setTimestamp(time_t val)
     {
-      return optoRxMetaData;
+      timestamp = val;
     }
 
     const std::map<unsigned int, OptoRxMetaData>& getOptoRxMetaData() const
@@ -78,9 +73,9 @@ class TotemRawEvent
       return optoRxMetaData;
     }
 
-    TriggerData& getTriggerData()
+    void setOptoRxMetaData(unsigned int optoRxId, unsigned int BX, unsigned int LV1)
     {
-      return triggerData;
+      optoRxMetaData[optoRxId] = { BX, LV1 };
     }
 
     const TriggerData& getTriggerData() const
@@ -88,14 +83,19 @@ class TotemRawEvent
       return triggerData;
     }
 
-    std::map<unsigned int, time_t>& getLdcTimeStamps()
+    void setTriggerData(TriggerData &val)
     {
-      return ldcTimeStamps;
+      triggerData = val;
     }
 
     const std::map<unsigned int, time_t>& getLdcTimeStamps() const
     {
       return ldcTimeStamps;
+    }
+
+    void setLdcTimeStamp(unsigned int ldcId, time_t ts)
+    {
+      ldcTimeStamps[ldcId] = ts;
     }
 
   protected:
