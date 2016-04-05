@@ -58,12 +58,12 @@ class TotemRawEvent
       dataConfNumber = val;
     }
 
-    time_t getTimestamp() const
+    uint32_t getTimestamp() const
     {
       return timestamp;
     }
 
-    void setTimestamp(time_t val)
+    void setTimestamp(uint32_t val)
     {
       timestamp = val;
     }
@@ -88,12 +88,12 @@ class TotemRawEvent
       triggerData = val;
     }
 
-    const std::map<unsigned int, time_t>& getLdcTimeStamps() const
+    const std::map<unsigned int, uint32_t>& getLdcTimeStamps() const
     {
       return ldcTimeStamps;
     }
 
-    void setLdcTimeStamp(unsigned int ldcId, time_t ts)
+    void setLdcTimeStamp(unsigned int ldcId, uint32_t ts)
     {
       ldcTimeStamps[ldcId] = ts;
     }
@@ -106,7 +106,7 @@ class TotemRawEvent
     unsigned long dataConfNumber;
     
     /// timestamp
-    time_t timestamp;
+    uint32_t timestamp;
 
     /// additional data from OptoRx frames, indexed by OptoRxId
     std::map<unsigned int, OptoRxMetaData> optoRxMetaData;
@@ -115,7 +115,7 @@ class TotemRawEvent
     TriggerData triggerData;
 
     /// map: LDC id -> LDC timestamp
-    std::map<unsigned int, time_t> ldcTimeStamps;
+    std::map<unsigned int, uint32_t> ldcTimeStamps;
 };
 
 #endif
