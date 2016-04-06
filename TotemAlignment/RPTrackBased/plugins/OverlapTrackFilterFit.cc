@@ -15,7 +15,7 @@
 
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 
 #include "TotemAlignment/RPDataFormats/interface/LocalTrackFit.h"
@@ -108,7 +108,7 @@ void OverlapTrackFilterFit::beginRun(edm::Run const&, edm::EventSetup const& es)
 {
   // get geometry
   ESHandle<TotemRPGeometry> geom;
-  es.get<RealGeometryRecord>().get(geom);
+  es.get<VeryForwardRealGeometryRecord>().get(geom);
 
   // build alignment geometry for each arm
   vector<unsigned int> rps;

@@ -16,9 +16,9 @@
 #include "FWCore/Framework/interface/ESWatcher.h"
 
 #include "Geometry/Records/interface/IdealGeometryRecord.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
-#include "CondFormats/DataRecord/interface//MisalignedGeometryRecord.h"
-#include "CondFormats/DataRecord/interface//MeasuredGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardMisalignedGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardMisalignedGeometryRecord.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 
 //----------------------------------------------------------------------------------------------------
@@ -68,9 +68,9 @@ class GeometryInfoModule : public edm::EDAnalyzer
     bool printRPInfo, printSensorInfo, printMeanSensorInfo;
 
     edm::ESWatcher<IdealGeometryRecord> watcherIdealGeometry;
-    edm::ESWatcher<MeasuredGeometryRecord> watcherMeasuredGeometry;
-    edm::ESWatcher<RealGeometryRecord> watcherRealGeometry;
-    edm::ESWatcher<MisalignedGeometryRecord> watcherMisalignedGeometry;
+    edm::ESWatcher<VeryForwardMeasuredGeometryRecord> watcherMeasuredGeometry;
+    edm::ESWatcher<VeryForwardRealGeometryRecord> watcherRealGeometry;
+    edm::ESWatcher<VeryForwardMisalignedGeometryRecord> watcherMisalignedGeometry;
 
     virtual void beginRun(edm::Run const&, edm::EventSetup const&);
     virtual void analyze(const edm::Event&, const edm::EventSetup&);
@@ -131,7 +131,7 @@ void GeometryInfoModule::analyze(const edm::Event& event, const edm::EventSetup&
   {
     if (watcherMeasuredGeometry.check(es))
     {
-      es.get<MeasuredGeometryRecord>().get(geometry);
+      es.get<VeryForwardMeasuredGeometryRecord>().get(geometry);
       PrintGeometry(*geometry, event);
     }
     return;
@@ -141,7 +141,7 @@ void GeometryInfoModule::analyze(const edm::Event& event, const edm::EventSetup&
   {
     if (watcherRealGeometry.check(es))
     {
-      es.get<RealGeometryRecord>().get(geometry);
+      es.get<VeryForwardRealGeometryRecord>().get(geometry);
       PrintGeometry(*geometry, event);
     }
     return;
@@ -151,7 +151,7 @@ void GeometryInfoModule::analyze(const edm::Event& event, const edm::EventSetup&
   {
     if (watcherMisalignedGeometry.check(es))
     {
-      es.get<MisalignedGeometryRecord>().get(geometry);
+      es.get<VeryForwardMisalignedGeometryRecord>().get(geometry);
       PrintGeometry(*geometry, event);
     }
     return;

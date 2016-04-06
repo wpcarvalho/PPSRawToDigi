@@ -2,11 +2,11 @@
 *
 * This is a part of TOTEM offline software.
 * Authors: 
-*	Jan Kaspar (jan.kaspar@gmail.com) 
+*	Dominik Mierzejewski (dmierzej@cern.ch)
 *
 ****************************************************************************/
 
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardMisalignedGeometryRecord.h"
 #include "FWCore/Framework/interface/eventsetuprecord_registration_macro.h"
 
-EVENTSETUP_RECORD_REG(RealGeometryRecord);
+EVENTSETUP_RECORD_REG(VeryForwardMeasuredGeometryRecord);

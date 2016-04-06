@@ -19,7 +19,7 @@
 
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
@@ -72,7 +72,7 @@ class RPNonParallelTrackCandidateFinder : public edm::EDProducer
     /// exceptional settings, per RP and per projection
     std::vector<edm::ParameterSet> exceptionalSettings;
 
-    edm::ESWatcher<RealGeometryRecord> geometryWatcher;
+    edm::ESWatcher<VeryForwardRealGeometryRecord> geometryWatcher;
 
     /// executes line recognition in a projection
     void RecognizeAndSelect(unsigned int RPId, double z0, double threshold,
@@ -134,7 +134,7 @@ void RPNonParallelTrackCandidateFinder::produce(edm::Event& event, const edm::Ev
 
   // geometry
   ESHandle<TotemRPGeometry> geometry;
-  es.get<RealGeometryRecord>().get(geometry);
+  es.get<VeryForwardRealGeometryRecord>().get(geometry);
   if (geometryWatcher.check(es))
     lrcgn->ResetGeometry(geometry.product());
   

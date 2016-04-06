@@ -9,8 +9,8 @@
 
 #include "TotemAlignment/RPTrackBased/interface/IdealResult.h"
 #include "TotemAlignment/RPTrackBased/interface/AlignmentTask.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
-#include "CondFormats/DataRecord/interface//MisalignedGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardMisalignedGeometryRecord.h"
 #include "TotemAlignment/RPTrackBased/interface/MatrixTools.h"
 
 #include "TMatrixD.h"
@@ -34,8 +34,8 @@ IdealResult::IdealResult(const edm::ParameterSet& gps, AlignmentTask *_t) : Alig
 
 void IdealResult::Begin(const edm::EventSetup& iSetup)
 {
-  iSetup.get<RealGeometryRecord>().get(gReal);
-  iSetup.get<MisalignedGeometryRecord>().get(gMisaligned);
+  iSetup.get<VeryForwardRealGeometryRecord>().get(gReal);
+  iSetup.get<VeryForwardMisalignedGeometryRecord>().get(gMisaligned);
 }
 
 //----------------------------------------------------------------------------------------------------

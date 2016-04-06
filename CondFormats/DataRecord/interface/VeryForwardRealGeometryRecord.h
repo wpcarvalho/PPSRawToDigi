@@ -6,11 +6,11 @@
 *
 ****************************************************************************/
 
-#ifndef RECORDS_REALGEOMETRYRECORD_H
-#define RECORDS_REALGEOMETRYRECORD_H
+#ifndef RECORDS_VeryForwardRealGeometryRecord_H
+#define RECORDS_VeryForwardRealGeometryRecord_H
 
 #include "FWCore/Framework/interface/DependentRecordImplementation.h"
-#include "CondFormats/DataRecord/interface/MeasuredGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardMeasuredGeometryRecord.h"
 
 #include "boost/mpl/vector.hpp"
 
@@ -20,8 +20,8 @@
  * \ingroup TotemRPGeometry
  * \brief Event setup record containing the real (actual) geometry information.
  **/
-class RealGeometryRecord : public edm::eventsetup::DependentRecordImplementation
-						   <RealGeometryRecord, boost::mpl::vector<MeasuredGeometryRecord, RPRealAlignmentRecord /*, ... */> >
+class VeryForwardRealGeometryRecord : public edm::eventsetup::DependentRecordImplementation
+						   <VeryForwardRealGeometryRecord, boost::mpl::vector<VeryForwardMeasuredGeometryRecord, RPRealAlignmentRecord /*, ... */> >
 {
 };
 

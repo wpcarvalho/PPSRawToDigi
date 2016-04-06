@@ -26,9 +26,9 @@
 #include "DetectorDescription/Core/src/LogicalPart.h"
 #include "DetectorDescription/Core/src/Specific.h"
 
-#include "CondFormats/DataRecord/interface//MeasuredGeometryRecord.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
-#include "CondFormats/DataRecord/interface//MisalignedGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardMisalignedGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardMisalignedGeometryRecord.h"
 #include "TotemAlignment/RPRecords/interface/RPMeasuredAlignmentRecord.h"
 #include "TotemAlignment/RPRecords/interface/RPRealAlignmentRecord.h"
 #include "TotemAlignment/RPRecords/interface/RPMisalignedAlignmentRecord.h"
@@ -57,16 +57,16 @@ class  TotemRPGeometryESModule : public edm::ESProducer
     TotemRPGeometryESModule(const edm::ParameterSet &p);
     virtual ~TotemRPGeometryESModule(); 
 
-    std::auto_ptr<DDCompactView> produceMeasuredDDCV(const MeasuredGeometryRecord &);
+    std::auto_ptr<DDCompactView> produceMeasuredDDCV(const VeryForwardMeasuredGeometryRecord &);
 
-    std::auto_ptr<DetGeomDesc> produceMeasuredGD(const MeasuredGeometryRecord &);
-    std::auto_ptr<TotemRPGeometry> produceMeasuredTG(const MeasuredGeometryRecord &);
+    std::auto_ptr<DetGeomDesc> produceMeasuredGD(const VeryForwardMeasuredGeometryRecord &);
+    std::auto_ptr<TotemRPGeometry> produceMeasuredTG(const VeryForwardMeasuredGeometryRecord &);
 
-    std::auto_ptr<DetGeomDesc> produceRealGD(const RealGeometryRecord &);
-    std::auto_ptr<TotemRPGeometry> produceRealTG(const RealGeometryRecord &);
+    std::auto_ptr<DetGeomDesc> produceRealGD(const VeryForwardRealGeometryRecord &);
+    std::auto_ptr<TotemRPGeometry> produceRealTG(const VeryForwardRealGeometryRecord &);
 
-    std::auto_ptr<DetGeomDesc> produceMisalignedGD(const MisalignedGeometryRecord &);
-    std::auto_ptr<TotemRPGeometry> produceMisalignedTG(const MisalignedGeometryRecord &);
+    std::auto_ptr<DetGeomDesc> produceMisalignedGD(const VeryForwardMisalignedGeometryRecord &);
+    std::auto_ptr<TotemRPGeometry> produceMisalignedTG(const VeryForwardMisalignedGeometryRecord &);
 
   protected:
     unsigned int verbosity;
@@ -415,7 +415,7 @@ void TotemRPGeometryESModule::ApplyAlignments(const edm::ESHandle<DDCompactView>
 
 //----------------------------------------------------------------------------------------------------
 
-auto_ptr<DDCompactView> TotemRPGeometryESModule::produceMeasuredDDCV(const MeasuredGeometryRecord &iRecord)
+auto_ptr<DDCompactView> TotemRPGeometryESModule::produceMeasuredDDCV(const VeryForwardMeasuredGeometryRecord &iRecord)
 {
     // get the ideal DDCompactView from EventSetup
     edm::ESHandle<DDCompactView> idealCV;
@@ -448,7 +448,7 @@ auto_ptr<DDCompactView> TotemRPGeometryESModule::produceMeasuredDDCV(const Measu
 
 //----------------------------------------------------------------------------------------------------
 
-std::auto_ptr<DetGeomDesc> TotemRPGeometryESModule::produceMeasuredGD(const MeasuredGeometryRecord &iRecord)
+std::auto_ptr<DetGeomDesc> TotemRPGeometryESModule::produceMeasuredGD(const VeryForwardMeasuredGeometryRecord &iRecord)
 {
   // get the DDCompactView from EventSetup
   edm::ESHandle<DDCompactView> cpv;
@@ -461,11 +461,11 @@ std::auto_ptr<DetGeomDesc> TotemRPGeometryESModule::produceMeasuredGD(const Meas
 
 //----------------------------------------------------------------------------------------------------
 
-std::auto_ptr<DetGeomDesc> TotemRPGeometryESModule::produceRealGD(const RealGeometryRecord &iRecord)
+std::auto_ptr<DetGeomDesc> TotemRPGeometryESModule::produceRealGD(const VeryForwardRealGeometryRecord &iRecord)
 {
   // get the input (= measured) GeometricalDet
   edm::ESHandle<DetGeomDesc> measuredGD;
-  iRecord.getRecord<MeasuredGeometryRecord>().get(measuredGD);
+  iRecord.getRecord<VeryForwardMeasuredGeometryRecord>().get(measuredGD);
 
   // load alignments
   edm::ESHandle<RPAlignmentCorrections> alignments;
@@ -487,11 +487,11 @@ std::auto_ptr<DetGeomDesc> TotemRPGeometryESModule::produceRealGD(const RealGeom
 
 //----------------------------------------------------------------------------------------------------
 
-std::auto_ptr<DetGeomDesc> TotemRPGeometryESModule::produceMisalignedGD(const MisalignedGeometryRecord &iRecord)
+std::auto_ptr<DetGeomDesc> TotemRPGeometryESModule::produceMisalignedGD(const VeryForwardMisalignedGeometryRecord &iRecord)
 {
   // get the input (= measured) GeometricalDet
   edm::ESHandle<DetGeomDesc> measuredGD;
-  iRecord.getRecord<MeasuredGeometryRecord>().get(measuredGD);
+  iRecord.getRecord<VeryForwardMeasuredGeometryRecord>().get(measuredGD);
 
   // load alignments
   edm::ESHandle<RPAlignmentCorrections> alignments;
@@ -512,7 +512,7 @@ std::auto_ptr<DetGeomDesc> TotemRPGeometryESModule::produceMisalignedGD(const Mi
 
 //----------------------------------------------------------------------------------------------------
 
-std::auto_ptr<TotemRPGeometry> TotemRPGeometryESModule::produceMeasuredTG(const MeasuredGeometryRecord &iRecord)
+std::auto_ptr<TotemRPGeometry> TotemRPGeometryESModule::produceMeasuredTG(const VeryForwardMeasuredGeometryRecord &iRecord)
 {
   edm::ESHandle<DetGeomDesc> gD;
   iRecord.get(gD);
@@ -523,7 +523,7 @@ std::auto_ptr<TotemRPGeometry> TotemRPGeometryESModule::produceMeasuredTG(const 
 
 //----------------------------------------------------------------------------------------------------
 
-std::auto_ptr<TotemRPGeometry> TotemRPGeometryESModule::produceRealTG(const RealGeometryRecord &iRecord)
+std::auto_ptr<TotemRPGeometry> TotemRPGeometryESModule::produceRealTG(const VeryForwardRealGeometryRecord &iRecord)
 {
   edm::ESHandle<DetGeomDesc> gD;
   iRecord.get(gD);
@@ -534,7 +534,7 @@ std::auto_ptr<TotemRPGeometry> TotemRPGeometryESModule::produceRealTG(const Real
 
 //----------------------------------------------------------------------------------------------------
 
-std::auto_ptr<TotemRPGeometry> TotemRPGeometryESModule::produceMisalignedTG(const MisalignedGeometryRecord &iRecord)
+std::auto_ptr<TotemRPGeometry> TotemRPGeometryESModule::produceMisalignedTG(const VeryForwardMisalignedGeometryRecord &iRecord)
 {
   edm::ESHandle<DetGeomDesc> gD;
   iRecord.get(gD);

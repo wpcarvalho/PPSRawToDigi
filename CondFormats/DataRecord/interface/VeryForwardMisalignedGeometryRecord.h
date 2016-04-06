@@ -6,11 +6,11 @@
 *
 ****************************************************************************/
 
-#ifndef RECORDS_MISALIGNEDGEOMETRYRECORD_H
-#define RECORDS_MISALIGNEDGEOMETRYRECORD_H
+#ifndef RECORDS_VeryForwardMisalignedGeometryRecord_H
+#define RECORDS_VeryForwardMisalignedGeometryRecord_H
 
 #include "FWCore/Framework/interface/DependentRecordImplementation.h"
-#include "CondFormats/DataRecord/interface/MeasuredGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardMeasuredGeometryRecord.h"
 
 #include "boost/mpl/vector.hpp"
 
@@ -21,8 +21,8 @@
  * \brief Event setup record containing the misaligned geometry information. It is used for 
  * alignment studies only.
  **/
-class MisalignedGeometryRecord : public edm::eventsetup::DependentRecordImplementation
-						   <MisalignedGeometryRecord, boost::mpl::vector<MeasuredGeometryRecord, RPMisalignedAlignmentRecord /*, ... */> >
+class VeryForwardMisalignedGeometryRecord : public edm::eventsetup::DependentRecordImplementation
+						   <VeryForwardMisalignedGeometryRecord, boost::mpl::vector<VeryForwardMeasuredGeometryRecord, RPMisalignedAlignmentRecord /*, ... */> >
 {
 };
 

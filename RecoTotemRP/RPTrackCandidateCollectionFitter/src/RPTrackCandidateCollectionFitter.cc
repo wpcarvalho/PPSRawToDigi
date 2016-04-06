@@ -58,7 +58,7 @@ void RPTrackCandidateCollectionFitter::produce(edm::Event& e, const edm::EventSe
 {
   // Step A: Get event setup information
   edm::ESHandle<TotemRPGeometry> Totem_RP_geometry;
-  c.get<RealGeometryRecord>().get(Totem_RP_geometry);
+  c.get<VeryForwardRealGeometryRecord>().get(Totem_RP_geometry);
 
   if (geometryWatcher.check(c))
     the_track_candidate_fitter_.Reset();
