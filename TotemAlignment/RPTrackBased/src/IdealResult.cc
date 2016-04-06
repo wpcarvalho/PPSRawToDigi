@@ -9,8 +9,8 @@
 
 #include "TotemAlignment/RPTrackBased/interface/IdealResult.h"
 #include "TotemAlignment/RPTrackBased/interface/AlignmentTask.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
-#include "Geometry/TotemRecords/interface/MisalignedGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//MisalignedGeometryRecord.h"
 #include "TotemAlignment/RPTrackBased/interface/MatrixTools.h"
 
 #include "TMatrixD.h"

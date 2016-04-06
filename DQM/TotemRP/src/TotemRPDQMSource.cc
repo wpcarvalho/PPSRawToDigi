@@ -14,7 +14,7 @@
 
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 
 #include <string>

@@ -19,7 +19,7 @@
 
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
