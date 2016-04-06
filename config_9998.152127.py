@@ -15,7 +15,6 @@ process.source.fileNames.append('run_9998_EVB15_2.127.srs')
 
 process.load("Configuration.TotemCommon.LoggerMax_cfi")
 process.load("Configuration.TotemCommon.geometryRP_cfi")
-
 process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/TotemRPData/data/2015_10_18_fill4511/RP_Dist_Beam_Cent.xml")
 
 process.load("TotemAlignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
@@ -24,21 +23,25 @@ process.TotemRPIncludeAlignments.RealFiles = cms.vstring(
 'TotemAlignment/RPData/LHC/2015_10_18_fill4511/version2/sr+el/56.xml'
 )
 
+# raw to digi conversion
 process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
-process.TotemDAQMappingESSourceXML.mappingFileNames.append('TotemCondFormats/DAQInformation/data/rp_220_210far.xml')
+process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/totem_rp_210far_220_mapping.xml")
 
 process.load('EventFilter.TotemRawToDigi.TotemRawToDigi_cfi')
-process.TotemRawToDigi.RawToDigi.verbosity = 0
-process.TotemRawToDigi.RawToDigi.rpDataProductLabel = cms.untracked.string("")
+process.TotemRawToDigi.rawDataTag = cms.InputTag("source")
+process.TotemRawToDigi.RawToDigi.printErrorSummary = 1
+process.TotemRawToDigi.RawToDigi.printUnknownFrameSummary = 1
 
 process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_6500GeV_90_50urad_cfi")
 
 process.load("RecoTotemRP.RPClusterSigmaService.ClusterSigmaServiceConf_cfi")
 process.load("RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi")
-process.RPClustProd.DigiLabel = cms.InputTag("Raw2DigiProducer")
+process.RPClustProd.DigiLabel = cms.InputTag("TotemRawToDigi")
 
+# reco hit production
 process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
 
+# non-parallel pattern recognition
 process.load("RecoTotemRP.RPNonParallelTrackCandidateFinder.RPNonParallelTrackCandidateFinder_cfi")
 process.NonParallelTrackFinder.verbosity = 0
 process.NonParallelTrackFinder.maxHitsPerPlaneToSearch = 5
