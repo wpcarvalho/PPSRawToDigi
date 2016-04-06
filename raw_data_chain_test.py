@@ -18,7 +18,7 @@ process.source.printProgressFrequency = 0
 process.source.fileNames.append('/afs/cern.ch/user/j/jkaspar/public/run_9987_EVB11_1.003.srs')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1)
+    input = cms.untracked.int32(10)
 )
 
 # raw to digi conversion
@@ -61,7 +61,13 @@ process.RPSingleTrackCandCollFit.RPTrackCandCollProducer = 'NonParallelTrackFind
 process.p = cms.Path(
     process.TotemRawToDigi *
     process.RPClustProd *
-    process.RPRecoHitProd *
-    process.NonParallelTrackFinder *
-    process.RPSingleTrackCandCollFit
+    process.RPRecoHitProd
+#    process.NonParallelTrackFinder *
+#    process.RPSingleTrackCandCollFit
 )
+
+process.output = cms.OutputModule("PoolOutputModule",
+    fileName = cms.untracked.string("file:./out.root")
+)
+
+process.outpath = cms.EndPath(process.output)

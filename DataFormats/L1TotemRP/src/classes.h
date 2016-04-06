@@ -10,5 +10,7 @@ namespace{
     edm::Wrapper<TotemRPCCBits> wb;
     std::vector<TotemRPCCBits> vb;
     edm::Wrapper<std::vector<TotemRPCCBits> > wvb;
+
+    std::bitset<16> bs;
   }
 }

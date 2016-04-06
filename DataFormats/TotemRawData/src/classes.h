@@ -18,6 +18,7 @@ namespace {
     edm::Wrapper<TotemRawEvent> dummy11;
 
     TotemRawEvent::OptoRxMetaData dummy20;
+    std::map<unsigned int, TotemRawEvent::OptoRxMetaData> dummy21;
 
     TotemRawEvent::TriggerData dummy25;
 

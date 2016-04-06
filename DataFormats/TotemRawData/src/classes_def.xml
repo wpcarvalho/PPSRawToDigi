@@ -7,6 +7,7 @@
   <class name="TotemRawEvent::OptoRxMetaData" ClassVersion="2">
     <version ClassVersion="2" checksum="191520249"/>
   </class>
+  <class name="std::map<unsigned int, TotemRawEvent::OptoRxMetaData>"/>
 
   <class name="TotemRawEvent::TriggerData" ClassVersion="2">
     <version ClassVersion="2" checksum="2680259756"/>
