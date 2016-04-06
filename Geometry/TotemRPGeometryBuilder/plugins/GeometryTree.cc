@@ -17,7 +17,7 @@
 
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/DetGeomDesc.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
 
 #include <iostream>
 #include <cstdio>

@@ -10,7 +10,7 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 
 #include "TH1D.h"

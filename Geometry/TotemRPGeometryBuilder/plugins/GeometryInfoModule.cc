@@ -16,9 +16,9 @@
 #include "FWCore/Framework/interface/ESWatcher.h"
 
 #include "Geometry/Records/interface/IdealGeometryRecord.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
-#include "Geometry/TotemRecords/interface/MisalignedGeometryRecord.h"
-#include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//MisalignedGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//MeasuredGeometryRecord.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 
 //----------------------------------------------------------------------------------------------------

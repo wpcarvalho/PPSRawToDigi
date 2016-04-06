@@ -26,9 +26,9 @@
 #include "DetectorDescription/Core/src/LogicalPart.h"
 #include "DetectorDescription/Core/src/Specific.h"
 
-#include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
-#include "Geometry/TotemRecords/interface/MisalignedGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//MeasuredGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//MisalignedGeometryRecord.h"
 #include "TotemAlignment/RPRecords/interface/RPMeasuredAlignmentRecord.h"
 #include "TotemAlignment/RPRecords/interface/RPRealAlignmentRecord.h"
 #include "TotemAlignment/RPRecords/interface/RPMisalignedAlignmentRecord.h"

@@ -9,7 +9,7 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/DetGeomDesc.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
 
 #include "Geometry/TotemRPGeometryBuilder/interface/GeometryTestModule.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"

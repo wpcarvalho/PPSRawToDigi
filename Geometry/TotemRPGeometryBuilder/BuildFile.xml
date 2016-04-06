@@ -1,6 +1,6 @@
 <use name="SimDataFormats/GeneratorProducts"/>
 <use name="DetectorDescription/Core"/>
-<use name="Geometry/TotemRecords"/>
+<use name="CondFormats/DataRecord"/>
 <use name="DataFormats/DetId"/>
 <use name="DataFormats/TotemRPDetId"/>
 <use name="Geometry/TrackerNumberingBuilder"/>

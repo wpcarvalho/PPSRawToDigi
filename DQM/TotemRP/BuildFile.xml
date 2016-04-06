@@ -2,7 +2,7 @@
 <use name="FWCore/Framework"/>
 
 <use name="DataFormats/TotemRPDetId"/>
-<use name="Geometry/TotemRecords"/>
+<use name="CondFormats/DataRecord"/>
 <use name="Geometry/TotemRPGeometryBuilder"/>
 
 <!-- correlation-plot selectors unfortuantely need QString -->
