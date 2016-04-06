@@ -10,7 +10,7 @@
 <use   name="Geometry/TotemRPGeometryBuilder"/>
 <use   name="RecoTotemRP/RPRecoDataFormats"/>
 <use   name="clhep"/>
-<use   name="Geometry/TotemRecords"/>
+<use   name="CondFormats/DataRecord"/>
 <use   name="DataFormats/TotemRPDetId"/>
 <use   name="RecoTotemRP/RPTrackCandidateFitter"/>
 <use   name="TotemProtonTransport/TotemRPProtonTransportParametrization"/>
