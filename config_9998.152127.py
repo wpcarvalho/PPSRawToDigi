@@ -4,13 +4,13 @@ import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("rpReconstruction")
 process.maxEvents = cms.untracked.PSet(
-input = cms.untracked.int32(-1)
+input = cms.untracked.int32(1000)
 )
 
-process.load('TotemRawData.Readers.RawDataSource_cfi')
+process.load('EventFilter.TotemRawToDigi.TotemStandaloneRawDataSource_cfi')
 process.source.fileNames = cms.untracked.vstring()
 
-process.source.fileNames.append('root://eostotem//eos/totem/data/rawdata/2015/run_9998_EVB15_2.127.srs')
+process.source.fileNames.append('run_9998_EVB15_2.127.srs')
 
 
 process.load("Configuration.TotemCommon.LoggerMax_cfi")
@@ -24,12 +24,12 @@ process.TotemRPIncludeAlignments.RealFiles = cms.vstring(
 'TotemAlignment/RPData/LHC/2015_10_18_fill4511/version2/sr+el/56.xml'
 )
 
-process.load('TotemCondFormats.DAQInformation.DAQMappingSourceXML_cfi')
-process.DAQMappingSourceXML.mappingFileNames.append('TotemCondFormats/DAQInformation/data/rp_220_210far.xml')
+process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
+process.TotemDAQMappingESSourceXML.mappingFileNames.append('TotemCondFormats/DAQInformation/data/rp_220_210far.xml')
 
-process.load('TotemRawData.RawToDigi.Raw2DigiProducer_cfi')
-process.Raw2DigiProducer.verbosity = 0
-process.Raw2DigiProducer.rpDataProductLabel = cms.untracked.string("")
+process.load('EventFilter.TotemRawToDigi.TotemRawToDigi_cfi')
+process.TotemRawToDigi.RawToDigi.verbosity = 0
+process.TotemRawToDigi.RawToDigi.rpDataProductLabel = cms.untracked.string("")
 
 process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_6500GeV_90_50urad_cfi")
 
@@ -74,7 +74,7 @@ outputCommands = cms.untracked.vstring('keep *')
 )
 
 process.path = cms.Path(
-process.Raw2DigiProducer*
+process.TotemRawToDigi*
 process.RPClustProd*
 process.RPRecoHitProd*
 process.RPSinglTrackCandFind*
