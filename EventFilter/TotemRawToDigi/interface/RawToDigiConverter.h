@@ -62,6 +62,9 @@ class RawToDigiConverter
       const TotemDAQMapping &mapping, const TotemAnalysisMask &mask,
       edm::DetSetVector<TotemRPDigi> &rpData, std::vector<TotemRPCCBits> &rpCC, TotemRawToDigiStatus &status);
 
+    /// TODO
+    TotemStructuralVFATId GetStructuralId(const TotemVFATInfo &info);
+
     /// Produce Digi from one RP data VFAT.
     void RPDataProduce(VFATFrameCollection::Iterator &fr, const TotemVFATInfo &info,
       const TotemVFATAnalysisMask &analysisMask, edm::DetSetVector<TotemRPDigi> &rpData);

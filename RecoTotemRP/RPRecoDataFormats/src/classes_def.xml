@@ -72,13 +72,6 @@
   <class name="RPReconstructedProtonPairCollection"/>
   <class name="edm::Wrapper<RPReconstructedProtonPairCollection>"/>
 
-  <class name="RPRecoElasticEvent"/>
-  <class name="RPRecoElasticEvent::road_type"/>
-  <class name="std::vector<RPRecoElasticEvent::road_type>"/>
-  <class name="RPRecoElasticEvent::fit_type"/>
-  <class name="std::vector<RPRecoElasticEvent::fit_type>"/>
-  <class name="edm::Wrapper<RPRecoElasticEvent>"/>
-  
   <class name="edm::Wrapper<CentralMassInfo>"/>
   <class name="CentralMassInfo"/>
  

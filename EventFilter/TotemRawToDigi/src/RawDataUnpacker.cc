@@ -66,9 +66,7 @@ int RawDataUnpacker::ProcessOptoRxFrame(word *buf, unsigned int frameSize, Simpl
   #endif
 
   // save metadata to event
-  auto &md = event.getOptoRxMetaData()[OptoRxId];
-  md.BX = BX;
-  md.LV1 = LV1;
+  event.setOptoRxMetaData(OptoRxId, BX, LV1);
 
   // is it OptoRx transmitting LoneG data?
   if (OptoRxId == 0x29c)
@@ -378,8 +376,7 @@ int RawDataUnpacker::ProcessLoneGFrame(word *oBuf, unsigned long size, TotemRawE
       buf[row] |= (oBuf[i] & 0xFFFF) << (col * 16);
   }
 
-  // TODO
-  TotemRawEvent::TriggerData& td = ev.getTriggerData();
+  TotemRawEvent::TriggerData td;
   td.type = (buf[0] >> 56) & 0xF;
   td.event_num = (buf[0] >> 32) & 0xFFFFFF;
   td.bunch_num = (buf[0] >> 20) & 0xFFF;
@@ -393,6 +390,8 @@ int RawDataUnpacker::ProcessLoneGFrame(word *oBuf, unsigned long size, TotemRawE
 
   td.inhibited_triggers_num = (buf[3] >> 32) & 0xFFFFFFFF;
   td.input_status_bits = (buf[3] >> 0) & 0xFFFFFFFF;
+
+  ev.setTriggerData(td);
 
 #ifdef DEBUG
   printf(">> RawDataUnpacker::ProcessLoneGFrame > size = %li\n", size);

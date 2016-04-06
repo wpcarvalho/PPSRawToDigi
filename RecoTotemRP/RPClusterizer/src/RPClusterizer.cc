@@ -43,7 +43,8 @@ void RPClusterizer::produce(edm::Event& e, const edm::EventSetup& es)
 {
   // get input
   edm::Handle< edm::DetSetVector<TotemRPDigi> > input;
- 
+  e.getByToken(digiInputTagToken_, input);
+
   // prepare output
   std::auto_ptr< edm::DetSetVector<TotemRPCluster> > output(new edm::DetSetVector<TotemRPCluster>() );
   

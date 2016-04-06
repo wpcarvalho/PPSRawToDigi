@@ -1,6 +1,6 @@
 <lcgdict>
-  <class name="TotemRawEvent" ClassVersion="6">
-    <version ClassVersion="6" checksum="2006209735"/>
+  <class name="TotemRawEvent" ClassVersion="2">
+    <version ClassVersion="2" checksum="3463141399"/>
   </class>
   <class name="edm::Wrapper<TotemRawEvent>"/>
 
@@ -12,13 +12,11 @@
     <version ClassVersion="2" checksum="2680259756"/>
   </class>
 
-  <class name="TotemFramePosition" ClassVersion="2">
-    <version ClassVersion="2" checksum="1857504864"/>
+  <class name="TotemStructuralVFATId" ClassVersion="2">
+    <version ClassVersion="2" checksum="4075201214"/>
   </class>
 
-  <class name="TotemRawToDigiStatus" ClassVersion="6">
-    <version ClassVersion="6" checksum="2614057033"/>
-  </class>
+  <class name="TotemRawToDigiStatus"/>
   <class name="edm::Wrapper<TotemRawToDigiStatus>"/>
 
   <class name="TotemVFATStatus" ClassVersion="2">

@@ -45,6 +45,10 @@ class TotemRawToDigi : public edm::one::EDProducer<>
     virtual void endJob();
 
   private:
+    // TODO: for testing with TOTEM-standalone data only,
+    //  eventually to be removed, see comment in TotemRawToDigi::produce
+    std::vector<unsigned int> fedIds;
+
     edm::EDGetTokenT<FEDRawDataCollection> fedDataToken;
 
     /// product labels
@@ -64,6 +68,7 @@ using namespace std;
 //----------------------------------------------------------------------------------------------------
 
 TotemRawToDigi::TotemRawToDigi(const edm::ParameterSet &conf):
+  fedIds(conf.getParameter< vector<unsigned int> >("fedIds")),
   rawDataUnpacker(conf.getParameterSet("RawUnpacking")),
   rawToDigiConverter(conf.getParameterSet("RawToDigi"))
 {
@@ -116,7 +121,8 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
   // step 1: raw-data unpacking
   SimpleVFATFrameCollection vfatCollection;
 
-  // TODO: replace with real FED Ids
+  // TODO: replace fedIds with real FED Ids read from
+  //  DataFormats/FEDRawData/interface/FEDNumbering.h
   /* Hints from Michele
       DEVICE      ID     DETECTOR          OLD ID
       Trigger     577    LONEG             0x29c
@@ -125,12 +131,6 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
       RX 3        580    4-5 210m FAR      0x1a9
       RX 4        581    4-5 210m NEAR     0x1aa  
   */
-  /* 
-      The FED Ids should be stored in and read from:
-        DataFormats/FEDRawData/interface/FEDNumbering.h
-  */
-  vector<int> fedIds = { 0, 1, 2, 3, 4, 5, 6 }; 
-
   for (const auto &fedId : fedIds)
   {
     rawDataUnpacker.Run(fedId, rawData->FEDData(fedId), vfatCollection, *totemRawEvent);

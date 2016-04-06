@@ -1,5 +1,4 @@
 <use name="FWCore/Framework"/>
-<use name="CondFormats/TotemReadoutObjects"/>
 
 <export>
 	<lib name="1"/>
