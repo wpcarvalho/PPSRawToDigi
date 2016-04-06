@@ -9,7 +9,7 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/DetGeomDesc.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 
 #include "Geometry/TotemRPGeometryBuilder/interface/GeometryTestModule.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
@@ -50,15 +50,15 @@ void GeometryTestModule::analyze(const edm::Event& iEvent, const edm::EventSetup
 	using namespace std;
 
 	// retrieve the ideal geometrical description
-	// actually, it searchech for DetGeomDesc in MeasuredGeometryRecord
+	// actually, it searchech for DetGeomDesc in VeryForwardMeasuredGeometryRecord
 	// and when it is not found, it calls TotemRPDetGeomDescESModule to produce it	
 	ESHandle<DetGeomDesc> gD;
-	iSetup.get<MeasuredGeometryRecord>().get(gD);
+	iSetup.get<VeryForwardMeasuredGeometryRecord>().get(gD);
 
 	// retrieve RP map, similarly as above, when TotemRPMap is not found,
 	// TotemRPMapESModule is called (indeed, it must be specified in configuration file)
 	ESHandle<TotemRPGeometry> idealRPMap;
-	iSetup.get<MeasuredGeometryRecord>().get(idealRPMap);
+	iSetup.get<VeryForwardMeasuredGeometryRecord>().get(idealRPMap);
 
 	cout << "-------------------------------------------" 	<< endl
 		<<  "        GeometryTestModule output: " 			<< endl;
@@ -132,9 +132,9 @@ void GeometryTestModule::analyze(const edm::Event& iEvent, const edm::EventSetup
 	/*
 	// real geometry
 	ESHandle<DetGeomDesc> realGD;
-	iSetup.get<RealGeometryRecord>().get(realGD);
+	iSetup.get<VeryForwardRealGeometryRecord>().get(realGD);
 	ESHandle<TotemRPGeometry> realRPMap;
-	iSetup.get<RealGeometryRecord>().get(realRPMap);
+	iSetup.get<VeryForwardRealGeometryRecord>().get(realRPMap);
 	*/
 
 	for (TotemRPGeometry::mapType::const_iterator it = idealRPMap->beginDet(); it != idealRPMap->endDet(); ++it) {

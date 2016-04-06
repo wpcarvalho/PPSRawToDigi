@@ -15,7 +15,7 @@
 
 #include "TotemAlignment/RPDataFormats/interface/RPAlignmentCorrections.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "TotemAlignment/RPTrackBased/interface/AlignmentTask.h"
 
@@ -57,11 +57,11 @@ void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
   // get input alignments
   RPAlignmentCorrections input(ps.getUntrackedParameter<string>("inputFile"));
   //ESHandle<RPAlignmentCorrections> input;
-  //es.get<RealGeometryRecord>().get(input);
+  //es.get<VeryForwardRealGeometryRecord>().get(input);
   
   // get (base) geometry
   ESHandle<TotemRPGeometry> geom;
-  es.get<RealGeometryRecord>().get(geom);
+  es.get<VeryForwardRealGeometryRecord>().get(geom);
 
   // get parameters
   double z1 = ps.getUntrackedParameter<double>("z1");

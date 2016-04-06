@@ -17,7 +17,7 @@
 
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/DetGeomDesc.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 
 #include <iostream>
 #include <cstdio>
@@ -56,7 +56,7 @@ class GeometryTree : public edm::EDAnalyzer {
         virtual void analyze(const edm::Event&, const edm::EventSetup& iSetup) override {
 
             ESHandle<DetGeomDesc> geometryDescription;
-            iSetup.get<MeasuredGeometryRecord>().get(geometryDescription);
+            iSetup.get<VeryForwardMeasuredGeometryRecord>().get(geometryDescription);
 
             // DFS traversal of Geometry Hierarchy
             stack<Node *> nodeStack;

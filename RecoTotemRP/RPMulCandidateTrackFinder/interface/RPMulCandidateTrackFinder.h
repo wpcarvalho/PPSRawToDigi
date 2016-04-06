@@ -29,7 +29,7 @@
 
 //Geometry
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "CondFormats/DataRecord/interface/RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 
 //RPMulCandidateTrackFinder
 #include "RecoTotemRP/RPMulCandidateTrackFinder/interface/RPMulCandidateTrackFinderAlgorithm.h"

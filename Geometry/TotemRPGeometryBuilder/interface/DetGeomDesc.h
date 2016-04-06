@@ -28,7 +28,7 @@ class RPAlignmentCorrection;
  *
  * Class resembling GeometricDet class. Slight changes were made to suit needs of the TOTEM RP description.
  * Each instance is a tree node, with geometrical information from DDD (shift, rotation, material, ...), ID and list of children nodes.
- * It is intended to have two such a trees. One for ideal geometry (within IdealGeometryRecord) and second for real geometry (RealGeometryRecord).
+ * It is intended to have two such a trees. One for ideal geometry (within IdealGeometryRecord) and second for real geometry (VeryForwardRealGeometryRecord).
  * The transition from ideal to real geometry (i.e. loading alignments) is done by TotemRPRealGeometryModule.
  * 
  * The <b>translation</b> and <b>rotation</b> parameters are defined by <b>local-to-global</b>

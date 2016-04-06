@@ -60,7 +60,7 @@ void RPMulCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup& c)
 
   // Step A: Get event setup information
   edm::ESHandle<TotemRPGeometry> Totem_RP_geometry;
-  c.get<RealGeometryRecord>().get(Totem_RP_geometry);
+  c.get<VeryForwardRealGeometryRecord>().get(Totem_RP_geometry);
 
   // Step B: Get Inputs
   edm::Handle< edm::DetSetVector<TotemRPRecHit> > input;

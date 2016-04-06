@@ -14,7 +14,7 @@
 #include "FWCore/Framework/interface/ESWatcher.h"
 
 #include "TotemAlignment/RPTrackBased/interface/StraightTrackAlignment.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 
 /**
  *\brief An EDAnalyzer that runs StraightTrackAlignment.
@@ -31,7 +31,7 @@ class RPStraightTrackAligner : public edm::EDAnalyzer
     bool worker_initialized;
     StraightTrackAlignment worker;
 
-    edm::ESWatcher<RealGeometryRecord> geometryWatcher;
+    edm::ESWatcher<VeryForwardRealGeometryRecord> geometryWatcher;
 
     virtual void beginJob() {}
     virtual void beginRun(edm::Run const&, edm::EventSetup const&);
