@@ -16,7 +16,7 @@
 #include "TotemAlignment/RPDataFormats/interface/LocalTrackFit.h"
 #include "TotemAlignment/RPTrackBased/interface/LocalTrackFitter.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 #include "TotemAlignment/RPTrackBased/interface/AlignmentGeometry.h"
 #include "TotemAlignment/RPTrackBased/interface/AlignmentTask.h"
@@ -87,7 +87,7 @@ RPStraightTrackFitter::RPStraightTrackFitter(const ParameterSet &ps) :
 void RPStraightTrackFitter::beginRun(edm::Run const&, edm::EventSetup const& es)
 {
   ESHandle<TotemRPGeometry> geom;
-  es.get<RealGeometryRecord>().get(geom);
+  es.get<VeryForwardRealGeometryRecord>().get(geom);
 
   // open dump file and preapre dump tree branches
   dumpFile = new TFile(dumpFileName.c_str(), "recreate");
@@ -122,7 +122,7 @@ void RPStraightTrackFitter::beginRun(edm::Run const&, edm::EventSetup const& es)
 void RPStraightTrackFitter::analyze(const edm::Event &event, const edm::EventSetup &es)
 {
 //  ESHandle<TotemRPGeometry> geom;
-//  es.get<RealGeometryRecord>().get(geom);
+//  es.get<VeryForwardRealGeometryRecord>().get(geom);
 //
 //  Handle< RPTrackCandidateCollection > trackColl;
 //  event.getByType(trackColl);

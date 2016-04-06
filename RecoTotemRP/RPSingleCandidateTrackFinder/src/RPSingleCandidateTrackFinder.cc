@@ -4,7 +4,7 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 #include "FWCore/Framework/interface/ESHandle.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include <iostream>
 
@@ -48,7 +48,7 @@ void RPSingleCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup&
   // Step A: Get event setup information
   //for the moment - ideal geometry
   edm::ESHandle<TotemRPGeometry> Totem_RP_geometry;
-  c.get<RealGeometryRecord>().get(Totem_RP_geometry);
+  c.get<VeryForwardRealGeometryRecord>().get(Totem_RP_geometry);
   
   // Step B: Get Inputs
   edm::Handle< edm::DetSetVector<TotemRPRecHit> > input;

@@ -15,7 +15,7 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 #include "TotemAlignment/RPRecords/interface/RPRealAlignmentRecord.h"
 #include "TotemAlignment/RPTrackBased/interface/IdealResult.h"
 #include "TotemAlignment/RPTrackBased/interface/JanAlignmentAlgorithm.h"
@@ -234,7 +234,7 @@ void StraightTrackAlignment::Begin(const EventSetup &es)
   
   // prepare geometry (in fact, this should be done whenever es gets changed)
   ESHandle<TotemRPGeometry> geomH;
-  es.get<RealGeometryRecord>().get(geomH);
+  es.get<VeryForwardRealGeometryRecord>().get(geomH);
   task.BuildGeometry(RPIds, excludePlanes, geomH.product(), z0, task.geometry);
 
   // print geometry info

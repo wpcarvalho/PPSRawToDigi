@@ -15,7 +15,7 @@
 
 #include "TotemAlignment/RPDataFormats/interface/RPAlignmentCorrectionsSequence.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 
 #include <string>
@@ -57,7 +57,7 @@ void BuildElasticCorrectionsFile::beginRun(edm::Run const&, edm::EventSetup cons
 {
   // get geometry (including pre-elastic alignments)
   ESHandle<TotemRPGeometry> geom;
-  es.get<RealGeometryRecord>().get(geom);
+  es.get<VeryForwardRealGeometryRecord>().get(geom);
 
   // open input file
   FILE *inF = fopen(inputFileName.c_str(), "r");

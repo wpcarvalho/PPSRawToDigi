@@ -18,7 +18,7 @@
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "FWCore/Framework/interface/ESWatcher.h"
 
-#include "CondFormats/DataRecord/interface/RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 #include "RecoTotemRP/RPTrackCandidateFitter/interface/RPTrackCandidateFitter.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
@@ -57,7 +57,7 @@ class RPTrackCandidateCollectionFitter : public edm::EDProducer
     //std::string track_coll_cand_label_;
     
     /// A watcher to detect geometry changes.
-    edm::ESWatcher<RealGeometryRecord> geometryWatcher;
+    edm::ESWatcher<VeryForwardRealGeometryRecord> geometryWatcher;
     
     /// The instance of the fitter module
     RPTrackCandidateFitter the_track_candidate_fitter_;

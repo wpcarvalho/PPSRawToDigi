@@ -10,7 +10,7 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 
 #include "TH1D.h"
@@ -93,7 +93,7 @@ void RecognizedTrackAnalyzer::endJob()
 void RecognizedTrackAnalyzer::analyze(const edm::Event& event, const edm::EventSetup& eSetup)
 {
 	ESHandle<TotemRPGeometry> geometry;
-	eSetup.get<RealGeometryRecord>().get(geometry);
+	eSetup.get<VeryForwardRealGeometryRecord>().get(geometry);
 
 	Handle< edm::DetSetVector<TotemRPRecHit> > allHits;
 	event.getByToken(detSetVectorTotemRPRecHitToken, allHits);

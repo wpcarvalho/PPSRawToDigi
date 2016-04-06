@@ -59,8 +59,8 @@ g4SimHits = cms.EDProducer("OscarMTProducer",
     G4Commands = cms.vstring(''),
     FileNameField = cms.untracked.string(''),
     FileNameGDML = cms.untracked.string(''),
-    #TOTEM uses MeasuredGeometryRecord instead of IdealGeometryRecord
-    UseMeasuredGeometryRecord = cms.untracked.bool(True),  # HINT: TOTEM specific
+    #TOTEM uses VeryForwardMeasuredGeometryRecord instead of IdealGeometryRecord
+    UseVeryForwardMeasuredGeometryRecord = cms.untracked.bool(True),  # HINT: TOTEM specific
     FileNameRegions = cms.untracked.string(''),
     Watchers = cms.VPSet(
 #        cms.PSet( # HINT: TOTEM specific

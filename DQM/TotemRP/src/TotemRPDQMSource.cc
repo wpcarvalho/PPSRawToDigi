@@ -14,7 +14,7 @@
 
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 
-#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
 
 #include <string>
@@ -308,7 +308,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
 {
   // get event setup data
   ESHandle<TotemRPGeometry> geometry;
-  eventSetup.get<RealGeometryRecord>().get(geometry);
+  eventSetup.get<VeryForwardRealGeometryRecord>().get(geometry);
 
   // get event data
   Handle< DetSetVector<TotemRPDigi> > digi;
