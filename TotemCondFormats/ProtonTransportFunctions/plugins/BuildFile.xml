@@ -6,7 +6,7 @@
   <use   name="TotemCondFormats/DataRecord"/>
   <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
   <use   name="clhep"/>
-  <use   name="Geometry/TotemRecords"/>
+  <use   name="CondFormats/DataRecord"/>
   <use   name="TotemCondFormats/ProtonTransportFunctions"/>
 
   <use   name="TotemProtonTransport/TotemRPProtonTransportParametrization"/>
