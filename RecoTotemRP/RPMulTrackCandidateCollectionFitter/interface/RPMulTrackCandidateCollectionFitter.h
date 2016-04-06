@@ -23,7 +23,7 @@
 #include "FWCore/Framework/interface/ESWatcher.h"
 
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/RealGeometryRecord.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
 #include "RecoTotemRP/RPTrackCandidateFitter/interface/RPTrackCandidateFitter.h"

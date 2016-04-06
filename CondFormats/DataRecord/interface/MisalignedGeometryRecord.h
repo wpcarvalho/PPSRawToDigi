@@ -10,7 +10,7 @@
 #define RECORDS_MISALIGNEDGEOMETRYRECORD_H
 
 #include "FWCore/Framework/interface/DependentRecordImplementation.h"
-#include "Geometry/TotemRecords/interface/MeasuredGeometryRecord.h"
+#include "CondFormats/DataRecord/interface/MeasuredGeometryRecord.h"
 
 #include "boost/mpl/vector.hpp"
 

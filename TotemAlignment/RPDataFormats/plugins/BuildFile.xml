@@ -3,6 +3,6 @@
 	<use name="TotemAlignment/RPRecords"/>
 	<use name="FWCore/Framework"/>
 	<use name="Geometry/TotemRPGeometryBuilder"/>
-	<use name="Geometry/TotemRecords"/>
+	<use name="CondFormats/DataRecord"/>
 	<flags EDM_PLUGIN="1"/>
 </library>

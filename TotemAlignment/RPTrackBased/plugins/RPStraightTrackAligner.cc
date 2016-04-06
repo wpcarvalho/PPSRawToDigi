@@ -14,7 +14,7 @@
 #include "FWCore/Framework/interface/ESWatcher.h"
 
 #include "TotemAlignment/RPTrackBased/interface/StraightTrackAlignment.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
 
 /**
  *\brief An EDAnalyzer that runs StraightTrackAlignment.

@@ -15,7 +15,7 @@
 
 #include "TotemAlignment/RPDataFormats/interface/RPAlignmentCorrections.h"
 #include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
+#include "CondFormats/DataRecord/interface//RealGeometryRecord.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "TotemAlignment/RPTrackBased/interface/AlignmentTask.h"
 
