@@ -12,6 +12,8 @@
   <class name="TotemRawEvent::TriggerData" ClassVersion="2">
     <version ClassVersion="2" checksum="2680259756"/>
   </class>
+  
+  <class name="std::map<unsigned int, uint64_t>"/>
 
   <class name="TotemStructuralVFATId" ClassVersion="2">
     <version ClassVersion="2" checksum="4075201214"/>

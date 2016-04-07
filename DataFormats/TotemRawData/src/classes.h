@@ -22,6 +22,8 @@ namespace {
 
     TotemRawEvent::TriggerData dummy25;
 
+    std::map<unsigned int, uint64_t> dummy27;
+
     TotemStructuralVFATId dummy28;
 
     TotemRawToDigiStatus dummy30;
