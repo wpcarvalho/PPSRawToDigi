@@ -18,7 +18,7 @@ process.source.printProgressFrequency = 0
 process.source.fileNames.append('sample.srs')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(-1)
 )
 
 # raw to digi conversion
@@ -40,7 +40,7 @@ process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
 
 # geometry
 process.load("Configuration.TotemCommon.geometryRP_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/TotemRPData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
+process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
 
 process.load("TotemAlignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.RealFiles = cms.vstring()

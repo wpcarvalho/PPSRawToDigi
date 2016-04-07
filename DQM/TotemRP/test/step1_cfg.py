@@ -17,7 +17,7 @@ process.load("DQMServices.Components.DQMEnvironment_cfi")
 
 # TOTEM RP geometry
 process.load("Configuration.TotemCommon.geometryRP_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/TotemRPData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
+process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
 
 # TOTEM RP plot module
 process.TotemRPDQMSource = cms.EDAnalyzer("TotemRPDQMSource",

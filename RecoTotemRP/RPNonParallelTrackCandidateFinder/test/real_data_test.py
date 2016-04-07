@@ -65,7 +65,7 @@ for xmlfile in process.XMLIdealGeometryESSource.geomXMLFiles:
        toberemoved.append(xmlfile)
 for xmlfile in toberemoved:
     process.XMLIdealGeometryESSource.geomXMLFiles.remove(xmlfile)
-process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/TotemRPData/data/2011_05_18/RP_Dist_Beam_Cent.xml")
+process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/2011_05_18/RP_Dist_Beam_Cent.xml")
 process.TotemRPGeometryESModule = cms.ESProducer("TotemRPGeometryESModule")
 
 # track search/pattern recognition

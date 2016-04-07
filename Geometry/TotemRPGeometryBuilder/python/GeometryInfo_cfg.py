@@ -6,7 +6,7 @@ process.load("Configuration.TotemCommon.LoggerMin_cfi")
 
 # geometry
 process.load("Configuration.TotemCommon.geometryRP_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Garage/RP_Dist_Beam_Cent.xml')
+process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml')
 
 # no events to process
 process.source = cms.Source("EmptySource")

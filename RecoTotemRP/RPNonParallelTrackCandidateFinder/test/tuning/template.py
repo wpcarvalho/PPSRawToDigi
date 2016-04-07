@@ -46,7 +46,7 @@ process.RPFastStationSimulation.minRPsPerStation = 3
 
 # base geometry
 process.load("Configuration.TotemCommon.geometryRP_real_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Garage/RP_Dist_Beam_Cent.xml')
+process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml')
 
 # alignment corrections
 process.load("TotemAlignment.RPDataFormats.TotemRPIncludeAlignments_cfi")

@@ -14,7 +14,7 @@ process.maxEvents = cms.untracked.PSet(
 # geometry
 #process.load("Configuration.TotemCommon.geometryRP_cfi")
 process.load("Configuration.TotemCommon.geometryRP_real_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/TotemRPData/data/2015_08_25_fill4269_2/RP_Dist_Beam_Cent.xml")
+process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/2015_08_25_fill4269_2/RP_Dist_Beam_Cent.xml")
 process.TotemRPGeometryESModule = cms.ESProducer("TotemRPGeometryESModule")
 
 # include alignments, if any
