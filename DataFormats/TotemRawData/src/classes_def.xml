@@ -1,6 +1,6 @@
 <lcgdict>
   <class name="TotemRawEvent" ClassVersion="2">
-    <version ClassVersion="2" checksum="3463141399"/>
+	<version ClassVersion="2" checksum="2581300907"/>
   </class>
   <class name="edm::Wrapper<TotemRawEvent>"/>
 
