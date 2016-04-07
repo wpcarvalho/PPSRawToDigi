@@ -27,8 +27,8 @@ process.load("Configuration/TotemOpticsConfiguration/OpticsConfig_3500GeV_1p5_12
 
 
 process.TotemRPIncludeAlignments = cms.ESProducer("TotemRPIncludeAlignments",
-    RealFiles = cms.vstring('TotemAlignment/RPData/LHC/2011_05_18/sr+hsx/45_220.xml', 
-        'TotemAlignment/RPData/LHC/2011_05_18/sr+hsx/56_220.xml'),
+    RealFiles = cms.vstring('Alignment/RPData/LHC/2011_05_18/sr+hsx/45_220.xml',
+        'Alignment/RPData/LHC/2011_05_18/sr+hsx/56_220.xml'),
     MisalignedFiles = cms.vstring(),  MeasuredFiles = cms.vstring()
 )
 

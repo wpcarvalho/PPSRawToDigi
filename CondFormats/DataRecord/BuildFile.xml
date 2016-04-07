@@ -1,7 +1,7 @@
 <use name="FWCore/Framework"/>
 <use   name="Geometry/Records"/>
 <use   name="boost"/>
-<use name="TotemAlignment/RPRecords"/>
+<use name="Alignment/RPRecords"/>
 <export>
 	<lib name="1"/>
 </export>

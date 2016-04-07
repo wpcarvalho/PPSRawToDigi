@@ -20,7 +20,7 @@ process.maxEvents = cms.untracked.PSet(
 process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_7000GeV_1535_cfi")
 
 # station simulation
-process.load("TotemAlignment.RPFastSimulation.RPFastStationSimulation_cfi")
+process.load("Alignment.RPFastSimulation.RPFastStationSimulation_cfi")
 process.RPFastStationSimulation.verbosity = 0
 process.RPFastStationSimulation.particlesPerEvent = 1
 process.RPFastStationSimulation.roundToPitch = True
@@ -49,7 +49,7 @@ process.load("Configuration.TotemCommon.geometryRP_real_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml')
 
 # alignment corrections
-process.load("TotemAlignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
+process.load("Alignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.MisalignedFiles = cms.vstring("./../alignment_base.xml", "./alignments_true.xml")
 process.TotemRPIncludeAlignments.RealFiles = cms.vstring("./../alignment_base.xml", "./alignments_true.xml", "./alignments_determination_error.xml")
 

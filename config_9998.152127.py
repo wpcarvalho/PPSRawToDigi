@@ -17,10 +17,10 @@ process.load("Configuration.TotemCommon.LoggerMax_cfi")
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/2015_10_18_fill4511/RP_Dist_Beam_Cent.xml")
 
-process.load("TotemAlignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
+process.load("Alignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.RealFiles = cms.vstring(
-'TotemAlignment/RPData/LHC/2015_10_18_fill4511/version2/sr+el/45.xml',
-'TotemAlignment/RPData/LHC/2015_10_18_fill4511/version2/sr+el/56.xml'
+'Alignment/RPData/LHC/2015_10_18_fill4511/version2/sr+el/45.xml',
+'Alignment/RPData/LHC/2015_10_18_fill4511/version2/sr+el/56.xml'
 )
 
 # raw to digi conversion

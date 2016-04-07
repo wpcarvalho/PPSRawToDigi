@@ -13,7 +13,7 @@
 #include "DetectorDescription/Core/interface/DDSolid.h"
 #include "DetectorDescription/Core/interface/DDMaterial.h"
 
-#include "TotemAlignment/RPDataFormats/interface/RPAlignmentCorrection.h"
+#include "Alignment/RPDataFormats/interface/RPAlignmentCorrection.h"
 
 using namespace std;
 

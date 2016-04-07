@@ -14,7 +14,7 @@
 
 #include "boost/mpl/vector.hpp"
 
-#include "TotemAlignment/RPRecords/interface/RPRealAlignmentRecord.h"
+#include "Alignment/RPRecords/interface/RPRealAlignmentRecord.h"
 
 /**
  * \ingroup TotemRPGeometry

@@ -8,7 +8,7 @@
 <use name="hepmc"/>
 <use name="FWCore/Framework"/>
 <use name="FWCore/MessageLogger"/>
-<use name="TotemAlignment/RPDataFormats"/>
+<use name="Alignment/RPDataFormats"/>
 
 <export>
 	<lib name="1"/>
