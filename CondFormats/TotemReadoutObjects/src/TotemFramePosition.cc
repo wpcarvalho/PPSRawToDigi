@@ -88,6 +88,8 @@ unsigned char TotemFramePosition::setXMLAttribute(const std::string &attribute, 
     return 0;
   }
 
+  unsigned int v = atoi(value.c_str());
+
   if (attribute == "SubSystemId")
   {
     if (value == tagSSNone) setSubSystemId(ssNone);
@@ -97,13 +99,11 @@ unsigned char TotemFramePosition::setXMLAttribute(const std::string &attribute, 
     else if (value == tagSSTrigger) setSubSystemId(ssTrigger);
     else if (value == tagSSTTC) setSubSystemId(ssTTC);
     else if (value == tagSSFEC) setSubSystemId(ssFEC);
-      else return 2;
+      else setSubSystemId(v);
 
     flag |= 0x10;
     return 0;
   }
-
-  unsigned int v = atoi(value.c_str());
 
   if (attribute == "TOTFEDId")
   {

@@ -69,7 +69,7 @@ int RawDataUnpacker::ProcessOptoRxFrame(word *buf, unsigned int frameSize, Simpl
   event.setOptoRxMetaData(OptoRxId, BX, LV1);
 
   // is it OptoRx transmitting LoneG data?
-  if (OptoRxId == 0x29c)
+  if (OptoRxId == 577)
   {
       return ProcessLoneGFrame(buf + 2, frameSize - 4, event);
   }

@@ -22,7 +22,7 @@ process.maxEvents = cms.untracked.PSet(
 
 # raw to digi conversion
 process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
-process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/totem_rp_210far_220_mapping.xml")
+process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/ctpps_210_mapping.xml")
 
 process.load('EventFilter.TotemRawToDigi.TotemRawToDigi_cfi')
 process.TotemRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
