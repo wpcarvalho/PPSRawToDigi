@@ -39,7 +39,7 @@ process.RPClustProd.DigiLabel = cms.InputTag("TotemRawToDigi")
 process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
 
 # geometry
-process.load("Configuration.TotemCommon.geometryRP_cfi")
+process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
 
 process.load("TotemAlignment.RPDataFormats.TotemRPIncludeAlignments_cfi")

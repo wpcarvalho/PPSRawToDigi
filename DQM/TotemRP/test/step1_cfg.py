@@ -16,7 +16,7 @@ process.load("DQMServices.Core.DQM_cfg")
 process.load("DQMServices.Components.DQMEnvironment_cfi")
 
 # TOTEM RP geometry
-process.load("Configuration.TotemCommon.geometryRP_cfi")
+process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
 
 # TOTEM RP plot module

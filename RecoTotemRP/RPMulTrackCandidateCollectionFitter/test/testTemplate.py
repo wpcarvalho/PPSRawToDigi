@@ -34,7 +34,7 @@ process.load("RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi")
 process.load("RecoTotemRP.TotemRPRecHitProducer.TotemRPRecHitProdConf_cfi")
 
 # geometry
-process.load("Configuration.TotemCommon.geometryRP_cfi")
+process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/2010_10_08/RP_Dist_Beam_Cent.xml")
 process.TotemRPGeometryESModule = cms.ESProducer("TotemRPGeometryESModule")
 

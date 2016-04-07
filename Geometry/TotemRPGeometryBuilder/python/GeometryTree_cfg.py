@@ -6,7 +6,7 @@ process = cms.Process("GeometryTree")
 process.load("FWCore.MessageService.MessageLogger_cfi")
 
 # geometry
-process.load("Configuration.TotemCommon.geometryRP_cfi")
+process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml')
 
 # (no) events
