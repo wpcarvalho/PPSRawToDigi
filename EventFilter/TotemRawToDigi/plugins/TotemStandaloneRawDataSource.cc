@@ -87,7 +87,7 @@ class TotemStandaloneRawDataSource : public edm::InputSource
     edm::EventID eventID;
 
     /// UNIX timestamp of the previous event
-    uint32_t previousTimestamp;
+    uint64_t previousTimestamp;
 };
 
 //----------------------------------------------------------------------------------------------------
