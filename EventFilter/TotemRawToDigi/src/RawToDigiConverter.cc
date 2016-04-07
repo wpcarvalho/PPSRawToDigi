@@ -375,20 +375,20 @@ void RawToDigiConverter::PrintSummaries()
 {
   if (printErrorSummary)
   {
-    cout << "* Error summary (error signature: number of such events)" << endl;
+    cout << "* Error summary (error signature : number of such events)" << endl;
     for (const auto &vit : errorSummary)
     {
       cout << vit.first << endl;
 
       for (const auto &it : vit.second)
-        cout << "    " << it.first << ": " << it.second << endl;
+        cout << "    " << it.first << " : " << it.second << endl;
     }
   }
 
   if (printUnknownFrameSummary)
   {
-    cout << "* Frames found in data, but not in the mapping (frame position: number of events)" << endl;
+    cout << "* Frames found in data, but not in the mapping (frame position : number of events)" << endl;
     for (const auto &it : unknownSummary)
-      cout << "  " << it.first << ":" << it.second << endl;
+      cout << "  " << it.first << " : " << it.second << endl;
   }
 }
