@@ -8,10 +8,7 @@ set -o pipefail # Return value of a pipeline as the value of the last command to
 shopt -s expand_aliases # Expand command alias to the command itself.
                         # Required for non-interactive shell.
 
-cp -r src/* CMSSW_8_1_0_pre1/src
-chown -R cmsbuild:cmsbuild CMSSW_8_1_0_pre1
 source /opt/cms/cmsset_default.sh
-cd CMSSW_8_1_0_pre1/src
 scram b
 eval `scram runtime -sh`
 cmsRun raw_data_chain_test.py
