@@ -13,4 +13,4 @@ before_install:
   - wget https://cernbox.cern.ch/index.php/s/KSxpCPSmZX3TFMS/download -o sample.srs
 
 script:
-  - docker run --rm -v `pwd`:/home/cmsbuild/src -it grzanka/cmssw_810_pre1 /bin/sh -c "cp -r src/* CMSSW_8_1_0_pre1/src && chown -R cmsbuild:cmsbuild CMSSW_8_1_0_pre1 && source /opt/cms/cmsset_default.sh && cd CMSSW_8_1_0_pre1/src && scram b"
+  - docker run --rm -v `pwd`:/home/cmsbuild/src -it grzanka/cmssw_810_pre1 /bin/sh -c "cp -r src/* CMSSW_8_1_0_pre1/src && chown -R cmsbuild:cmsbuild CMSSW_8_1_0_pre1 && source /opt/cms/cmsset_default.sh && cd CMSSW_8_1_0_pre1/src && scram b && cmsRun raw_data_chain_test.py"

@@ -15,7 +15,7 @@ process.MessageLogger = cms.Service("MessageLogger",
 process.load('EventFilter.TotemRawToDigi.TotemStandaloneRawDataSource_cfi')
 process.source.verbosity = 10
 process.source.printProgressFrequency = 0
-process.source.fileNames.append('/afs/cern.ch/user/j/jkaspar/public/run_9987_EVB11_1.003.srs')
+process.source.fileNames.append('sample.srs')
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(10)
