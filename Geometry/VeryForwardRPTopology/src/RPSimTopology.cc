@@ -1,4 +1,4 @@
-#include "Geometry/TotemRPDetTopology/interface/RPSimTopology.h"
+#include "Geometry/VeryForwardRPTopology/interface/RPSimTopology.h"
 #include <iostream>
 
 RPSimTopology::RPSimTopology(const edm::ParameterSet &params)

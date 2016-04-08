@@ -1,5 +1,5 @@
-#ifndef Geometry_TotemRPDetTopology_RP_HEPPDT_WRAPPER_H
-#define Geometry_TotemRPDetTopology_RP_HEPPDT_WRAPPER_H
+#ifndef Geometry_VeryForwardRPTopology_RP_HEPPDT_WRAPPER_H
+#define Geometry_VeryForwardRPTopology_RP_HEPPDT_WRAPPER_H
 
 #include <fstream>
 #include <string>

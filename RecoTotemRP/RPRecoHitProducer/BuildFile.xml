@@ -4,7 +4,7 @@
 <use   name="FWCore/MessageLogger"/>
 <use   name="DataFormats/Common"/>
 <use   name="RecoTotemRP/RPClusterSigmaService"/>
-<use   name="Geometry/TotemRPDetTopology"/>
+<use   name="Geometry/VeryForwardRPTopology"/>
 <use   name="DataFormats/TotemRPDigi"/>
 <use   name="DataFormats/TotemRPReco"/>
 <use   name="RecoTotemRP/RPServiceRecords"/>

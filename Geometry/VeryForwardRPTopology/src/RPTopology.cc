@@ -7,7 +7,7 @@
 *
 ****************************************************************************/
 
-#include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
+#include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 #include <iostream>
 
 unsigned short RPTopology::no_of_strips_ = 512;  

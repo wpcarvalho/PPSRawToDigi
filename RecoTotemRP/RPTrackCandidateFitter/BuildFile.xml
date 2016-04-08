@@ -8,7 +8,7 @@
 <use   name="Geometry/VeryForwardGeometryBuilder"/>
 <use   name="RecoTotemRP/RPDetectorMaskingService"/>
 <use   name="RecoTotemRP/RPRecoDataFormats"/>
-<use   name="Geometry/TotemRPDetTopology"/>
+<use   name="Geometry/VeryForwardRPTopology"/>
 <use   name="FWCore/ParameterSet"/>
 <export>
   <lib   name="1"/>

@@ -1,4 +1,4 @@
-#include "Geometry/TotemRPDetTopology/interface/RPHepPDTWrapper.h"
+#include "Geometry/VeryForwardRPTopology/interface/RPHepPDTWrapper.h"
 
 HepPDT::ParticleDataTable *RPHepPDTWrapper::datacol = NULL;
 

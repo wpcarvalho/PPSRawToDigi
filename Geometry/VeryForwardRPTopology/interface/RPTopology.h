@@ -7,8 +7,8 @@
 *
 ****************************************************************************/
 
-#ifndef Geometry_TotemRPDetTopology_RP_DET_TOPOLOGY_H
-#define Geometry_TotemRPDetTopology_RP_DET_TOPOLOGY_H
+#ifndef Geometry_VeryForwardRPTopology_RP_DET_TOPOLOGY_H
+#define Geometry_VeryForwardRPTopology_RP_DET_TOPOLOGY_H
 
 #include "TMath.h"
 #include "DataFormats/GeometryVector/interface/LocalVector.h"
@@ -67,4 +67,4 @@ class RPTopology
     const HepMC::ThreeVector normal_direction_;
 };
 
-#endif  //Geometry_TotemRPDetTopology_RP_DET_TOPOLOGY_H
+#endif  //Geometry_VeryForwardRPTopology_RP_DET_TOPOLOGY_H

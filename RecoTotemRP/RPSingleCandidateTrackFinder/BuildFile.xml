@@ -5,7 +5,7 @@
 <use   name="boost"/>
 <use   name="DataFormats/TotemRPDigi"/>
 <use   name="DataFormats/TotemRPReco"/>
-<use   name="Geometry/TotemRPDetTopology"/>
+<use   name="Geometry/VeryForwardRPTopology"/>
 <use   name="Geometry/VeryForwardGeometryBuilder"/>
 <use   name="RecoTotemRP/RPRecoDataFormats"/>
 <use   name="clhep"/>

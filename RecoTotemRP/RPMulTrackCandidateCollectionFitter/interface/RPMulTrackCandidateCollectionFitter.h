@@ -27,7 +27,7 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
 #include "RecoTotemRP/RPTrackCandidateFitter/interface/RPTrackCandidateFitter.h"
-#include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
+#include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 
 #include <string>
 #include <vector>

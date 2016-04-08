@@ -1,10 +1,10 @@
-#ifndef Geometry_TotemRPDetTopology_RP_DET_SIM_TOPOLOGY_H
-#define Geometry_TotemRPDetTopology_RP_DET_SIM_TOPOLOGY_H
+#ifndef Geometry_VeryForwardRPTopology_RP_DET_SIM_TOPOLOGY_H
+#define Geometry_VeryForwardRPTopology_RP_DET_SIM_TOPOLOGY_H
 
 #include "TMath.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "DataFormats/GeometryVector/interface/LocalVector.h"
-#include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
+#include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 
 class strip_info
 {
@@ -81,4 +81,4 @@ class RPSimTopology : public RPTopology
     }
 };
 
-#endif  //Geometry_TotemRPDetTopology_RP_DET_SIM_TOPOLOGY_H
+#endif  //Geometry_VeryForwardRPTopology_RP_DET_SIM_TOPOLOGY_H

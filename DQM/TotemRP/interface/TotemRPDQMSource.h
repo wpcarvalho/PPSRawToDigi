@@ -28,7 +28,7 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
-#include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
+#include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 
 #include "DQM/TotemRP/interface/CorrelationPlotsSelector.h"
 
