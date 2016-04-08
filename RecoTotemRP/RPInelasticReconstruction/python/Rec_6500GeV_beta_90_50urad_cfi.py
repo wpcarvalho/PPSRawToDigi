@@ -20,10 +20,10 @@ RP220Reconst = cms.EDProducer("RPPrimaryVertexInelasticReconstruction_RunI",
     PrimaryVertexYSigma = cms.double(0.03), # mm
     PrimaryVertexZSigma = cms.double(0.03), # mm
 
-    ParameterizationFileName220Right = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
-    ParameterizationFileName220Left = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
-    ParameterizationFileName150Right = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
-    ParameterizationFileName150Left = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90p0_50urad_reco.root'),
+    ParameterizationFileName220Right = cms.string('Geometry/VeryForwardProtonTransport/data/parametrization_6500GeV_90p0_50urad_reco.root'),
+    ParameterizationFileName220Left = cms.string('Geometry/VeryForwardProtonTransport/data/parametrization_6500GeV_90p0_50urad_reco.root'),
+    ParameterizationFileName150Right = cms.string('Geometry/VeryForwardProtonTransport/data/parametrization_6500GeV_90p0_50urad_reco.root'),
+    ParameterizationFileName150Left = cms.string('Geometry/VeryForwardProtonTransport/data/parametrization_6500GeV_90p0_50urad_reco.root'),
 
     ParameterizationNamePrefix220Right = cms.string('ip5_to_station_220'),
     ParameterizationNamePrefix220Left = cms.string('ip5_to_station_220'),

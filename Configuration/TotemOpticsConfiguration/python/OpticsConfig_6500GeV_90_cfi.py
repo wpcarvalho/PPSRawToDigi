@@ -26,7 +26,7 @@ ProtonTransportFunctionsESSource = cms.ESProducer("ProtonTransportFunctionsESSou
 
 BeamProtTransportSetup = cms.PSet(
     Verbosity = cms.bool(False),
-    ModelRootFile = cms.string('Geometry/TotemRPOptics/data/parametrization_6500GeV_90_transp.root'),
+    ModelRootFile = cms.string('Geometry/VeryForwardProtonTransport/data/parametrization_6500GeV_90_transp.root'),
     Model_IP_150_R_Name = cms.string('ip5_to_beg_150_station_lhcb1'),
     Model_IP_150_L_Name = cms.string('ip5_to_beg_150_station_lhcb1'),
 
