@@ -16,7 +16,7 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
-#include "Alignment/RPRecords/interface/RPRealAlignmentRecord.h"
+#include "CondFormats/AlignmentRecord/interface/RPRealAlignmentRecord.h"
 #include "Alignment/RPTrackBased/interface/IdealResult.h"
 #include "Alignment/RPTrackBased/interface/JanAlignmentAlgorithm.h"
 #include "Alignment/RPTrackBased/interface/MillepedeAlgorithm.h"

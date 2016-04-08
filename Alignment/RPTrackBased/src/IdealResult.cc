@@ -10,7 +10,7 @@
 #include "Alignment/RPTrackBased/interface/IdealResult.h"
 #include "Alignment/RPTrackBased/interface/AlignmentTask.h"
 #include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
-#include "Geometry/Records/interface/VeryForwardMeasuredGeometryRecord.h"
+#include "Geometry/Records/interface/VeryForwardMisalignedGeometryRecord.h"
 #include "Alignment/RPTrackBased/interface/MatrixTools.h"
 
 #include "TMatrixD.h"
