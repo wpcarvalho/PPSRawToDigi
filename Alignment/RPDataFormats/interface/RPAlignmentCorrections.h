@@ -6,8 +6,8 @@
  *
  ****************************************************************************/
 
-#ifndef _RPAlignmentCorrections_h_
-#define _RPAlignmentCorrections_h_
+#ifndef Alignment_RPDataFormats_RPAlignmentCorrections
+#define Alignment_RPDataFormats_RPAlignmentCorrections
 
 #include "Alignment/RPDataFormats/interface/RPAlignmentCorrection.h"
 

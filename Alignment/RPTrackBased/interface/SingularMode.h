@@ -6,8 +6,8 @@
 *
 ****************************************************************************/
 
-#ifndef _SingularMode_h_
-#define _SingularMode_h_
+#ifndef Alignment_RPTrackBased_SingularMode
+#define Alignment_RPTrackBased_SingularMode
 
 #include <TVectorD.h>
 

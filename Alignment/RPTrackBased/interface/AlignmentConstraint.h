@@ -6,8 +6,8 @@
 *
 ****************************************************************************/
 
-#ifndef _AlignmentConstraint_h_
-#define _AlignmentConstraint_h_
+#ifndef Alignment_RPTrackBased_AlignmentConstraint
+#define Alignment_RPTrackBased_AlignmentConstraint
 
 #include "Alignment/RPTrackBased/interface/AlignmentTask.h"
 

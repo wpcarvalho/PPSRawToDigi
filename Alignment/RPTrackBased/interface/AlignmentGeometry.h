@@ -6,8 +6,8 @@
 *
 ****************************************************************************/
 
-#ifndef _AlignmentGeometry_h_
-#define _AlignmentGeometry_h_
+#ifndef Alignment_RPTrackBased_AlignmentGeometry
+#define Alignment_RPTrackBased_AlignmentGeometry
 
 #include <map>
 #include <set>

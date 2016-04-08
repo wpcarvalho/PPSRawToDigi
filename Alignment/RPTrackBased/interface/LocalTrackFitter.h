@@ -6,8 +6,8 @@
 *
 ****************************************************************************/
 
-#ifndef _LocalTrackFitter_h_
-#define _LocalTrackFitter_h_
+#ifndef Alignment_RPTrackBased_LocalTrackFitter
+#define Alignment_RPTrackBased_LocalTrackFitter
 
 #include "Alignment/RPDataFormats/interface/LocalTrackFit.h"
 #include "Alignment/RPTrackBased/interface/AlignmentGeometry.h"

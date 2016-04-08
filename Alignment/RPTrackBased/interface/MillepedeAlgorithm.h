@@ -6,8 +6,8 @@
 *
 ****************************************************************************/
 
-#ifndef _MillepedeAlgorithm_h_
-#define _MillepedeAlgorithm_h_
+#ifndef Alignment_RPTrackBased_MillepedeAlgorithm
+#define Alignment_RPTrackBased_MillepedeAlgorithm
 
 
 #include "Alignment/RPTrackBased/interface/AlignmentAlgorithm.h"

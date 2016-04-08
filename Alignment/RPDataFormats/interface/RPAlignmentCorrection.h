@@ -6,8 +6,8 @@
  *
  ****************************************************************************/
 
-#ifndef _RPAlignmentCorrection_h_
-#define _RPAlignmentCorrection_h_
+#ifndef Alignment_RPDataFormats_RPAlignmentCorrection
+#define Alignment_RPDataFormats_RPAlignmentCorrection
 
 #include "DetectorDescription/Base/interface/DDRotationMatrix.h"
 #include "DetectorDescription/Base/interface/DDTranslation.h"

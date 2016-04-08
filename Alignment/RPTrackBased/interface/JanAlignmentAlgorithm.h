@@ -6,8 +6,8 @@
 *
 ****************************************************************************/
 
-#ifndef _JanAlignmentAlgorithm_h_
-#define _JanAlignmentAlgorithm_h_
+#ifndef Alignment_RPTrackBased_JanAlignmentAlgorithm
+#define Alignment_RPTrackBased_JanAlignmentAlgorithm
 
 
 #include "Alignment/RPTrackBased/interface/AlignmentAlgorithm.h"

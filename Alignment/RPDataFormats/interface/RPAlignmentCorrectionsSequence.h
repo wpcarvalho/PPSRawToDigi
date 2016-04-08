@@ -6,8 +6,8 @@
  *
  ****************************************************************************/
 
-#ifndef _RPAlignmentCorrectionsSequence_h_
-#define _RPAlignmentCorrectionsSequence_h_
+#ifndef Alignment_RPDataFormats_RPAlignmentCorrectionsSequence
+#define Alignment_RPDataFormats_RPAlignmentCorrectionsSequence
 
 #include <map>
 #include <string>

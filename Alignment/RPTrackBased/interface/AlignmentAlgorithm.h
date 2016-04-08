@@ -6,8 +6,8 @@
 *
 ****************************************************************************/
 
-#ifndef _AlignmentAlgorithm_h_
-#define _AlignmentAlgorithm_h_
+#ifndef Alignment_RPTrackBased_AlignmentAlgorithm
+#define Alignment_RPTrackBased_AlignmentAlgorithm
 
 #include "FWCore/Framework/interface/EventSetup.h"
 

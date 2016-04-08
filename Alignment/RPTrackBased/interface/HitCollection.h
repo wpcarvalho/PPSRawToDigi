@@ -6,8 +6,8 @@
 *
 ****************************************************************************/
 
-#ifndef _HitCollection_h_
-#define _HitCollection_h_
+#ifndef Alignment_RPTrackBased_HitCollection
+#define Alignment_RPTrackBased_HitCollection
 
 #include <vector>
 

@@ -6,8 +6,8 @@
 *
 ****************************************************************************/
 
-#ifndef _StraightTrackAlignment_h_
-#define _StraightTrackAlignment_h_
+#ifndef Alignment_RPTrackBased_StraightTrackAlignment
+#define Alignment_RPTrackBased_StraightTrackAlignment
 
 #include <set>
 #include <vector>

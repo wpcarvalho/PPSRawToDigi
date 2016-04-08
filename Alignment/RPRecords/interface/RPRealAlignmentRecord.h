@@ -1,5 +1,5 @@
-#ifndef _RPRealAlignmentRecord_h_
-#define _RPRealAlignmentRecord_h_
+#ifndef Alignment_RPRecords_RPRealAlignmentRecord
+#define Alignment_RPRecords_RPRealAlignmentRecord
 
 #include "FWCore/Framework/interface/EventSetupRecordImplementation.h"
  

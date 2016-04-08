@@ -6,8 +6,8 @@
 *
 ****************************************************************************/
 
-#ifndef _AlignmentTask_h_
-#define _AlignmentTask_h_
+#ifndef Alignment_RPTrackBased_AlignmentTask
+#define Alignment_RPTrackBased_AlignmentTask
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
