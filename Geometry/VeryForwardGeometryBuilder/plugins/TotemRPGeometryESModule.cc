@@ -26,9 +26,9 @@
 #include "DetectorDescription/Core/src/LogicalPart.h"
 #include "DetectorDescription/Core/src/Specific.h"
 
-#include "CondFormats/DataRecord/interface/VeryForwardMisalignedGeometryRecord.h"
-#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
-#include "CondFormats/DataRecord/interface/VeryForwardMisalignedGeometryRecord.h"
+#include "Geometry/Records/interface/VeryForwardMeasuredGeometryRecord.h"
+#include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
+#include "Geometry/Records/interface/VeryForwardMeasuredGeometryRecord.h"
 #include "Alignment/RPRecords/interface/RPMeasuredAlignmentRecord.h"
 #include "Alignment/RPRecords/interface/RPRealAlignmentRecord.h"
 #include "Alignment/RPRecords/interface/RPMisalignedAlignmentRecord.h"

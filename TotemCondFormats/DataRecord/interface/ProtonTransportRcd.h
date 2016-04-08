@@ -13,7 +13,7 @@
 //#include "FWCore/Framework/interface/EventSetupRecordImplementation.h"
 #include "FWCore/Framework/interface/DependentRecordImplementation.h"
 #include "TotemCondFormats/DataRecord/interface/BeamOpticsParamsRcd.h"
-#include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
+#include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
  
 /**
  *\brief EventSetup record for proton transport data.
