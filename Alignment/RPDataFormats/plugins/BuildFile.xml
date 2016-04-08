@@ -2,7 +2,7 @@
 	<use name="Alignment/RPDataFormats"/>
 	<use name="Alignment/RPRecords"/>
 	<use name="FWCore/Framework"/>
-	<use name="Geometry/TotemRPGeometryBuilder"/>
+	<use name="Geometry/VeryForwardGeometryBuilder"/>
 	<use name="CondFormats/DataRecord"/>
 	<flags EDM_PLUGIN="1"/>
 </library>

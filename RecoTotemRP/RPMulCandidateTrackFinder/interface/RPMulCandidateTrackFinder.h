@@ -28,7 +28,7 @@
 #include "DataFormats/Common/interface/DetSet.h"
 
 //Geometry
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 
 //RPMulCandidateTrackFinder

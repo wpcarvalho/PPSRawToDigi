@@ -6,9 +6,9 @@
 *
 ****************************************************************************/
 
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "DataFormats/DetId/interface/DetId.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/DDDTotemRPCommon.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/DDDTotemRPCommon.h"
 #include <iostream>
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 

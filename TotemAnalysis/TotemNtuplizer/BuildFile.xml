@@ -12,7 +12,7 @@
 <use   name="RecoTotemRP/RPRomanPotResolutionService"/>
 <use   name="TotemCondFormats/DataRecord"/>
 <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
-<use   name="Geometry/TotemRPGeometryBuilder"/>
+<use   name="Geometry/VeryForwardGeometryBuilder"/>
 <use   name="CondFormats/DataRecord"/>
 <use   name="SimDataFormats/GeneratorProducts"/>
 <use   name="fastjet"/>

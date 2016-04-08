@@ -9,8 +9,8 @@
 #ifndef Geometry_DDDTotemRPContruction_H
 #define Geometry_DDDTotemRPContruction_H
 
-#include "Geometry/TotemRPGeometryBuilder/interface/DetGeomDesc.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/DDDTotemRPCommon.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/DetGeomDesc.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/DDDTotemRPCommon.h"
 
 class DDCompactView;
 class DDFilteredView;

@@ -16,7 +16,7 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
 #include "FWCore/Framework/interface/ESHandle.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/DetGeomDesc.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/DetGeomDesc.h"
 #include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 
 #include <iostream>

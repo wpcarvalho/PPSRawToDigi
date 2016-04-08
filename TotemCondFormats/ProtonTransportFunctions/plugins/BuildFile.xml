@@ -10,5 +10,5 @@
   <use   name="TotemCondFormats/ProtonTransportFunctions"/>
 
   <use   name="TotemProtonTransport/TotemRPProtonTransportParametrization"/>
-  <use   name="Geometry/TotemRPGeometryBuilder"/>
+  <use   name="Geometry/VeryForwardGeometryBuilder"/>
 </library>

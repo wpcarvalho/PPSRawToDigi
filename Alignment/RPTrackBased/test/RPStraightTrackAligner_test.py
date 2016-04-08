@@ -39,7 +39,7 @@ process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/VeryForwardData/data/' + 'RP_V:2.7_H:3.3' + '/RP_Dist_Beam_Cent.xml')
 
 # (mis)alignments
-process.load("Geometry.TotemRPGeometryBuilder.TotemRPIncludeAlignments_cfi")
+process.load("Geometry.VeryForwardGeometryBuilder.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.MisalignedFiles = cms.vstring()
 process.TotemRPIncludeAlignments.RealFiles = cms.vstring()
 

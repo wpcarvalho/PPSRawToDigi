@@ -3,7 +3,7 @@
 
 <use name="DataFormats/TotemRPDetId"/>
 <use name="CondFormats/DataRecord"/>
-<use name="Geometry/TotemRPGeometryBuilder"/>
+<use name="Geometry/VeryForwardGeometryBuilder"/>
 
 <!-- correlation-plot selectors unfortuantely need QString -->
 <use name="qt"/>

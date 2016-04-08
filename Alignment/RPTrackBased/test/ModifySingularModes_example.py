@@ -20,7 +20,7 @@ process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/d
 process.TotemRPGeometryESModule = cms.ESProducer("TotemRPGeometryESModule")
 
 # include initial alignments
-process.load("Geometry.TotemRPGeometryBuilder.TotemRPIncludeAlignments_cfi")
+process.load("Geometry.VeryForwardGeometryBuilder.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.RealFiles = cms.vstring(input)
 
 # add singular mode correction

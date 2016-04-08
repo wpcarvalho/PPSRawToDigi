@@ -9,7 +9,7 @@
 #ifndef _FastLineRecognition_h_
 #define _FastLineRecognition_h_
 
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 
 //#define TUNE 1

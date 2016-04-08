@@ -6,7 +6,7 @@
   <use   name="hepmc"/>
   <use   name="clhep"/>
   <use   name="DataFormats/TotemRPDetId"/>
-  <use   name="Geometry/TotemRPGeometryBuilder"/>
+  <use   name="Geometry/VeryForwardGeometryBuilder"/>
   <use   name="root"/>
   <use   name="Alignment/RPTrackBased"/>
   <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>

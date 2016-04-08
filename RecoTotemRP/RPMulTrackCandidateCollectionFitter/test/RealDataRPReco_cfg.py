@@ -32,7 +32,7 @@ process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/d
 process.TotemRPGeometryESModule = cms.ESProducer("TotemRPGeometryESModule")
 
 # alignment
-process.load("Geometry.TotemRPGeometryBuilder.TotemRPIncludeAlignments_cfi")
+process.load("Geometry.VeryForwardGeometryBuilder.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.RealFiles = cms.vstring(
   "/afs/cern.ch/exp/totem/scratch/data/RP/2010_09_21/alignment/version5/tb_all_rot/45_220.xml",
   "/afs/cern.ch/exp/totem/scratch/data/RP/2010_09_21/alignment/version5/tb_all_rot/56_220.xml"

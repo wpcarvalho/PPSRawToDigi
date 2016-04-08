@@ -8,11 +8,11 @@
 
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/DetGeomDesc.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/DetGeomDesc.h"
 #include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 
-#include "Geometry/TotemRPGeometryBuilder/interface/GeometryTestModule.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/GeometryTestModule.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 
 #include <iostream>
 

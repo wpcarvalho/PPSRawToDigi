@@ -11,7 +11,7 @@
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "Alignment/RPTrackBased/interface/AlignmentAlgorithm.h"
 #include "Alignment/RPDataFormats/interface/RPAlignmentCorrections.h"
 

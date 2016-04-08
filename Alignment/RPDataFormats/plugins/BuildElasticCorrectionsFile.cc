@@ -14,7 +14,7 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 
 #include "Alignment/RPDataFormats/interface/RPAlignmentCorrectionsSequence.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 

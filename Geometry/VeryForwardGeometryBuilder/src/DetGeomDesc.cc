@@ -7,7 +7,7 @@
 *
 ****************************************************************************/
 
-#include "Geometry/TotemRPGeometryBuilder/interface/DetGeomDesc.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/DetGeomDesc.h"
 
 #include "DetectorDescription/Core/interface/DDFilteredView.h"
 #include "DetectorDescription/Core/interface/DDSolid.h"

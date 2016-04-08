@@ -9,7 +9,7 @@
 #include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatterns.h"
 #include "RecoTotemRP/RPNonParallelTrackCandidateFinder/interface/FastLineRecognition.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 
 #include <map>
 #include <math.h>

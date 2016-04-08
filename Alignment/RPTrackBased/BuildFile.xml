@@ -2,7 +2,7 @@
 <use   name="root"/>
 <use   name="rootgraphics"/>
 <use   name="DataFormats/TotemRPDetId"/>
-<use   name="Geometry/TotemRPGeometryBuilder"/>
+<use   name="Geometry/VeryForwardGeometryBuilder"/>
 <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>
 <use   name="TotemCondFormats/ProtonTransportFunctions"/>
 <use   name="Alignment/RPDataFormats"/>

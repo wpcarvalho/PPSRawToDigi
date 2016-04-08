@@ -13,7 +13,7 @@
 #include "CLHEP/Vector/ThreeVector.h"
 #include "CLHEP/Vector/Rotation.h"
 //#include "HepMC/SimpleVector.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/DetGeomDesc.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/DetGeomDesc.h"
 
 #include <map>
 #include <set>

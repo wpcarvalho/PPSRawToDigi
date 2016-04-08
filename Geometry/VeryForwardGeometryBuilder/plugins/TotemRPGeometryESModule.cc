@@ -32,11 +32,11 @@
 #include "Alignment/RPRecords/interface/RPMeasuredAlignmentRecord.h"
 #include "Alignment/RPRecords/interface/RPRealAlignmentRecord.h"
 #include "Alignment/RPRecords/interface/RPMisalignedAlignmentRecord.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/DetGeomDesc.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/DetGeomDesc.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "Alignment/RPDataFormats/interface/RPAlignmentCorrections.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/DDDTotemRPConstruction.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/DDDTotemRPConstruction.h"
 
 #include <TMatrixD.h>
 

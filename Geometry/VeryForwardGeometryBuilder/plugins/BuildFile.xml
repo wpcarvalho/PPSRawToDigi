@@ -6,7 +6,7 @@
 	<use name="DataFormats/DetId"/>
 	<use name="DataFormats/TotemRPDetId"/>
 	<use name="Geometry/TrackerNumberingBuilder"/>
-	<use name="Geometry/TotemRPGeometryBuilder"/>
+	<use name="Geometry/VeryForwardGeometryBuilder"/>
 	<use name="clhep"/>
 	<use name="hepmc"/>
 	<flags EDM_PLUGIN="1"/>

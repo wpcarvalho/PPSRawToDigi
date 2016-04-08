@@ -2,7 +2,7 @@
 #include "RecoTotemRP/RPSingleCandidateTrackFinder/interface/RPSingleCandidateTrackFinderAlgorithm.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"

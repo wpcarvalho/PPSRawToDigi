@@ -8,7 +8,7 @@
 
 #include "Alignment/RPTrackBased/interface/AlignmentTask.h"
 #include "Alignment/RPTrackBased/interface/AlignmentConstraint.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 
 using namespace std;

@@ -19,7 +19,7 @@
 #include "CondFormats/DataRecord/interface/VeryForwardRealGeometryRecord.h"
 #include "CondFormats/DataRecord/interface/VeryForwardMisalignedGeometryRecord.h"
 #include "CondFormats/DataRecord/interface/VeryForwardMisalignedGeometryRecord.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 
 //----------------------------------------------------------------------------------------------------
 

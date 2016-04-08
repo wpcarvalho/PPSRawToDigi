@@ -8,8 +8,8 @@
 
 #include "FWCore/Utilities/interface/typelookup.h"
 
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/DetGeomDesc.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/DetGeomDesc.h"
 
 #include "DataFormats/DetId/interface/DetId.h"
 
