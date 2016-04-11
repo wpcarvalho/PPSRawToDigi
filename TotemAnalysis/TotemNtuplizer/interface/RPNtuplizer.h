@@ -13,7 +13,6 @@
 #include "TotemAnalysis/TotemNtuplizer/interface/RPRootTrackInfo.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPair.h"
-#include "DataFormats/L1TotemRP/interface/TotemRPCCBits.h"
 
 #include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
 #include "DataFormats/Common/interface/DetSetVector.h"

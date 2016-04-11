@@ -19,7 +19,6 @@
 #include "DataFormats/Common/interface/DetSetVector.h"
 
 #include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
-#include "DataFormats/L1TotemRP/interface/TotemRPCCBits.h"
 #include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
 #include "DataFormats/TotemRawData/interface/TotemRawToDigiStatus.h"
 
@@ -53,7 +52,6 @@ class TotemRawToDigi : public edm::one::EDProducer<>
 
     /// product labels
     std::string rpDataProductLabel;
-    std::string rpCCProductLabel;
     std::string conversionStatusLabel;
 
     RawDataUnpacker rawDataUnpacker;
@@ -79,10 +77,6 @@ TotemRawToDigi::TotemRawToDigi(const edm::ParameterSet &conf):
   // RP data
   rpDataProductLabel = conf.getUntrackedParameter<std::string>("rpDataProductLabel", "");
   produces< edm::DetSetVector<TotemRPDigi> > (rpDataProductLabel);
-
-  // RP CC
-  rpCCProductLabel = conf.getUntrackedParameter<std::string>("rpCCProductLabel", "");
-  produces < std::vector <TotemRPCCBits> > (rpCCProductLabel);
 
   // status
   conversionStatusLabel = conf.getUntrackedParameter<std::string>("conversionStatusLabel", "");
@@ -115,7 +109,6 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
   auto_ptr<TotemRawEvent> totemRawEvent(new TotemRawEvent);
 
   auto_ptr< DetSetVector<TotemRPDigi> > rpDataOutput(new edm::DetSetVector<TotemRPDigi>);  
-  auto_ptr< vector<TotemRPCCBits> > rpCCOutput(new std::vector<TotemRPCCBits>);
   auto_ptr< TotemRawToDigiStatus > conversionStatus(new TotemRawToDigiStatus());
 
   // step 1: raw-data unpacking
@@ -138,12 +131,11 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
 
   // step 2: raw to digi
   rawToDigiConverter.Run(vfatCollection, *mapping, *analysisMask,
-    *rpDataOutput, *rpCCOutput, *conversionStatus);
+    *rpDataOutput, *conversionStatus);
 
   // commit products to event
   event.put(totemRawEvent);
   event.put(rpDataOutput, rpDataProductLabel);
-  event.put(rpCCOutput, rpCCProductLabel);
   event.put(conversionStatus, conversionStatusLabel);
 }
 

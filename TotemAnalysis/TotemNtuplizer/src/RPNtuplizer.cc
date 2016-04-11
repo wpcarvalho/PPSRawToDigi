@@ -330,6 +330,7 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   }
 
   // fill coincidence chip data
+  /*
   edm::Handle < std::vector<TotemRPCCBits> > cc_chip_bits;
   e.getByLabel(modulLabelSimu_, productLabelSimu_, cc_chip_bits);
   if (cc_chip_bits.isValid())
@@ -360,6 +361,7 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   	  }
   	}
   }
+  */
 
   // fill in primary (simulated) proton data
   if (primaryProtons && FindSimulatedProtons(e) && FindSimulatedProtonsVertex(e))

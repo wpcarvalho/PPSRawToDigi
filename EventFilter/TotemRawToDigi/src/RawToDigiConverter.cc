@@ -42,7 +42,7 @@ RawToDigiConverter::RawToDigiConverter(const edm::ParameterSet &conf) :
 
 int RawToDigiConverter::Run(const VFATFrameCollection &input,
   const TotemDAQMapping &mapping, const TotemAnalysisMask &analysisMask,
-  edm::DetSetVector<TotemRPDigi> &rpData, std::vector <TotemRPCCBits> &rpCC, TotemRawToDigiStatus &finalStatus)
+  edm::DetSetVector<TotemRPDigi> &rpData, TotemRawToDigiStatus &finalStatus)
 {
   // map which will contain FramePositions from mapping missing in raw event
   map<TotemFramePosition, TotemVFATInfo> missingFrames(mapping.VFATMapping);
@@ -215,15 +215,17 @@ int RawToDigiConverter::Run(const VFATFrameCollection &input,
             RPDataProduce(fr, mappingIter->second, anMa, rpData);    
             break;
           case TotemVFATInfo::CC:
-            RPCCProduce(fr, mappingIter->second, anMa, rpCC);
+            // TODO: print error
             break;
         }  
         break;
 
       case TotemSymbID::T1:
+            // TODO: print error
         break;
 
       case TotemSymbID::T2:
+            // TODO: print error
         break;
     }
   }
@@ -294,79 +296,6 @@ void RawToDigiConverter::RPDataProduce(VFATFrameCollection::Iterator &fr, const 
       detSet.push_back(TotemRPDigi(offset + activeCh[j]));
     }
   }  
-}
-
-//----------------------------------------------------------------------------------------------------
-
-void RawToDigiConverter::RPCCProduce(VFATFrameCollection::Iterator &fr, const TotemVFATInfo &info,
-    const TotemVFATAnalysisMask &analysisMask, std::vector<TotemRPCCBits> &rpCC)
-{
-  // stop if fully masked
-  if (analysisMask.fullMask)
-    return;
-
-  // get IDs
-  unsigned short symId = info.symbolicID.symbolicID;
-
-  // get data
-  const vector<unsigned char> activeCh = fr.Data()->getActiveChannels();
-  
-  // translate data into digi
-  std::bitset<16> bs_even;
-  std::bitset<16> bs_odd;
-
-  bs_even.reset();
-  bs_odd.reset();
-
-  unsigned int stripNo;
-
-  for (unsigned int j = 0; j < activeCh.size(); j++)
-  {
-    // skip if channel is masked out
-    if (analysisMask.maskedChannels.find(j) != analysisMask.maskedChannels.end())
-      continue;
-
-    stripNo = (unsigned int) (activeCh[j]);
-    unsigned int ch = stripNo + 2; // TODO check if +2 is necessary
-    if (ch >= 72 && ch <= 100 && (ch % 4 == 0)) 
-    {
-      bs_even.set(ch/4-18);
-      continue;
-    }
-
-    if (ch >= 40 && ch <= 68 && (ch % 4 == 0)) 
-    {
-      bs_even.set(ch/4 - 2);
-      continue;
-    }
-
-    if (ch == 38)
-    {
-      bs_odd.set(15);
-      continue;
-    }
-
-    if (ch >= 104 && ch <= 128 && (ch % 4 == 0)) 
-    {
-      bs_odd.set(ch/4 - 18);
-      continue;
-    }
-
-    if (ch >= 42 && ch <= 70 && (ch % 4 == 2)) 
-    {
-      bs_odd.set((ch-2)/4 - 9 - 1);
-      continue;
-    }
-  }
-
-  unsigned int detId_even = TotemRPDetId::decToRawId(symId * 10);
-  unsigned int detId_odd = TotemRPDetId::decToRawId(symId * 10 + 1);
-
-  TotemRPCCBits ccbits_even(detId_even , bs_even);
-  TotemRPCCBits ccbits_odd(detId_odd, bs_odd);
-  
-  rpCC.push_back(ccbits_even);
-  rpCC.push_back(ccbits_odd);
 }
 
 //----------------------------------------------------------------------------------------------------

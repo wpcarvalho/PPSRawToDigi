@@ -7,7 +7,6 @@
 <use   name="DataFormats/TotemRPDigi"/>
 <use   name="DataFormats/TotemRPReco"/>
 <use   name="DataFormats/TotemRPDetId"/>
-<use   name="DataFormats/L1TotemRP"/>
 <use   name="RecoTotemRP/RPRecoDataFormats"/>
 <use   name="RecoTotemRP/RPRomanPotResolutionService"/>
 <use   name="TotemCondFormats/DataRecord"/>
