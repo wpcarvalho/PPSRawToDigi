@@ -11,7 +11,6 @@
 #include "DataFormats/Common/interface/DetSet.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
 #include <map>
-#include "TObject.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
@@ -76,18 +75,13 @@ namespace {
     edm::Wrapper<RPMulFittedTrackCollection> the_w_mrpftc;
     
     RPDetHitPoint rpdhp;
-    TVector3 tv3;
     std::vector<RPDetHitPoint> vrdhp;
     std::map<unsigned int, RPFittedTrack> mdeidfittrac;
     std::map<unsigned int, std::vector<RPFittedTrack> > vmdeidfittrac;
     edm::Wrapper<std::map<unsigned int, RPFittedTrack> > wmdeidfittrac;
     edm::Wrapper<std::map<unsigned int, std::vector<RPFittedTrack> > > vwmdeidfittrac;
     edm::Wrapper<RPDetHitPoint> wrpdhp;
-    edm::Wrapper<TVector3> wtv3;
     edm::Wrapper<std::vector<RPDetHitPoint> > wvrdhp;
-    
-    TObject to;
-    edm::Wrapper<TObject> wto;
     
     RPReconstructedProton rprecprot;
     edm::Wrapper<RPReconstructedProton> wraprprecprot;

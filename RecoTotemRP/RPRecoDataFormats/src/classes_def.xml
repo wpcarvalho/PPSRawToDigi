@@ -33,7 +33,6 @@
   <class name="std::pair<unsigned int, RPFittedTrack>"/>
   <class name="std::pair<unsigned int, std::vector<RPFittedTrack> >"/>
   <class name="RPDetHitPoint"/>
-  <class name="TVector3"/>
   <class name="std::vector<RPDetHitPoint>"/>
   <class name="std::map<unsigned int, RPFittedTrack>"/>
   <class name="std::map<unsigned int, std::vector<RPFittedTrack> >"/>
@@ -44,11 +43,8 @@
   <class name="RPMulFittedTrackCollection"/>
   <class name="edm::Wrapper<RPMulFittedTrackCollection> "/>
   <class name="edm::Wrapper<RPDetHitPoint>"/>
-  <class name="edm::Wrapper<TVector3>"/>
   <class name="edm::Wrapper<std::vector<RPDetHitPoint> >"/>
-  <class name="TObject"/>
-  <class name="edm::Wrapper<TObject>"/>
-  
+
   <class name="edm::Wrapper<RPFittedTrack>"/>
 
   <class name="RPReconstructedProton"/>
