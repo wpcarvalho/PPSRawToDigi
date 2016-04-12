@@ -11,19 +11,27 @@ process.load('Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cf
 process.load('Configuration.StandardSequences.EDMtoMEAtRunEnd_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
-# load DQM
+# global tag
+from Configuration.AlCa.GlobalTag import GlobalTag
+process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:mc', '')  #for MC
+
+# load DQM frame work
 process.load("DQMServices.Core.DQM_cfg")
 process.load("DQMServices.Components.DQMEnvironment_cfi")
 
-# TOTEM RP geometry
-process.load("Configuration.TotemCommon.geometryRP_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/TotemRPData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
+# include TOTEM reconstruction chain
+process.load("reco_chain_cfi")
 
-# TOTEM RP plot module
+# specify number of events to select
+process.maxEvents = cms.untracked.PSet(
+    input = cms.untracked.int32(200)
+)
+
+# TOTEM RP DQM module
 process.TotemRPDQMSource = cms.EDAnalyzer("TotemRPDQMSource",
-    tagStripDigi = cms.InputTag("Raw2DigiProducer", "rpDataOutput"),
+    tagStripDigi = cms.InputTag("TotemRawToDigi"),
 	tagDigiCluster = cms.InputTag("RPClustProd"),
-	tagRecoHit = cms.InputTag("TotemRPRecHitProd"),
+	tagRecoHit = cms.InputTag("RPRecoHitProd"),
 	tagPatternColl = cms.InputTag("NonParallelTrackFinder"),
 	tagTrackColl = cms.InputTag("RPSingleTrackCandCollFit"),
 	tagTrackCandColl = cms.InputTag("NonParallelTrackFinder"),
@@ -34,30 +42,17 @@ process.TotemRPDQMSource = cms.EDAnalyzer("TotemRPDQMSource",
 	correlationPlotsFilter = cms.untracked.string("default=0,1")
 )
 
-process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(200)
-)
-
-# Input source
-process.source = cms.Source("PoolSource",
-    secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/j/jkaspar/software/offline/800_pre5/user/reco_test/reco_test.root')
-)
-
-process.DQMoutput = cms.OutputModule("DQMRootOutputModule",
+# DQM output
+process.DQMOutput = cms.OutputModule("DQMRootOutputModule",
   fileName = cms.untracked.string("OUT_step1.root")
 )
 
-# Other statements
-from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:mc', '')  #for MC
-
-# Path and EndPath definitions
+# execution schedule
 process.dqm_offline_step = cms.Path(process.TotemRPDQMSource)
-process.dqm_output_step = cms.EndPath(process.DQMoutput)
+process.dqm_output_step = cms.EndPath(process.DQMOutput)
 
-# Schedule definition
 process.schedule = cms.Schedule(
+    process.reco_step,
     process.dqm_offline_step,
     process.dqm_output_step
 )

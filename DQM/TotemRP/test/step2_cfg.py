@@ -11,18 +11,23 @@ process.load('Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cf
 process.load('Configuration.StandardSequences.EDMtoMEAtRunEnd_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
+
+# global tag
+from Configuration.AlCa.GlobalTag import GlobalTag
+process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:mc', '')  #for MC
+
 # load DQM
 process.load("DQMServices.Core.DQM_cfg")
 process.load("DQMServices.Components.DQMEnvironment_cfi")
 
-# my client and my Tests
-process.DQMExample_Step2 = cms.EDAnalyzer("DQMExample_Step2",
-  numMonitorName = cms.string("Physics/TopTest/ElePt_leading_HLT_matched"),
-  denMonitorName = cms.string("Physics/TopTest/ElePt_leading")
-)
+# my client and my tests
+#process.DQMExample_Step2 = cms.EDAnalyzer("DQMExample_Step2",
+#  numMonitorName = cms.string("Physics/TopTest/ElePt_leading_HLT_matched"),
+#  denMonitorName = cms.string("Physics/TopTest/ElePt_leading")
+#)
 
-process.load('DQMServices.Examples.test.DQMExample_GenericClient_cfi')
-process.load('DQMServices.Examples.test.DQMExample_qTester_cfi')
+#process.load('DQMServices.Examples.test.DQMExample_GenericClient_cfi')
+#process.load('DQMServices.Examples.test.DQMExample_qTester_cfi')
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(1)
@@ -32,10 +37,6 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("DQMRootSource",
   fileNames = cms.untracked.vstring("file:OUT_step1.root")
 )
-
-# Other statements
-from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:mc', '')  #for MC
 
 # Path and EndPath definitions
 #process.myHarvesting = cms.Path(process.DQMExample_Step2)
