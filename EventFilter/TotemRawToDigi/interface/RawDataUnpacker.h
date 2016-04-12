@@ -13,8 +13,6 @@
 
 #include "DataFormats/FEDRawData/interface/FEDRawData.h"
 
-#include "DataFormats/TotemDigi/interface/TotemTriggerCounters.h"
-
 #include "EventFilter/TotemRawToDigi/interface/VFATFrameCollection.h"
 #include "EventFilter/TotemRawToDigi/interface/SimpleVFATFrameCollection.h"
 
@@ -34,10 +32,10 @@ class RawDataUnpacker
     RawDataUnpacker(const edm::ParameterSet &conf);
 
     /// Unpack data from FED with fedId into `coll' collection.
-    int Run(int fedId, const FEDRawData &data, SimpleVFATFrameCollection &coll, TotemTriggerCounters &triggerData);
+    int Run(int fedId, const FEDRawData &data, SimpleVFATFrameCollection &coll);
 
     /// Process one Opto-Rx (or LoneG) frame.
-    int ProcessOptoRxFrame(word *buf, unsigned int frameSize, SimpleVFATFrameCollection *fc, TotemTriggerCounters &triggerData);
+    int ProcessOptoRxFrame(word *buf, unsigned int frameSize, SimpleVFATFrameCollection *fc);
 
     /// Process one Opto-Rx frame in serial (old) format
     int ProcessOptoRxFrameSerial(word *buffer, unsigned int frameSize, SimpleVFATFrameCollection *fc);
@@ -47,9 +45,6 @@ class RawDataUnpacker
 
     /// Process data from one VFAT in parallel (new) format
     int ProcessVFATDataParallel(unsigned short *buf, unsigned int OptoRxId, SimpleVFATFrameCollection *fc);
-
-    /// Process one LoneG frame.
-    int ProcessLoneGFrame(word *oBuf, unsigned long size, TotemTriggerCounters &data);
 };
 
 #endif

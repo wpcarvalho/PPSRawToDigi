@@ -21,18 +21,18 @@ RawDataUnpacker::RawDataUnpacker(const edm::ParameterSet &conf)
 
 //----------------------------------------------------------------------------------------------------
 
-int RawDataUnpacker::Run(int fedId, const FEDRawData &data, SimpleVFATFrameCollection &coll, TotemTriggerCounters &rawEvent)
+int RawDataUnpacker::Run(int fedId, const FEDRawData &data, SimpleVFATFrameCollection &coll)
 {
   // implements the "best guess" by Michele: FEDRawData will most likely contain OptoRx blocks
   unsigned int size_in_words = data.size() / 8; // bytes -> words
-  ProcessOptoRxFrame((word *) data.data(), size_in_words, &coll, rawEvent);
+  ProcessOptoRxFrame((word *) data.data(), size_in_words, &coll);
 
   return 10;
 }
 
 //----------------------------------------------------------------------------------------------------
 
-int RawDataUnpacker::ProcessOptoRxFrame(word *buf, unsigned int frameSize, SimpleVFATFrameCollection *fc, TotemTriggerCounters &event)
+int RawDataUnpacker::ProcessOptoRxFrame(word *buf, unsigned int frameSize, SimpleVFATFrameCollection *fc)
 {
   // get OptoRx metadata
   unsigned long long head = buf[0];
@@ -64,13 +64,6 @@ int RawDataUnpacker::ProcessOptoRxFrame(word *buf, unsigned int frameSize, Simpl
     printf(">> RawDataUnpacker::ProcessOptoRxFrame > OptoRxId = %u, BX = %lu, LV1 = %lu, frameSize = %u, subFrames = %u)\n",
       OptoRxId, BX, LV1, frameSize, subFrames);
   #endif
-
-  // TODO: remove from here
-  // is it OptoRx transmitting LoneG data?
-  if (OptoRxId == 577)
-  {
-      return ProcessLoneGFrame(buf + 2, frameSize - 4, event);
-  }
 
   // parallel or serial transmission?
   if (FOV == 1)
@@ -350,55 +343,4 @@ int RawDataUnpacker::ProcessVFATDataParallel(unsigned short *buf, unsigned int O
   fc->Insert(fp, f);
 
   return wordsProcessed;
-}
-
-//----------------------------------------------------------------------------------------------------
-
-int RawDataUnpacker::ProcessLoneGFrame(word *oBuf, unsigned long size, TotemTriggerCounters &td)
-{
-  if (size != 20)
-  {
-    cerr << "Error in RawDataUnpacker::ProcessLoneGFrame > " << "Wrong LoneG frame size: " << size << " (shall be 20)." << endl;
-    return 1;
-  }
-
-  // buffer mapping: OptoRx buffer --> LoneG buffer
-  RawDataUnpacker::word buf[5];
-  for (unsigned int i = 0; i < 5; i++)
-    buf[i] = 0;
-
-  for (unsigned int i = 0; i < 20; i++)
-  {
-      int row = i / 4;
-      int col = i % 4;
-      buf[row] |= (oBuf[i] & 0xFFFF) << (col * 16);
-  }
-
-  td.type = (buf[0] >> 56) & 0xF;
-  td.event_num = (buf[0] >> 32) & 0xFFFFFF;
-  td.bunch_num = (buf[0] >> 20) & 0xFFF;
-  td.src_id = (buf[0] >> 8) & 0xFFF;
-
-  td.orbit_num = (buf[1] >> 32) & 0xFFFFFFFF;
-  td.revision_num = (buf[1] >> 24) & 0xFF;
-
-  td.run_num = (buf[2] >> 32) & 0xFFFFFFFF;
-  td.trigger_num = (buf[2] >> 0) & 0xFFFFFFFF;
-
-  td.inhibited_triggers_num = (buf[3] >> 32) & 0xFFFFFFFF;
-  td.input_status_bits = (buf[3] >> 0) & 0xFFFFFFFF;
-
-#ifdef DEBUG
-  printf(">> RawDataUnpacker::ProcessLoneGFrame > size = %li\n", size);
-  printf("\ttype = %x, event number = %x, bunch number = %x, id = %x\n",
-    td.type, td.event_num, td.bunch_num, td.src_id);
-  printf("\torbit number = %x, revision = %x\n",
-    td.orbit_num, td.revision_num);
-  printf("\trun number = %x, trigger number = %x\n",
-    td.run_num, td.trigger_num);
-  printf("\tinhibited triggers = %x, input status bits = %x\n",
-    td.inhibited_triggers_num, td.input_status_bits);
-#endif
-
-  return 0;
 }

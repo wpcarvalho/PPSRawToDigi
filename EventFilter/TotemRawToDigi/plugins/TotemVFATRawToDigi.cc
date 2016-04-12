@@ -19,7 +19,6 @@
 #include "DataFormats/Common/interface/DetSetVector.h"
 
 #include "DataFormats/TotemDigi/interface/TotemRPDigi.h"
-#include "DataFormats/TotemDigi/interface/TotemTriggerCounters.h"
 #include "DataFormats/TotemDigi/interface/TotemVFATStatus.h"
 
 #include "CondFormats/DataRecord/interface/TotemReadoutRcd.h"
@@ -72,8 +71,6 @@ TotemRawToDigi::TotemRawToDigi(const edm::ParameterSet &conf):
 {
   fedDataToken = consumes<FEDRawDataCollection>(conf.getParameter<edm::InputTag>("rawDataTag"));
 
-  produces<TotemTriggerCounters>();
-
   // RP data
   rpDataProductLabel = conf.getUntrackedParameter<std::string>("rpDataProductLabel", "");
   produces< DetSetVector<TotemRPDigi> >(rpDataProductLabel);
@@ -106,8 +103,6 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
   event.getByToken(fedDataToken, rawData);
 
   // book output products
-  auto_ptr<TotemTriggerCounters> totemTriggerCounters(new TotemTriggerCounters);
-
   auto_ptr< DetSetVector<TotemRPDigi> > rpDataOutput(new DetSetVector<TotemRPDigi>);  
   auto_ptr< DetSetVector<TotemVFATStatus> > conversionStatus(new DetSetVector<TotemVFATStatus>);
 
@@ -126,7 +121,7 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
   */
   for (const auto &fedId : fedIds)
   {
-    rawDataUnpacker.Run(fedId, rawData->FEDData(fedId), vfatCollection, *totemTriggerCounters);
+    rawDataUnpacker.Run(fedId, rawData->FEDData(fedId), vfatCollection);
   }
 
   // step 2: raw to digi
@@ -134,7 +129,6 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
     *rpDataOutput, *conversionStatus);
 
   // commit products to event
-  event.put(totemTriggerCounters);
   event.put(rpDataOutput, rpDataProductLabel);
   event.put(conversionStatus, conversionStatusLabel);
 }
