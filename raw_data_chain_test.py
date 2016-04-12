@@ -48,6 +48,7 @@ process.TotemRPIncludeAlignments.RealFiles = cms.vstring()
 # non-parallel pattern recognition
 process.load("RecoTotemRP.RPNonParallelTrackCandidateFinder.RPNonParallelTrackCandidateFinder_cfi")
 process.NonParallelTrackFinder.verbosity = 0
+process.NonParallelTrackFinder.DetSetVectorTotemRPRecHitLabel = cms.InputTag("RPRecoHitProd")
 process.NonParallelTrackFinder.maxHitsPerPlaneToSearch = 5
 process.NonParallelTrackFinder.minPlanesPerProjectionToSearch = 2
 process.NonParallelTrackFinder.minPlanesPerProjectionToFit = 3
@@ -61,9 +62,9 @@ process.RPSingleTrackCandCollFit.RPTrackCandCollProducer = 'NonParallelTrackFind
 process.p = cms.Path(
     process.TotemRawToDigi *
     process.RPClustProd *
-    process.RPRecoHitProd
-#    process.NonParallelTrackFinder *
-#    process.RPSingleTrackCandCollFit
+    process.RPRecoHitProd *
+    process.NonParallelTrackFinder *
+    process.RPSingleTrackCandCollFit
 )
 
 process.output = cms.OutputModule("PoolOutputModule",
