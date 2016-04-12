@@ -6,7 +6,7 @@
  *
  ****************************************************************************/
 
-// TODO: remove this dirty trick once moved into CMSSW
+// TODO: remove this dirty trick once moved into CMSSW, unless the file is removed altogether
 #include "EventFilter/TotemRawToDigi/plugins/Event_hacked.h"
 // use this instead
 //#include "FWCore/Framework/interface/Event.h"
@@ -24,8 +24,6 @@
 #include "EventFilter/TotemRawToDigi/interface/SRSFileReader.h"
 
 #include "DataFormats/FEDRawData/interface/FEDRawDataCollection.h"
-
-#include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
 
 #include <iostream>
 #include <iomanip>
@@ -76,11 +74,11 @@ class TotemStandaloneRawDataSource : public edm::InputSource
     virtual std::shared_ptr<edm::LuminosityBlockAuxiliary> readLuminosityBlockAuxiliary_();
 
     /// called by the framework for item type 'IsEvent'
-    /// the cached (pre-loaded) raw data (currentRawEvent) are inserted into the event
+    /// the cached (pre-loaded) raw data (currentFEDCollection) are inserted into the event
     virtual void readEvent_(edm::EventPrincipal& eventPrincipal);
 
     /// pre-loaded raw event (counters and VFAT data)
-    std::auto_ptr<TotemRawEvent> currentRawEvent;
+    uint64_t currentTimestamp;
     std::auto_ptr<FEDRawDataCollection> currentFEDCollection;
 
     /// ID of the current (next) event
@@ -106,6 +104,7 @@ TotemStandaloneRawDataSource::TotemStandaloneRawDataSource(const edm::ParameterS
   verbosity(pSet.getUntrackedParameter<unsigned int>("verbosity", 0)),
   fileNames(pSet.getUntrackedParameter<vector<string> >("fileNames")),
   printProgressFrequency(pSet.getUntrackedParameter<unsigned int>("printProgressFrequency", 0)),
+  currentTimestamp(0),
   eventID(0, 0, 0),
   previousTimestamp(0)
 {
@@ -130,7 +129,7 @@ std::shared_ptr<RunAuxiliary> TotemStandaloneRawDataSource::readRunAuxiliary_()
   printf(">> TotemStandaloneRawDataSource::readRunAuxiliary_\n");
 #endif
 
-  Timestamp ts_beg(currentRawEvent->getTimestamp() << 32);
+  Timestamp ts_beg(currentTimestamp << 32);
   Timestamp ts_end(Timestamp::endOfTime().value() - 0);
 
   return std::shared_ptr < RunAuxiliary > (new RunAuxiliary(eventID.run(), ts_beg, ts_end));
@@ -145,8 +144,8 @@ std::shared_ptr<LuminosityBlockAuxiliary> TotemStandaloneRawDataSource::readLumi
 #endif
 
   // we create luminosity blocks of 1s duration
-  Timestamp ts_beg(currentRawEvent->getTimestamp() << 32);
-  Timestamp ts_end(((currentRawEvent->getTimestamp() + 1) << 32) - 1);
+  Timestamp ts_beg(currentTimestamp << 32);
+  Timestamp ts_end(((currentTimestamp + 1) << 32) - 1);
 
   return std::shared_ptr <LuminosityBlockAuxiliary> (new LuminosityBlockAuxiliary(eventID.run(),
     eventID.luminosityBlock(), ts_beg, ts_end));
@@ -157,11 +156,11 @@ std::shared_ptr<LuminosityBlockAuxiliary> TotemStandaloneRawDataSource::readLumi
 void TotemStandaloneRawDataSource::readEvent_(EventPrincipal& eventPrincipal)
 {
 #ifdef DEBUG
-  printf(">> TotemStandaloneRawDataSource::readEvent_ : %lu, %lu | %u\n", currentRawEvent->dataEventNumber, currentRawEvent->getTimestamp(), eventID.event());
+  printf(">> TotemStandaloneRawDataSource::readEvent_ : %lu, %lu\n", currentTimestamp, eventID.event());
 #endif
   
   // create Event structure and fill with auxiliary data
-  Timestamp ts(currentRawEvent->getTimestamp() << 32);  // conversion from UNIX timestamp: see src/DataFormats/Provenance/interface/Timestamp.h
+  Timestamp ts(currentTimestamp << 32);  // conversion from UNIX timestamp: see src/DataFormats/Provenance/interface/Timestamp.h
   bool isRealData = true;
   EventAuxiliary::ExperimentType expType(EventAuxiliary::Undefined);
   EventAuxiliary aux(eventID, processGUID(), ts, isRealData, expType);
@@ -188,14 +187,13 @@ void TotemStandaloneRawDataSource::LoadRawDataEvent()
 #endif
 
   // prepare structure for the raw event
-  currentRawEvent = auto_ptr<TotemRawEvent>(new TotemRawEvent);
   currentFEDCollection = auto_ptr<FEDRawDataCollection>(new FEDRawDataCollection);
 
   // load next raw event
   bool newFile = false;
   while (true)
   {
-    unsigned int result = files[fileIdx].file->GetNextEvent(*currentRawEvent, *currentFEDCollection);
+    unsigned int result = files[fileIdx].file->GetNextEvent(currentTimestamp, *currentFEDCollection);
 
     if (result == 0)
       break;
@@ -213,10 +211,6 @@ void TotemStandaloneRawDataSource::LoadRawDataEvent()
     }
   }
 
-#ifdef DEBUG
-  printf("\t%lu, %lu\n", currentRawEvent->dataEventNumber, currentRawEvent->getTimestamp());
-#endif
-
   bool beginning = (eventID.run() == 0);
 
   if (newFile || beginning)
@@ -227,19 +221,19 @@ void TotemStandaloneRawDataSource::LoadRawDataEvent()
 
     eventID = EventID(files[fileIdx].runNumber, 1, 1);
 
-    previousTimestamp = currentRawEvent->getTimestamp();
+    previousTimestamp = currentTimestamp;
 
     return;
   } 
 
   // new luminosity block ??
-  if (currentRawEvent->getTimestamp() != previousTimestamp)  // 1s resolution
+  if (currentTimestamp != previousTimestamp)  // 1s resolution
   {
     items.push_back(IsLumi);
     eventID = EventID(eventID.run(), eventID.luminosityBlock() + 1, eventID.event()); // advance lumi number
   }
 
-  previousTimestamp = currentRawEvent->getTimestamp();
+  previousTimestamp = currentTimestamp;
 
   eventID = EventID(eventID.run(), eventID.luminosityBlock(), eventID.event() + 1); // advance event number
   items.push_back(IsEvent);

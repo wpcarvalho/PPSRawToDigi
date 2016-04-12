@@ -33,7 +33,7 @@ process.TotemRPIncludeAlignments = cms.ESProducer("TotemRPIncludeAlignments",
 )
 
 
-process.load('TotemRawData.Readers.RawDataSource_cfi')
+process.load('TotemDigi.Readers.RawDataSource_cfi')
 process.source.verbosity = 1
 process.source.printProgressFrequency = 0
 
@@ -47,7 +47,7 @@ process.DAQMappingSourceXML.mappingFileNames.append('TotemCondFormats/DAQInforma
 process.DAQMappingSourceXML.mappingFileNames.append('TotemCondFormats/DAQInformation/data/rp_147.xml')
 
 
-process.load('TotemRawData.RawToDigi.Raw2DigiProducer_cfi')
+process.load('TotemDigi.RawToDigi.Raw2DigiProducer_cfi')
 
 # clusterization
 process.load("RecoTotemRP.RPClusterSigmaService.ClusterSigmaServiceConf_cfi")
@@ -93,7 +93,7 @@ process.TriggerBits = cms.EDProducer("RPTriggerBitsProducer",
 )
 
 process.load('L1TriggerTotem.CoincidenceChip.RPCoincidenceProducer_cfi')
-#process.load("TotemRawData.RawToDigi.RPDataCCProducer_cfi")
+#process.load("TotemDigi.RawToDigi.RPDataCCProducer_cfi")
 
 
 process.load("RecoTotemRP.RPMulCandidateTrackFinder.RPMulTrackCandFindConf_cfi")

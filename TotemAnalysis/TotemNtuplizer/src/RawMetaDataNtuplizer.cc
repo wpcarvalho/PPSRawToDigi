@@ -6,9 +6,11 @@
 *
 ****************************************************************************/
 
+// TODO: remove this file completely
+
 #include "TotemAnalysis/TotemNtuplizer/interface/RawMetaDataNtuplizer.h"
 
-#include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
+//#include "DataFormats/TotemDigi/interface/TotemRawEvent.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/ESHandle.h"
@@ -40,6 +42,7 @@ void RawMetaDataNtuplizer::CreateBranches(const edm::EventSetup&, TTree *tree)
 
 void RawMetaDataNtuplizer::FillEvent(const edm::Event &event, const edm::EventSetup &es)
 {
+  /*
   Handle< TotemRawEvent > input;
   event.getByLabel(rawEventLabel, input);
 
@@ -57,4 +60,6 @@ void RawMetaDataNtuplizer::FillEvent(const edm::Event &event, const edm::EventSe
     data.optoRx_BX.push_back(it.second.BX);
     data.optoRx_LV1.push_back(it.second.LV1);
   }
+
+  */
 }

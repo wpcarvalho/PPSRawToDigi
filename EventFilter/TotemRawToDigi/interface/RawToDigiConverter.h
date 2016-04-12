@@ -17,9 +17,8 @@
 #include "CondFormats/TotemReadoutObjects/interface/TotemDAQMapping.h"
 #include "CondFormats/TotemReadoutObjects/interface/TotemAnalysisMask.h"
 
-#include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
-#include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
-#include "DataFormats/TotemRawData/interface/TotemRawToDigiStatus.h"
+#include "DataFormats/TotemDigi/interface/TotemRPDigi.h"
+#include "DataFormats/TotemDigi/interface/TotemVFATStatus.h"
 
 //----------------------------------------------------------------------------------------------------
 
@@ -59,10 +58,7 @@ class RawToDigiConverter
     /// Converts vfat data in `coll'' into digi.
     int Run(const VFATFrameCollection &coll,
       const TotemDAQMapping &mapping, const TotemAnalysisMask &mask,
-      edm::DetSetVector<TotemRPDigi> &rpData, TotemRawToDigiStatus &status);
-
-    /// TODO
-    TotemStructuralVFATId GetStructuralId(const TotemVFATInfo &info);
+      edm::DetSetVector<TotemRPDigi> &rpData, edm::DetSetVector<TotemVFATStatus> &status);
 
     /// Produce Digi from one RP data VFAT.
     void RPDataProduce(VFATFrameCollection::Iterator &fr, const TotemVFATInfo &info,

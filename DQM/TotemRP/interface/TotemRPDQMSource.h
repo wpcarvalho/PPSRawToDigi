@@ -20,7 +20,7 @@
 #include "DQMServices/Core/interface/MonitorElement.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 
-#include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
+#include "DataFormats/TotemDigi/interface/TotemRPDigi.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"

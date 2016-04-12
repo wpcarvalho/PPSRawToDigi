@@ -5,7 +5,7 @@
 <use   name="boost"/>
 <use   name="root"/>
 <use   name="rootgraphics"/>
-<use   name="DataFormats/TotemRPDigi"/>
+<use   name="DataFormats/TotemDigi"/>
 <use   name="DataFormats/TotemRPReco"/>
 <use   name="Geometry/TotemRPDetTopology"/>
 <use   name="Geometry/TotemRPGeometryBuilder"/>

@@ -17,7 +17,7 @@
 
 #include "CondFormats/TotemReadoutObjects/interface/TotemFramePosition.h"
 
-#include "DataFormats/TotemRawData/interface/TotemRawToDigiStatus.h"
+#include "DataFormats/TotemDigi/interface/TotemVFATStatus.h"
 
 //----------------------------------------------------------------------------------------------------
 

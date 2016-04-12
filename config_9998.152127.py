@@ -7,7 +7,7 @@ process.maxEvents = cms.untracked.PSet(
 input = cms.untracked.int32(-1)
 )
 
-process.load('TotemRawData.Readers.RawDataSource_cfi')
+process.load('TotemDigi.Readers.RawDataSource_cfi')
 process.source.fileNames = cms.untracked.vstring()
 
 process.source.fileNames.append('root://eostotem//eos/totem/data/rawdata/2015/run_9998_EVB15_2.127.srs')
@@ -27,7 +27,7 @@ process.TotemRPIncludeAlignments.RealFiles = cms.vstring(
 process.load('TotemCondFormats.DAQInformation.DAQMappingSourceXML_cfi')
 process.DAQMappingSourceXML.mappingFileNames.append('TotemCondFormats/DAQInformation/data/rp_220_210far.xml')
 
-process.load('TotemRawData.RawToDigi.Raw2DigiProducer_cfi')
+process.load('TotemDigi.RawToDigi.Raw2DigiProducer_cfi')
 process.Raw2DigiProducer.verbosity = 0
 process.Raw2DigiProducer.rpDataProductLabel = cms.untracked.string("")
 

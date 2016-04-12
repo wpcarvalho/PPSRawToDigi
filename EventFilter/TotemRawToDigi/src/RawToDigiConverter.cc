@@ -42,7 +42,7 @@ RawToDigiConverter::RawToDigiConverter(const edm::ParameterSet &conf) :
 
 int RawToDigiConverter::Run(const VFATFrameCollection &input,
   const TotemDAQMapping &mapping, const TotemAnalysisMask &analysisMask,
-  edm::DetSetVector<TotemRPDigi> &rpData, TotemRawToDigiStatus &finalStatus)
+  DetSetVector<TotemRPDigi> &rpData, DetSetVector<TotemVFATStatus> &finalStatus)
 {
   // map which will contain FramePositions from mapping missing in raw event
   map<TotemFramePosition, TotemVFATInfo> missingFrames(mapping.VFATMapping);
@@ -169,7 +169,7 @@ int RawToDigiConverter::Run(const VFATFrameCollection &input,
   {
     for (const auto &it : status)
     {
-      if (!it.second.OK())
+      if (!it.second.isOK())
       {
         auto &m = errorSummary[it.first];
         m[it.second]++;
@@ -186,7 +186,7 @@ int RawToDigiConverter::Run(const VFATFrameCollection &input,
 
     TotemVFATStatus &actualStatus = status[fr.Position()];
 
-    if (!actualStatus.OK())
+    if (!actualStatus.isOK())
       continue;
 
     // prepare analysis mask class
@@ -231,57 +231,39 @@ int RawToDigiConverter::Run(const VFATFrameCollection &input,
   }
 
   // remap status into finalStatus
-  for (const auto &it : status)
+  for (auto &it : status)
   {
+
     auto mappingIter = mapping.VFATMapping.find(it.first);
     if (mappingIter == mapping.VFATMapping.end())
       continue;
 
-    TotemStructuralVFATId sId = GetStructuralId(mappingIter->second);
+    if (mappingIter->second.symbolicID.subSystem != TotemSymbID::RP)
+      continue;
 
-    finalStatus[sId] = it.second;
+    if (mappingIter->second.type != TotemVFATInfo::data)
+      continue;
+
+    // TODO: handle other cases than RP/data
+
+    auto &chipId = mappingIter->second.symbolicID.symbolicID;
+    det_id_type detId = TotemRPDetId::decToRawId(chipId / 10);
+    DetSet<TotemVFATStatus> &ds = finalStatus.find_or_insert(detId);
+    it.second.setChipPosition(chipId % 10);
+    ds.push_back(it.second);
   }
 
   return 0;
-}
- 
-//----------------------------------------------------------------------------------------------------
-   
-TotemStructuralVFATId RawToDigiConverter::GetStructuralId(const TotemVFATInfo &info)
-{
-  auto &chipId = info.symbolicID.symbolicID;
-
-  switch (info.symbolicID.subSystem)
-  {
-    case TotemSymbID::RP:
-        switch (info.type)
-        {
-          case TotemVFATInfo::data:
-            return TotemStructuralVFATId(TotemRPDetId::decToRawId(chipId / 10), chipId % 10);
-
-          case TotemVFATInfo::CC:
-            return TotemStructuralVFATId(TotemRPDetId::decToRawId(chipId * 10), 100);
-        }  
-      break;
-
-    case TotemSymbID::T1:
-      break;
-
-    case TotemSymbID::T2:
-      break;
-  }
-  
-  return TotemStructuralVFATId();
 }
 
 //----------------------------------------------------------------------------------------------------
 
 void RawToDigiConverter::RPDataProduce(VFATFrameCollection::Iterator &fr, const TotemVFATInfo &info,
-    const TotemVFATAnalysisMask &analysisMask, edm::DetSetVector<TotemRPDigi> &rpData)
+    const TotemVFATAnalysisMask &analysisMask, DetSetVector<TotemRPDigi> &rpData)
 {
   // get IDs
   unsigned short symId = info.symbolicID.symbolicID;
-  unsigned int detId = TotemRPDetId::decToRawId(symId / 10);
+  det_id_type detId = TotemRPDetId::decToRawId(symId / 10);
 
   // add TotemRPDigi for each hit
   unsigned short offset = (symId % 10) * 128;

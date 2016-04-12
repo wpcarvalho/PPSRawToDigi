@@ -14,7 +14,7 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPair.h"
 
-#include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
+#include "DataFormats/TotemDigi/interface/TotemRPDigi.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/Wrapper.h"
 #include "fastjet/ClusterSequence.hh"

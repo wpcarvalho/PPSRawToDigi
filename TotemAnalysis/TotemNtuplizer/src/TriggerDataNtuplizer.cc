@@ -8,7 +8,7 @@
 
 #include "TotemAnalysis/TotemNtuplizer/interface/TriggerDataNtuplizer.h"
 
-#include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
+#include "DataFormats/TotemDigi/interface/TotemTriggerCounters.h"
 
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/ESHandle.h"
@@ -40,18 +40,17 @@ void TriggerDataNtuplizer::CreateBranches(const edm::EventSetup&, TTree *tree)
 
 void TriggerDataNtuplizer::FillEvent(const edm::Event &event, const edm::EventSetup &es)
 {
-  Handle< TotemRawEvent > input;
+  Handle< TotemTriggerCounters > input;
   event.getByLabel(rawEventLabel, input);
 
-  auto &td = input->getTriggerData();
-  data.type = td.type;
-  data.event_num = td.event_num;
-  data.bunch_num = td.bunch_num;
-  data.src_id = td.src_id;
-  data.orbit_num = td.orbit_num;
-  data.revision_num = td.revision_num;
-  data.run_num = td.run_num;
-  data.trigger_num = td.trigger_num;
-  data.inhibited_triggers_num = td.inhibited_triggers_num;
-  data.input_status_bits = td.input_status_bits;
+  data.type = input->type;
+  data.event_num = input->event_num;
+  data.bunch_num = input->bunch_num;
+  data.src_id = input->src_id;
+  data.orbit_num = input->orbit_num;
+  data.revision_num = input->revision_num;
+  data.run_num = input->run_num;
+  data.trigger_num = input->trigger_num;
+  data.inhibited_triggers_num = input->inhibited_triggers_num;
+  data.input_status_bits = input->input_status_bits;
 }

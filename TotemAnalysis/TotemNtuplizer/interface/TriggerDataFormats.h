@@ -3,7 +3,7 @@
 
 #include "TObject.h"
 
-/// a copy of Totem::TriggerData from TotemRawDataLibrary/DataFormats/interface/RawEvent.h
+/// a copy of Totem::TriggerData from TotemDigiLibrary/DataFormats/interface/RawEvent.h
 struct TriggerData
 {
   unsigned char type;                   ///<

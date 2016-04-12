@@ -1,7 +1,7 @@
 <use   name="FWCore/Framework"/>
 <use   name="FWCore/ParameterSet"/>
 <use   name="boost"/>
-<use   name="DataFormats/TotemRPDigi"/>
+<use   name="DataFormats/TotemDigi"/>
 <use   name="DataFormats/TotemRPReco"/>
 <use   name="Geometry/TotemRPDetTopology"/>
 <use   name="SimDataFormats/TrackingHit"/>

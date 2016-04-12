@@ -5,7 +5,7 @@ process = cms.Process("rpReco")
 # minimum of logs
 process.load("Configuration.TotemCommon.LoggerMin_cfi")
 
-process.load("TotemRawData.Readers.RawDataSource_cfi")
+process.load("TotemDigi.Readers.RawDataSource_cfi")
 process.source.verbosity = 1
 process.source.printProgressFrequency = 0
 process.source.skipCorruptedEvents = False
@@ -16,7 +16,7 @@ process.load("TotemCondFormats.DAQInformation.DAQInformationSourceXML_cfi")
 process.DAQInformationSourceXML.xmlFileName = cms.string("/afs/cern.ch/exp/totem/scratch/jkaspar/software/offline/311/user/mapping/RP_all_new.xml")
 #process.DAQInformationSourceXML.xmlFileName = cms.string("/home/oljemark/FMonitor/WS/totemsw/online/monitor/xml_monitor/RP_all_new.xml")
 
-process.load("TotemRawData.RawToDigi.RPDataDigiProducer_cfi")
+process.load("TotemDigi.RawToDigi.RPDataDigiProducer_cfi")
 process.RPDataDigiProducer.verbosity = 10
 
 # clusterization
@@ -65,7 +65,6 @@ process.p = cms.Path(
 process.output = cms.OutputModule("PoolOutputModule",
     fileName = cms.untracked.string("file:RealDataRPRecoOutput3.root"),
     outputCommands = cms.untracked.vstring(
-        'drop TotemRawEvent_*_*_*', 
         'keep RPDigClusteredmDetSetVector_*_*_*',
         'keep RPFittedTrackCollection_*_*_*',
         'keep TotemRPRecHitedmDetSetVector_*_*_*',

@@ -111,7 +111,7 @@ unsigned char SRSFileReader::ReadToBuffer(unsigned int bytesToRead, unsigned int
 }
 //----------------------------------------------------------------------------------------------------
 
-unsigned char SRSFileReader::GetNextEvent(TotemRawEvent &rawEvent, FEDRawDataCollection &dataColl)
+unsigned char SRSFileReader::GetNextEvent(uint64_t &timestamp, FEDRawDataCollection &dataColl)
 {
 #ifdef DEBUG
   printf(">> SRSFileReader::GetNextEvent, this = %p\n", (void*)this);
@@ -163,7 +163,7 @@ unsigned char SRSFileReader::GetNextEvent(TotemRawEvent &rawEvent, FEDRawDataCol
     return 1;
 
   // process the buffer
-  unsigned int errorCounter = ProcessDATESuperEvent(dataPtr, rawEvent, dataColl);
+  unsigned int errorCounter = ProcessDATESuperEvent(dataPtr, timestamp, dataColl);
 
 #ifdef DEBUG
   printf("* %u, %u, %u\n",
@@ -174,17 +174,14 @@ unsigned char SRSFileReader::GetNextEvent(TotemRawEvent &rawEvent, FEDRawDataCol
 #endif
 
   if (errorCounter > 0)
-  {
-    cerr << "Error in SRSFileReader::GetNextEvent > " << errorCounter << " GOH blocks have failed consistency checks in event "
-      << rawEvent.getDataEventNumber() << "." << endl;
-  }
+    cerr << "Error in SRSFileReader::GetNextEvent > " << errorCounter << " GOH blocks have failed consistency checks." << endl;
 
   return 0;
 }
 
 //----------------------------------------------------------------------------------------------------
 
-unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, TotemRawEvent &rawEvent, FEDRawDataCollection &dataColl)
+unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, uint64_t &timestamp, FEDRawDataCollection &dataColl)
 {
   eventHeaderStruct *eventHeader = (eventHeaderStruct *) ptr;
   bool superEvent = TEST_ANY_ATTRIBUTE(eventHeader->eventTypeAttribute, ATTR_SUPER_EVENT);
@@ -211,8 +208,7 @@ unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, TotemRawEvent &rawE
 #endif
 
   // store important GDC data
-  rawEvent.setDataEventNumber(EVENT_ID_GET_NB_IN_RUN(eventHeader->eventId) - 1);
-  rawEvent.setTimestamp(eventHeader->eventTimestamp);
+  timestamp = eventHeader->eventTimestamp;
 
   eventSizeType eventSize = eventHeader->eventSize;
   eventHeadSizeType headSize = eventHeader->eventHeadSize;
@@ -231,7 +227,7 @@ unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, TotemRawEvent &rawE
       eventStruct *subEvPtr = (eventStruct *) (ptr + offset); 
       eventSizeType subEvSize = subEvPtr->eventHeader.eventSize;
 
-      errorCounter += ProcessDATEEvent(ptr + offset, rawEvent, dataColl);
+      errorCounter += ProcessDATEEvent(ptr + offset, timestamp, dataColl);
 
       offset += subEvSize;
 #ifdef DEBUG 
@@ -239,14 +235,14 @@ unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, TotemRawEvent &rawE
 #endif
     }
   } else
-    errorCounter += ProcessDATEEvent(ptr, rawEvent, dataColl);
+    errorCounter += ProcessDATEEvent(ptr, timestamp, dataColl);
 
   return errorCounter;
 }
 
 //----------------------------------------------------------------------------------------------------
 
-unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, TotemRawEvent &rawEvent, FEDRawDataCollection &dataColl)
+unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, uint64_t &timestamp, FEDRawDataCollection &dataColl)
 {
   eventHeaderStruct *eventHeader = (eventHeaderStruct *) ptr;
 
@@ -269,9 +265,6 @@ unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, TotemRawEvent &rawEvent,
   printf("\t\teventGdcId = %u\n", eventHeader->eventGdcId);
   printf("\t\teventTimestamp = %u\n", eventHeader->eventTimestamp);
 #endif
-
-  // store important LDC data
-  rawEvent.setLdcTimeStamp(eventHeader->eventLdcId, eventHeader->eventTimestamp);
 
   unsigned long subEvSize = eventHeader->eventSize;
   unsigned long offset = eventHeader->eventHeadSize;

@@ -1,7 +1,7 @@
 <library   name="RecoTotemRPRPClusterSigmaServicePlugins" file="*.cc">
   <use   name="FWCore/Framework"/>
   <use   name="FWCore/ParameterSet"/>
-  <use   name="DataFormats/TotemRPDigi"/>
+  <use   name="DataFormats/TotemDigi"/>
   <use   name="DataFormats/TotemRPReco"/>
   <use   name="RecoTotemRP/RPServiceRecords"/>
   <use   name="CondCore/PluginSystem"/>

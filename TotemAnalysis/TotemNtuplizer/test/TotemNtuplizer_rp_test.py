@@ -13,7 +13,7 @@ process.maxEvents = cms.untracked.PSet(
 
 
 # raw data input
-process.load('TotemRawData.Readers.RawDataSource_cfi')
+process.load('TotemDigi.Readers.RawDataSource_cfi')
 process.source.verbosity = 0
 process.source.printProgressFrequency = 1
 for i in range(28):
@@ -26,7 +26,7 @@ process.DAQMappingSourceXML.mappingFileNames.append('TotemCondFormats/DAQInforma
 process.DAQMappingSourceXML.mappingFileNames.append('TotemCondFormats/DAQInformation/data/rp_147.xml')
 
 # raw to digi conversion
-process.load('TotemRawData.RawToDigi.Raw2DigiProducer_cfi')
+process.load('TotemDigi.RawToDigi.Raw2DigiProducer_cfi')
 process.Raw2DigiProducer.verbosity = 0
 
 # clusterization

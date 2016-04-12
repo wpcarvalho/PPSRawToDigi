@@ -11,7 +11,7 @@
 
 #include "EventFilter/TotemRawToDigi/interface/SimpleVFATFrameCollection.h"
 
-#include "DataFormats/TotemRawData/interface/TotemRawEvent.h"
+#include "DataFormats/TotemDigi/interface/TotemTriggerCounters.h"
 
 #include "DataFormats/FEDRawData/interface/FEDRawDataCollection.h"
 
@@ -39,18 +39,18 @@ public:
 
     virtual void Close();
 
-    virtual unsigned char GetNextEvent(TotemRawEvent &rawEvent, FEDRawDataCollection &);
+    virtual unsigned char GetNextEvent(uint64_t &timestamp, FEDRawDataCollection &);
 
 protected:
     static const unsigned int eventHeaderSize;
 
     /// Processes one DATE super-event (GDC).
     /// returns the number of GOH blocks that failed consistency checks
-    unsigned int ProcessDATESuperEvent(char *ptr, TotemRawEvent &rawEvent, FEDRawDataCollection &dataColl);
+    unsigned int ProcessDATESuperEvent(char *ptr, uint64_t &timestamp, FEDRawDataCollection &dataColl);
 
     /// Processes one DATE event (LDC).
     /// returns the number of GOH blocks that failed consistency checks
-    unsigned int ProcessDATEEvent(char *ptr, TotemRawEvent &rawEvent, FEDRawDataCollection &dataColl);
+    unsigned int ProcessDATEEvent(char *ptr, uint64_t &timestamp, FEDRawDataCollection &dataColl);
 
     /// reads 'bytesToRead' bytes from the file to buffer, starting at the given offset
     virtual unsigned char ReadToBuffer(unsigned int bytesToRead, unsigned int offset);

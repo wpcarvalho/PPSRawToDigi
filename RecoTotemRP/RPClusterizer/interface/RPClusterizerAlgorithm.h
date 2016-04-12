@@ -13,7 +13,7 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "SimDataFormats/TrackingHit/interface/PSimHit.h"
 
-#include "DataFormats/TotemRPDigi/interface/TotemRPDigi.h"
+#include "DataFormats/TotemDigi/interface/TotemRPDigi.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
 
 #include "TVector3.h"

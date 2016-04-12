@@ -13,7 +13,7 @@ process.maxEvents = cms.untracked.PSet(
 )
 
 
-process.load('TotemRawData.Readers.RawDataSource_cfi')
+process.load('TotemDigi.Readers.RawDataSource_cfi')
 process.source.verbosity = 1
 process.source.printProgressFrequency = 0
 process.source.skipCorruptedEvents = False
@@ -23,7 +23,7 @@ process.source.fileNames.append('/afs/cern.ch/exp/totem/scratch/oljemark/run_337
 process.load('TotemCondFormats.DAQInformation.DAQInformationSourceXML_cfi')
 process.DAQInformationSourceXML.xmlFileName = '/afs/cern.ch/exp/totem/scratch/jkaspar/software/offline/311/user/mapping/RP_all_new.xml'
 
-process.load('TotemRawData.RawToDigi.RPDataDigiProducer_cfi')
+process.load('TotemDigi.RawToDigi.RPDataDigiProducer_cfi')
 process.RPDataDigiProducer.verbosity = 10
 
 # clusterization
@@ -91,7 +91,6 @@ process.p = cms.Path(
 process.output = cms.OutputModule("PoolOutputModule",
     fileName = cms.untracked.string("r3374_multiVsSColl_trkFindStats.root"),
     outputCommands = cms.untracked.vstring(
-        'drop TotemRawEvent_*_*_*', 
         'keep RPDigClusteredmDetSetVector_*_*_*',
         'keep RPMulFittedTrackCollection_*_*_*',
         'keep RPFittedTrackCollection_*_*_*',

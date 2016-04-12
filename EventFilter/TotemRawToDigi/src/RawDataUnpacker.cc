@@ -21,7 +21,7 @@ RawDataUnpacker::RawDataUnpacker(const edm::ParameterSet &conf)
 
 //----------------------------------------------------------------------------------------------------
 
-int RawDataUnpacker::Run(int fedId, const FEDRawData &data, SimpleVFATFrameCollection &coll, TotemRawEvent &rawEvent)
+int RawDataUnpacker::Run(int fedId, const FEDRawData &data, SimpleVFATFrameCollection &coll, TotemTriggerCounters &rawEvent)
 {
   // implements the "best guess" by Michele: FEDRawData will most likely contain OptoRx blocks
   unsigned int size_in_words = data.size() / 8; // bytes -> words
@@ -32,7 +32,7 @@ int RawDataUnpacker::Run(int fedId, const FEDRawData &data, SimpleVFATFrameColle
 
 //----------------------------------------------------------------------------------------------------
 
-int RawDataUnpacker::ProcessOptoRxFrame(word *buf, unsigned int frameSize, SimpleVFATFrameCollection *fc, TotemRawEvent &event)
+int RawDataUnpacker::ProcessOptoRxFrame(word *buf, unsigned int frameSize, SimpleVFATFrameCollection *fc, TotemTriggerCounters &event)
 {
   // get OptoRx metadata
   unsigned long long head = buf[0];
@@ -41,8 +41,8 @@ int RawDataUnpacker::ProcessOptoRxFrame(word *buf, unsigned int frameSize, Simpl
   unsigned int BOE = (head >> 60) & 0xF;
   unsigned int H0 = (head >> 0) & 0xF;
 
-  unsigned long LV1 = (head >> 32) & 0xFFFFFF;
-  unsigned long BX = (head >> 20) & 0xFFF;
+  //unsigned long LV1 = (head >> 32) & 0xFFFFFF;
+  //unsigned long BX = (head >> 20) & 0xFFF;
   unsigned int OptoRxId = (head >> 8) & 0xFFF;
   unsigned int FOV = (head >> 4) & 0xF;
 
@@ -65,9 +65,7 @@ int RawDataUnpacker::ProcessOptoRxFrame(word *buf, unsigned int frameSize, Simpl
       OptoRxId, BX, LV1, frameSize, subFrames);
   #endif
 
-  // save metadata to event
-  event.setOptoRxMetaData(OptoRxId, BX, LV1);
-
+  // TODO: remove from here
   // is it OptoRx transmitting LoneG data?
   if (OptoRxId == 577)
   {
@@ -356,7 +354,7 @@ int RawDataUnpacker::ProcessVFATDataParallel(unsigned short *buf, unsigned int O
 
 //----------------------------------------------------------------------------------------------------
 
-int RawDataUnpacker::ProcessLoneGFrame(word *oBuf, unsigned long size, TotemRawEvent &ev)
+int RawDataUnpacker::ProcessLoneGFrame(word *oBuf, unsigned long size, TotemTriggerCounters &td)
 {
   if (size != 20)
   {
@@ -376,7 +374,6 @@ int RawDataUnpacker::ProcessLoneGFrame(word *oBuf, unsigned long size, TotemRawE
       buf[row] |= (oBuf[i] & 0xFFFF) << (col * 16);
   }
 
-  TotemRawEvent::TriggerData td;
   td.type = (buf[0] >> 56) & 0xF;
   td.event_num = (buf[0] >> 32) & 0xFFFFFF;
   td.bunch_num = (buf[0] >> 20) & 0xFFF;
@@ -390,8 +387,6 @@ int RawDataUnpacker::ProcessLoneGFrame(word *oBuf, unsigned long size, TotemRawE
 
   td.inhibited_triggers_num = (buf[3] >> 32) & 0xFFFFFFFF;
   td.input_status_bits = (buf[3] >> 0) & 0xFFFFFFFF;
-
-  ev.setTriggerData(td);
 
 #ifdef DEBUG
   printf(">> RawDataUnpacker::ProcessLoneGFrame > size = %li\n", size);
