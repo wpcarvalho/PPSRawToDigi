@@ -40,20 +40,15 @@ RawToDigiConverter::RawToDigiConverter(const edm::ParameterSet &conf) :
 
 //----------------------------------------------------------------------------------------------------
 
-int RawToDigiConverter::Run(const VFATFrameCollection &input,
-  const TotemDAQMapping &mapping, const TotemAnalysisMask &analysisMask,
-  DetSetVector<TotemRPDigi> &rpData, DetSetVector<TotemVFATStatus> &finalStatus)
+void RawToDigiConverter::RunCommon(const VFATFrameCollection &input, const TotemDAQMapping &mapping,
+      map<TotemFramePosition, TotemVFATStatus> &status)
 {
   // map which will contain FramePositions from mapping missing in raw event
   map<TotemFramePosition, TotemVFATInfo> missingFrames(mapping.VFATMapping);
 
-  // map to link TotemFramePosition to the conversion status
-  map<TotemFramePosition, TotemVFATStatus> status;
-
   // EC and BC checks (wrt. the most frequent value), BC checks per subsystem
   CounterChecker ECChecker(CounterChecker::ECChecker, "EC", EC_min, EC_fraction, verbosity);
-  map<unsigned int, CounterChecker> BCCheckers;
-  BCCheckers[TotemSymbID::RP] = CounterChecker(CounterChecker::BCChecker, "BC/RP", BC_min, BC_fraction, verbosity);
+  CounterChecker BCChecker(CounterChecker::BCChecker, "BC", BC_min, BC_fraction, verbosity);
 
   // loop over data frames
   stringstream ees;
@@ -133,7 +128,7 @@ int RawToDigiConverter::Run(const VFATFrameCollection &input,
       ECChecker.Fill(fr.Data()->getEC(), fr.Position());
 
     if (fr.Data()->isBCPresent())
-      BCCheckers[mappingIter->second.symbolicID.subSystem].Fill(fr.Data()->getBC(), fr.Position());
+      BCChecker.Fill(fr.Data()->getBC(), fr.Position());
   }
 
   // analyze EC and BC statistics
@@ -141,10 +136,7 @@ int RawToDigiConverter::Run(const VFATFrameCollection &input,
     ECChecker.Analyze(status, (testECMostFrequent == tfErr), ees);
 
   if (testBCMostFrequent != tfNoTest)
-  {
-    for (auto &it : BCCheckers)
-      it.second.Analyze(status, (testBCMostFrequent == tfErr), ees);
-  }
+    BCChecker.Analyze(status, (testBCMostFrequent == tfErr), ees);
 
   // save the information about missing frames to conversionStatus
   for (const auto &it : missingFrames)
@@ -176,108 +168,80 @@ int RawToDigiConverter::Run(const VFATFrameCollection &input,
       }
     }
   }
+}
 
-  // produce digi for good frames
+//----------------------------------------------------------------------------------------------------
+
+void RawToDigiConverter::Run(const VFATFrameCollection &input,
+  const TotemDAQMapping &mapping, const TotemAnalysisMask &analysisMask,
+  DetSetVector<TotemRPDigi> &rpData, DetSetVector<TotemVFATStatus> &finalStatus)
+{
+  // map to link TotemFramePosition to the conversion status
+  map<TotemFramePosition, TotemVFATStatus> status;
+
+  // common processing - frame validation
+  RunCommon(input, mapping, status);
+
+  // second loop over data
   for (VFATFrameCollection::Iterator fr(&input); !fr.IsEnd(); fr.Next())
   {
     auto mappingIter = mapping.VFATMapping.find(fr.Position());
     if (mappingIter == mapping.VFATMapping.end())
       continue;
-
-    TotemVFATStatus &actualStatus = status[fr.Position()];
-
-    if (!actualStatus.isOK())
-      continue;
-
-    // prepare analysis mask class
-    auto analysisIter = analysisMask.analysisMask.find(mappingIter->second.symbolicID);
-
-    // find analysis mask
-    TotemVFATAnalysisMask anMa;
-    anMa.fullMask = false;
-    if (analysisIter != analysisMask.analysisMask.end())
-    {            
-      // if there is some information about masked channels - save it into conversionStatus
-      anMa = analysisIter->second;
-      if (anMa.fullMask)
-        actualStatus.setFullyMaskedOut();
-      else
-        actualStatus.setPartiallyMaskedOut();
-    }
-    
-    // decide which method should process that frame
-    switch (mappingIter->second.symbolicID.subSystem)
-    {
-      case TotemSymbID::RP:  
-        switch (mappingIter->second.type)
-        {
-          case TotemVFATInfo::data:
-            RPDataProduce(fr, mappingIter->second, anMa, rpData);    
-            break;
-          case TotemVFATInfo::CC:
-            // TODO: print error
-            break;
-        }  
-        break;
-
-      case TotemSymbID::T1:
-            // TODO: print error
-        break;
-
-      case TotemSymbID::T2:
-            // TODO: print error
-        break;
-    }
-  }
-
-  // remap status into finalStatus
-  for (auto &it : status)
-  {
-
-    auto mappingIter = mapping.VFATMapping.find(it.first);
-    if (mappingIter == mapping.VFATMapping.end())
-      continue;
-
+  
+    // check whether the data come from RP VFATs
     if (mappingIter->second.symbolicID.subSystem != TotemSymbID::RP)
-      continue;
+      throw cms::Exception("RawToDigiConverter::Run") << "VFAT is not from RP. subSystem = " <<
+        mappingIter->second.symbolicID.subSystem << endl;
 
+    // silently ignore RP CC VFATs
     if (mappingIter->second.type != TotemVFATInfo::data)
       continue;
 
-    // TODO: handle other cases than RP/data
-
-    auto &chipId = mappingIter->second.symbolicID.symbolicID;
+    // calculate ids
+    unsigned short chipId = mappingIter->second.symbolicID.symbolicID;
     det_id_type detId = TotemRPDetId::decToRawId(chipId / 10);
-    DetSet<TotemVFATStatus> &ds = finalStatus.find_or_insert(detId);
-    it.second.setChipPosition(chipId % 10);
-    ds.push_back(it.second);
-  }
+    uint8_t chipPosition = chipId % 10;
 
-  return 0;
-}
+    // update chipPosition in status
+    TotemVFATStatus &actualStatus = status[fr.Position()];
+    actualStatus.setChipPosition(chipPosition);
 
-//----------------------------------------------------------------------------------------------------
-
-void RawToDigiConverter::RPDataProduce(VFATFrameCollection::Iterator &fr, const TotemVFATInfo &info,
-    const TotemVFATAnalysisMask &analysisMask, DetSetVector<TotemRPDigi> &rpData)
-{
-  // get IDs
-  unsigned short symId = info.symbolicID.symbolicID;
-  det_id_type detId = TotemRPDetId::decToRawId(symId / 10);
-
-  // add TotemRPDigi for each hit
-  unsigned short offset = (symId % 10) * 128;
-  const vector<unsigned char> activeCh = fr.Data()->getActiveChannels();
-  DetSet<TotemRPDigi> &detSet = rpData.find_or_insert(detId);
-
-  for (unsigned int j = 0; j < activeCh.size(); j++)
-  {
-    // skip masked channels
-    if (!analysisMask.fullMask && analysisMask.maskedChannels.find(j) == analysisMask.maskedChannels.end())
+    // produce digi only for good frames
+    if (actualStatus.isOK())
     {
-      detSet.push_back(TotemRPDigi(offset + activeCh[j]));
+      // find analysis mask (needs a default=no mask, if not in present the mapping)
+      TotemVFATAnalysisMask anMa;
+      anMa.fullMask = false;
+  
+      auto analysisIter = analysisMask.analysisMask.find(mappingIter->second.symbolicID);
+      if (analysisIter != analysisMask.analysisMask.end())
+      {            
+        // if there is some information about masked channels - save it into conversionStatus
+        anMa = analysisIter->second;
+        if (anMa.fullMask)
+          actualStatus.setFullyMaskedOut();
+        else
+          actualStatus.setPartiallyMaskedOut();
+      }
+  
+      // create the digi
+      unsigned short offset = chipPosition * 128;
+      const vector<unsigned char> &activeChannels = fr.Data()->getActiveChannels();
+      DetSet<TotemRPDigi> &digiDetSet = rpData.find_or_insert(detId);
+    
+      for (auto ch : activeChannels)
+      {
+        // skip masked channels
+        if (!anMa.fullMask && anMa.maskedChannels.find(ch) == anMa.maskedChannels.end())
+          digiDetSet.push_back(TotemRPDigi(offset + ch));
+      }
     }
-  }  
+
+    // save status
+    DetSet<TotemVFATStatus> &statusDetSet = finalStatus.find_or_insert(detId);
+    statusDetSet.push_back(actualStatus);
+  }
 }
 
 //----------------------------------------------------------------------------------------------------

@@ -33,28 +33,37 @@
 
 //----------------------------------------------------------------------------------------------------
 
-class TotemRawToDigi : public edm::one::EDProducer<>
+class TotemVFATRawToDigi : public edm::one::EDProducer<>
 {
   public:
-    explicit TotemRawToDigi(const edm::ParameterSet&);
-    ~TotemRawToDigi();
+    explicit TotemVFATRawToDigi(const edm::ParameterSet&);
+    ~TotemVFATRawToDigi();
 
     virtual void produce(edm::Event&, const edm::EventSetup&) override;
     virtual void endJob();
 
   private:
-    // TODO: for testing with TOTEM-standalone data only,
-    //  eventually to be removed, see comment in TotemRawToDigi::produce
+    std::string subSystem;
+
+    // TODO: default values should be stored/read from
+    //    DataFormats/FEDRawData/interface/FEDNumbering.h
+  /* Hints from Michele
+      DEVICE      ID     DETECTOR          OLD ID
+      Trigger     577    LONEG             0x29c
+      RX 1        578    5-6 210m FAR      0x1a1
+      RX 2        579    5-6 210m NEAR     0x1a2
+      RX 3        580    4-5 210m FAR      0x1a9
+      RX 4        581    4-5 210m NEAR     0x1aa  
+  */
     std::vector<unsigned int> fedIds;
 
     edm::EDGetTokenT<FEDRawDataCollection> fedDataToken;
 
-    /// product labels
-    std::string rpDataProductLabel;
-    std::string conversionStatusLabel;
-
     RawDataUnpacker rawDataUnpacker;
     RawToDigiConverter rawToDigiConverter;
+
+    template <typename DigiType>
+    void run(edm::Event&, const edm::EventSetup&);
 };
 
 //----------------------------------------------------------------------------------------------------
@@ -64,31 +73,44 @@ using namespace std;
 
 //----------------------------------------------------------------------------------------------------
 
-TotemRawToDigi::TotemRawToDigi(const edm::ParameterSet &conf):
+TotemVFATRawToDigi::TotemVFATRawToDigi(const edm::ParameterSet &conf):
+  subSystem(conf.getParameter<string>("subSystem")),
   fedIds(conf.getParameter< vector<unsigned int> >("fedIds")),
   rawDataUnpacker(conf.getParameterSet("RawUnpacking")),
   rawToDigiConverter(conf.getParameterSet("RawToDigi"))
 {
   fedDataToken = consumes<FEDRawDataCollection>(conf.getParameter<edm::InputTag>("rawDataTag"));
 
-  // RP data
-  rpDataProductLabel = conf.getUntrackedParameter<std::string>("rpDataProductLabel", "");
-  produces< DetSetVector<TotemRPDigi> >(rpDataProductLabel);
+  // validate chosen subSystem
+  if (subSystem != "RP")
+    throw cms::Exception("TotemVFATRawToDigi::TotemVFATRawToDigi") << "Unknown sub-system string " << subSystem << "." << endl;
 
-  // status
-  conversionStatusLabel = conf.getUntrackedParameter<std::string>("conversionStatusLabel", "");
-  produces< DetSetVector<TotemVFATStatus> >(conversionStatusLabel);
+  // digi
+  if (subSystem == "RP")
+    produces< DetSetVector<TotemRPDigi> >(subSystem);
+
+  // conversion status
+  produces< DetSetVector<TotemVFATStatus> >(subSystem);
 }
 
 //----------------------------------------------------------------------------------------------------
 
-TotemRawToDigi::~TotemRawToDigi()
+TotemVFATRawToDigi::~TotemVFATRawToDigi()
 {
 }
 
 //----------------------------------------------------------------------------------------------------
 
-void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
+void TotemVFATRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
+{
+  if (subSystem == "RP")
+    run< DetSetVector<TotemRPDigi> >(event, es);
+}
+
+//----------------------------------------------------------------------------------------------------
+
+template <typename DigiType>
+void TotemVFATRawToDigi::run(edm::Event& event, const edm::EventSetup &es)
 {
   // get DAQ mapping
   ESHandle<TotemDAQMapping> mapping;
@@ -103,43 +125,29 @@ void TotemRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
   event.getByToken(fedDataToken, rawData);
 
   // book output products
-  auto_ptr< DetSetVector<TotemRPDigi> > rpDataOutput(new DetSetVector<TotemRPDigi>);  
+  auto_ptr< DigiType > digi(new DigiType);  
   auto_ptr< DetSetVector<TotemVFATStatus> > conversionStatus(new DetSetVector<TotemVFATStatus>);
 
-  // step 1: raw-data unpacking
+  // raw-data unpacking
   SimpleVFATFrameCollection vfatCollection;
-
-  // TODO: replace fedIds with real FED Ids read from
-  //  DataFormats/FEDRawData/interface/FEDNumbering.h
-  /* Hints from Michele
-      DEVICE      ID     DETECTOR          OLD ID
-      Trigger     577    LONEG             0x29c
-      RX 1        578    5-6 210m FAR      0x1a1
-      RX 2        579    5-6 210m NEAR     0x1a2
-      RX 3        580    4-5 210m FAR      0x1a9
-      RX 4        581    4-5 210m NEAR     0x1aa  
-  */
   for (const auto &fedId : fedIds)
-  {
     rawDataUnpacker.Run(fedId, rawData->FEDData(fedId), vfatCollection);
-  }
 
-  // step 2: raw to digi
-  rawToDigiConverter.Run(vfatCollection, *mapping, *analysisMask,
-    *rpDataOutput, *conversionStatus);
+  // raw-to-digi conversion
+  rawToDigiConverter.Run(vfatCollection, *mapping, *analysisMask, *digi, *conversionStatus);
 
   // commit products to event
-  event.put(rpDataOutput, rpDataProductLabel);
-  event.put(conversionStatus, conversionStatusLabel);
+  event.put(digi, subSystem);
+  event.put(conversionStatus, subSystem);
 }
 
 //----------------------------------------------------------------------------------------------------
 
-void TotemRawToDigi::endJob()
+void TotemVFATRawToDigi::endJob()
 {
   rawToDigiConverter.PrintSummaries();
 }
 
 //----------------------------------------------------------------------------------------------------
 
-DEFINE_FWK_MODULE(TotemRawToDigi);
+DEFINE_FWK_MODULE(TotemVFATRawToDigi);

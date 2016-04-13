@@ -21,18 +21,16 @@ process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(-1)
 )
 
-# raw to digi conversion
+# raw-to-digi conversion
 process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
 process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/totem_rp_210far_220_mapping.xml")
 
-process.load('EventFilter.TotemRawToDigi.TotemRawToDigi_cfi')
-process.TotemRawToDigi.rawDataTag = cms.InputTag("source")
-process.TotemRawToDigi.RawToDigi.printErrorSummary = 1
-process.TotemRawToDigi.RawToDigi.printUnknownFrameSummary = 1
-
-process.PrintTotemDAQMapping = cms.EDAnalyzer("PrintTotemDAQMapping")
+process.load('EventFilter.TotemRawToDigi.TotemRPRawToDigi_cfi')
+process.TotemRPRawToDigi.rawDataTag = cms.InputTag("source")
+process.TotemRPRawToDigi.fedIds = cms.vuint32(0, 1, 2, 3, 4, 5, 6)
+process.TotemRPRawToDigi.RawToDigi.printErrorSummary = 1
+process.TotemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 1
 
 process.p = cms.Path(
-    #process.PrintTotemDAQMapping *
-    process.TotemRawToDigi
+    process.TotemRPRawToDigi
 )

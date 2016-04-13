@@ -27,7 +27,7 @@ class RawToDigiConverter
 {
   private:
   unsigned char verbosity;
-
+    
   unsigned int printErrorSummary;
   unsigned int printUnknownFrameSummary;
 
@@ -55,14 +55,13 @@ class RawToDigiConverter
   public:
     RawToDigiConverter(const edm::ParameterSet &conf);
 
-    /// Converts vfat data in `coll'' into digi.
-    int Run(const VFATFrameCollection &coll,
-      const TotemDAQMapping &mapping, const TotemAnalysisMask &mask,
-      edm::DetSetVector<TotemRPDigi> &rpData, edm::DetSetVector<TotemVFATStatus> &status);
+    /// Common processing for all VFAT based sub-systems.
+    void RunCommon(const VFATFrameCollection &input, const TotemDAQMapping &mapping,
+      std::map<TotemFramePosition, TotemVFATStatus> &status);
 
-    /// Produce Digi from one RP data VFAT.
-    void RPDataProduce(VFATFrameCollection::Iterator &fr, const TotemVFATInfo &info,
-      const TotemVFATAnalysisMask &analysisMask, edm::DetSetVector<TotemRPDigi> &rpData);
+    /// Creates RP digi.
+    void Run(const VFATFrameCollection &coll, const TotemDAQMapping &mapping, const TotemAnalysisMask &mask,
+      edm::DetSetVector<TotemRPDigi> &digi, edm::DetSetVector<TotemVFATStatus> &status);
 
     /// Print error summaries.
     void PrintSummaries();

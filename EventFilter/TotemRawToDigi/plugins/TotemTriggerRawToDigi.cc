@@ -23,16 +23,18 @@
 
 //----------------------------------------------------------------------------------------------------
 
-class TotemRawTriggerToDigi : public edm::one::EDProducer<>
+class TotemTriggerRawToDigi : public edm::one::EDProducer<>
 {
   public:
-    explicit TotemRawTriggerToDigi(const edm::ParameterSet&);
-    ~TotemRawTriggerToDigi();
+    explicit TotemTriggerRawToDigi(const edm::ParameterSet&);
+    ~TotemTriggerRawToDigi();
 
     virtual void produce(edm::Event&, const edm::EventSetup&) override;
     virtual void endJob();
 
   private:
+    // TODO: default value (577) should be stored/read from
+    //    DataFormats/FEDRawData/interface/FEDNumbering.h
     unsigned int fedId;
 
     edm::EDGetTokenT<FEDRawDataCollection> fedDataToken;
@@ -48,7 +50,7 @@ using namespace std;
 
 //----------------------------------------------------------------------------------------------------
 
-TotemRawTriggerToDigi::TotemRawTriggerToDigi(const edm::ParameterSet &conf):
+TotemTriggerRawToDigi::TotemTriggerRawToDigi(const edm::ParameterSet &conf):
   fedId(conf.getParameter<unsigned int>("fedId"))
 {
   fedDataToken = consumes<FEDRawDataCollection>(conf.getParameter<edm::InputTag>("rawDataTag"));
@@ -58,14 +60,16 @@ TotemRawTriggerToDigi::TotemRawTriggerToDigi(const edm::ParameterSet &conf):
 
 //----------------------------------------------------------------------------------------------------
 
-TotemRawTriggerToDigi::~TotemRawTriggerToDigi()
+TotemTriggerRawToDigi::~TotemTriggerRawToDigi()
 {
 }
 
 //----------------------------------------------------------------------------------------------------
 
-void TotemRawTriggerToDigi::produce(edm::Event& event, const edm::EventSetup &es)
+void TotemTriggerRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
 {
+  printf(">> TotemTriggerRawToDigi::produce\n");
+
   // raw data handle
   edm::Handle<FEDRawDataCollection> rawData;
   event.getByToken(fedDataToken, rawData);
@@ -75,8 +79,10 @@ void TotemRawTriggerToDigi::produce(edm::Event& event, const edm::EventSetup &es
 
   // unpack trigger data
   const FEDRawData &data = rawData->FEDData(fedId);
+  printf("data.size = %lu\n", data.size());
+  uint64_t *buf = (uint64_t *) data.data();
   unsigned int sizeInWords = data.size() / 8; // bytes -> words
-  ProcessLoneGFrame( ((uint64_t *) data.data()) + 2, sizeInWords - 4, *totemTriggerCounters);
+  ProcessLoneGFrame(buf + 2, sizeInWords - 4, *totemTriggerCounters);
 
   // commit products to event
   event.put(totemTriggerCounters);
@@ -84,11 +90,11 @@ void TotemRawTriggerToDigi::produce(edm::Event& event, const edm::EventSetup &es
 
 //----------------------------------------------------------------------------------------------------
 
-int TotemRawTriggerToDigi::ProcessLoneGFrame(uint64_t *oBuf, unsigned long size, TotemTriggerCounters &td)
+int TotemTriggerRawToDigi::ProcessLoneGFrame(uint64_t *oBuf, unsigned long size, TotemTriggerCounters &td)
 {
   if (size != 20)
   {
-    cerr << "Error in TotemRawTriggerToDigi::ProcessLoneGFrame > " << "Wrong LoneG frame size: " << size << " (shall be 20)." << endl;
+    cerr << "Error in TotemTriggerRawToDigi::ProcessLoneGFrame > " << "Wrong LoneG frame size: " << size << " (shall be 20)." << endl;
     return 1;
   }
 
@@ -118,7 +124,8 @@ int TotemRawTriggerToDigi::ProcessLoneGFrame(uint64_t *oBuf, unsigned long size,
   td.inhibited_triggers_num = (buf[3] >> 32) & 0xFFFFFFFF;
   td.input_status_bits = (buf[3] >> 0) & 0xFFFFFFFF;
 
-#ifdef DEBUG
+// TODO: uncomment
+//#ifdef DEBUG
   printf(">> RawDataUnpacker::ProcessLoneGFrame > size = %li\n", size);
   printf("\ttype = %x, event number = %x, bunch number = %x, id = %x\n",
     td.type, td.event_num, td.bunch_num, td.src_id);
@@ -128,17 +135,17 @@ int TotemRawTriggerToDigi::ProcessLoneGFrame(uint64_t *oBuf, unsigned long size,
     td.run_num, td.trigger_num);
   printf("\tinhibited triggers = %x, input status bits = %x\n",
     td.inhibited_triggers_num, td.input_status_bits);
-#endif
+//#endif
 
   return 0;
 }
 
 //----------------------------------------------------------------------------------------------------
 
-void TotemRawTriggerToDigi::endJob()
+void TotemTriggerRawToDigi::endJob()
 {
 }
 
 //----------------------------------------------------------------------------------------------------
 
-DEFINE_FWK_MODULE(TotemRawTriggerToDigi);
+DEFINE_FWK_MODULE(TotemTriggerRawToDigi);

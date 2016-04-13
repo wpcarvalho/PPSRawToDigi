@@ -23,11 +23,8 @@ RawDataUnpacker::RawDataUnpacker(const edm::ParameterSet &conf)
 
 int RawDataUnpacker::Run(int fedId, const FEDRawData &data, SimpleVFATFrameCollection &coll)
 {
-  // implements the "best guess" by Michele: FEDRawData will most likely contain OptoRx blocks
   unsigned int size_in_words = data.size() / 8; // bytes -> words
-  ProcessOptoRxFrame((word *) data.data(), size_in_words, &coll);
-
-  return 10;
+  return ProcessOptoRxFrame((word *) data.data(), size_in_words, &coll);
 }
 
 //----------------------------------------------------------------------------------------------------

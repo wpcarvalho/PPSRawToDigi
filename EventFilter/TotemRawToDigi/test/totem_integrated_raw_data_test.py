@@ -20,18 +20,21 @@ process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(10)
 )
 
-# raw to digi conversion
+# raw-to-digi conversion
 process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
 process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/ctpps_210_mapping.xml")
 
-process.load('EventFilter.TotemRawToDigi.TotemRawToDigi_cfi')
-process.TotemRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
-#process.TotemRawToDigi.fedIds = cms.vuint32(577, 578, 579, 580, 581)
-process.TotemRawToDigi.fedIds = cms.vuint32(577, 578, 579, 580)
-process.TotemRawToDigi.RawToDigi.printErrorSummary = 1
-process.TotemRawToDigi.RawToDigi.printUnknownFrameSummary = 1
+process.load("EventFilter.TotemRawToDigi.TotemTriggerRawToDigi_cfi")
+process.TotemTriggerRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
+
+process.load('EventFilter.TotemRawToDigi.TotemRPRawToDigi_cfi')
+process.TotemRPRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
+process.TotemRPRawToDigi.fedIds = cms.vuint32(578, 579, 580) # TODO: remove
+process.TotemRPRawToDigi.RawToDigi.printErrorSummary = 0  # TODO: back to 1
+process.TotemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 0  # TODO: back to 1
 
 # execution configuration
 process.p = cms.Path(
-    process.TotemRawToDigi
+    process.TotemTriggerRawToDigi *
+    process.TotemRPRawToDigi
 )
