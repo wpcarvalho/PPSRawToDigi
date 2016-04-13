@@ -15,6 +15,7 @@
 
 #include "DataFormats/FEDRawData/interface/FEDRawData.h"
 #include "DataFormats/FEDRawData/interface/FEDRawDataCollection.h"
+#include "DataFormats/FEDRawData/interface/FEDNumbering.h"
 
 #include "DataFormats/Common/interface/DetSetVector.h"
 
@@ -45,16 +46,6 @@ class TotemVFATRawToDigi : public edm::one::EDProducer<>
   private:
     std::string subSystem;
 
-    // TODO: default values should be stored/read from
-    //    DataFormats/FEDRawData/interface/FEDNumbering.h
-  /* Hints from Michele
-      DEVICE      ID     DETECTOR          OLD ID
-      Trigger     577    LONEG             0x29c
-      RX 1        578    5-6 210m FAR      0x1a1
-      RX 2        579    5-6 210m NEAR     0x1a2
-      RX 3        580    4-5 210m FAR      0x1a9
-      RX 4        581    4-5 210m NEAR     0x1aa  
-  */
     std::vector<unsigned int> fedIds;
 
     edm::EDGetTokenT<FEDRawDataCollection> fedDataToken;
@@ -88,6 +79,16 @@ TotemVFATRawToDigi::TotemVFATRawToDigi(const edm::ParameterSet &conf):
   // digi
   if (subSystem == "RP")
     produces< DetSetVector<TotemRPDigi> >(subSystem);
+
+  // set default IDs
+  if (fedIds.empty())
+  {
+    if (subSystem == "RP")
+    {
+      for (int id = FEDNumbering::MINTotemRPFEDID; id <= FEDNumbering::MAXTotemRPFEDID; ++id)
+        fedIds.push_back(id);
+    }
+  }
 
   // conversion status
   produces< DetSetVector<TotemVFATStatus> >(subSystem);

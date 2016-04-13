@@ -15,6 +15,7 @@
 
 #include "DataFormats/FEDRawData/interface/FEDRawData.h"
 #include "DataFormats/FEDRawData/interface/FEDRawDataCollection.h"
+#include "DataFormats/FEDRawData/interface/FEDNumbering.h"
 
 #include "DataFormats/TotemDigi/interface/TotemTriggerCounters.h"
 
@@ -33,8 +34,6 @@ class TotemTriggerRawToDigi : public edm::one::EDProducer<>
     virtual void endJob();
 
   private:
-    // TODO: default value (577) should be stored/read from
-    //    DataFormats/FEDRawData/interface/FEDNumbering.h
     unsigned int fedId;
 
     edm::EDGetTokenT<FEDRawDataCollection> fedDataToken;
@@ -55,6 +54,9 @@ TotemTriggerRawToDigi::TotemTriggerRawToDigi(const edm::ParameterSet &conf):
 {
   fedDataToken = consumes<FEDRawDataCollection>(conf.getParameter<edm::InputTag>("rawDataTag"));
 
+  if (fedId == 0)
+    fedId = FEDNumbering::MINTotemTriggerFEDID;
+
   produces<TotemTriggerCounters>();
 }
 
@@ -68,8 +70,6 @@ TotemTriggerRawToDigi::~TotemTriggerRawToDigi()
 
 void TotemTriggerRawToDigi::produce(edm::Event& event, const edm::EventSetup &es)
 {
-  printf(">> TotemTriggerRawToDigi::produce\n");
-
   // raw data handle
   edm::Handle<FEDRawDataCollection> rawData;
   event.getByToken(fedDataToken, rawData);
@@ -79,7 +79,6 @@ void TotemTriggerRawToDigi::produce(edm::Event& event, const edm::EventSetup &es
 
   // unpack trigger data
   const FEDRawData &data = rawData->FEDData(fedId);
-  printf("data.size = %lu\n", data.size());
   uint64_t *buf = (uint64_t *) data.data();
   unsigned int sizeInWords = data.size() / 8; // bytes -> words
   ProcessLoneGFrame(buf + 2, sizeInWords - 4, *totemTriggerCounters);
