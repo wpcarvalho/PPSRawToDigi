@@ -31,7 +31,7 @@ process.TotemTriggerRawToDigi.fedId = 0x29c
 
 process.load('EventFilter.TotemRawToDigi.TotemRPRawToDigi_cfi')
 process.TotemRPRawToDigi.rawDataTag = cms.InputTag("source")
-process.TotemRPRawToDigi.fedIds = cms.vuint32(0x1a1, 0x1a2, 0x1a9, 0x1aa)
+process.TotemRPRawToDigi.fedIds = cms.vuint32(0x1a1, 0x1a2, 0x1a9, 0x1aa, 0x1b5, 0x1bd)
 process.TotemRPRawToDigi.RawToDigi.printErrorSummary = 1
 process.TotemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 1
 

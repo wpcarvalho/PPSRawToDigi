@@ -21,19 +21,24 @@ process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(10)
 )
 
-# raw to digi conversion
+# raw-to-digi conversion
 process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
 process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/totem_rp_210far_220_mapping.xml")
 
-process.load('EventFilter.TotemRawToDigi.TotemRawToDigi_cfi')
-process.TotemRawToDigi.rawDataTag = cms.InputTag("source")
-process.TotemRawToDigi.RawToDigi.printErrorSummary = 1
-process.TotemRawToDigi.RawToDigi.printUnknownFrameSummary = 1
+process.load("EventFilter.TotemRawToDigi.TotemTriggerRawToDigi_cfi")
+process.TotemTriggerRawToDigi.rawDataTag = cms.InputTag("source")
+process.TotemTriggerRawToDigi.fedId = 0x29c
+
+process.load('EventFilter.TotemRawToDigi.TotemRPRawToDigi_cfi')
+process.TotemRPRawToDigi.rawDataTag = cms.InputTag("source")
+process.TotemRPRawToDigi.fedIds = cms.vuint32(0x1a1, 0x1a2, 0x1a9, 0x1aa, 0x1b5, 0x1bd)
+process.TotemRPRawToDigi.RawToDigi.printErrorSummary = 1
+process.TotemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 0
 
 # clusterization
 process.load("RecoTotemRP.RPClusterSigmaService.ClusterSigmaServiceConf_cfi")
 process.load("RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi")
-process.RPClustProd.DigiLabel = cms.InputTag("TotemRawToDigi")
+process.RPClustProd.DigiLabel = cms.InputTag("TotemRPRawToDigi", "RP")
 
 # reco hit production
 process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
@@ -60,7 +65,8 @@ process.RPSingleTrackCandCollFit.Verbosity = 0
 process.RPSingleTrackCandCollFit.RPTrackCandCollProducer = 'NonParallelTrackFinder' # takes up the non-parallel pattern recognition
 
 process.p = cms.Path(
-    process.TotemRawToDigi *
+    process.TotemTriggerRawToDigi *
+    process.TotemRPRawToDigi *
     process.RPClustProd *
     process.RPRecoHitProd *
     process.NonParallelTrackFinder *
