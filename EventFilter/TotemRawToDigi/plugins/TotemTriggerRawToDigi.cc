@@ -124,8 +124,7 @@ int TotemTriggerRawToDigi::ProcessLoneGFrame(uint64_t *oBuf, unsigned long size,
   td.inhibited_triggers_num = (buf[3] >> 32) & 0xFFFFFFFF;
   td.input_status_bits = (buf[3] >> 0) & 0xFFFFFFFF;
 
-// TODO: uncomment
-//#ifdef DEBUG
+#ifdef DEBUG
   printf(">> RawDataUnpacker::ProcessLoneGFrame > size = %li\n", size);
   printf("\ttype = %x, event number = %x, bunch number = %x, id = %x\n",
     td.type, td.event_num, td.bunch_num, td.src_id);
@@ -135,7 +134,7 @@ int TotemTriggerRawToDigi::ProcessLoneGFrame(uint64_t *oBuf, unsigned long size,
     td.run_num, td.trigger_num);
   printf("\tinhibited triggers = %x, input status bits = %x\n",
     td.inhibited_triggers_num, td.input_status_bits);
-//#endif
+#endif
 
   return 0;
 }

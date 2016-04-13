@@ -66,9 +66,6 @@ protected:
  
  	/// input file pointer
  	FILE *infile;
-
-    /// Index for FEDRawDataCollection
-    unsigned int fedIdx;
 };
 
 #endif

@@ -214,7 +214,6 @@ unsigned int SRSFileReader::ProcessDATESuperEvent(char *ptr, uint64_t &timestamp
   eventHeadSizeType headSize = eventHeader->eventHeadSize;
 
   // process all sub-events (LDC frames)
-  fedIdx = 0;
   unsigned int errorCounter = 0;
   if (superEvent)
   {
@@ -327,7 +326,9 @@ unsigned int SRSFileReader::ProcessDATEEvent(char *ptr, uint64_t &timestamp, FED
 
 void SRSFileReader::MakeFEDRawData(uint64_t *payloadPtr, unsigned int payloadSize, FEDRawDataCollection &dataColl)
 {
-  FEDRawData &rd = dataColl.FEDData(fedIdx++);
+  uint64_t head = payloadPtr[0];
+  unsigned int optoRxId = (head >> 8) & 0xFFF;
+  FEDRawData &rd = dataColl.FEDData(optoRxId);
 
   unsigned int fedSize = payloadSize;
   rd.resize(fedSize);
