@@ -12,13 +12,13 @@ process.MessageLogger = cms.Service("MessageLogger",
 )
 
 # raw data source
-process.load('EventFilter.TotemRawToDigi.TotemStandaloneRawDataSource_cfi')
+process.load('TotemRawData.Readers.TotemStandaloneRawDataSource_cfi')
 process.source.verbosity = 10
 process.source.printProgressFrequency = 0
 process.source.fileNames.append('/afs/cern.ch/user/j/jkaspar/public/run_9987_EVB11_1.003.srs')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(-1)
 )
 
 # raw-to-digi conversion
