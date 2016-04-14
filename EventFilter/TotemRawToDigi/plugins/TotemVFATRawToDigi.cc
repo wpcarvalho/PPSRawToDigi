@@ -126,8 +126,8 @@ void TotemVFATRawToDigi::run(edm::Event& event, const edm::EventSetup &es)
   event.getByToken(fedDataToken, rawData);
 
   // book output products
-  auto_ptr< DigiType > digi(new DigiType);  
-  auto_ptr< DetSetVector<TotemVFATStatus> > conversionStatus(new DetSetVector<TotemVFATStatus>);
+  DigiType digi;
+  DetSetVector<TotemVFATStatus> conversionStatus;
 
   // raw-data unpacking
   SimpleVFATFrameCollection vfatCollection;
@@ -135,11 +135,11 @@ void TotemVFATRawToDigi::run(edm::Event& event, const edm::EventSetup &es)
     rawDataUnpacker.Run(fedId, rawData->FEDData(fedId), vfatCollection);
 
   // raw-to-digi conversion
-  rawToDigiConverter.Run(vfatCollection, *mapping, *analysisMask, *digi, *conversionStatus);
+  rawToDigiConverter.Run(vfatCollection, *mapping, *analysisMask, digi, conversionStatus);
 
   // commit products to event
-  event.put(digi, subSystem);
-  event.put(conversionStatus, subSystem);
+  event.put(make_unique<DigiType>(digi), subSystem);
+  event.put(make_unique<DetSetVector<TotemVFATStatus>>(conversionStatus), subSystem);
 }
 
 //----------------------------------------------------------------------------------------------------

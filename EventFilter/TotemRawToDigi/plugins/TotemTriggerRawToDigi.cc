@@ -75,16 +75,16 @@ void TotemTriggerRawToDigi::produce(edm::Event& event, const edm::EventSetup &es
   event.getByToken(fedDataToken, rawData);
 
   // book output products
-  auto_ptr<TotemTriggerCounters> totemTriggerCounters(new TotemTriggerCounters);
+  TotemTriggerCounters totemTriggerCounters;
 
   // unpack trigger data
   const FEDRawData &data = rawData->FEDData(fedId);
   uint64_t *buf = (uint64_t *) data.data();
   unsigned int sizeInWords = data.size() / 8; // bytes -> words
-  ProcessLoneGFrame(buf + 2, sizeInWords - 4, *totemTriggerCounters);
+  ProcessLoneGFrame(buf + 2, sizeInWords - 4, totemTriggerCounters);
 
   // commit products to event
-  event.put(totemTriggerCounters);
+  event.put(make_unique<TotemTriggerCounters>(totemTriggerCounters));
 }
 
 //----------------------------------------------------------------------------------------------------
