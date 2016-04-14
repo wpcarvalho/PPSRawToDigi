@@ -6,7 +6,6 @@
 <use   name="root"/>
 <use   name="clhep"/>
 <use   name="Geometry/TotemRPGeometryBuilder"/>
-<use   name="RecoTotemRP/RPDetectorMaskingService"/>
 <use   name="RecoTotemRP/RPRecoDataFormats"/>
 <use   name="Geometry/TotemRPDetTopology"/>
 <use   name="FWCore/ParameterSet"/>

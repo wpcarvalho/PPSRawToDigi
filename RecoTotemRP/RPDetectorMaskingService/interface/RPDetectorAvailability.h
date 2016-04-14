@@ -4,6 +4,7 @@
 class RPDetectorAvailability
 {
   public:
+    // TODO: actually used?
     inline bool IsRPDetAvailableForReconstruction(unsigned int det_id) {return true;}
     inline bool IsRPDetAvailableForTrackFitting(unsigned int det_id) {return true;}
     inline bool IsRPDetStripDead(unsigned int det_id) {return false;}

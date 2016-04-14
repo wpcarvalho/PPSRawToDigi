@@ -7,7 +7,6 @@
 
 
 #include "RecoTotemRP/RPRecoHitProducer/interface/RPRecoHitProducer.h"
-#include "RecoTotemRP/RPServiceRecords/interface/RPClusterSigmaServiceRecord.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 
 RPRecoHitProducer::RPRecoHitProducer(const edm::ParameterSet& conf) :

@@ -50,7 +50,6 @@ process.DAQMappingSourceXML.mappingFileNames.append('TotemCondFormats/DAQInforma
 process.load('TotemDigi.RawToDigi.Raw2DigiProducer_cfi')
 
 # clusterization
-process.load("RecoTotemRP.RPClusterSigmaService.ClusterSigmaServiceConf_cfi")
 process.load("RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi")
 
 # reco hit production

@@ -3,11 +3,10 @@
 <use   name="FWCore/ParameterSet"/>
 <use   name="FWCore/MessageLogger"/>
 <use   name="DataFormats/Common"/>
-<use   name="RecoTotemRP/RPClusterSigmaService"/>
 <use   name="Geometry/TotemRPDetTopology"/>
 <use   name="DataFormats/TotemDigi"/>
 <use   name="DataFormats/TotemRPReco"/>
-<use   name="RecoTotemRP/RPServiceRecords"/>
+<use   name="RecoTotemRP/RPClusterSigmaService"/>
 <use   name="boost"/>
 <use   name="root"/>
 <flags   EDM_PLUGIN="1"/>

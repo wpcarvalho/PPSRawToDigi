@@ -27,7 +27,6 @@ process.load('TotemDigi.RawToDigi.RPDataDigiProducer_cfi')
 process.RPDataDigiProducer.verbosity = 10
 
 # clusterization
-process.load("RecoTotemRP.RPClusterSigmaService.ClusterSigmaServiceConf_cfi")
 process.load("RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi")
 
 # reco hit production
