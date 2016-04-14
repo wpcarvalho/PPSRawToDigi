@@ -6,22 +6,20 @@
  *
  ****************************************************************************/
 
-// TODO: remove this dirty trick once moved into CMSSW, unless the file is removed altogether
-#include "EventFilter/TotemRawToDigi/plugins/Event_hacked.h"
-// use this instead
-//#include "FWCore/Framework/interface/Event.h"
+// this is dirty trick
+#include "TotemRawData/Readers/plugins/Event_hacked.h"
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/InputSourceMacros.h"
+#include "FWCore/Framework/interface/EventPrincipal.h"
+#include "FWCore/Framework/interface/InputSource.h"
+#include "DataFormats/Provenance/interface/EventID.h"
 #include "DataFormats/Provenance/interface/RunAuxiliary.h"
 #include "DataFormats/Provenance/interface/LuminosityBlockAuxiliary.h"
 #include "DataFormats/Provenance/interface/EventAuxiliary.h"
 #include "DataFormats/Provenance/interface/ProcessHistoryRegistry.h"
-#include "FWCore/Framework/interface/EventPrincipal.h"
-#include "FWCore/Framework/interface/InputSource.h"
-#include "DataFormats/Provenance/interface/EventID.h"
 
-#include "EventFilter/TotemRawToDigi/interface/SRSFileReader.h"
+#include "TotemRawData/Readers/interface/SRSFileReader.h"
 
 #include "DataFormats/FEDRawData/interface/FEDRawDataCollection.h"
 

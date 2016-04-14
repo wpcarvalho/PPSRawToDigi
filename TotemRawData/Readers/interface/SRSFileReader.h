@@ -6,12 +6,10 @@
 *
 ****************************************************************************/
 
-#ifndef EventFilter_TotemRawToDigi_SRSFileReader
-#define EventFilter_TotemRawToDigi_SRSFileReader
+#ifndef TotemRawData_Readers_SRSFileReader
+#define TotemRawData_Readers_SRSFileReader
 
 #include "EventFilter/TotemRawToDigi/interface/SimpleVFATFrameCollection.h"
-
-#include "DataFormats/TotemDigi/interface/TotemTriggerCounters.h"
 
 #include "DataFormats/FEDRawData/interface/FEDRawDataCollection.h"
 

@@ -6,11 +6,10 @@
 *
 ****************************************************************************/
 
-#include "EventFilter/TotemRawToDigi/interface/SRSFileReader.h"
-
-#include "EventFilter/TotemRawToDigi/interface/event_3_14.h"
-
 #include "DataFormats/FEDRawData/interface/FEDRawData.h"
+
+#include "TotemRawData/Readers/interface/SRSFileReader.h"
+#include "TotemRawData/Readers/interface/event_3_14.h"
 
 #include <cmath>
 

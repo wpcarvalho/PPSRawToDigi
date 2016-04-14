@@ -1,0 +1,7 @@
+<use name="DataFormats/FEDRawData"/>
+
+<use name="EventFilter/TotemRawToDigi"/>
+
+<export>
+	<lib name="1"/>
+</export>
