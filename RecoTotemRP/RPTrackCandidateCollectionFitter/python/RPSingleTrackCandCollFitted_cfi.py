@@ -7,6 +7,5 @@ RPSingleTrackCandCollFit = cms.EDProducer("RPTrackCandidateCollectionFitter",
     #   if empty, the fitter takes the ONLY track-candidate record in the event
     #   use `RPSinglTrackCandFind' for parallel finder
     #   use `NonParallelTrackFinder' for non-parallel finder
-    RPTrackCandCollProducer = cms.string(''),
-    RPTrackCandidateCollectionLabel = cms.InputTag("RPSinglTrackCandFind")
+    RPTrackCandidateCollectionLabel = cms.InputTag("NonParallelTrackFinder")
 )

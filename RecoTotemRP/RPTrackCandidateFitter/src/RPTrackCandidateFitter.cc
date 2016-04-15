@@ -15,10 +15,13 @@
 #include <iostream>
 
 
+//----------------------------------------------------------------------------------------------------
 
 RPTrackCandidateFitter::RPTrackCandidateFitter(const edm::ParameterSet &)
 {
 }
+
+//----------------------------------------------------------------------------------------------------
 
 
 void RPTrackCandidateFitter::Reset()
@@ -27,6 +30,7 @@ void RPTrackCandidateFitter::Reset()
   det_data_map_.clear();
 }
 
+//----------------------------------------------------------------------------------------------------
 
 RPDetCoordinateAlgebraObjs RPTrackCandidateFitter::PrepareReconstAlgebraData(unsigned int det_id,
   const TotemRPGeometry& tot_rp_geom)
@@ -57,6 +61,7 @@ RPDetCoordinateAlgebraObjs RPTrackCandidateFitter::PrepareReconstAlgebraData(uns
   return det_algebra_obj;
 }
 
+//----------------------------------------------------------------------------------------------------
 
 RPDetCoordinateAlgebraObjs * RPTrackCandidateFitter::GetDetAlgebraData(
     unsigned int det_id, const TotemRPGeometry& tot_rp_geom)
@@ -71,6 +76,8 @@ RPDetCoordinateAlgebraObjs * RPTrackCandidateFitter::GetDetAlgebraData(
     return &det_data_map_[det_id];
   }
 }
+
+//----------------------------------------------------------------------------------------------------
 
 #if 0
 TVector2 RPTrackCandidateFitter::ComputeXYPointInZDir(const TotemRPRecHit& hit_0, const TotemRPRecHit& hit_1, const TotemRPGeometry &tot_geom)
@@ -93,6 +100,8 @@ TVector2 RPTrackCandidateFitter::ComputeXYPointInZDir(const TotemRPRecHit& hit_0
   return TVector2(vect[0], vect[1]);
 }
 #endif
+
+//----------------------------------------------------------------------------------------------------
 
 #if 0
 TVector2 RPTrackCandidateFitter::ComputeXYPointOfTheGivenLine(const TotemRPRecHit& hit_0, const TotemRPRecHit& hit_1, double tx, double ty, double z0, const TotemRPGeometry &tot_geom)
@@ -122,26 +131,18 @@ TVector2 RPTrackCandidateFitter::ComputeXYPointOfTheGivenLine(const TotemRPRecHi
 }
 #endif
 
+//----------------------------------------------------------------------------------------------------
 
-bool RPTrackCandidateFitter::FitTrack(const RPTrackCandidate& track_cand, 
-      double z_0, RPFittedTrack &fitted_track, const TotemRPGeometry &tot_geom)
+bool RPTrackCandidateFitter::FitTrack(const vector<const TotemRPRecHit *> &hits, double z_0,
+    const TotemRPGeometry &tot_geom, RPFittedTrack &fitted_track)
 {
   fitted_track.IsValid(false);
-  fitted_track.sourceTrackCandidate = track_cand;
-  fitted_track.SetSourceTrackCandidateValidity(true);
-  //std::cout<<std::endl<<"track_cand.Fittable="<<track_cand.Fittable()<<std::endl;
-  if(!track_cand.Fittable())
-  {
-    return false;
-  }
   
-  //std::cout<<"RPTrackCandidateFitter::FitTrack, track_cand weight="<<track_cand.Weight()<<" Size="<<track_cand.Size()<<std::endl;
-  const std::vector<TotemRPRecHit> &hits = track_cand.TrackRecoHits();
   std::vector<const TotemRPRecHit*> applicable_hits;
-  for(unsigned int i=0; i<hits.size(); ++i)
+  for (auto hp : hits)
   {
-    if(GetDetAlgebraData(hits[i].DetId(), tot_geom)->available_)
-      applicable_hits.push_back(&hits[i]);
+    if (GetDetAlgebraData(hp->DetId(), tot_geom)->available_)
+      applicable_hits.push_back(hp);
   }
   
   if(applicable_hits.size()<5)
@@ -206,7 +207,6 @@ bool RPTrackCandidateFitter::FitTrack(const RPTrackCandidate& track_cand,
   fitted_track.ParameterVector(a);
   //fitted_track.CovarianceMatrix(V_a);
   fitted_track.CovarianceMatrix(V_a_mult);
-  fitted_track.SetUVid(track_cand.GetUid(),track_cand.GetVid());
   
   double Chi_2 = 0;
   for(unsigned int i=0; i<applicable_hits.size(); ++i)
@@ -246,6 +246,7 @@ bool RPTrackCandidateFitter::FitTrack(const RPTrackCandidate& track_cand,
   return true;
 }
 
+//----------------------------------------------------------------------------------------------------
 
 void RPTrackCandidateFitter::MultiplyByDiagonalInPlace(TMatrixD &mt, const TVectorD &diag)
 {
@@ -265,4 +266,3 @@ void RPTrackCandidateFitter::MultiplyByDiagonalInPlace(TMatrixD &mt, const TVect
     }
   }
 }
-

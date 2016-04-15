@@ -61,7 +61,9 @@ process.NonParallelTrackFinder.threshold = 2.99
 # local track fitting
 process.load("RecoTotemRP.RPTrackCandidateCollectionFitter.RPSingleTrackCandCollFitted_cfi")
 process.RPSingleTrackCandCollFit.Verbosity = 0
-process.RPSingleTrackCandCollFit.RPTrackCandCollProducer = 'NonParallelTrackFinder' # takes up the non-parallel pattern recognition
+process.RPSingleTrackCandCollFit.RPTrackCandidateCollectionLabel = cms.InputTag("NonParallelTrackFinder")
+
+process.dump = cms.EDAnalyzer("EventContentAnalyzer")
 
 process.p = cms.Path(
     process.TotemTriggerRawToDigi *

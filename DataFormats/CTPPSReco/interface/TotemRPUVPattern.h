@@ -27,7 +27,7 @@ class TotemRPUVPattern
     {
     }
 
-    ProjectionType getProjection() { return projection; }
+    ProjectionType getProjection() const { return projection; }
     void setProjection(ProjectionType p_) { projection = p_; }
 
     double getA() const { return a; }
@@ -44,7 +44,7 @@ class TotemRPUVPattern
 
     void addHit(const TotemRPRecHit &hit) { hits.push_back(hit); }
 
-    const std::vector<TotemRPRecHit>& getHits() { return hits; }
+    const std::vector<TotemRPRecHit>& getHits() const { return hits; }
 
     friend bool operator< (const TotemRPUVPattern &l, const TotemRPUVPattern &r);
 

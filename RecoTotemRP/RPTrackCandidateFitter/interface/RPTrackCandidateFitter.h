@@ -47,12 +47,12 @@ class RPTrackCandidateFitter
     RPTrackCandidateFitter(const edm::ParameterSet &conf);
 
     /// performs the track fit, returns true if successful
-    bool FitTrack(const RPTrackCandidate& track_cand, double z_0, RPFittedTrack &fitted_track,
-      const TotemRPGeometry &tot_geom);
+    bool FitTrack(const vector<const TotemRPRecHit *> &hits, double z_0, const TotemRPGeometry &tot_geom, RPFittedTrack &fitted_track);
 
     /// Resets the reconstruction-data cache.
     void Reset();
 
+    // TODO: needed?
 #if 0
     TVector2 ComputeXYPointInZDir(const TotemRPRecHit& hit_0, const TotemRPRecHit& hit_1,
       const TotemRPGeometry &tot_geom);
@@ -63,6 +63,7 @@ class RPTrackCandidateFitter
 
   private:
     /// A cache of reconstruction data. Must be reset every time the geometry chagnges.
+    /// TODO: use unordered_map
     typedef __gnu_cxx::hash_map<unsigned int, RPDetCoordinateAlgebraObjs> DetReconstructionDataMap;
     DetReconstructionDataMap det_data_map_;
 

@@ -15,23 +15,20 @@
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "FWCore/Framework/interface/ESWatcher.h"
+#include "DataFormats/Common/interface/DetSetVector.h"
 
 #include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "RecoTotemRP/RPTrackCandidateFitter/interface/RPTrackCandidateFitter.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 
-#include <string>
+#include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
+#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
+
 
 /**
- *\brief Fits every track candidate in RPTrackCandidateCollection.
- *
- * Result is collection of fitted tracks (RPFittedTrackCollection).
- * The fit itself is performed by class RPTrackCandidateFitter.
+ *\brief TODO: Fits every track candidate in RPTrackCandidateCollection.
  **/
 class RPTrackCandidateCollectionFitter : public edm::EDProducer
 {
@@ -41,27 +38,19 @@ class RPTrackCandidateCollectionFitter : public edm::EDProducer
     virtual void beginJob();
     virtual void produce(edm::Event& e, const edm::EventSetup& c);
 
-    /// Fits the collection of track candidates, one by one by using the RPTrackCandidateFitter::FitTrack.
-    void run(const RPTrackCandidateCollection &input, RPFittedTrackCollection &output,
-      const TotemRPGeometry &rp_geometry);
-  
   private:
-    void run();
     int verbosity_;
 
-    /// The name of the pattern-recognition module.
-    std::string trackCandidateCollectionProducer;
-    edm::InputTag trackCandidateCollectionLabel;
+    /// Selection of the pattern-recognition module.
+    edm::InputTag patternCollectionLabel;
 
-    edm::EDGetTokenT<RPTrackCandidateCollection> trackCandidateCollectionToken;
-    //std::string track_coll_cand_label_;
+    edm::EDGetTokenT<edm::DetSetVector<TotemRPUVPattern>> patternCollectionToken;
     
     /// A watcher to detect geometry changes.
     edm::ESWatcher<VeryForwardRealGeometryRecord> geometryWatcher;
     
     /// The instance of the fitter module
-    RPTrackCandidateFitter the_track_candidate_fitter_;
+    RPTrackCandidateFitter fitter_;
 };
 
 #endif
-

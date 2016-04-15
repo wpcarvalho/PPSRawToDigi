@@ -64,7 +64,11 @@ namespace {
     std::allocator<std::pair<const unsigned int,RPTrackCandidate> > apcuirptc;
     std::binary_function<unsigned int,unsigned int,bool> bf;
 
-    RPFittedTrack the_fitted_track;
+    // integrate this block
+    RPFittedTrack ft;
+    edm::DetSetVector<RPFittedTrack> dsv_ft;
+    edm::Wrapper<edm::DetSetVector<RPFittedTrack>> w_dsv_ft;
+
     RPFittedTrackCollection the_track_cand_col;
     RPMulFittedTrackCollection the_mtrack_cand_col;
     std::pair<unsigned int, RPFittedTrack> p_rpid_rpfittedtr;

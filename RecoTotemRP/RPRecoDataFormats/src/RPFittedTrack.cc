@@ -1,5 +1,15 @@
+/****************************************************************************
+ *
+ * This is a part of TOTEM offline software.
+ * Authors:
+ *   Hubert Niewiadomski
+ *   Jan Kašpar (jan.kaspar@gmail.com)
+ *
+ ****************************************************************************/
+
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
 
+//----------------------------------------------------------------------------------------------------
 
 TMatrixD RPFittedTrack::TrackPointInterpolationCovariance(double z) const
 {
@@ -20,6 +30,7 @@ TMatrixD RPFittedTrack::TrackPointInterpolationCovariance(double z) const
   return TMatrixD(h, TMatrixD::kMult, V_hT);
 }
 
+//----------------------------------------------------------------------------------------------------
 
 RPFittedTrack::RPFittedTrack(double z0, const TVectorD & track_params_vector, 
       const TMatrixD &par_covariance_matrix, double chiSquared) 
@@ -35,6 +46,7 @@ RPFittedTrack::RPFittedTrack(double z0, const TVectorD & track_params_vector,
   }
 }
 
+//----------------------------------------------------------------------------------------------------
 
 TVectorD RPFittedTrack::ParameterVector() const 
 {
@@ -46,11 +58,15 @@ TVectorD RPFittedTrack::ParameterVector() const
   return v;
 }
 
+//----------------------------------------------------------------------------------------------------
+
 void RPFittedTrack::ParameterVector(const TVectorD & track_params_vector)
 {
   for(int i=0; i<dimension; ++i)
     track_params_vector_[i]=track_params_vector[i];
 }
+
+//----------------------------------------------------------------------------------------------------
 
 TMatrixD RPFittedTrack::CovarianceMatrix() const 
 {
@@ -63,9 +79,31 @@ TMatrixD RPFittedTrack::CovarianceMatrix() const
   return m;
 }
 
+//----------------------------------------------------------------------------------------------------
+
 void RPFittedTrack::CovarianceMatrix(const TMatrixD &par_covariance_matrix)
 {
   for(int i=0; i<dimension; ++i)
     for(int j=0; j<dimension; ++j)
       CovarianceMatrixElement(i,j)=par_covariance_matrix(i,j);
+}
+
+//----------------------------------------------------------------------------------------------------
+
+bool operator< (const RPFittedTrack &l, const RPFittedTrack &r)
+{
+  if (l.z0_ < r.z0_)
+    return true;
+  if (l.z0_ > r.z0_)
+    return true;
+
+  for (int i = 0; i < RPFittedTrack::dimension; ++i)
+  {
+    if (l.track_params_vector_[i] < r.track_params_vector_[i])
+      return true;
+    if (l.track_params_vector_[i] > r.track_params_vector_[i])
+      return true;
+  }
+
+  return false;
 }
