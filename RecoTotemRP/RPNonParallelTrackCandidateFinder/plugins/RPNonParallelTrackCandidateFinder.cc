@@ -21,13 +21,10 @@
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 #include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
+
+#include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
+
 #include "RecoTotemRP/RPNonParallelTrackCandidateFinder/interface/FastLineRecognition.h"
-
-#include <iostream>
-
 
 /**
  * \brief Class to recognize straight line tracks, based on optimized Hough trasform.
@@ -75,8 +72,9 @@ class RPNonParallelTrackCandidateFinder : public edm::EDProducer
     edm::ESWatcher<VeryForwardRealGeometryRecord> geometryWatcher;
 
     /// executes line recognition in a projection
-    void RecognizeAndSelect(unsigned int RPId, double z0, double threshold,
-      const std::vector<const TotemRPRecHit *> &hits, std::vector<RPRecognizedPatterns::Line> &);
+    void RecognizeAndSelect(TotemRPUVPattern::ProjectionType proj, double z0, double threshold,
+      unsigned int planes_required,
+      const std::vector<const TotemRPRecHit *> &hits, edm::DetSet<TotemRPUVPattern> &patterns);
 };
 
 //----------------------------------------------------------------------------------------------------
@@ -100,8 +98,7 @@ RPNonParallelTrackCandidateFinder::RPNonParallelTrackCandidateFinder(const edm::
 {
   detSetVectorTotemRPRecHitToken = consumes<edm::DetSetVector<TotemRPRecHit> >(detSetVectorTotemRPRecHitLabel);
 
-  produces<RPRecognizedPatternsCollection> ();
-  produces<RPTrackCandidateCollection> ();
+  produces<DetSetVector<TotemRPUVPattern>>();
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -113,15 +110,35 @@ RPNonParallelTrackCandidateFinder::~RPNonParallelTrackCandidateFinder()
 
 //----------------------------------------------------------------------------------------------------
 
-void RPNonParallelTrackCandidateFinder::RecognizeAndSelect(unsigned int RPId, double z0, double threshold_loc,
-    const vector<const TotemRPRecHit *> &hits, vector<RPRecognizedPatterns::Line> &lines)
+void RPNonParallelTrackCandidateFinder::RecognizeAndSelect(TotemRPUVPattern::ProjectionType proj,
+    double z0, double threshold_loc, unsigned int planes_required,
+    const vector<const TotemRPRecHit *> &hits, DetSet<TotemRPUVPattern> &patterns)
 {
-  lrcgn->GetLines(hits, z0, threshold_loc, lines);
+  // run recognition
+  lrcgn->GetPatterns(hits, z0, threshold_loc, patterns);
+  
+  // set pattern properties
+  for (auto &p : patterns)
+  {
+    p.setProjection(proj);
+
+    p.setFittable(true);
+
+    set<unsigned int> planes;
+    for (const auto &h : p.getHits())
+      planes.insert(h.DetId() % 10);
+
+    if (planes.size() < planes_required)
+      p.setFittable(false);
+    
+    if (fabs(p.getA()) > max_a_toFit)
+      p.setFittable(false);
+  }
 
   if (verbosity > 5)
   {
-    for (unsigned int i = 0; i < lines.size(); i++)
-      printf("\t\t\ta = %.3f, b = %.3f, w = %.3f\n", lines[i].a, lines[i].b, lines[i].w);
+    for (const auto &p : patterns)
+      printf("\t\t\ta = %.3f, b = %.3f, w = %.3f\n", p.getA(), p.getB(), p.getW());
   }
 }
 
@@ -138,12 +155,12 @@ void RPNonParallelTrackCandidateFinder::produce(edm::Event& event, const edm::Ev
   if (geometryWatcher.check(es))
     lrcgn->ResetGeometry(geometry.product());
   
-  // get input and prepare output
+  // get input
   edm::Handle< edm::DetSetVector<TotemRPRecHit> > input;
   event.getByToken(detSetVectorTotemRPRecHitToken, input);
 
-  auto_ptr<RPTrackCandidateCollection> output(new RPTrackCandidateCollection());
-  auto_ptr<RPRecognizedPatternsCollection> patternsCollection(new RPRecognizedPatternsCollection());
+  // prepare output
+  DetSetVector<TotemRPUVPattern> patternsVector;
   
   // map hits to RP ids
   map< unsigned int, pair< vector<const TotemRPRecHit*>, vector<const TotemRPRecHit*> > > hitMap;
@@ -220,9 +237,7 @@ void RPNonParallelTrackCandidateFinder::produce(edm::Event& event, const edm::Ev
       continue;
 
     // prepare data containers
-    RPTrackCandidate &tc = (*output)[rpId];
-    RPRecognizedPatterns &patterns = (*patternsCollection)[rpId];
-    patterns.source = RPRecognizedPatterns::sNonParallel;
+    DetSet<TotemRPUVPattern> &patterns = patternsVector.find_or_insert(rpId);
 
     // "typical" z0 for the RP
     double z0 = geometry->GetRPDevice(rpId)->translation().z();
@@ -230,70 +245,17 @@ void RPNonParallelTrackCandidateFinder::produce(edm::Event& event, const edm::Ev
     // u then v recognition
     if (verbosity > 5)
       printf("\t\tu recognition\n");
-    RecognizeAndSelect(rpId, z0, threshold_U, it->second.first, patterns.uLines);
+    RecognizeAndSelect(TotemRPUVPattern::projU, z0, threshold_U, minPlanesPerProjectionToFit_U, it->second.first, patterns);
 
     if (verbosity > 5)
       printf("\t\tv recognition\n");
-    RecognizeAndSelect(rpId, z0, threshold_V, it->second.second, patterns.vLines);
-
-    if (patterns.uLines.size() == 0 || patterns.vLines.size() == 0)
-    {
-      // no lines
-      tc.Fittable(false);
-      if (verbosity)
-        LogPrint("RPNonParallelTrackCandidateFinder") <<
-          ">> RPNonParallelTrackCandidateFinder::produce > No line recognized in RP " << rpId << ".";
-    } else {
-      if ((patterns.uLines.size() > 1 || patterns.vLines.size() > 1) && !allowAmbiguousCombination)
-      {
-        // too many lines
-        tc.Fittable(false);
-        if (verbosity)
-          LogPrint("RPNonParallelTrackCandidateFinder") <<
-            ">> RPNonParallelTrackCandidateFinder::produce > Too many U and/or V patterns in RP " << rpId << ".";
-      } else {
-        // at least one line in each projection
-        const RPRecognizedPatterns::Line &uLine = patterns.uLines[0];
-        const RPRecognizedPatterns::Line &vLine = patterns.vLines[0];
-      
-        set<unsigned int> planes_u, planes_v;
-        for (RPRecognizedPatterns::Line::HitCollection::const_iterator hit = uLine.hits.begin(); hit != uLine.hits.end(); ++hit)
-          planes_u.insert(hit->DetId() % 10);
-        for (RPRecognizedPatterns::Line::HitCollection::const_iterator hit = vLine.hits.begin(); hit != vLine.hits.end(); ++hit)
-          planes_v.insert(hit->DetId() % 10);
-    
-        // compile the RPTrackCandidate from u and v projections
-        tc.InsertHits(uLine.hits, 0.5);
-        tc.InsertHits(vLine.hits, 0.5);
-    
-        // decide whether this candidate is worth fitting
-        tc.Fittable(true);
-    
-        if (planes_u.size() < minPlanesPerProjectionToFit_U || planes_v.size() < minPlanesPerProjectionToFit_V)
-          tc.Fittable(false);
-    
-        if (fabs(uLine.a) > max_a_toFit || fabs(vLine.a) > max_a_toFit)
-          tc.Fittable(false);
-    
-        if (verbosity > 5)
-        {
-          printf("\t\tall hits_u = %lu, hits_v = %lu\n", it->second.first.size(), it->second.second.size());
-          printf("\t\tselected hits_u = %lu, hits_v = %lu\n", uLine.hits.size(), vLine.hits.size());
-          printf("\t\tselected planes_u = %lu, planes_v = %lu\n", planes_u.size(), planes_v.size());
-          printf("\t\ta_u = %E, a_v = %E\n", uLine.a, vLine.a);
-        }
-      }
-    }
-
-    if (verbosity > 5)
-      printf("\t\t--> fittable : %i\n", tc.Fittable());
+    RecognizeAndSelect(TotemRPUVPattern::projU, z0, threshold_V, minPlanesPerProjectionToFit_V, it->second.second, patterns);
   }
  
   // save output
-  event.put(output);
-  event.put(patternsCollection);
+  event.put(make_unique<DetSetVector<TotemRPUVPattern>>(patternsVector));
 }
  
+//----------------------------------------------------------------------------------------------------
 
 DEFINE_FWK_MODULE(RPNonParallelTrackCandidateFinder);
-

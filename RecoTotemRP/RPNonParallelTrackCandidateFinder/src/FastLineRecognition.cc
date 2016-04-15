@@ -23,6 +23,7 @@
 //#define DEBUG 1
 
 using namespace std;
+using namespace edm;
 
 //----------------------------------------------------------------------------------------------------
 
@@ -120,8 +121,8 @@ FastLineRecognition::GeomData FastLineRecognition::GetGeomData(unsigned int id)
 
 //----------------------------------------------------------------------------------------------------
 
-void FastLineRecognition::GetLines(const std::vector<const TotemRPRecHit *> &input, double z0,
-  double threshold, std::vector<RPRecognizedPatterns::Line> &lines)
+void FastLineRecognition::GetPatterns(const std::vector<const TotemRPRecHit *> &input, double z0,
+  double threshold, DetSet<TotemRPUVPattern> &patterns)
 {
   // build collection of points in the global coordinate system
   std::vector<Point> points;
@@ -138,21 +139,21 @@ void FastLineRecognition::GetLines(const std::vector<const TotemRPRecHit *> &inp
   }
 
 #if DEBUG > 0
-  printf(">> FastLineRecognition::GetLines(z0 = %E)\n", z0);
+  printf(">> FastLineRecognition::GetPatterns(z0 = %E)\n", z0);
   printf(">>>>>>>>>>>>>>>>>>>\n");
 #endif
 
   // reset output
-  lines.clear();
+  patterns.clear();
 
   Cluster c;
   while (GetOneLine(points, threshold, c))
   {
-    // convert cluster to line and save it
-    RPRecognizedPatterns::Line line;
-    line.a = c.Saw/c.Sw;
-    line.b = c.Sbw/c.Sw;
-    line.w = c.weight;
+    // convert cluster to pattern and save it
+    TotemRPUVPattern pattern;
+    pattern.setA(c.Saw/c.Sw);
+    pattern.setB(c.Sbw/c.Sw);
+    pattern.setW(c.weight);
 
 #if DEBUG > 0
     printf("\tpoints of the selected cluster: %lu\n", c.contents.size());
@@ -163,10 +164,10 @@ void FastLineRecognition::GetLines(const std::vector<const TotemRPRecHit *> &inp
 #if DEBUG > 0
       printf("\t\t%.1f\n", (*pit)->z);
 #endif
-      line.hits.push_back(*((*pit)->hit));
+      pattern.addHit(*((*pit)->hit));
     }
 
-    lines.push_back(line);
+    patterns.push_back(pattern);
 
 #if DEBUG > 0
     unsigned int u_points_b = 0;
@@ -201,7 +202,7 @@ void FastLineRecognition::GetLines(const std::vector<const TotemRPRecHit *> &inp
   }
 
 #if DEBUG > 0
-  printf("lines at end: %lu\n", lines.size());
+  printf("patterns at end: %lu\n", patterns.size());
   printf("<<<<<<<<<<<<<<<<<<<\n");
 #endif
 }

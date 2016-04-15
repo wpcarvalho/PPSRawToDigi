@@ -6,6 +6,8 @@
 *
 ****************************************************************************/
 
+// TODO: remove this file
+
 #ifndef RecoTotemRP_RPRecoDataFormats_RPRecognizedPatterns_h
 #define RecoTotemRP_RPRecoDataFormats_RPRecognizedPatterns_h
 
