@@ -28,8 +28,8 @@
 #include "DataFormats/Common/interface/DetSet.h"
 
 //Geometry
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
 
 //RPMulCandidateTrackFinder
 #include "RecoTotemRP/RPMulCandidateTrackFinder/interface/RPMulCandidateTrackFinderAlgorithm.h"

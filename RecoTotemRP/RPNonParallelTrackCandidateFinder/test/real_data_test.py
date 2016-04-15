@@ -27,8 +27,8 @@ process.load("Configuration/TotemOpticsConfiguration/OpticsConfig_3500GeV_1p5_12
 
 
 process.TotemRPIncludeAlignments = cms.ESProducer("TotemRPIncludeAlignments",
-    RealFiles = cms.vstring('TotemAlignment/RPData/LHC/2011_05_18/sr+hsx/45_220.xml', 
-        'TotemAlignment/RPData/LHC/2011_05_18/sr+hsx/56_220.xml'),
+    RealFiles = cms.vstring('Alignment/RPData/LHC/2011_05_18/sr+hsx/45_220.xml',
+        'Alignment/RPData/LHC/2011_05_18/sr+hsx/56_220.xml'),
     MisalignedFiles = cms.vstring(),  MeasuredFiles = cms.vstring()
 )
 
@@ -64,7 +64,7 @@ for xmlfile in process.XMLIdealGeometryESSource.geomXMLFiles:
        toberemoved.append(xmlfile)
 for xmlfile in toberemoved:
     process.XMLIdealGeometryESSource.geomXMLFiles.remove(xmlfile)
-process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/TotemRPData/data/2011_05_18/RP_Dist_Beam_Cent.xml")
+process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/2011_05_18/RP_Dist_Beam_Cent.xml")
 process.TotemRPGeometryESModule = cms.ESProducer("TotemRPGeometryESModule")
 
 # track search/pattern recognition

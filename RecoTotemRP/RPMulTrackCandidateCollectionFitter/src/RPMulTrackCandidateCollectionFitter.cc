@@ -52,7 +52,7 @@ void RPMulTrackCandidateCollectionFitter::produceFromMultitrackCandidates(edm::E
 {
   // Step A: Get event setup information
   edm::ESHandle<TotemRPGeometry> Totem_RP_geometry;
-  c.get<RealGeometryRecord>().get(Totem_RP_geometry);
+  c.get<VeryForwardRealGeometryRecord>().get(Totem_RP_geometry);
   
   // Step B: Get Inputs
   edm::Handle< RPMulTrackCandidateCollection > input;
@@ -109,7 +109,7 @@ void RPMulTrackCandidateCollectionFitter::produceFromReconstructedPatterns(edm::
             const edm::EventSetup& c, RPMulFittedTrackCollection& fitTrackColl)
 {
   edm::ESHandle<TotemRPGeometry> Totem_RP_geometry;
-  c.get<RealGeometryRecord>().get(Totem_RP_geometry);
+  c.get<VeryForwardRealGeometryRecord>().get(Totem_RP_geometry);
   
   edm::Handle< RPRecognizedPatternsCollection > patterns;
   e.getByLabel(reconstructedPatternsInstance_, "", patterns);

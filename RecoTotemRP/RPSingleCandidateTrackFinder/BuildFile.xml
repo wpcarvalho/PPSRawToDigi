@@ -5,10 +5,10 @@
 <use   name="boost"/>
 <use   name="DataFormats/TotemDigi"/>
 <use   name="DataFormats/TotemRPReco"/>
-<use   name="Geometry/TotemRPDetTopology"/>
-<use   name="Geometry/TotemRPGeometryBuilder"/>
+<use   name="Geometry/VeryForwardRPTopology"/>
+<use   name="Geometry/VeryForwardGeometryBuilder"/>
 <use   name="RecoTotemRP/RPRecoDataFormats"/>
 <use   name="clhep"/>
-<use   name="Geometry/TotemRecords"/>
+<use   name="CondFormats/DataRecord"/>
 <use   name="DataFormats/TotemRPDetId"/>
 <flags   EDM_PLUGIN="1"/>

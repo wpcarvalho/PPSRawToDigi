@@ -4,41 +4,43 @@ import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("rpReconstruction")
 process.maxEvents = cms.untracked.PSet(
-input = cms.untracked.int32(-1)
+input = cms.untracked.int32(1000)
 )
 
-process.load('TotemDigi.Readers.RawDataSource_cfi')
+process.load('TotemRawData.Readers.TotemStandaloneRawDataSource_cfi')
 process.source.fileNames = cms.untracked.vstring()
 
-process.source.fileNames.append('root://eostotem//eos/totem/data/rawdata/2015/run_9998_EVB15_2.127.srs')
+process.source.fileNames.append('run_9998_EVB15_2.127.srs')
 
 
 process.load("Configuration.TotemCommon.LoggerMax_cfi")
-process.load("Configuration.TotemCommon.geometryRP_cfi")
+process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
+process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/2015_10_18_fill4511/RP_Dist_Beam_Cent.xml")
 
-process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/TotemRPData/data/2015_10_18_fill4511/RP_Dist_Beam_Cent.xml")
-
-process.load("TotemAlignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
+process.load("Alignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.RealFiles = cms.vstring(
-'TotemAlignment/RPData/LHC/2015_10_18_fill4511/version2/sr+el/45.xml',
-'TotemAlignment/RPData/LHC/2015_10_18_fill4511/version2/sr+el/56.xml'
+'Alignment/RPData/LHC/2015_10_18_fill4511/version2/sr+el/45.xml',
+'Alignment/RPData/LHC/2015_10_18_fill4511/version2/sr+el/56.xml'
 )
 
-process.load('TotemCondFormats.DAQInformation.DAQMappingSourceXML_cfi')
-process.DAQMappingSourceXML.mappingFileNames.append('TotemCondFormats/DAQInformation/data/rp_220_210far.xml')
+# raw to digi conversion
+process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
+process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/totem_rp_210far_220_mapping.xml")
 
-process.load('TotemDigi.RawToDigi.Raw2DigiProducer_cfi')
-process.Raw2DigiProducer.verbosity = 0
-process.Raw2DigiProducer.rpDataProductLabel = cms.untracked.string("")
+process.load('EventFilter.TotemRawToDigi.TotemRPRawToDigi_cfi')
+process.TotemRPRawToDigi.rawDataTag = cms.InputTag("source")
+process.TotemRPRawToDigi.RawToDigi.printErrorSummary = 1
+process.TotemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 1
 
 process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_6500GeV_90_50urad_cfi")
 
-process.load("RecoTotemRP.RPClusterSigmaService.ClusterSigmaServiceConf_cfi")
 process.load("RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi")
-process.RPClustProd.DigiLabel = cms.InputTag("Raw2DigiProducer")
+process.RPClustProd.DigiLabel = cms.InputTag("TotemRawToDigi")
 
+# reco hit production
 process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
 
+# non-parallel pattern recognition
 process.load("RecoTotemRP.RPNonParallelTrackCandidateFinder.RPNonParallelTrackCandidateFinder_cfi")
 process.NonParallelTrackFinder.verbosity = 0
 process.NonParallelTrackFinder.maxHitsPerPlaneToSearch = 5
@@ -74,7 +76,7 @@ outputCommands = cms.untracked.vstring('keep *')
 )
 
 process.path = cms.Path(
-process.Raw2DigiProducer*
+process.TotemRPRawToDigi*
 process.RPClustProd*
 process.RPRecoHitProd*
 process.RPSinglTrackCandFind*

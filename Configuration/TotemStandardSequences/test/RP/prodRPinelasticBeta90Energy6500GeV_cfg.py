@@ -20,8 +20,8 @@ process.maxEvents = cms.untracked.PSet(
 process.load("IOMC.FlatProtonLogKsiLogTGun.Beta90Energy6500GeV_cfi")
 
 # G4 geometry
-process.load("Configuration.TotemCommon.geometryRP_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/TotemRPData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')
+process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
+process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/VeryForwardData/data/RP_Beta_90/RP_Dist_Beam_Cent.xml')
 
 #process.g4SimHits.Physics.BeamProtTransportSetup = process.BeamProtTransportSetup
 

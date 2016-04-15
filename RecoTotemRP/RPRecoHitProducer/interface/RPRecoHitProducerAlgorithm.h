@@ -1,7 +1,7 @@
 #ifndef RecoTotemRP_RPRecoHitProducer_RPRecoHitProducerAlgorithm_h
 #define RecoTotemRP_RPRecoHitProducer_RPRecoHitProducerAlgorithm_h
 
-#include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
+#include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 #include "DataFormats/Common/interface/DetSet.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"

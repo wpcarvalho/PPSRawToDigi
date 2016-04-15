@@ -14,10 +14,10 @@
 
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
 #include "RecoTotemRP/RPDetectorMaskingService/interface/RPDetectorAvailability.h"
-#include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
+#include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 
 #include "TVector3.h"
 #include "TVector2.h"

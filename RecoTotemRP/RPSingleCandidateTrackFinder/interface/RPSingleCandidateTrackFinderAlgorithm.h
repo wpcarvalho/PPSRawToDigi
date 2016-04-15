@@ -2,9 +2,9 @@
 #define RecoTotemRP_RPRecoHitProducer_RPSingleCandidateTrackFinderAlgorithm_h
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
-#include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
+#include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 #include "DataFormats/GeometryVector/interface/LocalVector.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include <vector>

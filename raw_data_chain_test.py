@@ -36,7 +36,6 @@ process.TotemRPRawToDigi.RawToDigi.printErrorSummary = 1
 process.TotemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 0
 
 # clusterization
-process.load("RecoTotemRP.RPClusterSigmaService.ClusterSigmaServiceConf_cfi")
 process.load("RecoTotemRP.RPClusterizer.RPClusterizationConf_cfi")
 process.RPClustProd.DigiLabel = cms.InputTag("TotemRPRawToDigi", "RP")
 
@@ -44,10 +43,10 @@ process.RPClustProd.DigiLabel = cms.InputTag("TotemRPRawToDigi", "RP")
 process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
 
 # geometry
-process.load("Configuration.TotemCommon.geometryRP_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/TotemRPData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
+process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
+process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
 
-process.load("TotemAlignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
+process.load("Alignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.RealFiles = cms.vstring()
 
 # non-parallel pattern recognition

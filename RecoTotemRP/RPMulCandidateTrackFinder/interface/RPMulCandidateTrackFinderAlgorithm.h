@@ -23,8 +23,8 @@
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 
 //Geometry
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 
 //C++ and STL
 #include <iostream>

@@ -2,8 +2,8 @@
 <use name="FWCore/Framework"/>
 
 <use name="DataFormats/TotemRPDetId"/>
-<use name="Geometry/TotemRecords"/>
-<use name="Geometry/TotemRPGeometryBuilder"/>
+<use name="CondFormats/DataRecord"/>
+<use name="Geometry/VeryForwardGeometryBuilder"/>
 
 <!-- correlation-plot selectors unfortuantely need QString -->
 <use name="qt"/>

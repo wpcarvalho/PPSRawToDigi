@@ -5,10 +5,11 @@
 <use   name="DataFormats/TotemRPReco"/>
 <use   name="root"/>
 <use   name="clhep"/>
-<use   name="Geometry/TotemRPGeometryBuilder"/>
+<use   name="Geometry/VeryForwardGeometryBuilder"/>
 <use   name="RecoTotemRP/RPRecoDataFormats"/>
-<use   name="Geometry/TotemRPDetTopology"/>
+<use   name="Geometry/VeryForwardRPTopology"/>
 <use   name="FWCore/ParameterSet"/>
+
 <export>
   <lib   name="1"/>
 </export>

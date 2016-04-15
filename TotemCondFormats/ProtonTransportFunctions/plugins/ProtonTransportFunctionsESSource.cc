@@ -21,8 +21,8 @@
 #include "TotemCondFormats/BeamOpticsParamsObjects/interface/BeamOpticsParams.h"
 #include "TotemCondFormats/ProtonTransportFunctions/interface/ProtonTransportFunctions.h"
 #include "TotemProtonTransport/TotemRPProtonTransportParametrization/interface/LHCOpticsApproximator.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 
 #include "TFile.h"
 #include "TKey.h"

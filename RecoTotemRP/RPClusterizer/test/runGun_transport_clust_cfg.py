@@ -142,7 +142,7 @@ process.SimG4Object = cms.EDProducer("OscarProducer",
         GFlashEToKill = cms.double(0.1),
         
         BeamProtTransportSetup = cms.PSet(
-            ModelRootFile = cms.string('Geometry/TotemRPOptics/data/parametrization_90_transp.root'),
+            ModelRootFile = cms.string('Geometry/VeryForwardProtonTransport/data/parametrization_90_transp.root'),
             Model_IP_150_R_Name = cms.string('ip5_to_beg_150_station_lhcb1'),
             Model_IP_150_L_Name = cms.string('ip5_to_beg_150_station_lhcb1'),
             Model_IP_150_220_R_Name = cms.string('end_150_station_to_beg_220_station_lhcb1'),

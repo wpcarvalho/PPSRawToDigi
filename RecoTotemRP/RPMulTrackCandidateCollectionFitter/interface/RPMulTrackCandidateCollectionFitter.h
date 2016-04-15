@@ -22,12 +22,12 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/Framework/interface/ESWatcher.h"
 
-#include "Geometry/TotemRPGeometryBuilder/interface/TotemRPGeometry.h"
-#include "Geometry/TotemRecords/interface/RealGeometryRecord.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
 #include "RecoTotemRP/RPTrackCandidateFitter/interface/RPTrackCandidateFitter.h"
-#include "Geometry/TotemRPDetTopology/interface/RPTopology.h"
+#include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 
 #include <string>
 #include <vector>
@@ -62,7 +62,7 @@ class RPMulTrackCandidateCollectionFitter : public edm::EDProducer
     RPTopology det_topology_;
 
     /// A watcher to detect geometry changes.
-    edm::ESWatcher<RealGeometryRecord> geometryWatcher;
+    edm::ESWatcher<VeryForwardRealGeometryRecord> geometryWatcher;
 };
 
 #endif
