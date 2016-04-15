@@ -23,11 +23,14 @@
 #include "DataFormats/TotemDigi/interface/TotemRPDigi.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
+
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
+
+#include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
+
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
+
 #include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 
 #include "DQM/TotemRP/interface/CorrelationPlotsSelector.h"
@@ -54,7 +57,7 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     edm::EDGetTokenT< edm::DetSetVector<TotemRPRecHit> > tokenRecoHit;
     edm::EDGetTokenT< RPRecognizedPatternsCollection > tokenPatternColl;
     edm::EDGetTokenT< RPTrackCandidateCollection > tokenTrackCandColl;
-    edm::EDGetTokenT< RPFittedTrackCollection > tokenTrackColl;
+    edm::EDGetTokenT< edm::DetSetVector<TotemRPLocalTrack> > tokenTrackColl;
     edm::EDGetTokenT< RPMulFittedTrackCollection > tokenMultiTrackColl;
 
     bool buildCorrelationPlots;                           ///< decides wheather the correlation plots are created

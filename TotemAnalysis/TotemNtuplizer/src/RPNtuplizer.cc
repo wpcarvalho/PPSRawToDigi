@@ -9,13 +9,11 @@
 
 #include "TotemAnalysis/TotemNtuplizer/interface/RPNtuplizer.h"
 
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
@@ -37,10 +35,19 @@
 
 #include <map>
 
+//----------------------------------------------------------------------------------------------------
+
 ClassImp(RPRootDumpTrackInfo)
 ClassImp(RPRootDumpDigiInfo)
 ClassImp(RPRootDumpReconstructedProton)
 ClassImp(RPRootDumpReconstructedProtonPair)
+
+//----------------------------------------------------------------------------------------------------
+
+using namespace std;
+using namespace edm;
+
+//----------------------------------------------------------------------------------------------------
 
 RPNtuplizer::RPNtuplizer(const edm::ParameterSet& conf) :
   Ntuplizer(conf), Verbosity_(conf.getUntrackedParameter<unsigned int> ("verbosity", 0))
@@ -178,27 +185,40 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   }
 
   // single-RP track fits
-  edm::Handle < RPFittedTrackCollection > fitted_tracks;
+  edm::Handle < DetSetVector<TotemRPLocalTrack> > fitted_tracks;
   e.getByLabel(rpFittedTrackCollectionLabel, fitted_tracks);
+
   if (fitted_tracks.isValid())
   {
-  	for (RPFittedTrackCollection::const_iterator it = fitted_tracks->begin(); it != fitted_tracks->end(); ++it)
+    for (auto &ds : *fitted_tracks)
     {
-  	  track_info_[it->first].valid = it->second.IsValid();
-  	  track_info_[it->first].chi2 = it->second.ChiSquared();
-  	  track_info_[it->first].chi2ndf = it->second.ChiSquaredOverN();
-  	  track_info_[it->first].x = it->second.X0();
-  	  track_info_[it->first].y = it->second.Y0();
-  	  track_info_[it->first].z = it->second.Z0();
-          track_info_[it->first].thx = it->second.GetTx();
-          track_info_[it->first].thy = it->second.GetTy();
-  	  track_info_[it->first].entries = it->second.GetHitEntries();
-          track_info_[it->first].u_id = it->second.GetUid();
-          track_info_[it->first].v_id = it->second.GetVid();
+      unsigned int rpId = ds.detId();
+
+      if (ds.size() == 0)
+        continue;
+
+      if (ds.size() > 1)
+        throw cms::Exception("RPNtuplizer::FillEvent") << ds.size() << " tracks is RP " << rpId << endl;
+
+      const TotemRPLocalTrack &tr = ds[0];
+
+  	  track_info_[rpId].valid = tr.IsValid();
+  	  track_info_[rpId].chi2 = tr.ChiSquared();
+  	  track_info_[rpId].chi2ndf = tr.ChiSquaredOverN();
+  	  track_info_[rpId].x = tr.X0();
+  	  track_info_[rpId].y = tr.Y0();
+  	  track_info_[rpId].z = tr.Z0();
+      track_info_[rpId].thx = tr.GetTx();
+      track_info_[rpId].thy = tr.GetTy();
+  	  track_info_[rpId].entries = tr.GetHitEntries();
+      track_info_[rpId].u_id = tr.GetUid();
+      track_info_[rpId].v_id = tr.GetVid();
   	}
   }
 
   // save the multi-track fits, if present
+  // TODO: uncomment, update
+  /*
   try {
   	edm::Handle < RPMulFittedTrackCollection > multi_fitted_tracks;
   	e.getByLabel(rpMulFittedTrackCollectionLabel, multi_fitted_tracks);
@@ -229,6 +249,7 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   	  }
   	}
   } catch (const std::exception& e) { std::cout << "Exception: " << e.what() << std::endl;  }
+  */
 
   if (includeDigi)
   {

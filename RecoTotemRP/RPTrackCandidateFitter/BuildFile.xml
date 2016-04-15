@@ -9,6 +9,7 @@
 <use   name="RecoTotemRP/RPRecoDataFormats"/>
 <use   name="Geometry/VeryForwardRPTopology"/>
 <use   name="FWCore/ParameterSet"/>
+<use   name="DataFormats/CTPPSReco"/>
 
 <export>
   <lib   name="1"/>

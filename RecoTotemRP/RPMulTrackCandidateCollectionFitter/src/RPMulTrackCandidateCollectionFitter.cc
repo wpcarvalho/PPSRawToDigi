@@ -126,6 +126,8 @@ void RPMulTrackCandidateCollectionFitter::produceFromReconstructedPatterns(edm::
     exit(0);
   }
 
+// TODO: uncomment
+#if 0
   for (RPRecognizedPatternsCollection::const_iterator rpit = patterns->begin(); rpit != patterns->end(); ++rpit)
   {
     unsigned int rp = rpit->first;
@@ -161,20 +163,24 @@ void RPMulTrackCandidateCollectionFitter::produceFromReconstructedPatterns(edm::
         //TODO: build the candidate track if the weight satisfies a certain condition
         
         //fit the track
+        // TODO: uncomment
+        /*
         RPFittedTrack fitted_track;
         CLHEP::Hep3Vector rp_glob_trans = (*Totem_RP_geometry).GetRPGlobalTranslation(rp);
         
-        // TODO: uncomment
-        //the_track_candidate_fitter_.FitTrack(tr_cand, rp_glob_trans.z(), fitted_track, *Totem_RP_geometry);
+        the_track_candidate_fitter_.FitTrack(tr_cand, rp_glob_trans.z(), fitted_track, *Totem_RP_geometry);
+
         if(fitted_track.IsValid())
         {
           fitTrackColl[rp].push_back(fitted_track);
         }
+        */
         j++;
       }
       i++;
     }
   }
+#endif
 }
 
 
@@ -212,13 +218,15 @@ void RPMulTrackCandidateCollectionFitter::run(const RPMulTrackCandidateCollectio
     CLHEP::Hep3Vector rp_glob_trans = rp_geometry.GetRPGlobalTranslation(in_it->first);
     for(tr_it = (in_it->second).begin(); tr_it != (in_it->second).end(); tr_it++)
     {
-      RPFittedTrack fitted_track;
       // TODO: uncomment
-      //the_track_candidate_fitter_.FitTrack(*tr_it, rp_glob_trans.z(), fitted_track, rp_geometry);
+      /*
+      RPFittedTrack fitted_track;
+      the_track_candidate_fitter_.FitTrack(*tr_it, rp_glob_trans.z(), fitted_track, rp_geometry);
       if(fitted_track.IsValid())
       {
         output[in_it->first].push_back(fitted_track);
       }
+      */
     }
   }
 }

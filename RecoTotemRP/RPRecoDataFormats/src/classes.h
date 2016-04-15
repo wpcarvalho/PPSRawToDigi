@@ -4,8 +4,6 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateDistinctCollectionsSet.h"
 #include "DataFormats/Common/interface/Wrapper.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSet.h"
@@ -47,10 +45,6 @@ namespace {
     edm::Wrapper<RPMulTrackCandidateCollection> RPMulTrackCandidateCollectionWrapper;
     edm::Wrapper<RPTrackCandidateDistinctCollectionsSet> RPTrackCandidateDistinctCollectionsSetWrapper;
     
-    std::vector<std::vector<RPFittedTrack> > vvrpfittrack;
-    edm::Wrapper<std::vector<std::vector<RPFittedTrack> > > wrvvrpfittrack;
-    std::map<unsigned int, std::vector<std::vector<RPFittedTrack> > > mapwrvvrpfittrack;
-    edm::Wrapper<std::map<unsigned int, std::vector<std::vector<RPFittedTrack> > > > wrapmapwrvvrpfittrack;
     edm::Wrapper<RPMulFittedTrackSetsCollection> wraprpmulttracksetcol; 
     
     std::vector<std::vector<RPTrackCandidate> > vvrptrcand;
@@ -64,26 +58,11 @@ namespace {
     std::allocator<std::pair<const unsigned int,RPTrackCandidate> > apcuirptc;
     std::binary_function<unsigned int,unsigned int,bool> bf;
 
-    // integrate this block
-    RPFittedTrack ft;
-    edm::DetSetVector<RPFittedTrack> dsv_ft;
-    edm::Wrapper<edm::DetSetVector<RPFittedTrack>> w_dsv_ft;
-
-    RPFittedTrackCollection the_track_cand_col;
     RPMulFittedTrackCollection the_mtrack_cand_col;
-    std::pair<unsigned int, RPFittedTrack> p_rpid_rpfittedtr;
-    std::pair<unsigned int, std::vector<RPFittedTrack> > p_rpid_rpfittedtrvec;
-    std::vector<RPFittedTrack>  v_fitted_track;
-    edm::Wrapper<RPFittedTrack> the_w_rpft;
-    edm::Wrapper<RPFittedTrackCollection> the_w_rpftc;
     edm::Wrapper<RPMulFittedTrackCollection> the_w_mrpftc;
     
     RPDetHitPoint rpdhp;
     std::vector<RPDetHitPoint> vrdhp;
-    std::map<unsigned int, RPFittedTrack> mdeidfittrac;
-    std::map<unsigned int, std::vector<RPFittedTrack> > vmdeidfittrac;
-    edm::Wrapper<std::map<unsigned int, RPFittedTrack> > wmdeidfittrac;
-    edm::Wrapper<std::map<unsigned int, std::vector<RPFittedTrack> > > vwmdeidfittrac;
     edm::Wrapper<RPDetHitPoint> wrpdhp;
     edm::Wrapper<std::vector<RPDetHitPoint> > wvrdhp;
     
@@ -118,8 +97,6 @@ namespace {
     edm::Wrapper<RPRecognizedPatterns> wrprp;
     edm::Wrapper<RPRecognizedPatternsCollection> wrprpc;
     
-	std::allocator<std::pair<const unsigned int, RPFittedTrack> > aslpairinintrpfittrack;
-
 	RPStationTrackFit rpstf;
 	std::vector<RPStationTrackFit> vrpstf;
 	std::map<unsigned int, std::vector<RPStationTrackFit> > m_ui_vrpstf;

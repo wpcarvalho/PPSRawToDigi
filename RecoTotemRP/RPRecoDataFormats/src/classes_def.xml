@@ -16,10 +16,6 @@
   <class name="std::allocator<std::pair<const unsigned int,RPTrackCandidate> >"/>
   <class name="std::binary_function<unsigned int,unsigned int,bool>"/>
   
-  <class name="std::vector<std::vector<RPFittedTrack> >"/>
-  <class name="edm::Wrapper<std::vector<std::vector<RPFittedTrack> > >"/>
-  <class name="std::map<unsigned int, std::vector<std::vector<RPFittedTrack> > >"/>
-  <class name="edm::Wrapper<std::map<unsigned int, std::vector<std::vector<RPFittedTrack> > > >"/>
   <class name="edm::Wrapper<RPMulFittedTrackSetsCollection>"/>
   <class name="std::vector<std::vector<RPTrackCandidate> >"/>
   <class name="std::map<unsigned int, std::vector<std::vector<RPTrackCandidate> > >"/>
@@ -28,28 +24,12 @@
   <class name="edm::Wrapper<std::map<unsigned int, std::vector<std::vector<RPTrackCandidate> > > >"/>
   <class name="edm::Wrapper<RPMulTrackCandidateSetsCollection>"/>
   
-  <class name="std::vector<RPFittedTrack>"/>
-  <class name="std::pair<unsigned int, RPFittedTrack>"/>
-  <class name="std::pair<unsigned int, std::vector<RPFittedTrack> >"/>
   <class name="RPDetHitPoint"/>
   <class name="std::vector<RPDetHitPoint>"/>
-  <class name="std::map<unsigned int, RPFittedTrack>"/>
-  <class name="std::map<unsigned int, std::vector<RPFittedTrack> >"/>
-  <class name="edm::Wrapper<std::map<unsigned int, RPFittedTrack> >"/>
-  <class name="edm::Wrapper<std::map<unsigned int, std::vector<RPFittedTrack> > >"/>
-  <class name="RPFittedTrackCollection"/>
-  <class name="edm::Wrapper<RPFittedTrackCollection> "/>
   <class name="RPMulFittedTrackCollection"/>
   <class name="edm::Wrapper<RPMulFittedTrackCollection> "/>
   <class name="edm::Wrapper<RPDetHitPoint>"/>
   <class name="edm::Wrapper<std::vector<RPDetHitPoint> >"/>
-
-  <!-- integrate this block -->
-  <class name="RPFittedTrack" ClassVersion="2">
-    <version ClassVersion="2" checksum="1877250191"/>
-  </class>
-  <class name="edm::DetSetVector<RPFittedTrack>"/>
-  <class name="edm::Wrapper<edm::DetSetVector<RPFittedTrack>>"/>
 
   <class name="RPReconstructedProton"/>
   <class name="edm::Wrapper<RPReconstructedProton>"/>
@@ -82,7 +62,6 @@
   <class name="std::map<unsigned int, RPRecognizedPatterns>"/>
   <class name="edm::Wrapper<RPRecognizedPatterns>"/>
   <class name="edm::Wrapper<RPRecognizedPatternsCollection>"/>
-  <class name="std::allocator<std::pair<const unsigned int,RPFittedTrack> >"/>
 
   <class name="RPStationTrackFit"/>
   <class name="std::vector<RPStationTrackFit>"/>

@@ -1,3 +1,11 @@
+/****************************************************************************
+*
+* This is a part of TOTEM offline software.
+* Authors:
+* 	Hubert Niewiadomski
+*
+****************************************************************************/
+
 #include "FWCore/Framework/interface/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
@@ -5,12 +13,14 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
+#include "DataFormats/Common/interface/DetSetVector.h"
 
 #include "RecoTotemRP/RPInverseParameterization/interface/RPInverseParameterization.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonCollection.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
+
+#include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
+
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
 #include "RecoTotemRP/RPRomanPotResolutionService/interface/RPFitResolution.h"
 #include "TotemCondFormats/BeamOpticsParamsObjects/interface/BeamOpticsParams.h"
@@ -47,7 +57,7 @@ class RPPrimaryVertexInelasticReconstruction : public edm::EDProducer
     typedef std::vector<int> station_rp_ids_type;
 
     edm::InputTag rpFittedTrackCollectionLabel;
-    edm::EDGetTokenT<RPFittedTrackCollection> rpFittedTrackCollectionToken;
+    edm::EDGetTokenT<edm::DetSetVector<TotemRPLocalTrack>> rpFittedTrackCollectionToken;
 
     edm::InputTag HepMCProductLabel;
     edm::EDGetTokenT<edm::HepMCProduct> HepMCProductToken;
@@ -92,7 +102,7 @@ class RPPrimaryVertexInelasticReconstruction : public edm::EDProducer
     ///    * with two and more units active
     ///    * without top and bottom RPs active at the same time
     /// Returns the number of RPs selected.
-    int SelectHits(const RPFittedTrackCollection &tracks, unsigned int armId, rec_tracks_collection &coll);
+    int SelectHits(const edm::DetSetVector<TotemRPLocalTrack> &tracks, unsigned int armId, rec_tracks_collection &coll);
 
     /// Increases the hit uncertainties for the contribution(s) from multiple scattering in preceeding RPs
     void AddInStationMultipleScatteringContribution(rec_tracks_collection &col,
@@ -119,7 +129,7 @@ RPPrimaryVertexInelasticReconstruction::RPPrimaryVertexInelasticReconstruction(c
  : conf_(conf), resol_degrad_service_(conf)
 {
   rpFittedTrackCollectionLabel = conf.getParameter<edm::InputTag>("RPFittedTrackCollectionLabel");
-  rpFittedTrackCollectionToken = consumes<RPFittedTrackCollection>(rpFittedTrackCollectionLabel);
+  rpFittedTrackCollectionToken = consumes<DetSetVector<TotemRPLocalTrack>>(rpFittedTrackCollectionLabel);
 
   produces< RPReconstructedProtonCollection > ();
 }
@@ -301,7 +311,7 @@ void RPPrimaryVertexInelasticReconstruction::produce(edm::Event& e, const edm::E
   //printf("--------------------------------- event %u ----------------------------------------\n", e.id().event());
 
   // get input
-  edm::Handle< RPFittedTrackCollection > input;
+  edm::Handle< DetSetVector<TotemRPLocalTrack> > input;
   RPReconstructedProtonCollection reconstructed_proton_collection;
 
   e.getByToken(rpFittedTrackCollectionToken, input);
@@ -364,8 +374,7 @@ void RPPrimaryVertexInelasticReconstruction::produce(edm::Event& e, const edm::E
       external_primary_vertex_ || set_primary_vertex_to_zero_);
   }
 
-  auto_ptr<RPReconstructedProtonCollection> output(new RPReconstructedProtonCollection(reconstructed_proton_collection));
-  e.put(output);
+  e.put(make_unique<RPReconstructedProtonCollection>(reconstructed_proton_collection));
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -458,26 +467,30 @@ bool RPPrimaryVertexInelasticReconstruction::FindPrimaryVertex(edm::Event& e)
 //----------------------------------------------------------------------------------------------------
 
 // return the number of pots through which the proton goes
-int RPPrimaryVertexInelasticReconstruction::SelectHits(const RPFittedTrackCollection &tracks, 
+int RPPrimaryVertexInelasticReconstruction::SelectHits(const DetSetVector<TotemRPLocalTrack> &tracks, 
     unsigned int armId_request, rec_tracks_collection &coll)
 {
   // filter hits with selected arm id
   bool top = false;
   bool bottom = false;
   set<unsigned int> units;
-  for (const auto &p : tracks)
+  for (const auto &ds : tracks)
   {
-    //printf("%u, ", p.first);
-
-    if (!p.second.IsValid())
-      continue;
-
-    const unsigned int &rpId = p.first;
+    const unsigned int &rpId = ds.detId();
     unsigned int armId = rpId / 100;
     if (armId != armId_request)
       continue;
 
-    coll[rpId] = resol_degrad_service_.Create2DHit(rpId, p.second);
+    // currently support only 1 track per RP
+    if (ds.size() != 1)
+      throw cms::Exception("RPPrimaryVertexInelasticReconstruction::SelectHits") << ds.size() << "tracks found in RP " << rpId << endl;
+
+    const TotemRPLocalTrack &tr = ds[0];
+
+    if (!tr.IsValid())
+      continue;
+
+    coll[rpId] = resol_degrad_service_.Create2DHit(rpId, tr);
 
     // for quality checks
     unsigned int rpNum = rpId % 10;

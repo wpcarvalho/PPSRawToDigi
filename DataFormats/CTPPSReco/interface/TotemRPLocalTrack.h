@@ -7,19 +7,19 @@
  *
  ****************************************************************************/
 
-// TODO
-#ifndef RecoTotemRP_RPRecoDataFormats_RPFittedTrack_h
-#define RecoTotemRP_RPRecoDataFormats_RPFittedTrack_h
+#ifndef DataFormats_CTPPSReco_TotemRPLocalTrack
+#define DataFormats_CTPPSReco_TotemRPLocalTrack
 
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
 
-#include "TROOT.h"
 #include "TVector3.h"
 #include "TMatrixD.h"
 #include "TVectorD.h"
 #include "TMath.h"
 
+// TODO: methods with lower case
+
+// TODO: move as nested class
 class RPDetHitPoint: public TotemRPRecHit
 {
   public:
@@ -72,7 +72,7 @@ private:
  * x any y refer to the global (x, y) system with the beam at (x = 0, y = 0).
  * Only VALID tracks (IsValid()==true) can be later used for physics reconstruction!
  **/
-class RPFittedTrack
+class TotemRPLocalTrack
 {
   public:
   enum {
@@ -83,14 +83,14 @@ class RPFittedTrack
     covarianceSize = dimension * dimension
   }; ///< covariance matrix size
 
-  RPFittedTrack() : /*track_params_vector_(4),*/
+  TotemRPLocalTrack() : /*track_params_vector_(4),*/
       z0_(0),
       /*par_covariance_matrix_(4,4),*/chiSquared_(0), valid_(false), u_id_(
           0), v_id_(0), sourceTrackCandidateValid(false) {
   }
-  RPFittedTrack(double z0, const TVectorD & track_params_vector,
+  TotemRPLocalTrack(double z0, const TVectorD & track_params_vector,
       const TMatrixD &par_covariance_matrix, double chiSquared);
-  virtual ~RPFittedTrack() {
+  virtual ~TotemRPLocalTrack() {
   }
   inline int GetHitEntries() const {
     return track_hits_vector_.size();
@@ -189,16 +189,7 @@ class RPFittedTrack
     return v_id_;
   }
 
-  inline bool IsSourceTrackCandidateValid() const{
-    return sourceTrackCandidateValid;
-  }
-
-  inline void SetSourceTrackCandidateValidity(bool val){
-    sourceTrackCandidateValid = val;
-  }
-  RPTrackCandidate sourceTrackCandidate; ///< track candidate that has been used as source for this fit
-
-  friend bool operator< (const RPFittedTrack &l, const RPFittedTrack &r);
+  friend bool operator< (const TotemRPLocalTrack &l, const TotemRPLocalTrack &r);
 
   private:
     inline const double& CovarianceMatrixElement(int i, int j) const

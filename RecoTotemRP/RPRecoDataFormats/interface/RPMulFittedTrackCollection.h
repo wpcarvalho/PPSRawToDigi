@@ -1,6 +1,6 @@
 /****************************************************************************
 * This module is directly copied from 
-* RPRecoDataFormats/RPFittedTrackCollection and expanded to hold 
+* RPRecoDataFormats/TotemRPLocalTrackCollection and expanded to hold 
 * multiple fitted tracks.
 *   
 * Original Authors:
@@ -15,17 +15,17 @@
 #define RecoTotemRP_RPRecoDataFormats_RPMulFittedTrackCollection_h
 
 
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
 
 #include <vector>
 #include <map>
 
 
-class RPMulFittedTrackCollection : public std::map<unsigned int, std::vector<RPFittedTrack> >
+class RPMulFittedTrackCollection : public std::map<unsigned int, std::vector<TotemRPLocalTrack> >
 {
 };
 
-class RPMulFittedTrackSetsCollection : public std::map<unsigned int, std::vector<std::vector<RPFittedTrack> > >
+class RPMulFittedTrackSetsCollection : public std::map<unsigned int, std::vector<std::vector<TotemRPLocalTrack> > >
 {
 };
 

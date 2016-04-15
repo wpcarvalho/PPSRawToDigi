@@ -8,10 +8,11 @@
 ****************************************************************************/
 
 #include "RecoTotemRP/RPTrackCandidateFitter/interface/RPTrackCandidateFitter.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
 
 #include "TMath.h"
 #include "TMatrixD.h"
+
+// TODO: needed?
 #include <iostream>
 
 
@@ -134,7 +135,7 @@ TVector2 RPTrackCandidateFitter::ComputeXYPointOfTheGivenLine(const TotemRPRecHi
 //----------------------------------------------------------------------------------------------------
 
 bool RPTrackCandidateFitter::FitTrack(const vector<const TotemRPRecHit *> &hits, double z_0,
-    const TotemRPGeometry &tot_geom, RPFittedTrack &fitted_track)
+    const TotemRPGeometry &tot_geom, TotemRPLocalTrack &fitted_track)
 {
   fitted_track.IsValid(false);
   

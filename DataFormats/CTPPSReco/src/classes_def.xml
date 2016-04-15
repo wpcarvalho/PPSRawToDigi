@@ -23,5 +23,11 @@
   </class>
   <class name="edm::DetSetVector<TotemRPUVPattern>"/>
   <class name="edm::Wrapper<edm::DetSetVector<TotemRPUVPattern>>"/>
-  
+
+  <class name="TotemRPLocalTrack" ClassVersion="2">
+    <version ClassVersion="2" checksum="4063225302"/>
+  </class>
+  <class name="edm::DetSetVector<TotemRPLocalTrack>"/>
+  <class name="edm::Wrapper<edm::DetSetVector<TotemRPLocalTrack>>"/>
+ 
 </lcgdict>

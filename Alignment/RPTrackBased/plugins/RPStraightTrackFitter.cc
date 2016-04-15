@@ -20,8 +20,10 @@
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "Alignment/RPTrackBased/interface/AlignmentGeometry.h"
 #include "Alignment/RPTrackBased/interface/AlignmentTask.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
+
+// TODO
+//#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
+//#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
 
 #include "TFile.h"
 #include "TTree.h"

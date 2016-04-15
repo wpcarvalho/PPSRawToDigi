@@ -24,7 +24,7 @@
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 
 #include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
 
 
 /**

@@ -7,11 +7,11 @@
  *
  ****************************************************************************/
 
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
 
 //----------------------------------------------------------------------------------------------------
 
-TMatrixD RPFittedTrack::TrackPointInterpolationCovariance(double z) const
+TMatrixD TotemRPLocalTrack::TrackPointInterpolationCovariance(double z) const
 {
   TMatrixD h(2,4);
   h(0,0)=1;
@@ -32,7 +32,7 @@ TMatrixD RPFittedTrack::TrackPointInterpolationCovariance(double z) const
 
 //----------------------------------------------------------------------------------------------------
 
-RPFittedTrack::RPFittedTrack(double z0, const TVectorD & track_params_vector, 
+TotemRPLocalTrack::TotemRPLocalTrack(double z0, const TVectorD & track_params_vector, 
       const TMatrixD &par_covariance_matrix, double chiSquared) 
       : z0_(z0), chiSquared_(chiSquared), valid_(true), u_id_(0), v_id_(0), sourceTrackCandidateValid(false)
 {
@@ -48,7 +48,7 @@ RPFittedTrack::RPFittedTrack(double z0, const TVectorD & track_params_vector,
 
 //----------------------------------------------------------------------------------------------------
 
-TVectorD RPFittedTrack::ParameterVector() const 
+TVectorD TotemRPLocalTrack::ParameterVector() const 
 {
   TVectorD v(dimension);
   
@@ -60,7 +60,7 @@ TVectorD RPFittedTrack::ParameterVector() const
 
 //----------------------------------------------------------------------------------------------------
 
-void RPFittedTrack::ParameterVector(const TVectorD & track_params_vector)
+void TotemRPLocalTrack::ParameterVector(const TVectorD & track_params_vector)
 {
   for(int i=0; i<dimension; ++i)
     track_params_vector_[i]=track_params_vector[i];
@@ -68,7 +68,7 @@ void RPFittedTrack::ParameterVector(const TVectorD & track_params_vector)
 
 //----------------------------------------------------------------------------------------------------
 
-TMatrixD RPFittedTrack::CovarianceMatrix() const 
+TMatrixD TotemRPLocalTrack::CovarianceMatrix() const 
 {
   TMatrixD m(dimension,dimension);
   
@@ -81,7 +81,7 @@ TMatrixD RPFittedTrack::CovarianceMatrix() const
 
 //----------------------------------------------------------------------------------------------------
 
-void RPFittedTrack::CovarianceMatrix(const TMatrixD &par_covariance_matrix)
+void TotemRPLocalTrack::CovarianceMatrix(const TMatrixD &par_covariance_matrix)
 {
   for(int i=0; i<dimension; ++i)
     for(int j=0; j<dimension; ++j)
@@ -90,14 +90,14 @@ void RPFittedTrack::CovarianceMatrix(const TMatrixD &par_covariance_matrix)
 
 //----------------------------------------------------------------------------------------------------
 
-bool operator< (const RPFittedTrack &l, const RPFittedTrack &r)
+bool operator< (const TotemRPLocalTrack &l, const TotemRPLocalTrack &r)
 {
   if (l.z0_ < r.z0_)
     return true;
   if (l.z0_ > r.z0_)
     return true;
 
-  for (int i = 0; i < RPFittedTrack::dimension; ++i)
+  for (int i = 0; i < TotemRPLocalTrack::dimension; ++i)
   {
     if (l.track_params_vector_[i] < r.track_params_vector_[i])
       return true;

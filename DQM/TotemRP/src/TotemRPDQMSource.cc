@@ -228,7 +228,7 @@ TotemRPDQMSource::TotemRPDQMSource(const edm::ParameterSet& ps) :
   tokenRecoHit = consumes< edm::DetSetVector<TotemRPRecHit> >(ps.getParameter<edm::InputTag>("tagRecoHit"));
   tokenPatternColl = consumes< RPRecognizedPatternsCollection >(ps.getParameter<edm::InputTag>("tagPatternColl"));
   tokenTrackCandColl = consumes< RPTrackCandidateCollection >(ps.getParameter<edm::InputTag>("tagTrackCandColl"));
-  tokenTrackColl = consumes< RPFittedTrackCollection >(ps.getParameter<edm::InputTag>("tagTrackColl"));
+  tokenTrackColl = consumes< DetSetVector<TotemRPLocalTrack> >(ps.getParameter<edm::InputTag>("tagTrackColl"));
   tokenMultiTrackColl = consumes< RPMulFittedTrackCollection >(ps.getParameter<edm::InputTag>("tagMultiTrackColl"));
 }
 
@@ -326,7 +326,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   Handle< RPTrackCandidateCollection > trackCanColl;
   event.getByToken(tokenTrackCandColl, trackCanColl);
 
-  Handle< RPFittedTrackCollection > tracks;
+  Handle< DetSetVector<TotemRPLocalTrack> > tracks;
   event.getByToken(tokenTrackColl, tracks);
 
   //Handle< RPMulFittedTrackCollection > multiTracks;
@@ -453,50 +453,51 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   }
 
   // cumulative RP fit plots
-  for (RPFittedTrackCollection::const_iterator it = tracks->begin(); it != tracks->end(); ++it)
+  for (auto &ds : *tracks)
   {
-    const RPFittedTrack &ft = it->second;
-      
-    if (!ft.IsValid())
-      continue;
-  
-    unsigned int RPId = it->first;
+    unsigned int RPId = ds.detId();
     PotPlots &pp = potPlots[RPId];
 
-    // number of planes contributing to (valid) fits
-    unsigned int n_pl_in_fit_u = 0, n_pl_in_fit_v = 0;
-    for (int hi = 0; hi < ft.GetHitEntries(); hi++)
+    for (auto &ft : ds)
     {
-      unsigned int rawId = ft.GetHit(hi).DetId();  
-      unsigned int decId = TotemRPDetId::rawToDecId(rawId);
-      if (TotemRPDetId::isStripsCoordinateUDirection(decId))
-        n_pl_in_fit_u++;
-      else
-        n_pl_in_fit_v++;
+      if (!ft.IsValid())
+        continue;
+     
+      // number of planes contributing to (valid) fits
+      unsigned int n_pl_in_fit_u = 0, n_pl_in_fit_v = 0;
+      for (int hi = 0; hi < ft.GetHitEntries(); hi++)
+      {
+        unsigned int rawId = ft.GetHit(hi).DetId();  
+        unsigned int decId = TotemRPDetId::rawToDecId(rawId);
+        if (TotemRPDetId::isStripsCoordinateUDirection(decId))
+          n_pl_in_fit_u++;
+        else
+          n_pl_in_fit_v++;
+      }
+      pp.h_planes_fit_u->Fill(n_pl_in_fit_u);
+      pp.h_planes_fit_v->Fill(n_pl_in_fit_v);
+  
+      // mean position of U and V planes
+      double rp_x = ( geometry->GetDetector(TotemRPDetId::decToRawId(RPId*10 + 0))->translation().x() +
+                      geometry->GetDetector(TotemRPDetId::decToRawId(RPId*10 + 1))->translation().x() ) / 2.;
+      double rp_y = ( geometry->GetDetector(TotemRPDetId::decToRawId(RPId*10 + 0))->translation().y() +
+                      geometry->GetDetector(TotemRPDetId::decToRawId(RPId*10 + 1))->translation().y() ) / 2.;
+  
+      // mean read-out direction of U and V planes
+      CLHEP::Hep3Vector rod_U = geometry->LocalToGlobalDirection(TotemRPDetId::decToRawId(RPId*10 + 1), CLHEP::Hep3Vector(0., 1., 0.));
+      CLHEP::Hep3Vector rod_V = geometry->LocalToGlobalDirection(TotemRPDetId::decToRawId(RPId*10 + 0), CLHEP::Hep3Vector(0., 1., 0.));
+  
+      double x = ft.X0() - rp_x;
+      double y = ft.Y0() - rp_y;
+  
+      pp.trackHitsCumulativeHist->Fill(x, y);
+  
+      double U = x * rod_U.x() + y * rod_U.y();
+      double V = x * rod_V.x() + y * rod_V.y();
+  
+      pp.track_u_profile->Fill(U);
+      pp.track_v_profile->Fill(V);
     }
-    pp.h_planes_fit_u->Fill(n_pl_in_fit_u);
-    pp.h_planes_fit_v->Fill(n_pl_in_fit_v);
-
-    // mean position of U and V planes
-    double rp_x = ( geometry->GetDetector(TotemRPDetId::decToRawId(RPId*10 + 0))->translation().x() +
-                    geometry->GetDetector(TotemRPDetId::decToRawId(RPId*10 + 1))->translation().x() ) / 2.;
-    double rp_y = ( geometry->GetDetector(TotemRPDetId::decToRawId(RPId*10 + 0))->translation().y() +
-                    geometry->GetDetector(TotemRPDetId::decToRawId(RPId*10 + 1))->translation().y() ) / 2.;
-
-    // mean read-out direction of U and V planes
-    CLHEP::Hep3Vector rod_U = geometry->LocalToGlobalDirection(TotemRPDetId::decToRawId(RPId*10 + 1), CLHEP::Hep3Vector(0., 1., 0.));
-    CLHEP::Hep3Vector rod_V = geometry->LocalToGlobalDirection(TotemRPDetId::decToRawId(RPId*10 + 0), CLHEP::Hep3Vector(0., 1., 0.));
-
-    double x = ft.X0() - rp_x;
-    double y = ft.Y0() - rp_y;
-
-    pp.trackHitsCumulativeHist->Fill(x, y);
-
-    double U = x * rod_U.x() + y * rod_U.y();
-    double V = x * rod_V.x() + y * rod_V.y();
-
-    pp.track_u_profile->Fill(U);
-    pp.track_v_profile->Fill(V);
   }
 
   //------------------------------
@@ -547,20 +548,24 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
       mBot[p.first] = 0;
     }
 
-    for (auto p : *tracks)
+    for (auto &ds : *tracks)
     {
-      if (!p.second.IsValid())
-        continue;
-  
-      unsigned int armNum = p.first / 100;
-      unsigned int rpNum = p.first % 10;
+      unsigned int rpId = ds.detId();
+      unsigned int armNum = rpId / 100;
+      unsigned int rpNum = rpId % 10;
 
-      if (rpNum == 0 || rpNum == 4)
-        mTop[armNum]++;
-      if (rpNum == 2 || rpNum == 3)
-        mHor[armNum]++;
-      if (rpNum == 1 || rpNum == 5)
-        mBot[armNum]++;
+      for (auto &tr : ds)
+      {
+        if (! tr.IsValid())
+          continue;
+  
+        if (rpNum == 0 || rpNum == 4)
+          mTop[armNum]++;
+        if (rpNum == 2 || rpNum == 3)
+          mHor[armNum]++;
+        if (rpNum == 1 || rpNum == 5)
+          mBot[armNum]++;
+      }
     }
 
     for (auto &p : armPlots)
@@ -571,43 +576,55 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     }
 
     // track RP correlation
-    for (auto t1 : *tracks)
+    for (auto &ds1 : *tracks)
     {
-      if (!t1.second.IsValid())
-        continue;
-
-      unsigned int arm1 = t1.first / 100;
-      unsigned int stNum1 = (t1.first / 10) % 10;
-      unsigned int rpNum1 = t1.first % 10;
-      unsigned int idx1 = stNum1/2 * 7 + rpNum1;
-      bool hor1 = (rpNum1 == 2 || rpNum1 == 3);
-
-      ArmPlots &ap = armPlots[arm1];
-
-      for (auto t2 : *tracks)
+      for (auto &tr1 : ds1)
       {
-        if (!t2.second.IsValid())
+        if (! tr1.IsValid())
           continue;
-      
-        unsigned int arm2 = t2.first / 100;
-        unsigned int stNum2 = (t2.first / 10) % 10;
-        unsigned int rpNum2 = t2.first % 10;
-        unsigned int idx2 = stNum2/2 * 7 + rpNum2;
-        bool hor2 = (rpNum2 == 2 || rpNum2 == 3);
-
-        if (arm1 != arm2)
-          continue;
-
-        ap.h_trackCorr->Fill(idx1, idx2); 
-        
-        if (hor1 != hor2)
-          ap.h_trackCorr_overlap->Fill(idx1, idx2); 
+  
+        unsigned int rpId1 = ds1.detId();
+        unsigned int arm1 = rpId1 / 100;
+        unsigned int stNum1 = (rpId1 / 10) % 10;
+        unsigned int rpNum1 = rpId1 % 10;
+        unsigned int idx1 = stNum1/2 * 7 + rpNum1;
+        bool hor1 = (rpNum1 == 2 || rpNum1 == 3);
+  
+        ArmPlots &ap = armPlots[arm1];
+  
+        for (auto &ds2 : *tracks)
+        {
+          for (auto &tr2 : ds2)
+          {
+            if (! tr2.IsValid())
+              continue;
+          
+            unsigned int rpId2 = ds2.detId();
+            unsigned int arm2 = rpId2 / 100;
+            unsigned int stNum2 = (rpId2 / 10) % 10;
+            unsigned int rpNum2 = rpId2 % 10;
+            unsigned int idx2 = stNum2/2 * 7 + rpNum2;
+            bool hor2 = (rpNum2 == 2 || rpNum2 == 3);
+    
+            if (arm1 != arm2)
+              continue;
+    
+            ap.h_trackCorr->Fill(idx1, idx2); 
+            
+            if (hor1 != hor2)
+              ap.h_trackCorr_overlap->Fill(idx1, idx2); 
+          }
+        }
       }
     }
   }
   
   //------------------------------
   // RP-system plots
+  // TODO: this code needs
+  //    * generalization for more than two RPs per arm
+  //    * updating for tracks as DetSetVector
+  /*
   for (auto &dp : diagonalPlots)
   {
     unsigned int id = dp.first;
@@ -646,8 +663,9 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     pl.h_lrc_y_n->Fill(y_45_n, y_56_n);  
     
     pl.h_lrc_x_f->Fill(x_45_f, x_56_f);  
-    pl.h_lrc_y_f->Fill(y_45_f, y_56_f);  
+    pl.h_lrc_y_f->Fill(y_45_f, y_56_f);
   }
+  */
 }
 
 //----------------------------------------------------------------------------------------------------

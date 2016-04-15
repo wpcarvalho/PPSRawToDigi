@@ -5,6 +5,7 @@
 #include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
 
 #include <vector>
 
@@ -28,5 +29,9 @@ namespace {
     TotemRPUVPattern pat;
     edm::DetSetVector<TotemRPUVPattern> dsv_pat;
     edm::Wrapper<edm::DetSetVector<TotemRPUVPattern>> w_dsv_pat;
+
+    TotemRPLocalTrack ft;
+    edm::DetSetVector<TotemRPLocalTrack> dsv_ft;
+    edm::Wrapper<edm::DetSetVector<TotemRPLocalTrack>> w_dsv_ft;
   }
 }

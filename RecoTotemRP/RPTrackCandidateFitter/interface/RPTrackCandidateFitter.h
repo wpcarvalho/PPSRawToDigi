@@ -12,8 +12,7 @@
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 #include "RecoTotemRP/RPDetectorMaskingService/interface/RPDetectorAvailability.h"
@@ -39,7 +38,7 @@ struct RPDetCoordinateAlgebraObjs
 
 
 /**
- *\brief Fits a RPTrackCandidate, results in RPFittedTrack.
+ *\brief TODO
  **/
 class RPTrackCandidateFitter
 {
@@ -47,7 +46,7 @@ class RPTrackCandidateFitter
     RPTrackCandidateFitter(const edm::ParameterSet &conf);
 
     /// performs the track fit, returns true if successful
-    bool FitTrack(const vector<const TotemRPRecHit *> &hits, double z_0, const TotemRPGeometry &tot_geom, RPFittedTrack &fitted_track);
+    bool FitTrack(const vector<const TotemRPRecHit *> &hits, double z_0, const TotemRPGeometry &tot_geom, TotemRPLocalTrack &fitted_track);
 
     /// Resets the reconstruction-data cache.
     void Reset();

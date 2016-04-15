@@ -32,7 +32,7 @@ RPTrackCandidateCollectionFitter::RPTrackCandidateCollectionFitter(const edm::Pa
   patternCollectionLabel = conf.getParameter<edm::InputTag>("RPTrackCandidateCollectionLabel");
   patternCollectionToken = consumes<DetSetVector<TotemRPUVPattern>>(patternCollectionLabel);
 
-  produces<DetSetVector<RPFittedTrack>> ();
+  produces<DetSetVector<TotemRPLocalTrack>> ();
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ void RPTrackCandidateCollectionFitter::produce(edm::Event& e, const edm::EventSe
   e.getByToken(patternCollectionToken, input);
 
   // run fit for each RP
-  DetSetVector<RPFittedTrack> output;
+  DetSetVector<TotemRPLocalTrack> output;
   
   for (const auto &rpv : *input)
   {
@@ -115,12 +115,12 @@ void RPTrackCandidateCollectionFitter::produce(edm::Event& e, const edm::EventSe
     // run fit
     double z0 = geometry->GetRPGlobalTranslation(rpId).z();
 
-    RPFittedTrack track;
+    TotemRPLocalTrack track;
     fitter_.FitTrack(hits, z0, *geometry, track);
     
     if (track.IsValid())
     {
-      DetSet<RPFittedTrack> ds = output.find_or_insert(rpId);
+      DetSet<TotemRPLocalTrack> ds = output.find_or_insert(rpId);
       ds.push_back(track);
     }
   }
@@ -133,7 +133,7 @@ void RPTrackCandidateCollectionFitter::produce(edm::Event& e, const edm::EventSe
 
     double z0 = geometry->GetRPGlobalTranslation(rpId).z();
 
-    RPFittedTrack fitted_track;
+    TotemRPLocalTrack fitted_track;
     the_track_candidate_fitter_.FitTrack(in_it->second, z0, fitted_track, *geometry);
 
     if (fitted_track.IsValid())
@@ -142,7 +142,7 @@ void RPTrackCandidateCollectionFitter::produce(edm::Event& e, const edm::EventSe
   */
 
   // save results
-  e.put(make_unique<DetSetVector<RPFittedTrack>>(output));
+  e.put(make_unique<DetSetVector<TotemRPLocalTrack>>(output));
 }
 
 //----------------------------------------------------------------------------------------------------
