@@ -14,7 +14,7 @@
 #include "SimDataFormats/TrackingHit/interface/PSimHit.h"
 
 #include "DataFormats/TotemDigi/interface/TotemRPDigi.h"
-#include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
 
 #include "TVector3.h"
 

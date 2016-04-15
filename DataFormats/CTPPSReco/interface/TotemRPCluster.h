@@ -7,8 +7,10 @@
 *
 ****************************************************************************/
 
-#ifndef DataFormats_TotemRPReco_TotemRPCluster
-#define DataFormats_TotemRPReco_TotemRPCluster
+#ifndef DataFormats_CTPPSReco_TotemRPCluster
+#define DataFormats_CTPPSReco_TotemRPCluster
+
+// TODO: methods start with lower case, better names, set/get
 
 /**
  *\brief Cluster of TOTEM RP strip hits.

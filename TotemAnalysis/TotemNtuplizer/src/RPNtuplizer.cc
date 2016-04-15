@@ -12,7 +12,7 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
-#include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"

@@ -13,7 +13,4 @@
   <class name="edm::Wrapper<edm::DetSetVector<TotemRPRecHit> >"/>
   <class name="std::vector<TotemRPRecHit>"/>
   <class name="std::vector<const TotemRPRecHit*>"/>
-	  
-  <class name="std::pair<__gnu_cxx::__normal_iterator<const TotemRPRecHit*,std::vector<TotemRPRecHit> >,__gnu_cxx::__normal_iterator<const TotemRPRecHit*,std::vector<TotemRPRecHit> > >"/>
-  <class name="__gnu_cxx::__normal_iterator<const TotemRPRecHit*,std::vector<TotemRPRecHit> >"/>
 </lcgdict>

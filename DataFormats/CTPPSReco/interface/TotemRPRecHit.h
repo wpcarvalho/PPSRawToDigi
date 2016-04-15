@@ -7,8 +7,10 @@
 *
 ****************************************************************************/
 
-#ifndef DataFormats_TotemRPReco_TotemTotemRPRecHit
-#define DataFormats_TotemRPReco_TotemTotemRPRecHit
+#ifndef DataFormats_CTPPSReco_TotemTotemRPRecHit
+#define DataFormats_CTPPSReco_TotemTotemRPRecHit
+
+// TODO: methods start with lower case, better names, set/get
 
 /**
  *\brief Reconstructed hit in TOTEM RP.

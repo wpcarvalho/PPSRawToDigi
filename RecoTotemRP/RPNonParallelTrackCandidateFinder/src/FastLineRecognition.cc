@@ -6,7 +6,7 @@
 *
 ****************************************************************************/
 
-#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatterns.h"
 #include "RecoTotemRP/RPNonParallelTrackCandidateFinder/interface/FastLineRecognition.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"

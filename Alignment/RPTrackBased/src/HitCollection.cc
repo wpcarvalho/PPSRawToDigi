@@ -6,7 +6,7 @@
 *
 ****************************************************************************/
 
-#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "Alignment/RPTrackBased/interface/HitCollection.h"
 

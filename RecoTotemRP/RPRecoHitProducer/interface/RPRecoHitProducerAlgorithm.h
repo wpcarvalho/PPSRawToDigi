@@ -3,8 +3,8 @@
 
 #include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 #include "DataFormats/Common/interface/DetSet.h"
-#include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
-#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 #include "RecoTotemRP/RPClusterSigmaService/interface/RPDetClusterSigmas.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 

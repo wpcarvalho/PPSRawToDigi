@@ -10,7 +10,7 @@
 #ifndef RecoTotemRP_RPRecoDataFormats_RPFittedTrack_h
 #define RecoTotemRP_RPRecoDataFormats_RPFittedTrack_h
 
-#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
 
 #include "TROOT.h"

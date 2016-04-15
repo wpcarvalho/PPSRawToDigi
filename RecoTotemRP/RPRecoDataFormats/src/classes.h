@@ -9,7 +9,7 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSet.h"
-#include "DataFormats/TotemRPReco/interface/TotemRPCluster.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
 #include <map>
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonCollection.h"

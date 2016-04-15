@@ -9,7 +9,7 @@
 #ifndef RecoTotemRP_RPRecoDataFormats_RPRecognizedPatterns_h
 #define RecoTotemRP_RPRecoDataFormats_RPRecognizedPatterns_h
 
-#include "DataFormats/TotemRPReco/interface/TotemRPRecHit.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 
 #include <vector>
 
