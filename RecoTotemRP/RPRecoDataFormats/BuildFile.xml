@@ -2,7 +2,7 @@
 <use   name="boost"/>
 <use   name="DataFormats/Common"/>
 <use   name="DataFormats/TotemDigi"/>
-<use   name="DataFormats/TotemRPReco"/>
+<use   name="DataFormats/CTPPSReco"/>
 <use   name="clhep"/>
 <use   name="SimDataFormats/GeneratorProducts"/>
 <use   name="TotemCondFormats/BeamOpticsParamsObjects"/>

@@ -6,7 +6,7 @@
 <use   name="Geometry/VeryForwardRPTopology"/>
 <use   name="boost"/>
 <use   name="DataFormats/TotemDigi"/>
-<use   name="DataFormats/TotemRPReco"/>
+<use   name="DataFormats/CTPPSReco"/>
 <use   name="root"/>
 <export>
   <lib   name="1"/>

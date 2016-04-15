@@ -6,7 +6,6 @@
 <use   name="root"/>
 
 <use   name="TotemCondFormats/ProtonTransportFunctions"/>
-<use   name="DataFormats/TotemRPReco"/>
 <use   name="DataFormats/TotemDigi"/>
 <use   name="TotemProtonTransport/TotemRPProtonTransportParametrization"/>
 <flags   EDM_PLUGIN="1"/>

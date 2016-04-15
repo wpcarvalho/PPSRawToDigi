@@ -5,7 +5,7 @@
 <use   name="DataFormats/Common"/>
 <use   name="boost"/>
 <use   name="DataFormats/TotemDigi"/>
-<use   name="DataFormats/TotemRPReco"/>
+<use   name="DataFormats/CTPPSReco"/>
 <use   name="Geometry/VeryForwardRPTopology"/>
 <use   name="Geometry/VeryForwardGeometryBuilder"/>
 <use   name="RecoTotemRP/RPRecoDataFormats"/>

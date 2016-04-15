@@ -3,7 +3,7 @@
 <use   name="RecoTotemRP/RPRecoDataFormats"/>
 <use   name="FWCore/ParameterSet"/>
 <use   name="DataFormats/TotemDigi"/>
-<use   name="DataFormats/TotemRPReco"/>
+<use   name="DataFormats/CTPPSReco"/>
 <use   name="CondCore/PluginSystem"/>
 <use   name="DetectorDescription/Core"/>
 <export>

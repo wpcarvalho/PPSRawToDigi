@@ -1,7 +1,6 @@
 <use   name="FWCore/Framework"/>
 <use   name="FWCore/ParameterSet"/>
 <use   name="DataFormats/TotemDigi"/>
-<use   name="DataFormats/TotemRPReco"/>
 <use   name="CondCore/PluginSystem"/>
 <use   name="DetectorDescription/Core"/>
 <export>
