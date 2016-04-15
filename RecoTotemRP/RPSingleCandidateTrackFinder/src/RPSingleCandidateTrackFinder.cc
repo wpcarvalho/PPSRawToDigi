@@ -22,7 +22,7 @@ RPSingleCandidateTrackFinder::RPSingleCandidateTrackFinder(const edm::ParameterS
   recohit_label_ = conf.getParameter<edm::InputTag>("RPRecoHitLabel");
 //  single_track_candidate_collect_label_ = conf.getParameter<std::string>("TrackCollectionLabelLabel");
 //  produces< RPTrackCandidateCollection > (single_track_candidate_collect_label_);
-  produces<RPRecognizedPatternsCollection> ();
+  //produces<RPRecognizedPatternsCollection> ();
   produces< RPTrackCandidateCollection > ();
   recohit_label_Token_ = consumes<edm::DetSetVector<TotemRPRecHit> >(recohit_label_);
 }
@@ -55,7 +55,7 @@ void RPSingleCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup&
  
   // Step C: produce output product
   std::auto_ptr<RPTrackCandidateCollection> trackCandidateCollection(new RPTrackCandidateCollection());
-  auto_ptr<RPRecognizedPatternsCollection> patternsCollection(new RPRecognizedPatternsCollection());
+  //auto_ptr<RPRecognizedPatternsCollection> patternsCollection(new RPRecognizedPatternsCollection());
   
   //e.getByLabel(rprecohit_producer_, recohit_label_, input);
  // e.getByLabel(recohit_label_, input);
@@ -67,8 +67,11 @@ void RPSingleCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup&
 	std::cout << "RPRecoHits.size() = " << input->size() << std::endl;
   }
 */
+
+  /*
   if(input->size())
     run(*input, *patternsCollection.get(), *trackCandidateCollection.get(), *Totem_RP_geometry);
+  */
    
   /// test
 /*
@@ -85,10 +88,11 @@ void RPSingleCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup&
  
   // Step D: write trackCandidateCollection to file
   e.put(trackCandidateCollection);
-  e.put(patternsCollection);
+  //e.put(patternsCollection);
 }
   
 
+#if 0
 void RPSingleCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & input,
   RPRecognizedPatternsCollection &patternCollection,
   RPTrackCandidateCollection& output, const TotemRPGeometry & rp_geometry)
@@ -142,6 +146,7 @@ void RPSingleCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & 
         rp_cp_it->second.first, rp_cp_it->second.second, patternCollection, output, rp_geometry);
   }
 }
+#endif
 
 DEFINE_FWK_MODULE(RPSingleCandidateTrackFinder);
 

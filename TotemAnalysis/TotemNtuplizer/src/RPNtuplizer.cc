@@ -9,15 +9,17 @@
 
 #include "TotemAnalysis/TotemNtuplizer/interface/RPNtuplizer.h"
 
-#include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
-#include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
+
+#include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
+
+#include "RecoTotemRP/RPRecoDataFormats/interface/RP2DHit.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProton.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 
 #include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
@@ -292,7 +294,9 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   }
 
   // fill in pattern-recognition results (parallel)
+#if 0
   try {
+    // TODO
     edm::Handle< RPRecognizedPatternsCollection > patterns;
     e.getByLabel("RPSinglTrackCandFind", "", patterns);
 
@@ -322,32 +326,33 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   {
     std::cout << "Exception: " << e.what() << std::endl;
   }
+#endif
 
   // fill in pattern-recognition results (non-parallel)
-  edm::Handle< RPRecognizedPatternsCollection > patterns;
+  edm::Handle< DetSetVector<TotemRPUVPattern> > patterns;
   e.getByLabel("NonParallelTrackFinder", patterns);
 
-  edm::Handle< RPTrackCandidateCollection > trCand;
-  e.getByLabel("NonParallelTrackFinder", trCand);
-
-  for (RPRecognizedPatternsCollection::const_iterator rpit = patterns->begin(); rpit != patterns->end(); ++rpit)
+  for (auto &ds : *patterns)
   {
-    unsigned int rp = rpit->first;
+    unsigned int rp = ds.detId();
 
-    for (std::vector<RPRecognizedPatterns::Line>::const_iterator lit = rpit->second.uLines.begin(); lit != rpit->second.uLines.end(); ++lit)
+    for (auto &p : ds)
     {
-      nonpar_patterns_info_[rp].u.push_back(RPRootDumpPattern(lit->a, lit->b, lit->w));
-      nonpar_patterns_info_[rp].u_no = nonpar_patterns_info_[rp].u.size(); 
-    }
-    
-    for (std::vector<RPRecognizedPatterns::Line>::const_iterator lit = rpit->second.vLines.begin(); lit != rpit->second.vLines.end(); ++lit)
-    {
-      nonpar_patterns_info_[rp].v.push_back(RPRootDumpPattern(lit->a, lit->b, lit->w));
-      nonpar_patterns_info_[rp].v_no = nonpar_patterns_info_[rp].v.size();
-    }
+      if (!p.getFittable())
+        continue;
 
-    RPTrackCandidateCollection::const_iterator sr = trCand->find(rp);
-    nonpar_patterns_info_[rp].fittable = (sr != trCand->end()) ? sr->second.Fittable() : false;
+      if (p.getProjection() == TotemRPUVPattern::projU)
+      {
+        nonpar_patterns_info_[rp].u.push_back(RPRootDumpPattern(p.getA(), p.getB(), p.getW()));
+        nonpar_patterns_info_[rp].u_no = nonpar_patterns_info_[rp].u.size(); 
+      }
+
+      if (p.getProjection() == TotemRPUVPattern::projV)
+      {
+        nonpar_patterns_info_[rp].v.push_back(RPRootDumpPattern(p.getA(), p.getB(), p.getW()));
+        nonpar_patterns_info_[rp].v_no = nonpar_patterns_info_[rp].v.size(); 
+      }
+    }
   }
 
   // fill coincidence chip data

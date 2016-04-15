@@ -12,7 +12,7 @@
 // Data Formats
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
+//#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSet.h"
 
@@ -32,9 +32,12 @@ class RPSingleCandidateTrackFinder : public edm::EDProducer
     virtual void produce(edm::Event& e, const edm::EventSetup& c);
   
   private:
+/*
     void run(const edm::DetSetVector<TotemRPRecHit> & input,
         RPRecognizedPatternsCollection &patternCollection,
         RPTrackCandidateCollection& output, const TotemRPGeometry & rp_geometry);
+*/
+
     const edm::ParameterSet conf_;
     int verbosity_;
 //    std::string rprecohit_producer_;

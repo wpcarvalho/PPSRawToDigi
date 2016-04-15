@@ -17,8 +17,6 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"
 
 #include <vector>
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatterns.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/CentralMassInfo.h"
 
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPStationTrackFit.h"
@@ -89,14 +87,6 @@ namespace {
     RPReconstructedProtonPairCollection pc;
     edm::Wrapper<RPReconstructedProtonPairCollection> wpc;
 
-    RPRecognizedPatterns rprp;
-    RPRecognizedPatterns::Line rprpl;
-	std::vector<RPRecognizedPatterns::Line> vrprpl;
-    RPRecognizedPatternsCollection rprpc;
-	std::map<unsigned int, RPRecognizedPatterns> muirprp;
-    edm::Wrapper<RPRecognizedPatterns> wrprp;
-    edm::Wrapper<RPRecognizedPatternsCollection> wrprpc;
-    
 	RPStationTrackFit rpstf;
 	std::vector<RPStationTrackFit> vrpstf;
 	std::map<unsigned int, std::vector<RPStationTrackFit> > m_ui_vrpstf;

@@ -9,7 +9,6 @@
 
 #include "DQM/TotemRP/interface/TotemRPDQMSource.h"
 
-#include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
@@ -226,10 +225,9 @@ TotemRPDQMSource::TotemRPDQMSource(const edm::ParameterSet& ps) :
   tokenStripDigi = consumes< DetSetVector<TotemRPDigi> >(ps.getParameter<edm::InputTag>("tagStripDigi"));
   tokenDigiCluster = consumes< edm::DetSetVector<TotemRPCluster> >(ps.getParameter<edm::InputTag>("tagDigiCluster"));
   tokenRecoHit = consumes< edm::DetSetVector<TotemRPRecHit> >(ps.getParameter<edm::InputTag>("tagRecoHit"));
-  tokenPatternColl = consumes< RPRecognizedPatternsCollection >(ps.getParameter<edm::InputTag>("tagPatternColl"));
-  tokenTrackCandColl = consumes< RPTrackCandidateCollection >(ps.getParameter<edm::InputTag>("tagTrackCandColl"));
+  tokenPatternColl = consumes< DetSetVector<TotemRPUVPattern> >(ps.getParameter<edm::InputTag>("tagPatternColl"));
   tokenTrackColl = consumes< DetSetVector<TotemRPLocalTrack> >(ps.getParameter<edm::InputTag>("tagTrackColl"));
-  tokenMultiTrackColl = consumes< RPMulFittedTrackCollection >(ps.getParameter<edm::InputTag>("tagMultiTrackColl"));
+  //tokenMultiTrackColl = consumes< RPMulFittedTrackCollection >(ps.getParameter<edm::InputTag>("tagMultiTrackColl"));
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -320,11 +318,8 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   Handle< DetSetVector<TotemRPRecHit> > hits;
   event.getByToken(tokenRecoHit, hits);
 
-  Handle<RPRecognizedPatternsCollection> patterns;
+  Handle<DetSetVector<TotemRPUVPattern>> patterns;
   event.getByToken(tokenPatternColl, patterns);
-
-  Handle< RPTrackCandidateCollection > trackCanColl;
-  event.getByToken(tokenTrackCandColl, trackCanColl);
 
   Handle< DetSetVector<TotemRPLocalTrack> > tracks;
   event.getByToken(tokenTrackColl, tracks);
@@ -337,7 +332,6 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   valid &= digi.isValid();
   valid &= digCluster.isValid();
   valid &= hits.isValid();
-  valid &= trackCanColl.isValid();
   valid &= tracks.isValid();
   valid &= patterns.isValid();
   //valid &= multiTracks.isValid();
@@ -348,7 +342,6 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     printf("\tdigi.isValid = %i\n", digi.isValid());
     printf("\tdigCluster.isValid = %i\n", digCluster.isValid());
     printf("\thits.isValid = %i\n", hits.isValid());
-    printf("\ttrackCanColl.isValid = %i\n", trackCanColl.isValid());
     printf("\ttracks.isValid = %i\n", tracks.isValid());
     printf("\tpatterns.isValid = %i\n", patterns.isValid());
     //printf("\tmultiTracks.isValid = %i\n", multiTracks.isValid());
@@ -431,11 +424,24 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   }
 
   // recognized pattern histograms and event-category histogram
-  for (RPRecognizedPatternsCollection::const_iterator rpit = patterns->begin(); rpit != patterns->end(); ++rpit)
+  for (auto &ds : *patterns)
   {
-    PotPlots &pp = potPlots[rpit->first];
+    unsigned int rpId = ds.detId();
+    PotPlots &pp = potPlots[rpId];
 
-    unsigned int u = rpit->second.uLines.size(), v = rpit->second.vLines.size();
+    // count U and V patterns
+    unsigned int u = 0, v = 0;
+    for (auto &p : ds)
+    {
+      if (! p.getFittable())
+        continue;
+
+      if (p.getProjection() == TotemRPUVPattern::projU)
+        u++;
+
+      if (p.getProjection() == TotemRPUVPattern::projV)
+        v++;
+    }
 
     pp.patterns_u->Fill(u);
     pp.patterns_v->Fill(v);

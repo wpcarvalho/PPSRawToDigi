@@ -23,13 +23,10 @@
 #include "DataFormats/TotemDigi/interface/TotemRPDigi.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
-
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
-
+#include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
 
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
+//#include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
 
 #include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 
@@ -55,10 +52,9 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     edm::EDGetTokenT< edm::DetSetVector<TotemRPDigi> > tokenStripDigi;
     edm::EDGetTokenT< edm::DetSetVector<TotemRPCluster> > tokenDigiCluster;
     edm::EDGetTokenT< edm::DetSetVector<TotemRPRecHit> > tokenRecoHit;
-    edm::EDGetTokenT< RPRecognizedPatternsCollection > tokenPatternColl;
-    edm::EDGetTokenT< RPTrackCandidateCollection > tokenTrackCandColl;
+    edm::EDGetTokenT< edm::DetSetVector<TotemRPUVPattern> > tokenPatternColl;
     edm::EDGetTokenT< edm::DetSetVector<TotemRPLocalTrack> > tokenTrackColl;
-    edm::EDGetTokenT< RPMulFittedTrackCollection > tokenMultiTrackColl;
+    //edm::EDGetTokenT< RPMulFittedTrackCollection > tokenMultiTrackColl;
 
     bool buildCorrelationPlots;                           ///< decides wheather the correlation plots are created
     unsigned int correlationPlotsLimit;                   ///< maximum number of created correlation plots

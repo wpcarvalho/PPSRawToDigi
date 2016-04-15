@@ -17,6 +17,7 @@ RPSingleCandidateTrackFinderAlgorithm::RPSingleCandidateTrackFinderAlgorithm(con
 }
 
 
+#if 0
 void RPSingleCandidateTrackFinderAlgorithm::BuildSingleTrackCandidates(
     unsigned int rp_copy_no, 
     const std::vector<TotemRPRecHit> & u_hits, const std::vector<TotemRPRecHit> &v_hits,
@@ -82,6 +83,7 @@ void RPSingleCandidateTrackFinderAlgorithm::BuildSingleTrackCandidates(
   //std::cout<<"fitable:"<<output[rp_copy_no].Fittable()<<std::endl;
   //std::cout<<"size:"<<output[rp_copy_no].Size()<<std::endl;
 }
+#endif
 
 /**
  * it's assumed, that vector is nonempty
@@ -123,6 +125,7 @@ unsigned int RPSingleCandidateTrackFinderAlgorithm::CheckTrackMultiplicity(
  * Output: vector of roads and vector of corresponding weights
  * 		road is represented by a vector of hits belonging to the road
  **/ 
+#if 0
 void RPSingleCandidateTrackFinderAlgorithm::FindRecoHitRoads(const std::vector<TotemRPRecHit> & hits, 
     std::vector< std::vector<TotemRPRecHit> > & hits_clusters, std::vector<double> &weights,
     vector<RPRecognizedPatterns::Line> &lines,
@@ -207,6 +210,7 @@ void RPSingleCandidateTrackFinderAlgorithm::FindRecoHitRoads(const std::vector<T
     }
   }
 }
+#endif
 
 
 double RPSingleCandidateTrackFinderAlgorithm::GetDetStripAlignment(unsigned int det_id, const TotemRPGeometry & rp_geometry)

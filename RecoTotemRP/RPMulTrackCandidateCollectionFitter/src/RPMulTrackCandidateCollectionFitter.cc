@@ -11,7 +11,8 @@
  ****************************************************************************/
 
 #include "RecoTotemRP/RPMulTrackCandidateCollectionFitter/interface/RPMulTrackCandidateCollectionFitter.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
+
+//#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
 
 
 RPMulTrackCandidateCollectionFitter::RPMulTrackCandidateCollectionFitter(const edm::ParameterSet& conf)
@@ -111,8 +112,8 @@ void RPMulTrackCandidateCollectionFitter::produceFromReconstructedPatterns(edm::
   edm::ESHandle<TotemRPGeometry> Totem_RP_geometry;
   c.get<VeryForwardRealGeometryRecord>().get(Totem_RP_geometry);
   
-  edm::Handle< RPRecognizedPatternsCollection > patterns;
-  e.getByLabel(reconstructedPatternsInstance_, "", patterns);
+  //edm::Handle< RPRecognizedPatternsCollection > patterns;
+  //e.getByLabel(reconstructedPatternsInstance_, "", patterns);
   
   if(!Totem_RP_geometry.isValid())
   {
@@ -120,14 +121,14 @@ void RPMulTrackCandidateCollectionFitter::produceFromReconstructedPatterns(edm::
     exit(0);
   }
   
+// TODO: uncomment
+#if 0
   if( !patterns.isValid() )
   {
     std::cout<<"RPMulTrackCandidateCollectionFitter: RPRecognizedPatternsCollection missing, exiting."<<std::endl;
     exit(0);
   }
 
-// TODO: uncomment
-#if 0
   for (RPRecognizedPatternsCollection::const_iterator rpit = patterns->begin(); rpit != patterns->end(); ++rpit)
   {
     unsigned int rp = rpit->first;

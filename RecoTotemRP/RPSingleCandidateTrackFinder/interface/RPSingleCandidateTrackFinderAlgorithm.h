@@ -9,7 +9,8 @@
 #include "CLHEP/Vector/ThreeVector.h"
 #include <vector>
 #include <map>
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
+
+//#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
 
 class RPSingleCandidateTrackFinderAlgorithm
 {
@@ -20,11 +21,13 @@ class RPSingleCandidateTrackFinderAlgorithm
 
     RPSingleCandidateTrackFinderAlgorithm(const edm::ParameterSet& conf);
 
+    /*
     void BuildSingleTrackCandidates(unsigned int rp_copy_no, 
         const std::vector<TotemRPRecHit> & u_hits, const std::vector<TotemRPRecHit> &v_hits,
         RPRecognizedPatternsCollection &patterns,
         RPTrackCandidateCollection& output, 
         const TotemRPGeometry & rp_geometry);
+    */
     
   private:
 
@@ -67,10 +70,13 @@ class RPSingleCandidateTrackFinderAlgorithm
     unsigned int MaxElementIndex(const std::vector<double> &vect);
     unsigned int CheckTrackMultiplicity(const std::vector<double> &vect);
     double GetDetStripAlignment(unsigned int det_id, const TotemRPGeometry & rp_geometry);
+
+/*
     void FindRecoHitRoads(const std::vector<TotemRPRecHit> & hits, 
         std::vector< std::vector<TotemRPRecHit> > & hits_clusters, std::vector<double> &weights,
         vector<RPRecognizedPatterns::Line> &lines,
         const TotemRPGeometry & rp_geometry);
+*/
   
     const edm::ParameterSet& conf_;
     int minimal_hits_count_per_cooridinate_;

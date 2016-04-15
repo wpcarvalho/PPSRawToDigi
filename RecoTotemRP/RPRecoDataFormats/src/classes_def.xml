@@ -55,14 +55,6 @@
   <class name="edm::Wrapper<CentralMassInfo>"/>
   <class name="CentralMassInfo"/>
  
-  <class name="RPRecognizedPatterns"/>
-  <class name="RPRecognizedPatterns::Line"/>
-  <class name="std::vector<RPRecognizedPatterns::Line>"/>
-  <class name="RPRecognizedPatternsCollection"/>
-  <class name="std::map<unsigned int, RPRecognizedPatterns>"/>
-  <class name="edm::Wrapper<RPRecognizedPatterns>"/>
-  <class name="edm::Wrapper<RPRecognizedPatternsCollection>"/>
-
   <class name="RPStationTrackFit"/>
   <class name="std::vector<RPStationTrackFit>"/>
   <class name="std::map<unsigned int, std::vector<RPStationTrackFit> >"/>
