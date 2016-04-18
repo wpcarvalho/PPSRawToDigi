@@ -12,9 +12,10 @@
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
-#include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
-#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
+
+#include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 
 #include "TVector3.h"

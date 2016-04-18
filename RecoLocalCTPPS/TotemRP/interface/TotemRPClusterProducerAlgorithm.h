@@ -16,8 +16,6 @@
 #include "DataFormats/TotemDigi/interface/TotemRPDigi.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
 
-#include "TVector3.h"
-
 #include <vector>
 #include <set>
 

@@ -7,15 +7,12 @@
 *
 ****************************************************************************/
 
-// TODO: clean
 #include "FWCore/Framework/interface/MakerMacros.h"
 
 #include "FWCore/Framework/interface/one/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
-#include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSet.h"
@@ -24,8 +21,6 @@
 #include "RecoLocalCTPPS/TotemRP/interface/TotemRPClusterProducerAlgorithm.h"
  
 #include <iostream>
-#include <memory>
-#include <string>
 
 //----------------------------------------------------------------------------------------------------
 
