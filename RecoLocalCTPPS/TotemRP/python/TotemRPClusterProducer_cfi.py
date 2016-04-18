@@ -1,8 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-RPClustProd = cms.EDProducer("RPClusterizer",
+TotemRPClusterProducer = cms.EDProducer("TotemRPClusterProducer",
     Verbosity = cms.int32(0),
-    DigiLabel = cms.InputTag("RPSiDetDigitizer")
+    tagDigi = cms.InputTag("TotemRPRawToDigi", "RP")
 )
-
-

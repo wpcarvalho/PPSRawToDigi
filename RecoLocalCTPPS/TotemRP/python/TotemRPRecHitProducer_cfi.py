@@ -1,8 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-RPRecoHitProd = cms.EDProducer("RPRecoHitProducer",
-    Verbosity = cms.int32(1),
-    ClusterLabel = cms.InputTag("RPClustProd")
+TotemRPRecHitProducer = cms.EDProducer("TotemRPRecHitProducer",
+    Verbosity = cms.int32(0),
+    tagCluster = cms.InputTag("TotemRPClusterProducer")
 )
-
-

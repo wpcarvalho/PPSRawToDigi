@@ -33,5 +33,7 @@ namespace {
     TotemRPLocalTrack ft;
     edm::DetSetVector<TotemRPLocalTrack> dsv_ft;
     edm::Wrapper<edm::DetSetVector<TotemRPLocalTrack>> w_dsv_ft;
+    edm::DetSetVector<TotemRPLocalTrack::FittedRecHit> dsv_ft_frh;
+    edm::Wrapper<edm::DetSetVector<TotemRPLocalTrack::FittedRecHit>> w_dsv_ft_frh;
   }
 }

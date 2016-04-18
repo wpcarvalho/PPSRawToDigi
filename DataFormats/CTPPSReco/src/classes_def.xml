@@ -29,5 +29,6 @@
   </class>
   <class name="edm::DetSetVector<TotemRPLocalTrack>"/>
   <class name="edm::Wrapper<edm::DetSetVector<TotemRPLocalTrack>>"/>
- 
+  <class name="edm::DetSetVector<TotemRPLocalTrack::FittedRecHit>"/>
+  <class name="edm::Wrapper<edm::DetSetVector<TotemRPLocalTrack::FittedRecHit>>"/>
 </lcgdict>

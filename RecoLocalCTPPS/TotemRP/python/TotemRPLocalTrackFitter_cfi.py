@@ -1,11 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 
-RPSingleTrackCandCollFit = cms.EDProducer("RPTrackCandidateCollectionFitter",
+TotemRPLocalTrackFitter = cms.EDProducer("TotemRPLocalTrackFitter",
     Verbosity = cms.int32(0),
 
-    # the name of the track-candidate producer module
-    #   if empty, the fitter takes the ONLY track-candidate record in the event
-    #   use `RPSinglTrackCandFind' for parallel finder
-    #   use `NonParallelTrackFinder' for non-parallel finder
-    RPTrackCandidateCollectionLabel = cms.InputTag("NonParallelTrackFinder")
+    tagUVPattern = cms.InputTag("TotemRPUVPatternFinder")
 )
