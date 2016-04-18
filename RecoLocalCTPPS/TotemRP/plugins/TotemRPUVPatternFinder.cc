@@ -25,6 +25,8 @@
 
 #include "RecoLocalCTPPS/TotemRP/interface/FastLineRecognition.h"
 
+//----------------------------------------------------------------------------------------------------
+
 /**
  * \brief Class to recognize straight line tracks, based on optimized Hough trasform.
  *
@@ -39,7 +41,7 @@ class TotemRPUVPatternFinder : public edm::one::EDProducer<>
     virtual void produce(edm::Event& e, const edm::EventSetup& c);
   
   private:
-    edm::InputTag detSetVectorTotemRPRecHitLabel;
+    edm::InputTag tagRecHit;
     edm::EDGetTokenT<edm::DetSetVector<TotemRPRecHit> > detSetVectorTotemRPRecHitToken;
 
     unsigned int verbosity;
@@ -84,7 +86,7 @@ using namespace edm;
 //----------------------------------------------------------------------------------------------------
 
 TotemRPUVPatternFinder::TotemRPUVPatternFinder(const edm::ParameterSet& conf) :
-  detSetVectorTotemRPRecHitLabel(conf.getParameter<edm::InputTag>("DetSetVectorTotemRPRecHitLabel")),
+  tagRecHit(conf.getParameter<edm::InputTag>("tagRecHit")),
   verbosity(conf.getUntrackedParameter<unsigned int>("verbosity", 0)),
   minPlanesPerProjectionToSearch(conf.getParameter<unsigned int>("minPlanesPerProjectionToSearch")),
   minPlanesPerProjectionToFit(conf.getParameter<unsigned int>("minPlanesPerProjectionToFit")),
@@ -95,7 +97,7 @@ TotemRPUVPatternFinder::TotemRPUVPatternFinder(const edm::ParameterSet& conf) :
   allowAmbiguousCombination(conf.getParameter<bool>("allowAmbiguousCombination")),
   exceptionalSettings(conf.getParameter< vector<ParameterSet> >("exceptionalSettings"))
 {
-  detSetVectorTotemRPRecHitToken = consumes<edm::DetSetVector<TotemRPRecHit> >(detSetVectorTotemRPRecHitLabel);
+  detSetVectorTotemRPRecHitToken = consumes<edm::DetSetVector<TotemRPRecHit> >(tagRecHit);
 
   produces<DetSetVector<TotemRPUVPattern>>();
 }

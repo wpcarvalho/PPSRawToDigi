@@ -20,8 +20,6 @@
 
 #include "RecoLocalCTPPS/TotemRP/interface/TotemRPClusterProducerAlgorithm.h"
  
-#include <iostream>
-
 //----------------------------------------------------------------------------------------------------
 
 /**
@@ -63,8 +61,7 @@ TotemRPClusterProducer::TotemRPClusterProducer(edm::ParameterSet const& conf) :
 {
   verbosity_ = conf.getParameter<int>("Verbosity");
 
-  digiInputTag_ = conf.getParameter<edm::InputTag>("DigiLabel");
-  
+  digiInputTag_ = conf.getParameter<edm::InputTag>("tagDigi");
   digiInputTagToken_ = consumes<edm::DetSetVector<TotemRPDigi> >(digiInputTag_);
 
   produces< edm::DetSetVector<TotemRPCluster> > ();
@@ -91,20 +88,14 @@ void TotemRPClusterProducer::produce(edm::Event& e, const edm::EventSetup& es)
   e.getByToken(digiInputTagToken_, input);
 
   // prepare output
-  std::auto_ptr< edm::DetSetVector<TotemRPCluster> > output(new edm::DetSetVector<TotemRPCluster>() );
+  DetSetVector<TotemRPCluster> output;
   
   // run clusterisation
-  if (verbosity_)
-    std::cout << " Reading " << input->size() << " of TotemRPDigi" << std::endl;
- 
   if (input->size())
-    run(*input, *output);
-   
-  if (verbosity_)
-    std::cout << " Saving " << output->size() << " of TotemRPCluster" << std::endl;
+    run(*input, output);
 
   // save output to event
-  e.put(output);
+  e.put(make_unique<DetSetVector<TotemRPCluster>>(output));
 }
 
 //----------------------------------------------------------------------------------------------------

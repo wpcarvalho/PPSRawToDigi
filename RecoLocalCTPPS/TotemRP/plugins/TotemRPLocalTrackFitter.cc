@@ -43,7 +43,7 @@ class TotemRPLocalTrackFitter : public edm::one::EDProducer<>
     int verbosity_;
 
     /// Selection of the pattern-recognition module.
-    edm::InputTag patternCollectionLabel;
+    edm::InputTag tagUVPattern;
 
     edm::EDGetTokenT<edm::DetSetVector<TotemRPUVPattern>> patternCollectionToken;
     
@@ -65,10 +65,10 @@ using namespace edm;
 TotemRPLocalTrackFitter::TotemRPLocalTrackFitter(const edm::ParameterSet& conf)
    : verbosity_(conf.getParameter<int>("Verbosity")), fitter_(conf)
 {
-  patternCollectionLabel = conf.getParameter<edm::InputTag>("RPTrackCandidateCollectionLabel");
-  patternCollectionToken = consumes<DetSetVector<TotemRPUVPattern>>(patternCollectionLabel);
+  tagUVPattern = conf.getParameter<edm::InputTag>("tagUVPattern");
+  patternCollectionToken = consumes<DetSetVector<TotemRPUVPattern>>(tagUVPattern);
 
-  produces<DetSetVector<TotemRPLocalTrack>> ();
+  produces<DetSetVector<TotemRPLocalTrack>>();
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -160,22 +160,6 @@ void TotemRPLocalTrackFitter::produce(edm::Event& e, const edm::EventSetup& setu
       ds.push_back(track);
     }
   }
-
-  /*
-  RPTrackCandidateCollection::const_iterator in_it;
-  for(in_it=input.begin(); in_it!=input.end(); ++in_it)
-  {
-    unsigned int rpId = in_it->first;
-
-    double z0 = geometry->GetRPGlobalTranslation(rpId).z();
-
-    TotemRPLocalTrack fitted_track;
-    the_track_candidate_fitter_.FitTrack(in_it->second, z0, fitted_track, *geometry);
-
-    if (fitted_track.IsValid())
-      output[rpId] = fitted_track;
-  }
-  */
 
   // save results
   e.put(make_unique<DetSetVector<TotemRPLocalTrack>>(output));
