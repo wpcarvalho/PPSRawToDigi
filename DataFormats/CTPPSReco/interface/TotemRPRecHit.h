@@ -7,8 +7,8 @@
 *
 ****************************************************************************/
 
-#ifndef DataFormats_CTPPSReco_TotemTotemRPRecHit
-#define DataFormats_CTPPSReco_TotemTotemRPRecHit
+#ifndef DataFormats_CTPPSReco_TotemRPRecHit
+#define DataFormats_CTPPSReco_TotemRPRecHit
 
 /**
  *\brief Reconstructed hit in TOTEM RP.

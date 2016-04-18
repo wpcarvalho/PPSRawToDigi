@@ -7,8 +7,8 @@
 *
 ****************************************************************************/
 
-#ifndef RecoTotemRP_RPRecoHitProducer_TotemRPRecHitProducerAlgorithm_h
-#define RecoTotemRP_RPRecoHitProducer_TotemRPRecHitProducerAlgorithm_h
+#ifndef RecoLocalCTPPS_TotemRP_TotemRPRecHitProducerAlgorithm
+#define RecoLocalCTPPS_TotemRP_TotemRPRecHitProducerAlgorithm
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 

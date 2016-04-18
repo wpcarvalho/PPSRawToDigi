@@ -7,8 +7,8 @@
 *
 ****************************************************************************/
 
-#ifndef RecoTotemRP_RPClusterizer_TotemRPClusterProducerAlgorithm
-#define RecoTotemRP_RPClusterizer_TotemRPClusterProducerAlgorithm
+#ifndef RecoLocalCTPPS_TotemRP_TotemRPClusterProducerAlgorithm
+#define RecoLocalCTPPS_TotemRP_TotemRPClusterProducerAlgorithm
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "SimDataFormats/TrackingHit/interface/PSimHit.h"

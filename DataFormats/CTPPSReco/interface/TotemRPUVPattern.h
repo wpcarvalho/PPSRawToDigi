@@ -13,7 +13,6 @@
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 
-
 /**
  *\brief A linear pattern in U or V projection.
  * The intercept b is taken at the middle of a RP:
