@@ -15,15 +15,19 @@
 #include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
-#include "RecoTotemRP/RPDetectorMaskingService/interface/RPDetectorAvailability.h"
 #include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 
 #include "TVector3.h"
 #include "TVector2.h"
 
+// TODO
 #include <ext/hash_map>
 
+//----------------------------------------------------------------------------------------------------
 
+/**
+ *\brief TODO
+ **/
 struct RPDetCoordinateAlgebraObjs
 {
   //u*nom_pitch = (u0*pitch+u_cor)+(pitch/eff_pitch*rot_cor*v)*(x-x0)
@@ -35,7 +39,7 @@ struct RPDetCoordinateAlgebraObjs
   bool available_;              ///< if det should be included in the reconstruction
 };
 
-
+//----------------------------------------------------------------------------------------------------
 
 /**
  *\brief TODO
@@ -66,7 +70,6 @@ class TotemRPLocalTrackFitterAlgorithm
     typedef __gnu_cxx::hash_map<unsigned int, RPDetCoordinateAlgebraObjs> DetReconstructionDataMap;
     DetReconstructionDataMap det_data_map_;
 
-    RPDetectorAvailability det_availability_;
     RPTopology rp_topology_;
 
     /// Returns the reconstruction data for the chosen detector from the cache DetReconstructionDataMap.

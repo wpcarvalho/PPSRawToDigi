@@ -51,9 +51,8 @@ RPDetCoordinateAlgebraObjs TotemRPLocalTrackFitterAlgorithm::PrepareReconstAlgeb
   TVector2 v(rd_dir.X(), rd_dir.Y());
   det_algebra_obj.readout_direction_ = v.Unit();
   det_algebra_obj.rec_u_0_ = 0.0;
-  det_algebra_obj.available_ = det_availability_.IsRPDetAvailableForTrackFitting(det_id);
-  det_algebra_obj.rec_u_0_ = - (det_algebra_obj.readout_direction_*
-      det_algebra_obj.centre_of_det_global_position_.XYvector());
+  det_algebra_obj.available_ = true;
+  det_algebra_obj.rec_u_0_ = - (det_algebra_obj.readout_direction_ * det_algebra_obj.centre_of_det_global_position_.XYvector());
   
   return det_algebra_obj;
 }
