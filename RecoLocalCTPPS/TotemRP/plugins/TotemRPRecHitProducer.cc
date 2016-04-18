@@ -23,9 +23,6 @@
 #include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 
-// TODO: remove
-#include "RecoTotemRP/RPClusterSigmaService/interface/RPDetClusterSigmas.h"
-
 #include "RecoLocalCTPPS/TotemRP/interface/TotemRPRecHitProducerAlgorithm.h"
  
 #include <iostream>
@@ -51,7 +48,6 @@ class TotemRPRecHitProducer : public edm::one::EDProducer<>
     const edm::ParameterSet conf_;
     int verbosity_;
     TotemRPRecHitProducerAlgorithm algorithm_;
-    RPDetClusterSigmas the_cluster_sigma_;
 
     // TODO: clean
     //std::string cluster_producer_;
@@ -59,7 +55,6 @@ class TotemRPRecHitProducer : public edm::one::EDProducer<>
     //std::string rec_hit_label_;
     edm::InputTag cluster_label_;
     edm::EDGetTokenT<edm::DetSetVector<TotemRPCluster> >cluster_label_Token_;
-    edm::ESHandle<RPDetClusterSigmas> cluster_sigmas_;
 };
 
 //----------------------------------------------------------------------------------------------------
@@ -84,32 +79,26 @@ TotemRPRecHitProducer::TotemRPRecHitProducer(const edm::ParameterSet& conf) :
 //  produces< edm::DetSetVector<TotemRPRecHit> > (rec_hit_label_);
   produces< edm::DetSetVector<TotemRPRecHit> > ();
   cluster_label_Token_ = consumes<edm::DetSetVector<TotemRPCluster> >(cluster_label_);
-
-
 }
+
+//----------------------------------------------------------------------------------------------------
  
 // Virtual destructor needed.
 TotemRPRecHitProducer::~TotemRPRecHitProducer()
 {
-  edm::LogInfo("TotemRPRecHitProducer") << "[TotemRPRecHitProducer::~TotemRPRecHitProducer] Destructing object...";
 }
  
-//Get at the beginning
+//----------------------------------------------------------------------------------------------------
+
 void TotemRPRecHitProducer::beginJob()
 {
-  if(verbosity_)
-  {
-    edm::LogInfo("TotemRPRecHitProducer") << "[TotemRPRecHitProducer::beginJob]";
-  }
-  algorithm_.SetClusterSigmasService( &the_cluster_sigma_ );
 }
+
+//----------------------------------------------------------------------------------------------------
  
 // Functions that gets called by framework every event
 void TotemRPRecHitProducer::produce(edm::Event& e, const edm::EventSetup& es)
 {
-//  es.get<RPClusterSigmaServiceRecord>().get(cluster_sigmas_);
-//  algorithm_.SetClusterSigmasService( &(*cluster_sigmas_) );
-  
   // Step B: Get Inputs
   edm::Handle< edm::DetSetVector<TotemRPCluster> > input;
  
@@ -133,6 +122,7 @@ void TotemRPRecHitProducer::produce(edm::Event& e, const edm::EventSetup& es)
   e.put(output);
 }
 
+//----------------------------------------------------------------------------------------------------
 
 void TotemRPRecHitProducer::run(const edm::DetSetVector<TotemRPCluster>& input,std::vector<edm::DetSet<TotemRPRecHit> > & output)
 {
