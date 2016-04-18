@@ -16,7 +16,7 @@
 TotemRPClusterProducerAlgorithm::TotemRPClusterProducerAlgorithm(const edm::ParameterSet &param)
  :param_(param)
 {
-  verbosity_ = param_.getParameter<int>("Verbosity");
+  verbosity_ = param_.getParameter<int>("verbosity");
 }
 
 //----------------------------------------------------------------------------------------------------

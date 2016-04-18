@@ -132,11 +132,9 @@ bool TotemRPLocalTrackFitterAlgorithm::FitTrack(const edm::DetSetVector<TotemRPR
   {
     V_a_mult.Invert();
   }
-
-  // TODO: put here specifically the exception type that ROOT throws
-  catch (...)
+  catch (cms::Exception &e)
   {
-    edm::LogProblem("TotemRPLocalTrackFitterAlgorithm") << ">> TotemRPLocalTrackFitterAlgorithm > Fit matrix is singular.";
+    printf(">> TotemRPLocalTrackFitterAlgorithm::FitTrack > Fit matrix is singular. Skipping.\n");
     return false;
   }
   //tot_rp::Print(std::cout, V_a_mult);

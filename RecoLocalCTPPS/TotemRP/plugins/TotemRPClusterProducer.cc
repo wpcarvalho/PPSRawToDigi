@@ -59,7 +59,7 @@ using namespace edm;
 TotemRPClusterProducer::TotemRPClusterProducer(edm::ParameterSet const& conf) :
   conf_(conf), algorithm_(conf)
 {
-  verbosity_ = conf.getParameter<int>("Verbosity");
+  verbosity_ = conf.getParameter<int>("verbosity");
 
   digiInputTag_ = conf.getParameter<edm::InputTag>("tagDigi");
   digiInputTagToken_ = consumes<edm::DetSetVector<TotemRPDigi> >(digiInputTag_);
@@ -83,6 +83,9 @@ void TotemRPClusterProducer::beginJob()
  
 void TotemRPClusterProducer::produce(edm::Event& e, const edm::EventSetup& es)
 {
+  if (verbosity_ > 5)
+    printf(">> TotemRPClusterProducer::produce\n");
+
   // get input
   edm::Handle< edm::DetSetVector<TotemRPDigi> > input;
   e.getByToken(digiInputTagToken_, input);
@@ -93,6 +96,12 @@ void TotemRPClusterProducer::produce(edm::Event& e, const edm::EventSetup& es)
   // run clusterisation
   if (input->size())
     run(*input, output);
+
+  if (verbosity_ > 5)
+  {
+    for (auto &ds : output)
+      printf("detId = %i, clusters %lu\n", ds.detId(), ds.data.size());
+  }
 
   // save output to event
   e.put(make_unique<DetSetVector<TotemRPCluster>>(output));

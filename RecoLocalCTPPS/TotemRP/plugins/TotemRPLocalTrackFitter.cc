@@ -63,7 +63,7 @@ using namespace edm;
 //----------------------------------------------------------------------------------------------------
 
 TotemRPLocalTrackFitter::TotemRPLocalTrackFitter(const edm::ParameterSet& conf)
-   : verbosity_(conf.getParameter<int>("Verbosity")), fitter_(conf)
+   : verbosity_(conf.getParameter<int>("verbosity")), fitter_(conf)
 {
   tagUVPattern = conf.getParameter<edm::InputTag>("tagUVPattern");
   patternCollectionToken = consumes<DetSetVector<TotemRPUVPattern>>(tagUVPattern);
@@ -87,6 +87,9 @@ void TotemRPLocalTrackFitter::beginJob()
 
 void TotemRPLocalTrackFitter::produce(edm::Event& e, const edm::EventSetup& setup)
 {
+  if (verbosity_ > 5)
+    printf(">> TotemRPLocalTrackFitter::produce\n");
+
   // get geometry
   edm::ESHandle<TotemRPGeometry> geometry;
   setup.get<VeryForwardRealGeometryRecord>().get(geometry);
@@ -167,6 +170,11 @@ void TotemRPLocalTrackFitter::produce(edm::Event& e, const edm::EventSetup& setu
     {
       DetSet<TotemRPLocalTrack> ds = output.find_or_insert(rpId);
       ds.push_back(track);
+    }
+
+    if (verbosity_ > 5)
+    {
+      printf("    track in RP %u: valid = %i\n", rpId, track.isValid());
     }
   }
 

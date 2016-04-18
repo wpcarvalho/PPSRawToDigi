@@ -56,7 +56,7 @@ using namespace edm;
 TotemRPRecHitProducer::TotemRPRecHitProducer(const edm::ParameterSet& conf) :
   conf_(conf), algorithm_(conf)
 {
-  verbosity_ = conf.getParameter<int>("Verbosity");
+  verbosity_ = conf.getParameter<int>("verbosity");
 
   tagCluster_ = conf.getParameter<edm::InputTag>("tagCluster");
   tokenCluster_ = consumes<edm::DetSetVector<TotemRPCluster> >(tagCluster_);
@@ -80,6 +80,9 @@ void TotemRPRecHitProducer::beginJob()
  
 void TotemRPRecHitProducer::produce(edm::Event& e, const edm::EventSetup& es)
 {
+  if (verbosity_ > 5)
+    printf(">> TotemRPRecHitProducer::produce\n");
+  
   // get input
   edm::Handle< edm::DetSetVector<TotemRPCluster> > input;
   e.getByToken(tokenCluster_, input);
@@ -90,14 +93,14 @@ void TotemRPRecHitProducer::produce(edm::Event& e, const edm::EventSetup& es)
   // build reco hits
   for (auto &ids : *input)
   {
-    unsigned int rpId = ids.detId();
-
-    DetSet<TotemRPRecHit> ods(rpId);
+    DetSet<TotemRPRecHit> &ods = output.find_or_insert(ids.detId());
     algorithm_.BuildRecoHits(ids, ods);
-       
-    // insert the DetSet<TotemRPCluster> in the  DetSetVec<TotemRPCluster> only if there is at least one digi
-    if (ods.data.size())
-      output.insert(ods);
+  }
+
+  if (verbosity_ > 5)
+  {
+    for (auto &ds : output)
+      printf("detId = %i, rec hits %lu\n", ds.detId(), ds.data.size());
   }
    
   // save output

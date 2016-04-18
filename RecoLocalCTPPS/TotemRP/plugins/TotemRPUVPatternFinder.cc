@@ -116,10 +116,11 @@ void TotemRPUVPatternFinder::RecognizeAndSelect(TotemRPUVPattern::ProjectionType
     const DetSetVector<TotemRPRecHit> &hits, DetSet<TotemRPUVPattern> &patterns)
 {
   // run recognition
-  lrcgn->GetPatterns(hits, z0, threshold_loc, patterns);
+  DetSet<TotemRPUVPattern> newPatterns;
+  lrcgn->GetPatterns(hits, z0, threshold_loc, newPatterns);
   
-  // set pattern properties
-  for (auto &p : patterns)
+  // set pattern properties and copy to the global pattern collection
+  for (auto &p : newPatterns)
   {
     p.setProjection(proj);
 
@@ -128,11 +129,7 @@ void TotemRPUVPatternFinder::RecognizeAndSelect(TotemRPUVPattern::ProjectionType
     set<unsigned int> planes;
     for (const auto &ds : p.getHits())
     {
-      for (auto &h : ds)
-      {
-        h.getPosition();  // just to keep compiler silent
         planes.insert(TotemRPDetId::rawToDecId(ds.detId()) % 10);
-      }
     }
 
     if (planes.size() < planes_required)
@@ -140,6 +137,8 @@ void TotemRPUVPatternFinder::RecognizeAndSelect(TotemRPUVPattern::ProjectionType
     
     if (fabs(p.getA()) > max_a_toFit)
       p.setFittable(false);
+
+    patterns.push_back(p);
   }
 
   if (verbosity > 5)
@@ -264,7 +263,7 @@ void TotemRPUVPatternFinder::produce(edm::Event& event, const edm::EventSetup& e
 
     if (verbosity > 5)
       printf("\t\tv recognition\n");
-    RecognizeAndSelect(TotemRPUVPattern::projU, z0, threshold_V, minPlanesPerProjectionToFit_V, data.hits_V, patterns);
+    RecognizeAndSelect(TotemRPUVPattern::projV, z0, threshold_V, minPlanesPerProjectionToFit_V, data.hits_V, patterns);
   }
  
   // save output
