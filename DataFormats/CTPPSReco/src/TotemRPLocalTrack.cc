@@ -11,7 +11,7 @@
 
 //----------------------------------------------------------------------------------------------------
 
-TMatrixD TotemRPLocalTrack::TrackPointInterpolationCovariance(double z) const
+TMatrixD TotemRPLocalTrack::trackPointInterpolationCovariance(double z) const
 {
   TMatrixD h(2,4);
   h(0,0)=1;
@@ -34,7 +34,7 @@ TMatrixD TotemRPLocalTrack::TrackPointInterpolationCovariance(double z) const
 
 TotemRPLocalTrack::TotemRPLocalTrack(double z0, const TVectorD & track_params_vector, 
       const TMatrixD &par_covariance_matrix, double chiSquared) 
-      : z0_(z0), chiSquared_(chiSquared), valid_(true), u_id_(0), v_id_(0), sourceTrackCandidateValid(false)
+      : z0_(z0), chiSquared_(chiSquared), valid_(true)
 {
   for(int i=0; i<dimension; ++i)
   {
@@ -48,44 +48,44 @@ TotemRPLocalTrack::TotemRPLocalTrack(double z0, const TVectorD & track_params_ve
 
 //----------------------------------------------------------------------------------------------------
 
-TVectorD TotemRPLocalTrack::ParameterVector() const 
+TVectorD TotemRPLocalTrack::getParameterVector() const 
 {
   TVectorD v(dimension);
   
-  for(int i=0; i<dimension; ++i)
-    v[i]=track_params_vector_[i];
+  for (int i = 0; i < dimension; ++i)
+    v[i] = track_params_vector_[i];
       
   return v;
 }
 
 //----------------------------------------------------------------------------------------------------
 
-void TotemRPLocalTrack::ParameterVector(const TVectorD & track_params_vector)
+void TotemRPLocalTrack::setParameterVector(const TVectorD & track_params_vector)
 {
-  for(int i=0; i<dimension; ++i)
-    track_params_vector_[i]=track_params_vector[i];
+  for (int i = 0; i < dimension; ++i)
+    track_params_vector_[i] = track_params_vector[i];
 }
 
 //----------------------------------------------------------------------------------------------------
 
-TMatrixD TotemRPLocalTrack::CovarianceMatrix() const 
+TMatrixD TotemRPLocalTrack::getCovarianceMatrix() const 
 {
   TMatrixD m(dimension,dimension);
   
   for(int i=0; i<dimension; ++i)
     for(int j=0; j<dimension; ++j)
-      m(i,j)=CovarianceMatrixElement(i,j);
+      m(i,j) = CovarianceMatrixElement(i,j);
       
   return m;
 }
 
 //----------------------------------------------------------------------------------------------------
 
-void TotemRPLocalTrack::CovarianceMatrix(const TMatrixD &par_covariance_matrix)
+void TotemRPLocalTrack::setCovarianceMatrix(const TMatrixD &par_covariance_matrix)
 {
   for(int i=0; i<dimension; ++i)
     for(int j=0; j<dimension; ++j)
-      CovarianceMatrixElement(i,j)=par_covariance_matrix(i,j);
+      CovarianceMatrixElement(i,j) = par_covariance_matrix(i,j);
 }
 
 //----------------------------------------------------------------------------------------------------

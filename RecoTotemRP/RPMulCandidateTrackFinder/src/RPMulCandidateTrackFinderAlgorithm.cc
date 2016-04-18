@@ -195,7 +195,7 @@ void RPMulCandidateTrackFinderAlgorithm::BuildTrackCandidates(
           u_nhits_det_hist[idx]->Fill((u_det_hits_it->second).size());
           for(hits_it = (u_det_hits_it->second).begin(); hits_it != (u_det_hits_it->second).end(); hits_it++)
           {
-            u_hits_pos_rp_hist[idx]->Fill(hits_it->Position());
+            u_hits_pos_rp_hist[idx]->Fill(hits_it->getPosition());
           }
         }
         if(v_det_hits_it != det_v_hits.end())
@@ -203,7 +203,7 @@ void RPMulCandidateTrackFinderAlgorithm::BuildTrackCandidates(
           v_nhits_det_hist[idx]->Fill((v_det_hits_it->second).size());
           for(hits_it = (v_det_hits_it->second).begin(); hits_it != (v_det_hits_it->second).end(); hits_it++)
           {
-            v_hits_pos_rp_hist[idx]->Fill(hits_it->Position());
+            v_hits_pos_rp_hist[idx]->Fill(hits_it->getPosition());
           }
         }
       }
@@ -402,12 +402,17 @@ void RPMulCandidateTrackFinderAlgorithm::FindRecoHitRoads(const std::map<unsigne
       continue;
     }
 
+
     for(hits_it = (det_hits_it->second).begin(); hits_it != (det_hits_it->second).end(); hits_it++)
     {
-      double hit_position = hits_it->Position() + GetDetStripAlignment(hits_it->DetId(), rp_geometry);
+      // TODO: fix
+      //unsigned int detId = hits_it->DetId();
+      unsigned int detId = 0;
+      double hit_position = hits_it->getPosition() + GetDetStripAlignment(detId, rp_geometry);
       if(verbosity_)
       {
-        std::cout << "Det " << det_hits_it->first <<"    Orig Hit Pos = " << hits_it->Position() << "    Align Hit Pos = " << hit_position << "    aligh = " << GetDetStripAlignment(hits_it->DetId(), rp_geometry) << std::endl;
+        std::cout << "Det " << det_hits_it->first <<"    Orig Hit Pos = " << hits_it->getPosition()
+          << "    Align Hit Pos = " << hit_position << "    aligh = " << GetDetStripAlignment(detId, rp_geometry) << std::endl;
       }
       unsigned int reco_hit_clust_v_siz = recohit_cluster_vect.size();
       unsigned int j = 0;

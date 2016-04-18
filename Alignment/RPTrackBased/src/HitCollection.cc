@@ -13,9 +13,11 @@
 #include <cmath>
 
 Hit::Hit(const TotemRPRecHit &rh) : 
-  id(TotemRPDetId::rawToDecId(rh.DetId())),
-  position(rh.Position()),
-  sigma(rh.Sigma())
+  // TODO: fix
+  //id(TotemRPDetId::rawToDecId(rh.DetId())),
+  id(0),
+  position(rh.getPosition()),
+  sigma(rh.getSigma())
 {
   // prevents null uncertainty, this would make certain algorithms crash
   if (sigma < 1E-6)

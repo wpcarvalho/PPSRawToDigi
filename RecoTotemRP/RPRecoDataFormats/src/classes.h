@@ -44,11 +44,6 @@ namespace {
     RPMulFittedTrackCollection the_mtrack_cand_col;
     edm::Wrapper<RPMulFittedTrackCollection> the_w_mrpftc;
     
-    RPDetHitPoint rpdhp;
-    std::vector<RPDetHitPoint> vrdhp;
-    edm::Wrapper<RPDetHitPoint> wrpdhp;
-    edm::Wrapper<std::vector<RPDetHitPoint> > wvrdhp;
-    
     RPReconstructedProton rprecprot;
     edm::Wrapper<RPReconstructedProton> wraprprecprot;
     std::vector<RPReconstructedProton> prprecprotvec;

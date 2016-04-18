@@ -122,21 +122,26 @@ FastLineRecognition::GeomData FastLineRecognition::GetGeomData(unsigned int id)
 
 //----------------------------------------------------------------------------------------------------
 
-void FastLineRecognition::GetPatterns(const std::vector<const TotemRPRecHit *> &input, double z0,
+void FastLineRecognition::GetPatterns(const DetSetVector<TotemRPRecHit> &input, double z0,
   double threshold, DetSet<TotemRPUVPattern> &patterns)
 {
   // build collection of points in the global coordinate system
   std::vector<Point> points;
-  for (vector<const TotemRPRecHit *>::const_iterator it = input.begin(); it != input.end(); ++it)
+  for (auto &ds : input)
   {
-    const TotemRPRecHit *hit = *it;
-    const GeomData &gd = GetGeomData(hit->DetId());
+    unsigned int detId = ds.detId();
 
-    double h = hit->Position() + gd.s;
-    double z = gd.z - z0;
-    double w = sigma0 / hit->Sigma();
-
-    points.push_back(Point(hit, h, z, w));
+    for (auto &h : ds)
+    {
+      const TotemRPRecHit *hit = &h;
+      const GeomData &gd = GetGeomData(detId);
+  
+      double p = hit->getPosition() + gd.s;
+      double z = gd.z - z0;
+      double w = sigma0 / hit->getSigma();
+  
+      points.push_back(Point(detId, hit, p, z, w));
+    }
   }
 
 #if DEBUG > 0
@@ -161,11 +166,12 @@ void FastLineRecognition::GetPatterns(const std::vector<const TotemRPRecHit *> &
 #endif
 
     for (vector<const Point *>::iterator pit = c.contents.begin(); pit != c.contents.end(); ++pit)
+    for (auto &pit : c.contents)
     { 
 #if DEBUG > 0
-      printf("\t\t%.1f\n", (*pit)->z);
+      printf("\t\t%.1f\n", pit->z);
 #endif
-      pattern.addHit(*((*pit)->hit));
+      pattern.addHit(pit->detId, *(pit->hit));
     }
 
     patterns.push_back(pattern);

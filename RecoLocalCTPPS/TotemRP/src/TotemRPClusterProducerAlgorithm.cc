@@ -45,7 +45,7 @@ int TotemRPClusterProducerAlgorithm::BuildClusters(unsigned int detId, const std
   
   for (TotemRPDigiSet::const_iterator i=strip_digi_set_.begin(); i!=strip_digi_set_.end(); ++i)
   {
-    cur_strip=i->getStripNumber();
+    cur_strip = i->getStripNumber();
     bool non_continuity = (cur_strip!=prev_strip+1);
     
     if (iter_beg)
@@ -56,7 +56,7 @@ int TotemRPClusterProducerAlgorithm::BuildClusters(unsigned int detId, const std
     else if (non_continuity)
     {
       cluster_end=prev_strip;
-      clusters.push_back(TotemRPCluster(detId, (unsigned short)cluster_beg, (unsigned short) cluster_end));
+      clusters.push_back(TotemRPCluster((uint16_t)cluster_beg, (uint16_t) cluster_end));
       
       cluster_beg=cur_strip;
     }
@@ -67,15 +67,15 @@ int TotemRPClusterProducerAlgorithm::BuildClusters(unsigned int detId, const std
   if (!iter_beg)
   {
     cluster_end=prev_strip;
-    clusters.push_back(TotemRPCluster(detId, (unsigned short)cluster_beg, (unsigned short) cluster_end));
+    clusters.push_back(TotemRPCluster((uint16_t)cluster_beg, (uint16_t) cluster_end));
   }
 
   if (verbosity_)
   {
     for(unsigned int i=0; i<clusters.size(); ++i)
     {
-      std::cout<<"Cluster, DetId="<<clusters[i].DetId()<<" StrBeg="<<clusters[i].StrBeg()
-          <<" StrEnd="<<clusters[i].StrEnd()<<" Pos="<<clusters[i].CentreStripPos()<<std::endl;
+      std::cout<<"Cluster, StrBeg=" << clusters[i].getStripBegin()
+          << " StrEnd=" << clusters[i].getStripEnd() << " Pos=" << clusters[i].getCenterStripPosition() << std::endl;
     }
   }
     

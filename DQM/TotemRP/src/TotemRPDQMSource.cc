@@ -368,7 +368,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     unsigned int DetId = TotemRPDetId::rawToDecId(it->detId());
     for (DetSet<TotemRPCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
     {
-      planePlots[DetId].cluster_profile_cumulative->Fill(dit->CentreStripPos());
+      planePlots[DetId].cluster_profile_cumulative->Fill(dit->getCenterStripPosition());
     }
   }
 
@@ -384,7 +384,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   {
     unsigned int DetId = TotemRPDetId::rawToDecId(it->detId());
     for (DetSet<TotemRPCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
-      planePlots[DetId].cluster_size->Fill(dit->GetNumberOfStrips());
+      planePlots[DetId].cluster_size->Fill(dit->getNumberOfStrips());
   }
 
   //------------------------------
@@ -420,7 +420,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     unsigned int planeNum = DetId % 10;
     PotPlots &pp = potPlots[RPId];
     for (DetSet<TotemRPCluster>::const_iterator dit = it->begin(); dit != it->end(); ++dit)
-      pp.hit_plane_hist->Fill(planeNum, dit->CentreStripPos());   
+      pp.hit_plane_hist->Fill(planeNum, dit->getCenterStripPosition());   
   }
 
   // recognized pattern histograms and event-category histogram
@@ -466,20 +466,27 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
 
     for (auto &ft : ds)
     {
-      if (!ft.IsValid())
+      if (!ft.isValid())
         continue;
      
       // number of planes contributing to (valid) fits
       unsigned int n_pl_in_fit_u = 0, n_pl_in_fit_v = 0;
-      for (int hi = 0; hi < ft.GetHitEntries(); hi++)
+      for (auto &hds : ft.getHits())
       {
-        unsigned int rawId = ft.GetHit(hi).DetId();  
+        unsigned int rawId = hds.detId();  
         unsigned int decId = TotemRPDetId::rawToDecId(rawId);
-        if (TotemRPDetId::isStripsCoordinateUDirection(decId))
-          n_pl_in_fit_u++;
-        else
-          n_pl_in_fit_v++;
+        bool uProj =TotemRPDetId::isStripsCoordinateUDirection(decId);
+
+        for (auto &h : hds)
+        {
+          h.getPosition();  // just to keep compiler silent
+          if (uProj)
+            n_pl_in_fit_u++;
+          else
+            n_pl_in_fit_v++;
+        }
       }
+
       pp.h_planes_fit_u->Fill(n_pl_in_fit_u);
       pp.h_planes_fit_v->Fill(n_pl_in_fit_v);
   
@@ -493,8 +500,8 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
       CLHEP::Hep3Vector rod_U = geometry->LocalToGlobalDirection(TotemRPDetId::decToRawId(RPId*10 + 1), CLHEP::Hep3Vector(0., 1., 0.));
       CLHEP::Hep3Vector rod_V = geometry->LocalToGlobalDirection(TotemRPDetId::decToRawId(RPId*10 + 0), CLHEP::Hep3Vector(0., 1., 0.));
   
-      double x = ft.X0() - rp_x;
-      double y = ft.Y0() - rp_y;
+      double x = ft.getX0() - rp_x;
+      double y = ft.getY0() - rp_y;
   
       pp.trackHitsCumulativeHist->Fill(x, y);
   
@@ -562,7 +569,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
 
       for (auto &tr : ds)
       {
-        if (! tr.IsValid())
+        if (! tr.isValid())
           continue;
   
         if (rpNum == 0 || rpNum == 4)
@@ -586,7 +593,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     {
       for (auto &tr1 : ds1)
       {
-        if (! tr1.IsValid())
+        if (! tr1.isValid())
           continue;
   
         unsigned int rpId1 = ds1.detId();
@@ -602,7 +609,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
         {
           for (auto &tr2 : ds2)
           {
-            if (! tr2.IsValid())
+            if (! tr2.isValid())
               continue;
           
             unsigned int rpId2 = ds2.detId();

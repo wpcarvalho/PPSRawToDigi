@@ -75,7 +75,7 @@ class TotemRPUVPatternFinder : public edm::one::EDProducer<>
     /// executes line recognition in a projection
     void RecognizeAndSelect(TotemRPUVPattern::ProjectionType proj, double z0, double threshold,
       unsigned int planes_required,
-      const std::vector<const TotemRPRecHit *> &hits, edm::DetSet<TotemRPUVPattern> &patterns);
+      const edm::DetSetVector<TotemRPRecHit> &hits, edm::DetSet<TotemRPUVPattern> &patterns);
 };
 
 //----------------------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@ TotemRPUVPatternFinder::~TotemRPUVPatternFinder()
 
 void TotemRPUVPatternFinder::RecognizeAndSelect(TotemRPUVPattern::ProjectionType proj,
     double z0, double threshold_loc, unsigned int planes_required,
-    const vector<const TotemRPRecHit *> &hits, DetSet<TotemRPUVPattern> &patterns)
+    const DetSetVector<TotemRPRecHit> &hits, DetSet<TotemRPUVPattern> &patterns)
 {
   // run recognition
   lrcgn->GetPatterns(hits, z0, threshold_loc, patterns);
@@ -126,8 +126,14 @@ void TotemRPUVPatternFinder::RecognizeAndSelect(TotemRPUVPattern::ProjectionType
     p.setFittable(true);
 
     set<unsigned int> planes;
-    for (const auto &h : p.getHits())
-      planes.insert(h.DetId() % 10);
+    for (const auto &ds : p.getHits())
+    {
+      for (auto &h : ds)
+      {
+        h.getPosition();  // just to keep compiler silent
+        planes.insert(TotemRPDetId::rawToDecId(ds.detId()) % 10);
+      }
+    }
 
     if (planes.size() < planes_required)
       p.setFittable(false);
@@ -163,35 +169,43 @@ void TotemRPUVPatternFinder::produce(edm::Event& event, const edm::EventSetup& e
   // prepare output
   DetSetVector<TotemRPUVPattern> patternsVector;
   
-  // map hits to RP ids
-  map< unsigned int, pair< vector<const TotemRPRecHit*>, vector<const TotemRPRecHit*> > > hitMap;
-  map< unsigned int, pair< map<unsigned char, unsigned int>, map<unsigned char, unsigned int> > > planeOccupancyMap;
-
-  for (DetSetVector<TotemRPRecHit>::const_iterator dit = input->begin(); dit != input->end(); ++dit)
+  // split input per RP and per U/V projection
+  struct RPData
   {
-    unsigned int detId = TotemRPDetId::rawToDecId(dit->detId());
-    unsigned int RPId = TotemRPDetId::rpOfDet(detId);
+    DetSetVector<TotemRPRecHit> hits_U, hits_V;
+    map<uint8_t, uint16_t> planeOccupancy_U, planeOccupancy_V;
+  };
+  map<unsigned int, RPData> rpData;
+
+  for (auto &ids : *input)
+  {
+    unsigned int detId = TotemRPDetId::rawToDecId(ids.detId());
+    unsigned int rpId = TotemRPDetId::rpOfDet(detId);
     unsigned int plane = detId % 10;
     bool uDir = TotemRPDetId::isStripsCoordinateUDirection(detId);
 
-    for (DetSet<TotemRPRecHit>::const_iterator hit = dit->begin(); hit != dit->end(); ++hit)
+    RPData &data = rpData[rpId];
+
+    for (auto &h : ids)
     {
       if (uDir)
       {
-        hitMap[RPId].first.push_back(& (*hit));
-        planeOccupancyMap[RPId].first[plane]++;
+        auto &ods = data.hits_U.find_or_insert(ids.detId());
+        ods.push_back(h);
+        data.planeOccupancy_U[plane]++;
       } else {
-        hitMap[RPId].second.push_back(& (*hit));
-        planeOccupancyMap[RPId].second[plane]++;
+        auto &ods = data.hits_V.find_or_insert(ids.detId());
+        ods.push_back(h);
+        data.planeOccupancy_V[plane]++;
       }
     }
   }
 
   // track recognition pot by pot
-  for (map< unsigned int, pair< vector<const TotemRPRecHit*>, vector<const TotemRPRecHit*> > >::iterator it = hitMap.begin();
-      it != hitMap.end(); ++it)
+  for (auto it : rpData)
   {
-    unsigned int rpId = it->first;
+    unsigned int rpId = it.first;
+    RPData &data = it.second;
 
     // merge default and exceptional settings (if available)
     unsigned int minPlanesPerProjectionToFit_U = minPlanesPerProjectionToFit;
@@ -211,23 +225,23 @@ void TotemRPUVPatternFinder::produce(edm::Event& event, const edm::EventSetup& e
       }
     }
 
-    const map<unsigned char, unsigned int> &uColl = planeOccupancyMap[rpId].first;
-    const map<unsigned char, unsigned int> &vColl = planeOccupancyMap[rpId].second;
+    auto &uColl = data.planeOccupancy_U;
+    auto &vColl = data.planeOccupancy_V;
 
     if (verbosity > 5)
     {
       printf("\tRP %u\n", rpId);
-      printf("\t\tall hits: u = %lu, v = %lu\n", it->second.first.size(), it->second.second.size());
       printf("\t\tall planes: u = %lu, v = %lu\n", uColl.size(), vColl.size());
     }
 
     // count planes with clean data (no showers, noise, ...)
     unsigned int uPlanes = 0, vPlanes = 0;
-    for (map<unsigned char, unsigned int>::const_iterator pit = uColl.begin(); pit != uColl.end(); ++pit)
-      if (pit->second <= maxHitsPerPlaneToSearch)
+    for (auto pit : uColl)
+      if (pit.second <= maxHitsPerPlaneToSearch)
         uPlanes++;
-    for (map<unsigned char, unsigned int>::const_iterator pit = vColl.begin(); pit != vColl.end(); ++pit)
-      if (pit->second <= maxHitsPerPlaneToSearch)
+
+    for (auto pit : vColl)
+      if (pit.second <= maxHitsPerPlaneToSearch)
         vPlanes++;
 
     if (verbosity > 5)
@@ -246,11 +260,11 @@ void TotemRPUVPatternFinder::produce(edm::Event& event, const edm::EventSetup& e
     // u then v recognition
     if (verbosity > 5)
       printf("\t\tu recognition\n");
-    RecognizeAndSelect(TotemRPUVPattern::projU, z0, threshold_U, minPlanesPerProjectionToFit_U, it->second.first, patterns);
+    RecognizeAndSelect(TotemRPUVPattern::projU, z0, threshold_U, minPlanesPerProjectionToFit_U, data.hits_U, patterns);
 
     if (verbosity > 5)
       printf("\t\tv recognition\n");
-    RecognizeAndSelect(TotemRPUVPattern::projU, z0, threshold_V, minPlanesPerProjectionToFit_V, it->second.second, patterns);
+    RecognizeAndSelect(TotemRPUVPattern::projU, z0, threshold_V, minPlanesPerProjectionToFit_V, data.hits_V, patterns);
   }
  
   // save output

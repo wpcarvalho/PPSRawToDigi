@@ -9,9 +9,10 @@
 #ifndef DataFormats_CTPPSReco_TotemRPUVPattern
 #define DataFormats_CTPPSReco_TotemRPUVPattern
 
+#include "DataFormats/Common/interface/DetSet.h"
+#include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 
-#include <vector>
 
 /**
  *\brief A linear pattern in U or V projection.
@@ -44,19 +45,23 @@ class TotemRPUVPattern
     bool getFittable() const { return fittable; }
     void setFittable(bool f_) { fittable = f_; }
 
-    void addHit(const TotemRPRecHit &hit) { hits.push_back(hit); }
+    void addHit(edm::det_id_type detId, const TotemRPRecHit &hit)
+    {
+      hits.find_or_insert(detId).push_back(hit);
+    }
 
-    const std::vector<TotemRPRecHit>& getHits() const { return hits; }
+    const edm::DetSetVector<TotemRPRecHit>& getHits() const { return hits; }
 
     friend bool operator< (const TotemRPUVPattern &l, const TotemRPUVPattern &r);
 
   private:
-    ProjectionType projection;        ///< projection
-    double a;                         ///< slope in rad
-    double b;                         ///< intercept in mm
-    double w;                         ///< weight
-    bool fittable;                    ///< whether this pattern is worth including in track fits
-    std::vector<TotemRPRecHit> hits;  ///< hits associated with the pattern
+    ProjectionType projection;              ///< projection
+    double a;                               ///< slope in rad
+    double b;                               ///< intercept in mm
+    double w;                               ///< weight
+    bool fittable;                          ///< whether this pattern is worth including in track fits
+
+    edm::DetSetVector<TotemRPRecHit> hits;  ///< hits associated with the pattern
 };
 
 //----------------------------------------------------------------------------------------------------

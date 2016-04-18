@@ -105,10 +105,11 @@ void RPMulCandidateTrackFinder::run(const edm::DetSetVector<TotemRPRecHit> & inp
   edm::DetSetVector<TotemRPRecHit>::const_iterator it;
   for(it=input.begin(); it!=input.end(); ++it)
   {
+    TotemRPDetId tot_rp_det_id(it->detId());
+
     edm::DetSet<TotemRPRecHit>::const_iterator hits_it;
     for(hits_it = it->begin(); hits_it != it->end(); ++hits_it)
     {
-      TotemRPDetId tot_rp_det_id(hits_it->DetId());
       unsigned int rp_id = tot_rp_det_id.rpCopyNumber();
       unsigned int det_id = tot_rp_det_id.detector();
 

@@ -141,12 +141,21 @@ void TotemRPLocalTrackFitter::produce(edm::Event& e, const edm::EventSetup& setu
       continue;
     }
 
-    // build hit collection
-    vector<const TotemRPRecHit *> hits;
-    for (auto &h : rpv[idx_U].getHits())
-      hits.push_back(&h);
-    for (auto &h : rpv[idx_V].getHits())
-      hits.push_back(&h);
+    // combine U and V hits
+    DetSetVector<TotemRPRecHit> hits;
+    for (auto &ids : rpv[idx_U].getHits())
+    {
+      auto &ods = hits.find_or_insert(ids.detId());
+      for (auto &h : ids)
+        ods.push_back(h);
+    }
+
+    for (auto &ids : rpv[idx_V].getHits())
+    {
+      auto &ods = hits.find_or_insert(ids.detId());
+      for (auto &h : ids)
+        ods.push_back(h);
+    }
 
     // run fit
     double z0 = geometry->GetRPGlobalTranslation(rpId).z();
@@ -154,7 +163,7 @@ void TotemRPLocalTrackFitter::produce(edm::Event& e, const edm::EventSetup& setu
     TotemRPLocalTrack track;
     fitter_.FitTrack(hits, z0, *geometry, track);
     
-    if (track.IsValid())
+    if (track.isValid())
     {
       DetSet<TotemRPLocalTrack> ds = output.find_or_insert(rpId);
       ds.push_back(track);

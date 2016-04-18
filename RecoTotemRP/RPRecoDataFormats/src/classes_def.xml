@@ -10,12 +10,8 @@
   <class name="RPMulTrackCandidateSetsCollection"/>
   <class name="edm::Wrapper<RPMulTrackCandidateSetsCollection>"/>
   
-  <class name="RPDetHitPoint"/>
-  <class name="std::vector<RPDetHitPoint>"/>
   <class name="RPMulFittedTrackCollection"/>
   <class name="edm::Wrapper<RPMulFittedTrackCollection> "/>
-  <class name="edm::Wrapper<RPDetHitPoint>"/>
-  <class name="edm::Wrapper<std::vector<RPDetHitPoint> >"/>
 
   <class name="RPReconstructedProton"/>
   <class name="edm::Wrapper<RPReconstructedProton>"/>
@@ -46,6 +42,4 @@
   <class name="std::map<unsigned int, std::vector<RPStationTrackFit> >"/>
   <class name="RPStationTrackFitCollection"/>
   <class name="edm::Wrapper<RPStationTrackFitCollection>"/>
-  
-
 </lcgdict>                                                                                                                                                              

@@ -203,17 +203,27 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
 
       const TotemRPLocalTrack &tr = ds[0];
 
-  	  track_info_[rpId].valid = tr.IsValid();
-  	  track_info_[rpId].chi2 = tr.ChiSquared();
-  	  track_info_[rpId].chi2ndf = tr.ChiSquaredOverN();
-  	  track_info_[rpId].x = tr.X0();
-  	  track_info_[rpId].y = tr.Y0();
-  	  track_info_[rpId].z = tr.Z0();
-      track_info_[rpId].thx = tr.GetTx();
-      track_info_[rpId].thy = tr.GetTy();
-  	  track_info_[rpId].entries = tr.GetHitEntries();
-      track_info_[rpId].u_id = tr.GetUid();
-      track_info_[rpId].v_id = tr.GetVid();
+      unsigned int entries = 0;
+      for (auto &hds : tr.getHits())
+      {
+        for (auto &h : hds)
+        {
+          h.getPosition();  // just to keep compiler silent
+          entries++;
+        }
+      }
+
+  	  track_info_[rpId].valid = tr.isValid();
+  	  track_info_[rpId].chi2 = tr.getChiSquared();
+  	  track_info_[rpId].chi2ndf = tr.getChiSquaredOverNDF();
+  	  track_info_[rpId].x = tr.getX0();
+  	  track_info_[rpId].y = tr.getY0();
+  	  track_info_[rpId].z = tr.getZ0();
+      track_info_[rpId].thx = tr.getTx();
+      track_info_[rpId].thy = tr.getTy();
+  	  track_info_[rpId].entries = entries;
+      track_info_[rpId].u_id = 0;
+      track_info_[rpId].v_id = 0;
   	}
   }
 
@@ -257,21 +267,17 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
   	edm::Handle < edm::DetSetVector<TotemRPCluster> > clusters;
   	e.getByLabel(rpDigClusterLabel, clusters);
   
-  	edm::DetSetVector<TotemRPCluster>::const_iterator inputIteratorCl = clusters->begin();
-  	for (; inputIteratorCl != clusters->end(); inputIteratorCl++)
+    for (auto &ds : *clusters)
     {
-  	  TotemRPDetId detectorId(inputIteratorCl->id);
+      unsigned int detNo = TotemRPDetId::rawToDecId(ds.detId());
+  	  unsigned int planeNo = detNo % 10;
+  	  unsigned int RPNo = detNo / 10;
   	  
-      //inputIterator->data : vector< TotemRPCluster>
-      //(inputIterator->data)[i] : TotemRPCluster
-      for (unsigned int i = 0; i < (inputIteratorCl->data).size(); ++i)
+      for (auto &h : ds)
       {
-        unsigned int detNo = TotemRPDetId::rawToDecId((inputIteratorCl->data)[i].DetId());
-  	  	unsigned int planeNo = detNo % 10;
-  	  	unsigned int RPNo = detNo / 10;
 
-  	  	double centralStrip = (inputIteratorCl->data)[i].CentreStripPos();
-  	  	int clusterSize = (inputIteratorCl->data)[i].GetNumberOfStrips();
+  	  	double centralStrip = h.getCenterStripPosition();
+  	  	int clusterSize = h.getNumberOfStrips();
   
   	  	// if up to now no clusters in this plane -> increase no of planes counter
   	  	if (digi_info_[RPNo].numberOfClusters[planeNo] == 0)

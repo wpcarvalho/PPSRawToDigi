@@ -11,6 +11,7 @@
 #define _FastLineRecognition_h_
 
 #include "DataFormats/Common/interface/DetSet.h"
+#include "DataFormats/Common/interface/DetSetVector.h"
 
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
@@ -59,13 +60,14 @@ class FastLineRecognition
 
     struct Point
     {
+      unsigned int detId;       ///< raw detector id
       const TotemRPRecHit* hit; ///< pointer to original reco hit
       double h;                 ///< hit position in global coordinate system
       double z;                 ///< z position with respect to z0
       double w;                 ///< weight
       bool usable;              ///< whether the point can still be used
-      Point(const TotemRPRecHit* _hit=NULL, double _h=0., double _z=0., double _w=0.) :
-        hit(_hit), h(_h), z(_z), w(_w), usable(true) {}
+      Point(unsigned int _d=0, const TotemRPRecHit* _hit=NULL, double _h=0., double _z=0., double _w=0.) :
+        detId(_d), hit(_hit), h(_h), z(_z), w(_w), usable(true) {}
     };
     
     /// cluster of intersection points
@@ -112,7 +114,7 @@ class FastLineRecognition
       geometryMap.clear();
     }
 
-    void GetPatterns(const std::vector<const TotemRPRecHit *> &input, double _z0, double threshold,
+    void GetPatterns(const edm::DetSetVector<TotemRPRecHit> &input, double _z0, double threshold,
       edm::DetSet<TotemRPUVPattern> &patterns);
 };
 

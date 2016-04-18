@@ -17,16 +17,16 @@ RPFitResolution::RPFitResolution(const edm::ParameterSet& conf)
 
 RP2DHit RPFitResolution::Create2DHit(unsigned int rp_id, const TotemRPLocalTrack &track)
 {
-  RP2DHit tmp(track.X0(), track.Y0(), track.X0Variance()*var_degrad_, 
-      track.Y0Variance()*var_degrad_, track.Z0());
+  RP2DHit tmp(track.getX0(), track.getY0(), track.getX0Variance()*var_degrad_, 
+      track.getY0Variance()*var_degrad_, track.getZ0());
 
   if(verbosity_)
   {
     std::cout<<"RPFitResolution::Create2DHit"<<std::endl;
-    std::cout<<"rp_id="<<rp_id<<" pos=("<<track.X0()<<","<<track.Y0()<<","<<track.Z0()<<")"<<std::endl;
-    std::cout<<"\t sigma x="<<track.X0Sigma()<<" sigma y="<<track.Y0Sigma()<<std::endl;
-    std::cout<<"\t oryg variance x="<<track.X0Variance()<<" sigma y="<<track.Y0Variance()<<std::endl;
-    std::cout<<"\t degrad var x="<<track.X0Variance()*var_degrad_<<" sigma y="<<track.Y0Variance()*var_degrad_<<std::endl;
+    std::cout<<"rp_id="<<rp_id<<" pos=("<<track.getX0()<<","<<track.getY0()<<","<<track.getZ0()<<")"<<std::endl;
+    std::cout<<"\t sigma x="<<track.getX0Sigma()<<" sigma y="<<track.getY0Sigma()<<std::endl;
+    std::cout<<"\t oryg variance x="<<track.getX0Variance()<<" sigma y="<<track.getY0Variance()<<std::endl;
+    std::cout<<"\t degrad var x="<<track.getX0Variance()*var_degrad_<<" sigma y="<<track.getY0Variance()*var_degrad_<<std::endl;
     std::cout<<"\tvar_degrad_="<<var_degrad_<<std::endl;
     std::cout<<std::endl;
     std::cout<<tmp<<std::endl;

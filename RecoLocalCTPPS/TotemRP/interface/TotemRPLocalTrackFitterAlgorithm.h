@@ -12,6 +12,7 @@
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
+#include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
 
@@ -21,24 +22,7 @@
 #include "TVector3.h"
 #include "TVector2.h"
 
-// TODO
-#include <ext/hash_map>
-
-//----------------------------------------------------------------------------------------------------
-
-/**
- *\brief TODO
- **/
-struct RPDetCoordinateAlgebraObjs
-{
-  //u*nom_pitch = (u0*pitch+u_cor)+(pitch/eff_pitch*rot_cor*v)*(x-x0)
-  //             eff_u_middle_edge +    eff_v*(x-middle_of_edge_pos)
-  //       (eff_u_middle_edge-eff_v*middle_of_edge_pos) + eff_v*x
-  TVector3 centre_of_det_global_position_;
-  double rec_u_0_;              ///< in mm, position of det. centre projected on readout direction
-  TVector2 readout_direction_;  ///< non paralell projection and rot_cor included
-  bool available_;              ///< if det should be included in the reconstruction
-};
+#include <unordered_map>
 
 //----------------------------------------------------------------------------------------------------
 
@@ -51,7 +35,7 @@ class TotemRPLocalTrackFitterAlgorithm
     TotemRPLocalTrackFitterAlgorithm(const edm::ParameterSet &conf);
 
     /// performs the track fit, returns true if successful
-    bool FitTrack(const vector<const TotemRPRecHit *> &hits, double z_0, const TotemRPGeometry &tot_geom, TotemRPLocalTrack &fitted_track);
+    bool FitTrack(const edm::DetSetVector<TotemRPRecHit> &hits, double z_0, const TotemRPGeometry &tot_geom, TotemRPLocalTrack &fitted_track);
 
     /// Resets the reconstruction-data cache.
     void Reset();
@@ -66,10 +50,23 @@ class TotemRPLocalTrackFitterAlgorithm
 #endif
 
   private:
+    struct RPDetCoordinateAlgebraObjs
+    {
+      // TODO
+      /*
+      u*nom_pitch = (u0*pitch+u_cor)+(pitch/eff_pitch*rot_cor*v)*(x-x0)
+                   eff_u_middle_edge +    eff_v*(x-middle_of_edge_pos)
+             (eff_u_middle_edge-eff_v*middle_of_edge_pos) + eff_v*x
+      */
+    
+      TVector3 centre_of_det_global_position_;
+      double rec_u_0_;              ///< in mm, position of det. centre projected on readout direction
+      TVector2 readout_direction_;  ///< non paralell projection and rot_cor included
+      bool available_;              ///< if det should be included in the reconstruction
+    };
+
     /// A cache of reconstruction data. Must be reset every time the geometry chagnges.
-    /// TODO: use unordered_map
-    typedef __gnu_cxx::hash_map<unsigned int, RPDetCoordinateAlgebraObjs> DetReconstructionDataMap;
-    DetReconstructionDataMap det_data_map_;
+    unordered_map<unsigned int, RPDetCoordinateAlgebraObjs> det_data_map_;
 
     RPTopology rp_topology_;
 

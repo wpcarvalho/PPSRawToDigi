@@ -321,10 +321,12 @@ void StraightTrackAlignment::ProcessEvent(const Event& event, const EventSetup&)
       continue;
 
     // combine hits
-    for (auto &h : ds[idx_U].getHits())
-      selection.push_back(h);
-    for (auto &h : ds[idx_V].getHits())
-      selection.push_back(h);
+    for (auto &hds : ds[idx_U].getHits())
+      for (auto &h : hds)
+          selection.push_back(h);
+    for (auto &hds : ds[idx_V].getHits())
+      for (auto &h : hds)
+          selection.push_back(h);
   }
 
   eventsTotal++;

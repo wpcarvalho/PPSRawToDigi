@@ -524,7 +524,7 @@ int RPPrimaryVertex2ArmReconstruction::SelectHits(const DetSetVector<TotemRPLoca
 
     const TotemRPLocalTrack &tr = ds[0];
 
-    if (!tr.IsValid())
+    if (!tr.isValid())
       continue;
 
     coll[rpId] = resol_degrad_service_.Create2DHit(rpId, tr);

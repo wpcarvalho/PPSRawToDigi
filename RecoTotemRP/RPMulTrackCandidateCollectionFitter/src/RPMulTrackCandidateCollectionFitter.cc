@@ -98,7 +98,7 @@ double RPMulTrackCandidateCollectionFitter::calculateMeanValue(const std::vector
   double mean = 0.;
   for(unsigned int i=0; i<coll.size(); ++i)
   {
-    mean += coll[i].Position();
+    mean += coll[i].getPosition();
     obj_coll.push_back(coll[i]);
   }
   mean = mean/coll.size();
