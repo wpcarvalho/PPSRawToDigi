@@ -27,7 +27,7 @@
 //----------------------------------------------------------------------------------------------------
 
 /**
- *\brief TODO
+ *\brief Algorithm for fitting tracks through a single RP.
  **/
 class TotemRPLocalTrackFitterAlgorithm
 {
@@ -40,25 +40,9 @@ class TotemRPLocalTrackFitterAlgorithm
     /// Resets the reconstruction-data cache.
     void Reset();
 
-    // TODO: needed?
-#if 0
-    TVector2 ComputeXYPointInZDir(const TotemRPRecHit& hit_0, const TotemRPRecHit& hit_1,
-      const TotemRPGeometry &tot_geom);
-
-    TVector2 ComputeXYPointOfTheGivenLine(const TotemRPRecHit& hit_0, const TotemRPRecHit& hit_1,
-      double tx, double ty, double z0, const TotemRPGeometry &tot_geom);
-#endif
-
   private:
     struct RPDetCoordinateAlgebraObjs
     {
-      // TODO
-      /*
-      u*nom_pitch = (u0*pitch+u_cor)+(pitch/eff_pitch*rot_cor*v)*(x-x0)
-                   eff_u_middle_edge +    eff_v*(x-middle_of_edge_pos)
-             (eff_u_middle_edge-eff_v*middle_of_edge_pos) + eff_v*x
-      */
-    
       TVector3 centre_of_det_global_position_;
       double rec_u_0_;              ///< in mm, position of det. centre projected on readout direction
       TVector2 readout_direction_;  ///< non paralell projection and rot_cor included
@@ -86,6 +70,4 @@ class TotemRPLocalTrackFitterAlgorithm
     }
 };
 
-
 #endif
-

@@ -29,7 +29,7 @@
 //----------------------------------------------------------------------------------------------------
 
 /**
- *\brief TODO: Fits every track candidate in RPTrackCandidateCollection.
+ *\brief Fits tracks trough a single RP.
  **/
 class TotemRPLocalTrackFitter : public edm::one::EDProducer<>
 {

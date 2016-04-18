@@ -73,62 +73,6 @@ TotemRPLocalTrackFitterAlgorithm::GetDetAlgebraData(unsigned int det_id, const T
 
 //----------------------------------------------------------------------------------------------------
 
-// TODO: remove ??
-#if 0
-TVector2 TotemRPLocalTrackFitterAlgorithm::ComputeXYPointInZDir(const TotemRPRecHit& hit_0, const TotemRPRecHit& hit_1, const TotemRPGeometry &tot_geom)
-{
-  RPDetCoordinateAlgebraObjs *alg_obj_0 = GetDetAlgebraData(hit_0.DetId(), tot_geom);
-  RPDetCoordinateAlgebraObjs *alg_obj_1 = GetDetAlgebraData(hit_1.DetId(), tot_geom);
-  if(!alg_obj_0->available_ || !alg_obj_1->available_)
-    return TVector2();
-  
-  TMatrixD point_rec_matrix(2,2);
-  point_rec_matrix(0,0) = alg_obj_0->readout_direction_.X();
-  point_rec_matrix(0,1) = alg_obj_0->readout_direction_.Y();
-  point_rec_matrix(1,0) = alg_obj_1->readout_direction_.X();
-  point_rec_matrix(1,1) = alg_obj_1->readout_direction_.Y();
-  point_rec_matrix.Invert();
-  TVectorD vect(2);
-  vect[0] = hit_0.Position() - alg_obj_0->rec_u_0_;
-  vect[1] = hit_1.Position() - alg_obj_1->rec_u_0_;
-  vect*=point_rec_matrix;
-  return TVector2(vect[0], vect[1]);
-}
-#endif
-
-//----------------------------------------------------------------------------------------------------
-
-// TODO: remove ??
-#if 0
-TVector2 TotemRPLocalTrackFitterAlgorithm::ComputeXYPointOfTheGivenLine(const TotemRPRecHit& hit_0, const TotemRPRecHit& hit_1, double tx, double ty, double z0, const TotemRPGeometry &tot_geom)
-{
-  RPDetCoordinateAlgebraObjs *alg_obj_0 = GetDetAlgebraData(hit_0.DetId(), tot_geom);
-  RPDetCoordinateAlgebraObjs *alg_obj_1 = GetDetAlgebraData(hit_1.DetId(), tot_geom);
-  if(!alg_obj_0->available_ || !alg_obj_1->available_)
-    return TVector2();
-    
-  TMatrixD point_rec_matrix(2,2);
-  point_rec_matrix(0,0) = alg_obj_0->readout_direction_.X();
-  point_rec_matrix(0,1) = alg_obj_0->readout_direction_.Y();
-  point_rec_matrix(1,0) = alg_obj_1->readout_direction_.X();
-  point_rec_matrix(1,1) = alg_obj_1->readout_direction_.Y();
-  point_rec_matrix.Invert();
-  TVectorD vect(2);
-  double delta_U_0;
-  double delta_U_1;
-  TVector2 direct(tx, ty);
-  delta_U_0 = (alg_obj_0->readout_direction_*=direct)*(alg_obj_0->centre_of_det_global_position_.Z()-z0);
-  delta_U_1 = (alg_obj_1->readout_direction_*=direct)*(alg_obj_1->centre_of_det_global_position_.Z()-z0);
-  
-  vect[0] = hit_0.Position() - alg_obj_0->rec_u_0_ - delta_U_0;
-  vect[1] = hit_1.Position() - alg_obj_1->rec_u_0_ - delta_U_1;
-  vect*=point_rec_matrix;
-  return TVector2(vect[0], vect[1]);
-}
-#endif
-
-//----------------------------------------------------------------------------------------------------
-
 bool TotemRPLocalTrackFitterAlgorithm::FitTrack(const edm::DetSetVector<TotemRPRecHit> &hits, double z_0,
     const TotemRPGeometry &tot_geom, TotemRPLocalTrack &fitted_track)
 {

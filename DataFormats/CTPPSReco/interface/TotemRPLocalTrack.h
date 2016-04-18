@@ -135,9 +135,6 @@ class TotemRPLocalTrack
 
     inline void setValid(bool valid) { valid_ = valid; }
 
-    // TODO:
-    //inline void reset() { track_hits_vector_.clear(); }
-
     friend bool operator< (const TotemRPLocalTrack &l, const TotemRPLocalTrack &r);
 
   private:
