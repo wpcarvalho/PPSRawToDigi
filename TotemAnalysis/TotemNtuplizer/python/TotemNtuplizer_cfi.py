@@ -7,19 +7,21 @@ TotemNtuplizer = cms.EDAnalyzer("TotemNtuplizer",
     includeDigi = cms.bool(False),
     includePatterns = cms.bool(False),
 
+    RawEventLabel = cms.InputTag("RPSiDetDigitizer"),
+
     ModulLabelSimu = cms.string('Raw2DigiProducer'),
+    TotemRPDigiSetLabel = cms.InputTag("RPSiDetDigitizer"),
 
     ProductLabelSimu = cms.string('rpCCOutput'),
-    RPFittedTrackCollectionLabel = cms.InputTag("RPSingleTrackCandCollFit"),
-    RPMulFittedTrackCollectionLabel = cms.InputTag("RPMulTrackCandCollFit"),
-    TotemRPDigiSetLabel = cms.InputTag("RPSiDetDigitizer"),
-    RawEventLabel = cms.InputTag("RPSiDetDigitizer"),
+
     RPDigClusterLabel = cms.InputTag("RPClustProd"),
+    RPFittedTrackCollectionLabel = cms.InputTag("TotemRPLocalTrackFitter"),
+    RPMulFittedTrackCollectionLabel = cms.InputTag("RPMulTrackCandCollFit"),
+
     RPReconstructedProtonCollectionLabel = cms.InputTag("ElasticReconstruction"),
     RPReconstructedProtonPairCollectionLabel = cms.InputTag("ElasticReconstruction"),
 
-    RoadLabel = cms.string('NewRoadFinder'),
-
+    RoadLabel = cms.string('NewRoadFinder')
 
 #    primaryProtons = cms.bool(True),
 #    primaryJets = cms.bool(True),

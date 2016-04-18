@@ -18,6 +18,8 @@
 #include "TotemAnalysis/TotemNtuplizer/interface/RPNtuplizer.h"
 #include "TotemCondFormats/DataRecord/interface/BeamOpticsParamsRcd.h"
 
+#include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
+
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
 
 #include "TTree.h"
@@ -72,6 +74,11 @@ TotemNtuplizer::TotemNtuplizer(const edm::ParameterSet &ps) :
   verbosity(ps.getUntrackedParameter<unsigned int>("verbosity", 0)),
   outputFileName(ps.getUntrackedParameter<string>("outputFileName"))
 {
+  consumes<DetSetVector<TotemRPUVPattern>>(edm::InputTag("TotemRPUVPatternFinder"));
+
+  auto tagLocalTrack = ps.getParameter<edm::InputTag>("RPFittedTrackCollectionLabel");
+  consumes<DetSetVector<TotemRPLocalTrack>>(tagLocalTrack);
+
   auto rpMulFittedTrackCollectionLabel = ps.getParameter<edm::InputTag>("RPMulFittedTrackCollectionLabel");
   consumes<RPMulFittedTrackCollection>(rpMulFittedTrackCollectionLabel);
 
@@ -90,12 +97,14 @@ TotemNtuplizer::TotemNtuplizer(const edm::ParameterSet &ps) :
 
 void TotemNtuplizer::beginRun(edm::Run const& r, edm::EventSetup const& es)
 {
+  /*
   edm::ESHandle<BeamOpticsParams> BOParH;
   es.get<BeamOpticsParamsRcd>().get(BOParH);
   if(!BOParH.isValid())
     throw cms::Exception("TotemNtuplizer::beginRun") << " edm::ESHandle<BeamOpticsParams> is invalid";
   
   rp_ntupl_->SetOpticsConfig(*BOParH);
+  */
 
   // let all workes create their branches
   if( branchCreated == false){

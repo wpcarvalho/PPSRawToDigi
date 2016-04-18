@@ -168,7 +168,7 @@ void TotemRPLocalTrackFitter::produce(edm::Event& e, const edm::EventSetup& setu
     
     if (track.isValid())
     {
-      DetSet<TotemRPLocalTrack> ds = output.find_or_insert(rpId);
+      DetSet<TotemRPLocalTrack> &ds = output.find_or_insert(rpId);
       ds.push_back(track);
     }
 

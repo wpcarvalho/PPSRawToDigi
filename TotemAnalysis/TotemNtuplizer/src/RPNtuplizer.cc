@@ -195,10 +195,10 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
     {
       unsigned int rpId = ds.detId();
 
-      if (ds.size() == 0)
+      if (ds.data.size() == 0)
         continue;
 
-      if (ds.size() > 1)
+      if (ds.data.size() > 1)
         throw cms::Exception("RPNtuplizer::FillEvent") << ds.size() << " tracks is RP " << rpId << endl;
 
       const TotemRPLocalTrack &tr = ds[0];
@@ -335,7 +335,7 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
 
   // fill in pattern-recognition results (non-parallel)
   edm::Handle< DetSetVector<TotemRPUVPattern> > patterns;
-  e.getByLabel("NonParallelTrackFinder", patterns);
+  e.getByLabel("TotemRPUVPatternFinder", patterns);
 
   for (auto &ds : *patterns)
   {
