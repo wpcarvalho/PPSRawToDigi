@@ -14,12 +14,12 @@
 #ifndef RecoTotemRP_RPRecoDataFormats_RPMulTrackCandidateCollection_h
 #define RecoTotemRP_RPRecoDataFormats_RPMulTrackCandidateCollection_h
  
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
-
 #include <vector>
 #include <map>
 
- 
+// TODO
+typedef int RPTrackCandidate;
+
 class RPMulTrackCandidateCollection : public std::map<unsigned int, std::vector<RPTrackCandidate> >
 {
 };

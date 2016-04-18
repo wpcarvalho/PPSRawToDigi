@@ -1,27 +1,13 @@
 <lcgdict>
-  <class name="RPTrackCandidate"/>
-  <class name="std::vector<RPTrackCandidate>"/>
-  <class name="std::pair<unsigned int, RPTrackCandidate>"/>
-  <class name="std::pair<unsigned int, std::vector<RPTrackCandidate> >"/>
-  <class name="std::map<unsigned int, RPTrackCandidate>"/>
-  <class name="std::map<unsigned int, std::vector<RPTrackCandidate> >"/>
-  <class name="std::map<unsigned int, std::vector<RPTrackCandidateCollection> >"/>
-  <class name="RPTrackCandidateCollection"/>
-  <class name="edm::Wrapper<RPTrackCandidateCollection>"/>
   <class name="RPMulTrackCandidateCollection"/>
   <class name="edm::Wrapper<RPMulTrackCandidateCollection>"/>
   <class name="RPTrackCandidateDistinctCollectionsSet"/>
   <class name="edm::Wrapper<RPTrackCandidateDistinctCollectionsSet>"/>
   <class name="std::less<unsigned int>"/>
-  <class name="std::allocator<std::pair<const unsigned int,RPTrackCandidate> >"/>
   <class name="std::binary_function<unsigned int,unsigned int,bool>"/>
   
   <class name="edm::Wrapper<RPMulFittedTrackSetsCollection>"/>
-  <class name="std::vector<std::vector<RPTrackCandidate> >"/>
-  <class name="std::map<unsigned int, std::vector<std::vector<RPTrackCandidate> > >"/>
   <class name="RPMulTrackCandidateSetsCollection"/>
-  <class name="edm::Wrapper<std::vector<std::vector<RPTrackCandidate> > >"/>
-  <class name="edm::Wrapper<std::map<unsigned int, std::vector<std::vector<RPTrackCandidate> > > >"/>
   <class name="edm::Wrapper<RPMulTrackCandidateSetsCollection>"/>
   
   <class name="RPDetHitPoint"/>

@@ -1,7 +1,7 @@
 #include "RecoTotemRP/RPSingleCandidateTrackFinder/interface/RPSingleCandidateTrackFinder.h"
 #include "RecoTotemRP/RPSingleCandidateTrackFinder/interface/RPSingleCandidateTrackFinderAlgorithm.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
+//#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
+//#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
@@ -23,7 +23,7 @@ RPSingleCandidateTrackFinder::RPSingleCandidateTrackFinder(const edm::ParameterS
 //  single_track_candidate_collect_label_ = conf.getParameter<std::string>("TrackCollectionLabelLabel");
 //  produces< RPTrackCandidateCollection > (single_track_candidate_collect_label_);
   //produces<RPRecognizedPatternsCollection> ();
-  produces< RPTrackCandidateCollection > ();
+  //produces< RPTrackCandidateCollection > ();
   recohit_label_Token_ = consumes<edm::DetSetVector<TotemRPRecHit> >(recohit_label_);
 }
 
@@ -54,7 +54,7 @@ void RPSingleCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup&
   edm::Handle< edm::DetSetVector<TotemRPRecHit> > input;
  
   // Step C: produce output product
-  std::auto_ptr<RPTrackCandidateCollection> trackCandidateCollection(new RPTrackCandidateCollection());
+  //std::auto_ptr<RPTrackCandidateCollection> trackCandidateCollection(new RPTrackCandidateCollection());
   //auto_ptr<RPRecognizedPatternsCollection> patternsCollection(new RPRecognizedPatternsCollection());
   
   //e.getByLabel(rprecohit_producer_, recohit_label_, input);
@@ -87,7 +87,7 @@ void RPSingleCandidateTrackFinder::produce(edm::Event& e, const edm::EventSetup&
   /// end test
  
   // Step D: write trackCandidateCollection to file
-  e.put(trackCandidateCollection);
+  //e.put(trackCandidateCollection);
   //e.put(patternsCollection);
 }
   

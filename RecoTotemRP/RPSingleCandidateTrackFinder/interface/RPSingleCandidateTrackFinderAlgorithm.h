@@ -3,12 +3,14 @@
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
+//#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 #include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 #include "DataFormats/GeometryVector/interface/LocalVector.h"
 #include "CLHEP/Vector/ThreeVector.h"
 #include <vector>
 #include <map>
+
+#include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 
 //#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
 

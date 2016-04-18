@@ -11,6 +11,8 @@
 
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 
+#include <vector>
+
 /**
  *\brief A linear pattern in U or V projection.
  * The intercept b is taken at the middle of a RP:
@@ -57,35 +59,8 @@ class TotemRPUVPattern
     std::vector<TotemRPRecHit> hits;  ///< hits associated with the pattern
 };
 
-bool operator< (const TotemRPUVPattern &l, const TotemRPUVPattern &r)
-{
-  if (l.projection < r.projection)
-    return true;
-  if (l.projection > r.projection)
-    return false;
+//----------------------------------------------------------------------------------------------------
 
-  if (l.a < r.a)
-    return true;
-  if (l.a > r.a)
-    return false;
-
-  if (l.b < r.b)
-    return true;
-  if (l.b > r.b)
-    return false;
-
-  if (l.w < r.w)
-    return true;
-  if (l.w > r.w)
-    return false;
-
-  if (l.fittable < r.fittable)
-    return true;
-  if (l.fittable > r.fittable)
-    return false;
-
-  return false;
-}
-
+extern bool operator< (const TotemRPUVPattern &l, const TotemRPUVPattern &r);
 
 #endif

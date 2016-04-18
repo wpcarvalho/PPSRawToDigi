@@ -51,6 +51,8 @@
 //CLHEP
 #include "CLHEP/Vector/ThreeVector.h"
 
+#include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
+
 
 class RPMulCandidateTrackFinderAlgorithm
 {

@@ -1,6 +1,4 @@
 
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateDistinctCollectionsSet.h"
 #include "DataFormats/Common/interface/Wrapper.h"
@@ -30,30 +28,17 @@ namespace {
     CentralMassInfo ctrinfo;
     edm::Wrapper<CentralMassInfo> wctrinfo;
     
-    RPTrackCandidate tc;
-    RPTrackCandidateCollection coll;
     RPMulTrackCandidateCollection mcoll;
-    std::pair<unsigned int, RPTrackCandidate> p_rpid_rptrcand;
-    std::pair<unsigned int, std::vector<RPTrackCandidate> > p_rpid_rptrcandvec;
-    std::map<unsigned int, RPTrackCandidate> m_rpid_rptrcand;
-    std::map<unsigned int, std::vector<RPTrackCandidate> > m_rpid_rptrcandvec;
     RPTrackCandidateDistinctCollectionsSet coll_set;
-    std::vector<RPTrackCandidate> v_tr_cand;
-    edm::Wrapper<RPTrackCandidateCollection> RPTrackCandidateCollectionWrapper;
     edm::Wrapper<RPMulTrackCandidateCollection> RPMulTrackCandidateCollectionWrapper;
     edm::Wrapper<RPTrackCandidateDistinctCollectionsSet> RPTrackCandidateDistinctCollectionsSetWrapper;
     
     edm::Wrapper<RPMulFittedTrackSetsCollection> wraprpmulttracksetcol; 
     
-    std::vector<std::vector<RPTrackCandidate> > vvrptrcand;
-    std::map<unsigned int, std::vector<std::vector<RPTrackCandidate> > > mapvvrptrcand;
     RPMulTrackCandidateSetsCollection rpmultracsetcandcol;
-    edm::Wrapper<std::vector<std::vector<RPTrackCandidate> > > wrapvvrptrcand;
-    edm::Wrapper<std::map<unsigned int, std::vector<std::vector<RPTrackCandidate> > > > wrapmapvvrptrcand;
     edm::Wrapper<RPMulTrackCandidateSetsCollection> wraprpmultracsetcandcol;
     
     std::less<unsigned int> lui;
-    std::allocator<std::pair<const unsigned int,RPTrackCandidate> > apcuirptc;
     std::binary_function<unsigned int,unsigned int,bool> bf;
 
     RPMulFittedTrackCollection the_mtrack_cand_col;

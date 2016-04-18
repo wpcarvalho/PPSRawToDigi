@@ -20,7 +20,6 @@
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonPairCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPReconstructedProtonCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 
 #include "SimDataFormats/GeneratorProducts/interface/HepMCProduct.h"
 #include "DataFormats/Common/interface/DetSetVector.h"

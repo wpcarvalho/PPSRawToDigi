@@ -12,10 +12,9 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
+#include "DataFormats/Common/interface/DetSetVector.h"
 
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
-
+#include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
 
 
 /**
@@ -42,11 +41,12 @@ class OverlapTrackFilterPatterns : public edm::EDFilter
     virtual void endJob();
 };
 
+//----------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------
 
 using namespace edm;
 using namespace std;
 
-//----------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------
 
 OverlapTrackFilterPatterns::OverlapTrackFilterPatterns(const ParameterSet &ps) :
@@ -68,9 +68,14 @@ bool OverlapTrackFilterPatterns::filter(edm::Event &event, const EventSetup &es)
 {
   //printf("--------------------------------------------------------\n");
 
-  Handle< RPTrackCandidateCollection > trackColl;
-  event.getByLabel(tagRecognizedPatterns, trackColl);
+  Handle< DetSetVector<TotemRPUVPattern> > patterns;
+  event.getByLabel(tagRecognizedPatterns, patterns);
 
+  // keep event?
+  bool keep = false;
+
+// TODO:uncomment
+#if 0
   struct RPCount
   {
     unsigned int top, bot, hor;
@@ -80,7 +85,7 @@ bool OverlapTrackFilterPatterns::filter(edm::Event &event, const EventSetup &es)
   // map: arm --> number of active RPs
   map<unsigned int, RPCount> activity;
 
-  for (const auto &p : *trackColl)
+  for (const auto &p : *patterns)
   {
     if (!p.second.Fittable())
       continue;
@@ -100,9 +105,6 @@ bool OverlapTrackFilterPatterns::filter(edm::Event &event, const EventSetup &es)
     if (idx == 1 || idx == 5)
       activity[arm].bot++;
   }
-
-  // keep event?
-  bool keep = false;
 
   for (const auto &ac : activity)
   {
@@ -154,6 +156,7 @@ bool OverlapTrackFilterPatterns::filter(edm::Event &event, const EventSetup &es)
       }
     }
   }
+#endif
 
   counter_all_events++;
 

@@ -1,10 +1,12 @@
 #ifndef RecoTotemRP_RPRecoDataFormats_RPTrackCandidateDistinctCollectionsSet_h
 #define RecoTotemRP_RPRecoDataFormats_RPTrackCandidateDistinctCollectionsSet_h
  
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
+//#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 #include <vector>
 #include <map>
 
+// TODO
+typedef int RPTrackCandidateCollection;
 
 class RPTrackCandidateDistinctCollectionsSet
    : public std::map<unsigned int, std::vector<RPTrackCandidateCollection> >
@@ -15,6 +17,7 @@ class RPTrackCandidateDistinctCollectionsSet
   private:
     //unsigned int rp_id_;
 };
+
 
 
 #endif

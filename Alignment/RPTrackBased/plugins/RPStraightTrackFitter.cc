@@ -15,13 +15,13 @@
 
 #include "Alignment/RPDataFormats/interface/LocalTrackFit.h"
 #include "Alignment/RPTrackBased/interface/LocalTrackFitter.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 #include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "Alignment/RPTrackBased/interface/AlignmentGeometry.h"
 #include "Alignment/RPTrackBased/interface/AlignmentTask.h"
 
 // TODO
+//#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 //#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrack.h"
 //#include "RecoTotemRP/RPRecoDataFormats/interface/RPFittedTrackCollection.h"
 

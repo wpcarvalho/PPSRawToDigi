@@ -11,9 +11,9 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/ESHandle.h"
+#include "DataFormats/Common/interface/DetSetVector.h"
 
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidate.h"
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
 #include "CondFormats/AlignmentRecord/interface/RPRealAlignmentRecord.h"
@@ -273,30 +273,58 @@ void StraightTrackAlignment::ProcessEvent(const Event& event, const EventSetup&)
     printf("\n---------- StraightTrackAlignment::ProcessEvent > event %llu\n", event.id().event());
   
   // -------------------- STEP 1: get hits from selected RPs
-  Handle< RPTrackCandidateCollection > trackColl;
-  event.getByLabel(tagRecognizedPatterns, trackColl);
+  Handle< DetSetVector<TotemRPUVPattern> > patterns;
+  event.getByLabel(tagRecognizedPatterns, patterns);
 
   bool skipHorRP = ( find(runsWithoutHorizontalRPs.begin(), runsWithoutHorizontalRPs.end(),
     event.id().run()/10000) != runsWithoutHorizontalRPs.end() );
 
   HitCollection selection;
-  for (RPTrackCandidateCollection::const_iterator it = trackColl->begin(); it != trackColl->end(); ++it) {
-    // skip non fittable candidates
-    if (!it->second.Fittable())
-      continue;
+  for (auto &ds : *patterns)
+  {
+    unsigned int rpId = ds.detId();
 
     // skip if RP not selected by user
-    if (find(RPIds.begin(), RPIds.end(), it->first) == RPIds.end())
+    if (find(RPIds.begin(), RPIds.end(), rpId) == RPIds.end())
       continue;
 
     // skip horizontal RPs
-    unsigned int rpNum = it->first % 10;
+    unsigned int rpNum = rpId % 10;
     if (skipHorRP && (rpNum == 2 || rpNum == 3))
       continue;
-    
-    const vector<TotemRPRecHit> &hits = it->second.TrackRecoHits();
-    for (unsigned int i = 0; i < hits.size(); i++)
-      selection.push_back(hits[i]);
+
+    // count U and V patterns
+    unsigned int n_U=0, n_V=0;
+    unsigned int idx_U=0, idx_V=0;
+    for (unsigned int idx = 0; idx < ds.size(); ++idx)
+    {
+      const TotemRPUVPattern &p = ds[idx];
+
+      if (! p.getFittable())
+        continue;
+
+      if (p.getProjection() == TotemRPUVPattern::projU)
+      {
+        n_U++;
+        idx_U = idx;
+      }
+
+      if (p.getProjection() == TotemRPUVPattern::projV)
+      {
+        n_V++;
+        idx_V = idx;
+      }
+    }
+
+    // skip if U-V combination non-unique
+    if (n_U != 1 || n_V != 1)
+      continue;
+
+    // combine hits
+    for (auto &h : ds[idx_U].getHits())
+      selection.push_back(h);
+    for (auto &h : ds[idx_V].getHits())
+      selection.push_back(h);
   }
 
   eventsTotal++;

@@ -139,15 +139,20 @@ void RPMulCandidateTrackFinderAlgorithm::BuildTrackCandidates(
           }
           continue;
         }
+
+        // TODO: uncomment
+        /*
         // calculate the reliability of a certain U&V candidate track
         double weight = CalcCandidateTrackWeight(u_roads_mean[i], v_roads_mean[j], u_roads[i], v_roads[j]);
+
         RPTrackCandidate tr_cand;
         tr_cand.InsertHits(u_roads[i], 0);
         tr_cand.InsertHits(v_roads[j], 0);
         tr_cand.Weight(weight);
         tr_cand.SetUVid(i,j);
         //TODO: build the candidate track if the weight satisfies a certain condition
-        output[rp_copy_no].push_back(tr_cand); 
+        output[rp_copy_no].push_back(tr_cand);
+        */
       }
     }
   }

@@ -10,7 +10,7 @@
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 // Data Formats
-#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
+//#include "RecoTotemRP/RPRecoDataFormats/interface/RPTrackCandidateCollection.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 //#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
 #include "DataFormats/Common/interface/DetSetVector.h"

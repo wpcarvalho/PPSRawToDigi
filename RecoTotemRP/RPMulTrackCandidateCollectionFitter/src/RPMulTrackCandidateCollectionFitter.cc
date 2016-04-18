@@ -212,6 +212,8 @@ void RPMulTrackCandidateCollectionFitter::produce(edm::Event& e, const edm::Even
 void RPMulTrackCandidateCollectionFitter::run(const RPMulTrackCandidateCollection & input, 
     RPMulFittedTrackCollection& output, const TotemRPGeometry & rp_geometry)
 {
+      // TODO: uncomment
+      /*
   RPMulTrackCandidateCollection::const_iterator in_it;
   std::vector<RPTrackCandidate>::const_iterator tr_it;
   for(in_it = input.begin(); in_it != input.end(); in_it++)
@@ -219,17 +221,15 @@ void RPMulTrackCandidateCollectionFitter::run(const RPMulTrackCandidateCollectio
     CLHEP::Hep3Vector rp_glob_trans = rp_geometry.GetRPGlobalTranslation(in_it->first);
     for(tr_it = (in_it->second).begin(); tr_it != (in_it->second).end(); tr_it++)
     {
-      // TODO: uncomment
-      /*
       RPFittedTrack fitted_track;
       the_track_candidate_fitter_.FitTrack(*tr_it, rp_glob_trans.z(), fitted_track, rp_geometry);
       if(fitted_track.IsValid())
       {
         output[in_it->first].push_back(fitted_track);
       }
-      */
     }
   }
+      */
 }
 
 DEFINE_FWK_MODULE(RPMulTrackCandidateCollectionFitter);
