@@ -1,0 +1,5 @@
+<library name="RecoLocalCTPPSTotemRPPlugins" file="*.cc">
+  <flags EDM_PLUGIN="1"/>
+  <use name="FWCore/Framework"/>
+  <use name="RecoLocalCTPPS/TotemRP"/>
+</library>

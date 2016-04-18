@@ -26,7 +26,7 @@
 #include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulTrackCandidateCollection.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
-#include "RecoTotemRP/RPTrackCandidateFitter/interface/RPTrackCandidateFitter.h"
+//#include "RecoTotemRP/RPTrackCandidateFitter/interface/RPTrackCandidateFitter.h"
 #include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 
 #include <string>
@@ -56,7 +56,7 @@ class RPMulTrackCandidateCollectionFitter : public edm::EDProducer
     double calculateMeanValue(const std::vector<TotemRPRecHit> &coll, std::vector<TotemRPRecHit> &obj_coll);
     
     int verbosity_;
-    RPTrackCandidateFitter the_track_candidate_fitter_;
+    //RPTrackCandidateFitter the_track_candidate_fitter_;
     bool readReconstructedPatterns_;
     std::string reconstructedPatternsInstance_;
     RPTopology det_topology_;

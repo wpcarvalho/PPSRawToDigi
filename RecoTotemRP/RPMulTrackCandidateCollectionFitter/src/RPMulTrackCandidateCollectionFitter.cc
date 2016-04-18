@@ -15,8 +15,9 @@
 //#include "RecoTotemRP/RPRecoDataFormats/interface/RPRecognizedPatternsCollection.h"
 
 
-RPMulTrackCandidateCollectionFitter::RPMulTrackCandidateCollectionFitter(const edm::ParameterSet& conf)
-   : the_track_candidate_fitter_(conf), readReconstructedPatterns_(false)
+RPMulTrackCandidateCollectionFitter::RPMulTrackCandidateCollectionFitter(const edm::ParameterSet& conf) :
+  //the_track_candidate_fitter_(conf),
+  readReconstructedPatterns_(false)
 {
 
   edm::LogInfo("RPMulTrackCandidateCollectionFitter") << "[RPMulTrackCandidateCollectionFitter::RPMulTrackCandidateCollectionFitter] Constructing object...";
@@ -187,8 +188,10 @@ void RPMulTrackCandidateCollectionFitter::produceFromReconstructedPatterns(edm::
 
 void RPMulTrackCandidateCollectionFitter::produce(edm::Event& e, const edm::EventSetup& c)
 {
+  /*
   if (geometryWatcher.check(c))
     the_track_candidate_fitter_.Reset();
+  */
 
   RPMulFittedTrackCollection mfitted_tracks_collection;
   

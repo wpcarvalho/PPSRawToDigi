@@ -12,5 +12,4 @@
 <use   name="clhep"/>
 <use   name="CondFormats/DataRecord"/>
 <use   name="DataFormats/TotemRPDetId"/>
-<use   name="RecoTotemRP/RPTrackCandidateFitter"/>
 <flags   EDM_PLUGIN="1"/>

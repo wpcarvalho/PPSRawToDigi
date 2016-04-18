@@ -12,7 +12,6 @@
 <use   name="clhep"/>
 <use   name="CondFormats/DataRecord"/>
 <use   name="DataFormats/TotemRPDetId"/>
-<use   name="RecoTotemRP/RPTrackCandidateFitter"/>
 <use   name="TotemProtonTransport/TotemRPProtonTransportParametrization"/>
 <use   name="RecoTotemRP/RPInverseParameterization"/>
 <use   name="SimDataFormats/GeneratorProducts"/>
