@@ -165,7 +165,6 @@ void FastLineRecognition::GetPatterns(const DetSetVector<TotemRPRecHit> &input, 
     printf("\tpoints of the selected cluster: %lu\n", c.contents.size());
 #endif
 
-    for (vector<const Point *>::iterator pit = c.contents.begin(); pit != c.contents.end(); ++pit)
     for (auto &pit : c.contents)
     { 
 #if DEBUG > 0

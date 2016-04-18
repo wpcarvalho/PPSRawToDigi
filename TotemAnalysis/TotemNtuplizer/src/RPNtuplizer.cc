@@ -205,13 +205,7 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
 
       unsigned int entries = 0;
       for (auto &hds : tr.getHits())
-      {
-        for (auto &h : hds)
-        {
-          h.getPosition();  // just to keep compiler silent
-          entries++;
-        }
-      }
+        entries += hds.size();
 
   	  track_info_[rpId].valid = tr.isValid();
   	  track_info_[rpId].chi2 = tr.getChiSquared();

@@ -115,8 +115,12 @@ void TotemRPLocalTrackFitter::produce(edm::Event& e, const edm::EventSetup& setu
     {
       const TotemRPUVPattern &pattern = rpv[pi];
 
+      // here it would make sense to skip non-fittable patterns, but to keep the logic
+      // equivalent to version 7_0_4, nothing is skipped
+      /*
       if (pattern.getFittable() == false)
         continue;
+      */
 
       switch (pattern.getProjection())
       {
@@ -143,6 +147,10 @@ void TotemRPLocalTrackFitter::produce(edm::Event& e, const edm::EventSetup& setu
 
       continue;
     }
+    
+    // again, to follow the logic from version 7_0_4, skip the non-fittable patterns here
+    if (!rpv[idx_U].getFittable() || !rpv[idx_V].getFittable())
+      continue;
 
     // combine U and V hits
     DetSetVector<TotemRPRecHit> hits;
@@ -174,7 +182,11 @@ void TotemRPLocalTrackFitter::produce(edm::Event& e, const edm::EventSetup& setu
 
     if (verbosity_ > 5)
     {
-      printf("    track in RP %u: valid = %i\n", rpId, track.isValid());
+      unsigned int n_hits = 0;
+      for (auto &hds : track.getHits())
+        n_hits += hds.size();
+
+      printf("    track in RP %u: valid = %i, hits = %u\n", rpId, track.isValid(), n_hits);
     }
   }
 

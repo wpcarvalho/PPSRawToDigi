@@ -64,9 +64,6 @@ class TotemRPUVPatternFinder : public edm::one::EDProducer<>
     /// maximal angle (in any projection) to mark candidate as fittable - controls track parallelity
     double max_a_toFit;
 
-    /// whether to allow to combine most significant U and V pattern, in case there several of them
-    bool allowAmbiguousCombination;
-
     /// exceptional settings, per RP and per projection
     std::vector<edm::ParameterSet> exceptionalSettings;
 
@@ -94,7 +91,6 @@ TotemRPUVPatternFinder::TotemRPUVPatternFinder(const edm::ParameterSet& conf) :
   lrcgn(new FastLineRecognition(conf.getParameter<double>("clusterSize_a"), conf.getParameter<double>("clusterSize_b"))),
   threshold(conf.getParameter<double>("threshold")),
   max_a_toFit(conf.getParameter<double>("max_a_toFit")),
-  allowAmbiguousCombination(conf.getParameter<bool>("allowAmbiguousCombination")),
   exceptionalSettings(conf.getParameter< vector<ParameterSet> >("exceptionalSettings"))
 {
   detSetVectorTotemRPRecHitToken = consumes<edm::DetSetVector<TotemRPRecHit> >(tagRecHit);
@@ -128,9 +124,7 @@ void TotemRPUVPatternFinder::RecognizeAndSelect(TotemRPUVPattern::ProjectionType
 
     set<unsigned int> planes;
     for (const auto &ds : p.getHits())
-    {
         planes.insert(TotemRPDetId::rawToDecId(ds.detId()) % 10);
-    }
 
     if (planes.size() < planes_required)
       p.setFittable(false);
@@ -139,12 +133,6 @@ void TotemRPUVPatternFinder::RecognizeAndSelect(TotemRPUVPattern::ProjectionType
       p.setFittable(false);
 
     patterns.push_back(p);
-  }
-
-  if (verbosity > 5)
-  {
-    for (const auto &p : patterns)
-      printf("\t\t\ta = %.3f, b = %.3f, w = %.3f\n", p.getA(), p.getB(), p.getW());
   }
 }
 
@@ -264,6 +252,21 @@ void TotemRPUVPatternFinder::produce(edm::Event& event, const edm::EventSetup& e
     if (verbosity > 5)
       printf("\t\tv recognition\n");
     RecognizeAndSelect(TotemRPUVPattern::projV, z0, threshold_V, minPlanesPerProjectionToFit_V, data.hits_V, patterns);
+
+    if (verbosity > 5)
+    {
+      printf("\t\tpatterns:\n");
+      for (const auto &p : patterns)
+      {
+        unsigned int n_hits = 0;
+        for (auto &hds : p.getHits())
+          n_hits += hds.size();
+
+        printf("\t\t\tproj = %s, a = %.3f, b = %.3f, w = %.3f, fittable = %i, hits = %u\n",
+          (p.getProjection() == TotemRPUVPattern::projU) ? "U" : "V",
+          p.getA(), p.getB(), p.getW(), p.getFittable(), n_hits);
+      }
+    }
   }
  
   // save output

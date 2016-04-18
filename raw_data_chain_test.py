@@ -18,7 +18,7 @@ process.source.printProgressFrequency = 0
 process.source.fileNames.append('/afs/cern.ch/user/j/jkaspar/public/run_9987_EVB11_1.003.srs')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1) # TODO: to -1
+    input = cms.untracked.int32(-1)
 )
 
 # raw-to-digi conversion
@@ -56,17 +56,22 @@ process.load("RecoLocalCTPPS.TotemRP.TotemRPLocalTrackFitter_cfi")
 
 process.dump = cms.EDAnalyzer("EventContentAnalyzer")
 
+# ntuplizer
+process.load("TotemAnalysis.TotemNtuplizer.TotemNtuplizer_cfi")
+process.TotemNtuplizer.outputFileName = "ntuple.root"
+
 process.p = cms.Path(
     process.TotemTriggerRawToDigi *
     process.TotemRPRawToDigi *
     process.TotemRPClusterProducer *
     process.TotemRPRecHitProducer *
     process.TotemRPUVPatternFinder *
-    process.TotemRPLocalTrackFitter
+    process.TotemRPLocalTrackFitter *
+    process.TotemNtuplizer
 )
 
 process.output = cms.OutputModule("PoolOutputModule",
-    fileName = cms.untracked.string("file:./out.root")
+    fileName = cms.untracked.string("file:./reco.root")
 )
 
 process.outpath = cms.EndPath(process.output)
