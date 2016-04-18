@@ -11,6 +11,15 @@ process.load('Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cf
 process.load('Configuration.StandardSequences.EDMtoMEAtRunEnd_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
+# minimum of logs
+MessageLogger = cms.Service("MessageLogger",
+    statistics = cms.untracked.vstring(),
+    destinations = cms.untracked.vstring('cerr'),
+    cerr = cms.untracked.PSet(
+        threshold = cms.untracked.string('WARNING')
+    )
+)
+
 # global tag
 from Configuration.AlCa.GlobalTag import GlobalTag
 process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:mc', '')  #for MC
@@ -19,13 +28,27 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:mc', '')  #for MC
 process.load("DQMServices.Core.DQM_cfg")
 process.load("DQMServices.Components.DQMEnvironment_cfi")
 
-# include TOTEM reconstruction chain
-process.load("reco_chain_cfi")
+# raw data source
+source = cms.Source("PoolSource",
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/j/jkaspar/public/run268608_ls0001_streamA_StorageManager.root')
+)
 
-# specify number of events to select
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(200)
 )
+
+# raw-to-digi conversion
+process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
+process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/totem_rp_210far_220_mapping.xml")
+
+process.load('EventFilter.TotemRawToDigi.TotemRPRawToDigi_cfi')
+process.TotemRPRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
+process.TotemRPRawToDigi.fedIds = cms.vuint32(577, 578, 579, 580)
+process.TotemRPRawToDigi.RawToDigi.printErrorSummary = 0
+process.TotemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 0
+
+# local RP reconstruction chain with standard settings
+process.load("RecoLocalCTPPS.TotemRP.LocalRecoChain_cfi")
 
 # TOTEM RP DQM module
 process.TotemRPDQMSource = cms.EDAnalyzer("TotemRPDQMSource",
@@ -48,8 +71,18 @@ process.DQMOutput = cms.OutputModule("DQMRootOutputModule",
 )
 
 # execution schedule
-process.dqm_offline_step = cms.Path(process.TotemRPDQMSource)
-process.dqm_output_step = cms.EndPath(process.DQMOutput)
+process.reco_step = cms.Path(
+  process.TotemRPRawToDigi *
+  process.TotemRPLocalReconstruction
+)
+
+process.dqm_offline_step = cms.Path(
+  process.TotemRPDQMSource
+)
+
+process.dqm_output_step = cms.EndPath(
+    process.DQMOutput
+)
 
 process.schedule = cms.Schedule(
     process.reco_step,

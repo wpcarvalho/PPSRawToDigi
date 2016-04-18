@@ -42,17 +42,8 @@ process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/d
 process.load("Alignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.RealFiles = cms.vstring()
 
-# clusterization
-process.load("RecoLocalCTPPS.TotemRP.TotemRPClusterProducer_cfi")
-
-# reco hit production
-process.load("RecoLocalCTPPS.TotemRP.TotemRPRecHitProducer_cfi")
-
-# non-parallel pattern recognition
-process.load("RecoLocalCTPPS.TotemRP.TotemRPUVPatternFinder_cfi")
-
-# local track fitting
-process.load("RecoLocalCTPPS.TotemRP.TotemRPLocalTrackFitter_cfi")
+# local RP reconstruction chain with standard settings
+process.load("RecoLocalCTPPS.TotemRP.LocalRecoChain_cfi")
 
 process.dump = cms.EDAnalyzer("EventContentAnalyzer")
 
@@ -63,10 +54,7 @@ process.TotemNtuplizer.outputFileName = "ntuple.root"
 process.p = cms.Path(
     process.TotemTriggerRawToDigi *
     process.TotemRPRawToDigi *
-    process.TotemRPClusterProducer *
-    process.TotemRPRecHitProducer *
-    process.TotemRPUVPatternFinder *
-    process.TotemRPLocalTrackFitter *
+    process.TotemRPLocalReconstruction *
     process.TotemNtuplizer
 )
 
