@@ -21,6 +21,7 @@
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "DataFormats/TotemDigi/interface/TotemRPDigi.h"
+#include "DataFormats/TotemDigi/interface/TotemVFATStatus.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
@@ -52,6 +53,7 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     void endRun(edm::Run const& run, edm::EventSetup const& eSetup);
 
   private:
+    edm::EDGetTokenT< edm::DetSetVector<TotemVFATStatus> > tokenStatus;
     edm::EDGetTokenT< edm::DetSetVector<TotemRPDigi> > tokenDigi;
     edm::EDGetTokenT< edm::DetSetVector<TotemRPCluster> > tokenCluster;
     edm::EDGetTokenT< edm::DetSetVector<TotemRPRecHit> > tokenRecHit;
@@ -112,6 +114,8 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     /// plots related to one RP
     struct PotPlots
     {
+      MonitorElement *vfat_missing=NULL, *vfat_ec_bc_error=NULL, *vfat_corruption=NULL;
+
       MonitorElement *activity=NULL, *activity_u=NULL, *activity_v=NULL;
       MonitorElement *hit_plane_hist=NULL;
       MonitorElement *patterns_u=NULL, *patterns_v=NULL;
@@ -301,6 +305,10 @@ TotemRPDQMSource::PotPlots::PotPlots(DQMStore::IBooker &ibooker, unsigned int id
 {
   ibooker.setCurrentFolder(string("Totem/") + TotemRPDetId::rpName(id, TotemRPDetId::nPath));
 
+  vfat_missing = ibooker.book2D("vfats missing", "plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
+  vfat_ec_bc_error = ibooker.book2D("vfats with EC or BC error", "plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
+  vfat_corruption = ibooker.book2D("vfats with data corruption", "plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
+
   activity = ibooker.book1D("active planes", "active planes;number of active planes", 11, -0.5, 10.5);
   activity_u = ibooker.book1D("active planes U", "active planes U;number of active U planes", 11, -0.5, 10.5);
   activity_v = ibooker.book1D("active planes V", "active planes V;number of active V planes", 11, -0.5, 10.5);
@@ -348,6 +356,8 @@ TotemRPDQMSource::TotemRPDQMSource(const edm::ParameterSet& ps) :
   correlationPlotsLimit(ps.getUntrackedParameter<unsigned int>("correlationPlotsLimit", 50)),
   correlationPlotsSelector(ps.getUntrackedParameter<std::string>("correlationPlotsFilter", ""))
 {
+  tokenStatus = consumes<DetSetVector<TotemVFATStatus>>(ps.getParameter<edm::InputTag>("tagStatus"));
+
   tokenDigi = consumes< DetSetVector<TotemRPDigi> >(ps.getParameter<edm::InputTag>("tagDigi"));
   tokenCluster = consumes< edm::DetSetVector<TotemRPCluster> >(ps.getParameter<edm::InputTag>("tagCluster"));
   tokenRecHit = consumes< edm::DetSetVector<TotemRPRecHit> >(ps.getParameter<edm::InputTag>("tagRecHit"));
@@ -435,6 +445,9 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   eventSetup.get<VeryForwardRealGeometryRecord>().get(geometry);
 
   // get event data
+  Handle< DetSetVector<TotemVFATStatus> > status;
+  event.getByToken(tokenStatus, status);
+
   Handle< DetSetVector<TotemRPDigi> > digi;
   event.getByToken(tokenDigi, digi);
 
@@ -455,6 +468,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
 
   // check validity
   bool valid = true;
+  valid &= status.isValid();
   valid &= digi.isValid();
   valid &= digCluster.isValid();
   valid &= hits.isValid();
@@ -465,6 +479,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   if (!valid)
   {
     printf("ERROR in TotemDQMModuleRP::analyze > some of the required inputs are not valid. Skipping this event.\n");
+    printf("\tstatus.isValid = %i\n", status.isValid());
     printf("\tdigi.isValid = %i\n", digi.isValid());
     printf("\tdigCluster.isValid = %i\n", digCluster.isValid());
     printf("\thits.isValid = %i\n", hits.isValid());
@@ -473,6 +488,30 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     //printf("\tmultiTracks.isValid = %i\n", multiTracks.isValid());
 
     return;
+  }
+
+  //------------------------------
+  // Status Plots
+
+  for (auto &ds : *status)
+  {
+    unsigned int decId = TotemRPDetId::rawToDecId(ds.detId());
+    unsigned int rpId = decId / 10;
+    unsigned int plNum = decId % 10;
+
+    auto &plots = potPlots[rpId];
+
+    for (auto &s : ds)
+    {
+      if (s.isMissing())
+        plots.vfat_missing->Fill(plNum, s.getChipPosition());
+
+      if (s.isECProgressError() || s.isBCProgressError())
+        plots.vfat_ec_bc_error->Fill(plNum, s.getChipPosition());
+
+      if (s.isIDMismatch() || s.isFootprintError() || s.isCRCError())
+        plots.vfat_corruption->Fill(plNum, s.getChipPosition());
+    }
   }
   
   //------------------------------
