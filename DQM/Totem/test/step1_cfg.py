@@ -2,15 +2,6 @@ import FWCore.ParameterSet.Config as cms
 
 process = cms.Process('RECODQM')
 
-# import of standard configurations
-process.load('Configuration.StandardSequences.Services_cff')
-process.load('FWCore.MessageService.MessageLogger_cfi')
-process.load('Configuration.EventContent.EventContent_cff')
-process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
-process.load('Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cff')
-process.load('Configuration.StandardSequences.EDMtoMEAtRunEnd_cff')
-process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-
 # minimum of logs
 MessageLogger = cms.Service("MessageLogger",
     statistics = cms.untracked.vstring(),
@@ -19,6 +10,14 @@ MessageLogger = cms.Service("MessageLogger",
         threshold = cms.untracked.string('WARNING')
     )
 )
+
+# import of standard configurations
+process.load('Configuration.StandardSequences.Services_cff')
+process.load('Configuration.EventContent.EventContent_cff')
+process.load('Configuration.StandardSequences.GeometryRecoDB_cff')
+process.load('Configuration.StandardSequences.MagneticField_AutoFromDBCurrent_cff')
+process.load('Configuration.StandardSequences.EDMtoMEAtRunEnd_cff')
+process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 # global tag
 from Configuration.AlCa.GlobalTag import GlobalTag
@@ -29,7 +28,7 @@ process.load("DQMServices.Core.DQM_cfg")
 process.load("DQMServices.Components.DQMEnvironment_cfi")
 
 # raw data source
-source = cms.Source("PoolSource",
+process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/j/jkaspar/public/run268608_ls0001_streamA_StorageManager.root')
 )
 
@@ -47,23 +46,15 @@ process.TotemRPRawToDigi.fedIds = cms.vuint32(577, 578, 579, 580)
 process.TotemRPRawToDigi.RawToDigi.printErrorSummary = 0
 process.TotemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 0
 
+# RP geometry
+process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
+process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
+
 # local RP reconstruction chain with standard settings
 process.load("RecoLocalCTPPS.TotemRP.LocalRecoChain_cfi")
 
 # TOTEM RP DQM module
-process.TotemRPDQMSource = cms.EDAnalyzer("TotemRPDQMSource",
-    tagStripDigi = cms.InputTag("TotemRawToDigi"),
-	tagDigiCluster = cms.InputTag("RPClustProd"),
-	tagRecoHit = cms.InputTag("RPRecoHitProd"),
-	tagPatternColl = cms.InputTag("NonParallelTrackFinder"),
-	tagTrackColl = cms.InputTag("RPSingleTrackCandCollFit"),
-	tagTrackCandColl = cms.InputTag("NonParallelTrackFinder"),
-	tagMultiTrackColl = cms.InputTag(""),
-
-    buildCorrelationPlots = cms.untracked.bool(False),
-    correlationPlotsLimit = cms.untracked.uint32(50),
-	correlationPlotsFilter = cms.untracked.string("default=0,1")
-)
+process.load("DQM.Totem.TotemRPDQMSource_cfi")
 
 # DQM output
 process.DQMOutput = cms.OutputModule("DQMRootOutputModule",

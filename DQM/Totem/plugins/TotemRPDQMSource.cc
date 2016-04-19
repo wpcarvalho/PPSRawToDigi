@@ -7,16 +7,142 @@
 *
 ****************************************************************************/
 
-#include "DQM/TotemRP/interface/TotemRPDQMSource.h"
-
 #include "FWCore/Framework/interface/ESHandle.h"
+#include "FWCore/Framework/interface/MakerMacros.h"
+#include "FWCore/Framework/interface/Event.h"
+#include "FWCore/Framework/interface/EventSetup.h"
+#include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "FWCore/Utilities/interface/InputTag.h"
 
+#include "DQMServices/Core/interface/DQMEDAnalyzer.h"
+#include "DQMServices/Core/interface/DQMStore.h"
+#include "DQMServices/Core/interface/MonitorElement.h"
+
+#include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
+#include "DataFormats/TotemDigi/interface/TotemRPDigi.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
+//#include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
 
 #include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
+
+#include "DQM/Totem/interface/CorrelationPlotsSelector.h"
 
 #include <string>
+
+//----------------------------------------------------------------------------------------------------
+ 
+class TotemRPDQMSource: public DQMEDAnalyzer
+{
+  public:
+    TotemRPDQMSource(const edm::ParameterSet& ps);
+    virtual ~TotemRPDQMSource();
+  
+  protected:
+    void dqmBeginRun(edm::Run const &, edm::EventSetup const &) override;
+    void bookHistograms(DQMStore::IBooker &, edm::Run const &, edm::EventSetup const &) override;
+    void analyze(edm::Event const& e, edm::EventSetup const& eSetup);
+    void beginLuminosityBlock(edm::LuminosityBlock const& lumi, edm::EventSetup const& eSetup);
+    void endLuminosityBlock(edm::LuminosityBlock const& lumi, edm::EventSetup const& eSetup);
+    void endRun(edm::Run const& run, edm::EventSetup const& eSetup);
+
+  private:
+    edm::EDGetTokenT< edm::DetSetVector<TotemRPDigi> > tokenDigi;
+    edm::EDGetTokenT< edm::DetSetVector<TotemRPCluster> > tokenCluster;
+    edm::EDGetTokenT< edm::DetSetVector<TotemRPRecHit> > tokenRecHit;
+    edm::EDGetTokenT< edm::DetSetVector<TotemRPUVPattern> > tokenUVPattern;
+    edm::EDGetTokenT< edm::DetSetVector<TotemRPLocalTrack> > tokenLocalTrack;
+    //edm::EDGetTokenT< RPMulFittedTrackCollection > tokenMultiTrackColl;
+
+    bool buildCorrelationPlots;                           ///< decides wheather the correlation plots are created
+    unsigned int correlationPlotsLimit;                   ///< maximum number of created correlation plots
+    CorrelationPlotsSelector correlationPlotsSelector;
+
+    /// plots related to one (anti)diagonal
+    struct DiagonalPlots
+    {
+      int id;
+
+      MonitorElement *h_lrc_x_d=NULL, *h_lrc_x_n=NULL, *h_lrc_x_f=NULL;
+      MonitorElement *h_lrc_y_d=NULL, *h_lrc_y_n=NULL, *h_lrc_y_f=NULL;
+
+      DiagonalPlots() {}
+
+      DiagonalPlots(DQMStore::IBooker &ibooker, int _id);
+    };
+
+    std::map<unsigned int, DiagonalPlots> diagonalPlots;
+
+    /// plots related to one arm
+    struct ArmPlots
+    {
+      int id;
+
+      MonitorElement *h_numRPWithTrack_top=NULL, *h_numRPWithTrack_hor=NULL, *h_numRPWithTrack_bot=NULL;
+      MonitorElement *h_trackCorr=NULL, *h_trackCorr_overlap=NULL;
+
+      ArmPlots(){}
+
+      ArmPlots(DQMStore::IBooker &ibooker, int _id);
+    };
+
+    std::map<unsigned int, ArmPlots> armPlots;
+
+    /// plots related to one station
+    struct StationPlots
+    {
+      int id;
+
+      std::map<int, std::map<int, MonitorElement*> > hist;
+
+      StationPlots() {}
+      StationPlots(DQMStore::IBooker &ibooker, int _id, std::set<unsigned int> planes, bool allocateCorrelationPlots, 
+        CorrelationPlotsSelector *correlationPlotsSelector, int limit = -1);
+
+      void Add(DQMStore::IBooker &ibooker, std::set<unsigned int> planes, CorrelationPlotsSelector *correlationPlotsSelector, int limit = -1);
+    };
+
+    std::map<unsigned int, StationPlots> stationPlots;
+
+    /// plots related to one RP
+    struct PotPlots
+    {
+      MonitorElement *activity=NULL, *activity_u=NULL, *activity_v=NULL;
+      MonitorElement *hit_plane_hist=NULL;
+      MonitorElement *patterns_u=NULL, *patterns_v=NULL;
+      MonitorElement *h_planes_fit_u=NULL, *h_planes_fit_v=NULL;
+      MonitorElement *event_category=NULL;
+      MonitorElement *trackHitsCumulativeHist=NULL;
+      MonitorElement *track_u_profile=NULL, *track_v_profile=NULL;
+
+      PotPlots() {}
+      PotPlots(DQMStore::IBooker &ibooker, unsigned int id);
+    };
+
+    std::map<unsigned int, PotPlots> potPlots;
+
+    /// plots related to one RP plane
+    struct PlanePlots
+    {
+      MonitorElement *digi_profile_cumulative = NULL;
+      MonitorElement *cluster_profile_cumulative = NULL;
+      MonitorElement *hit_multiplicity = NULL;
+      MonitorElement *cluster_size = NULL;
+
+      PlanePlots() {}
+      PlanePlots(DQMStore::IBooker &ibooker, unsigned int id);
+    };
+
+    std::map<unsigned int, PlanePlots> planePlots;
+};
+
+//----------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------
 
 using namespace std;
 using namespace edm;
@@ -222,11 +348,11 @@ TotemRPDQMSource::TotemRPDQMSource(const edm::ParameterSet& ps) :
   correlationPlotsLimit(ps.getUntrackedParameter<unsigned int>("correlationPlotsLimit", 50)),
   correlationPlotsSelector(ps.getUntrackedParameter<std::string>("correlationPlotsFilter", ""))
 {
-  tokenStripDigi = consumes< DetSetVector<TotemRPDigi> >(ps.getParameter<edm::InputTag>("tagStripDigi"));
-  tokenDigiCluster = consumes< edm::DetSetVector<TotemRPCluster> >(ps.getParameter<edm::InputTag>("tagDigiCluster"));
-  tokenRecoHit = consumes< edm::DetSetVector<TotemRPRecHit> >(ps.getParameter<edm::InputTag>("tagRecoHit"));
-  tokenPatternColl = consumes< DetSetVector<TotemRPUVPattern> >(ps.getParameter<edm::InputTag>("tagPatternColl"));
-  tokenTrackColl = consumes< DetSetVector<TotemRPLocalTrack> >(ps.getParameter<edm::InputTag>("tagTrackColl"));
+  tokenDigi = consumes< DetSetVector<TotemRPDigi> >(ps.getParameter<edm::InputTag>("tagDigi"));
+  tokenCluster = consumes< edm::DetSetVector<TotemRPCluster> >(ps.getParameter<edm::InputTag>("tagCluster"));
+  tokenRecHit = consumes< edm::DetSetVector<TotemRPRecHit> >(ps.getParameter<edm::InputTag>("tagRecHit"));
+  tokenUVPattern = consumes< DetSetVector<TotemRPUVPattern> >(ps.getParameter<edm::InputTag>("tagUVPattern"));
+  tokenLocalTrack = consumes< DetSetVector<TotemRPLocalTrack> >(ps.getParameter<edm::InputTag>("tagLocalTrack"));
   //tokenMultiTrackColl = consumes< RPMulFittedTrackCollection >(ps.getParameter<edm::InputTag>("tagMultiTrackColl"));
 }
 
@@ -310,19 +436,19 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
 
   // get event data
   Handle< DetSetVector<TotemRPDigi> > digi;
-  event.getByToken(tokenStripDigi, digi);
+  event.getByToken(tokenDigi, digi);
 
   Handle< DetSetVector<TotemRPCluster> > digCluster;
-  event.getByToken(tokenDigiCluster, digCluster);
+  event.getByToken(tokenCluster, digCluster);
 
   Handle< DetSetVector<TotemRPRecHit> > hits;
-  event.getByToken(tokenRecoHit, hits);
+  event.getByToken(tokenRecHit, hits);
 
   Handle<DetSetVector<TotemRPUVPattern>> patterns;
-  event.getByToken(tokenPatternColl, patterns);
+  event.getByToken(tokenUVPattern, patterns);
 
   Handle< DetSetVector<TotemRPLocalTrack> > tracks;
-  event.getByToken(tokenTrackColl, tracks);
+  event.getByToken(tokenLocalTrack, tracks);
 
   //Handle< RPMulFittedTrackCollection > multiTracks;
   //event.getByToken(tokenMultiTrackColl, multiTracks);
@@ -332,8 +458,8 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   valid &= digi.isValid();
   valid &= digCluster.isValid();
   valid &= hits.isValid();
-  valid &= tracks.isValid();
   valid &= patterns.isValid();
+  valid &= tracks.isValid();
   //valid &= multiTracks.isValid();
 
   if (!valid)
@@ -342,8 +468,8 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     printf("\tdigi.isValid = %i\n", digi.isValid());
     printf("\tdigCluster.isValid = %i\n", digCluster.isValid());
     printf("\thits.isValid = %i\n", hits.isValid());
-    printf("\ttracks.isValid = %i\n", tracks.isValid());
     printf("\tpatterns.isValid = %i\n", patterns.isValid());
+    printf("\ttracks.isValid = %i\n", tracks.isValid());
     //printf("\tmultiTracks.isValid = %i\n", multiTracks.isValid());
 
     return;
@@ -692,3 +818,7 @@ void TotemRPDQMSource::endLuminosityBlock(edm::LuminosityBlock const& lumiSeg, e
 void TotemRPDQMSource::endRun(edm::Run const& run, edm::EventSetup const& eSetup)
 {
 }
+
+//----------------------------------------------------------------------------------------------------
+
+DEFINE_FWK_MODULE(TotemRPDQMSource);
