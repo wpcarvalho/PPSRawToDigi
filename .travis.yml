@@ -9,8 +9,8 @@ services:
   - docker
 
 before_install:
-  - docker pull grzanka/cmssw_810_pre1
+  - docker pull grzanka/cmssw_810:pre2
   - curl -J -o sample.srs "https://cernbox.cern.ch/index.php/s/KSxpCPSmZX3TFMS/download"
 
 script:
-  - docker run --rm -v `pwd`:/home/cmsbuild/src -it grzanka/cmssw_810_pre1 /bin/sh -c "cp -r src/* CMSSW_8_1_0_pre1/src && chown -R cmsbuild:cmsbuild CMSSW_8_1_0_pre1 && cd CMSSW_8_1_0_pre1/src && bash test.sh"
+  - docker run --rm -v `pwd`:/home/cmsbuild/src -it grzanka/cmssw_810:pre2 /bin/sh -c "cp -r src/* CMSSW_8_1_0_pre2/src && chown -R cmsbuild:cmsbuild CMSSW_8_1_0_pre2 && cd CMSSW_8_1_0_pre2/src && bash test.sh"
