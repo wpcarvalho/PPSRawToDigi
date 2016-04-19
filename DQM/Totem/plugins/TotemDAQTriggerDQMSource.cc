@@ -42,6 +42,9 @@ class TotemDAQTriggerDQMSource: public DQMEDAnalyzer
   private:
     edm::EDGetTokenT<std::vector<TotemFEDInfo>> tokenFEDInfo;
     edm::EDGetTokenT<TotemTriggerCounters> tokenTriggerCounters;
+    
+    MonitorElement *daq_bx_diff;
+    MonitorElement *daq_trigger_bx_diff;
 
     MonitorElement *trigger_type;
     MonitorElement *trigger_event_num;
@@ -86,6 +89,12 @@ void TotemDAQTriggerDQMSource::dqmBeginRun(edm::Run const &, edm::EventSetup con
 void TotemDAQTriggerDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::Run const &, edm::EventSetup const &)
 {
   ibooker.cd();
+  
+  ibooker.setCurrentFolder("Totem/DAQ/");
+
+  daq_bx_diff = ibooker.book1D("bx_diff", "bx_diff", 100, 0., 0.);
+
+  daq_trigger_bx_diff = ibooker.book1D("trigger_bx_diff", "trigger_bx_diff", 100, 0., 0.);
 
   ibooker.setCurrentFolder("Totem/Trigger/");
 
@@ -133,6 +142,16 @@ void TotemDAQTriggerDQMSource::analyze(edm::Event const& event, edm::EventSetup 
   }
 
   // DAQ plots
+  for (auto &it1 : *fedInfo)
+  {
+    for (auto &it2 : *fedInfo)
+    {
+      if (it2.getFEDId() <= it1.getFEDId())
+        continue;
+
+      daq_bx_diff->Fill(it2.getBX() - it1.getBX());
+    }
+  }
 
   // trigger plots
   trigger_type->Fill(triggerCounters->type);
@@ -145,6 +164,10 @@ void TotemDAQTriggerDQMSource::analyze(edm::Event const& event, edm::EventSetup 
   trigger_trigger_num->Fill(triggerCounters->trigger_num);
   trigger_inhibited_triggers_num->Fill(triggerCounters->inhibited_triggers_num);
   trigger_input_status_bits->Fill(triggerCounters->input_status_bits);
+
+  // combined DAQ + trigger plots
+  for (auto &it : *fedInfo)
+    daq_trigger_bx_diff->Fill(it.getBX() - triggerCounters->orbit_num);
 }
 
 //----------------------------------------------------------------------------------------------------
