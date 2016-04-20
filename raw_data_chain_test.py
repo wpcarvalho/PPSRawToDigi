@@ -47,13 +47,13 @@ process.dump = cms.EDAnalyzer("EventContentAnalyzer")
 
 # ntuplizer
 process.load("TotemAnalysis.TotemNtuplizer.TotemNtuplizer_cfi")
-process.TotemNtuplizer.outputFileName = "ntuple.root"
+process.totemNtuplizer.outputFileName = "ntuple.root"
 
 process.p = cms.Path(
     process.totemTriggerRawToDigi *
     process.totemRPRawToDigi *
-    process.TotemRPLocalReconstruction *
-    process.TotemNtuplizer
+    process.totemRPLocalReconstruction *
+    process.totemNtuplizer
 )
 
 process.output = cms.OutputModule("PoolOutputModule",

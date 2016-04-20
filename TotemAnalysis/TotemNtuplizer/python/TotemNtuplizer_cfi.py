@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-TotemNtuplizer = cms.EDAnalyzer("TotemNtuplizer",
+totemNtuplizer = cms.EDAnalyzer("TotemNtuplizer",
     outputFileName = cms.untracked.string('totem_ntuple.root'),
     verbosity = cms.untracked.uint32(0),
 
@@ -15,7 +15,7 @@ TotemNtuplizer = cms.EDAnalyzer("TotemNtuplizer",
     ProductLabelSimu = cms.string('rpCCOutput'),
 
     RPDigClusterLabel = cms.InputTag("RPClustProd"),
-    RPFittedTrackCollectionLabel = cms.InputTag("TotemRPLocalTrackFitter"),
+    RPFittedTrackCollectionLabel = cms.InputTag("totemRPLocalTrackFitter"),
     RPMulFittedTrackCollectionLabel = cms.InputTag("RPMulTrackCandCollFit"),
 
     RPReconstructedProtonCollectionLabel = cms.InputTag("ElasticReconstruction"),

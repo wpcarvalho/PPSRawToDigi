@@ -329,7 +329,7 @@ void RPNtuplizer::FillEvent(const edm::Event& e, const edm::EventSetup& es)
 
   // fill in pattern-recognition results (non-parallel)
   edm::Handle< DetSetVector<TotemRPUVPattern> > patterns;
-  e.getByLabel("TotemRPUVPatternFinder", patterns);
+  e.getByLabel("totemRPUVPatternFinder", patterns);
 
   for (auto &ds : *patterns)
   {

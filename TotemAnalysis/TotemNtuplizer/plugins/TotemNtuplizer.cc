@@ -74,7 +74,7 @@ TotemNtuplizer::TotemNtuplizer(const edm::ParameterSet &ps) :
   verbosity(ps.getUntrackedParameter<unsigned int>("verbosity", 0)),
   outputFileName(ps.getUntrackedParameter<string>("outputFileName"))
 {
-  consumes<DetSetVector<TotemRPUVPattern>>(edm::InputTag("TotemRPUVPatternFinder"));
+  consumes<DetSetVector<TotemRPUVPattern>>(edm::InputTag("totemRPUVPatternFinder"));
 
   auto tagLocalTrack = ps.getParameter<edm::InputTag>("RPFittedTrackCollectionLabel");
   consumes<DetSetVector<TotemRPLocalTrack>>(tagLocalTrack);

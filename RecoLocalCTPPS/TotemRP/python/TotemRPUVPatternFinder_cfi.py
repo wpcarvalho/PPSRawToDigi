@@ -1,8 +1,8 @@
 import FWCore.ParameterSet.Config as cms
 
-TotemRPUVPatternFinder = cms.EDProducer("TotemRPUVPatternFinder",
+totemRPUVPatternFinder = cms.EDProducer("TotemRPUVPatternFinder",
     # input selection
-    tagRecHit = cms.InputTag("TotemRPRecHitProducer"),
+    tagRecHit = cms.InputTag("totemRPRecHitProducer"),
 
     verbosity = cms.untracked.uint32(0),
     
