@@ -10,6 +10,8 @@
 
 #include "EventFilter/TotemRawToDigi/interface/CounterChecker.h"
 
+#include "FWCore/MessageLogger/interface/MessageLogger.h"
+
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 
 //----------------------------------------------------------------------------------------------------
@@ -151,9 +153,9 @@ void RawToDigiConverter::RunCommon(const VFATFrameCollection &input, const Totem
   if (verbosity > 0 && !ees.rdbuf()->str().empty())
   {
     if (verbosity > 1)
-      cerr << "event contains the following problems:\n" << ees.rdbuf() << endl;
+      LogProblem("Totem") << "Error in RawToDigiConverter::RunCommon > " << "event contains the following problems:\n" << ees.rdbuf() << endl;
     else
-      cerr << "event contains problems." << endl;
+      LogProblem("Totem") << "Error in RawToDigiConverter::RunCommon > " << "event contains problems." << endl;
   }
 
   // increase error counters
@@ -252,20 +254,20 @@ void RawToDigiConverter::PrintSummaries()
 {
   if (printErrorSummary)
   {
-    cout << "* Error summary (error signature : number of such events)" << endl;
+    LogVerbatim("Totem") << "* Error summary (error signature : number of such events)" << endl;
     for (const auto &vit : errorSummary)
     {
-      cout << vit.first << endl;
+      LogVerbatim("Totem") << vit.first << endl;
 
       for (const auto &it : vit.second)
-        cout << "    " << it.first << " : " << it.second << endl;
+        LogVerbatim("Totem") << "    " << it.first << " : " << it.second << endl;
     }
   }
 
   if (printUnknownFrameSummary)
   {
-    cout << "* Frames found in data, but not in the mapping (frame position : number of events)" << endl;
+    LogVerbatim("Totem") << "* Frames found in data, but not in the mapping (frame position : number of events)" << endl;
     for (const auto &it : unknownSummary)
-      cout << "  " << it.first << " : " << it.second << endl;
+      LogVerbatim("Totem") << "  " << it.first << " : " << it.second << endl;
   }
 }

@@ -34,6 +34,22 @@ class CounterChecker
 
     enum CheckerType {BCChecker, ECChecker};
   
+    /**
+     * \param t: CounterChecker::ECCounter or CounterChecker::BCCounter. On that, depends whether
+     * checker will fill wrong EC or BC rogress error.
+     * \param name: name
+     * \param min: minimal required number of frames to search for the most frequent one
+     */
+    CounterChecker(CheckerType _type = CounterChecker::BCChecker, const std::string &_name="",
+      unsigned int _min=0, double _fraction=0., unsigned int _verbosity=0) : type(_type),
+      name(_name), min(_min), fraction(_fraction), verbosity(_verbosity) {}
+
+    /// add new value to map, counter takes value of EC or BC number
+    void Fill(word counter, TotemFramePosition fr);
+
+    /// summarizes and fill the status (wrong EC and BC progress error for some frames)
+    void Analyze(std::map<TotemFramePosition, TotemVFATStatus> &status, bool error, std::ostream &es);
+  
   private:
     class Comparer
     {
@@ -63,23 +79,6 @@ class CounterChecker
   
     /// if >= 3, the information about wrong counter for each frame will be shown
     unsigned int verbosity;
-  
-  public:
-    /**
-     * \param t: CounterChecker::ECCounter or CounterChecker::BCCounter. On that, depends whether
-     * checker will fill wrong EC or BC rogress error.
-     * \param name: name
-     * \param min: minimal required number of frames to search for the most frequent one
-     */
-    CounterChecker(CheckerType _type = CounterChecker::BCChecker, const std::string &_name="",
-      unsigned int _min=0, double _fraction=0., unsigned int _verbosity=0) : type(_type),
-      name(_name), min(_min), fraction(_fraction), verbosity(_verbosity) {}
-
-    /// add new value to map, counter takes value of EC or BC number
-    void Fill(word counter, TotemFramePosition fr);
-
-    /// summarizes and fill the status (wrong EC and BC progress error for some frames)
-    void Analyze(std::map<TotemFramePosition, TotemVFATStatus> &status, bool error, std::ostream &es);
 };
 
 #endif
