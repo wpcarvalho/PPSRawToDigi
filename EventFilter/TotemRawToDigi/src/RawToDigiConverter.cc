@@ -193,8 +193,10 @@ void RawToDigiConverter::Run(const VFATFrameCollection &input,
   
     // check whether the data come from RP VFATs
     if (mappingIter->second.symbolicID.subSystem != TotemSymbID::RP)
-      throw cms::Exception("RawToDigiConverter::Run") << "VFAT is not from RP. subSystem = " <<
-        mappingIter->second.symbolicID.subSystem << endl;
+    {
+      LogProblem("Totem") << "Error in RawToDigiConverter::Run > "
+        << "VFAT is not from RP. subSystem = " << mappingIter->second.symbolicID.subSystem;
+    }
 
     // silently ignore RP CC VFATs
     if (mappingIter->second.type != TotemVFATInfo::data)
