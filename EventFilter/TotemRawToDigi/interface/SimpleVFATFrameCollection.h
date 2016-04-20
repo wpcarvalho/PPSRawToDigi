@@ -33,11 +33,6 @@ class SimpleVFATFrameCollection : public VFATFrameCollection
     SimpleVFATFrameCollection();
     ~SimpleVFATFrameCollection();
 
-    virtual std::string GetClassName() const
-    {
-      return "SimpleVFATFrameCollection";
-    }
-
     const VFATFrame* GetFrameByID(unsigned int ID) const;
     const VFATFrame* GetFrameByIndex(TotemFramePosition index) const;
 
