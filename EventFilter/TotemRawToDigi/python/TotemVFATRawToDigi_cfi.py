@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-TotemVFATRawToDigi = cms.EDProducer("TotemVFATRawToDigi",
+totemVFATRawToDigi = cms.EDProducer("TotemVFATRawToDigi",
   rawDataTag = cms.InputTag(""),
 
   # options: "RP"

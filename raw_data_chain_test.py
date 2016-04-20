@@ -26,14 +26,12 @@ process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
 process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/totem_rp_210far_220_mapping.xml")
 
 process.load("EventFilter.TotemRawToDigi.TotemTriggerRawToDigi_cfi")
-process.TotemTriggerRawToDigi.rawDataTag = cms.InputTag("source")
-process.TotemTriggerRawToDigi.fedId = 0x29c
+process.totemTriggerRawToDigi.rawDataTag = cms.InputTag("source")
+process.totemTriggerRawToDigi.fedId = 0x29c
 
 process.load('EventFilter.TotemRawToDigi.TotemRPRawToDigi_cfi')
-process.TotemRPRawToDigi.rawDataTag = cms.InputTag("source")
-process.TotemRPRawToDigi.fedIds = cms.vuint32(0x1a1, 0x1a2, 0x1a9, 0x1aa, 0x1b5, 0x1bd)
-process.TotemRPRawToDigi.RawToDigi.printErrorSummary = 1
-process.TotemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 0
+process.totemRPRawToDigi.rawDataTag = cms.InputTag("source")
+process.totemRPRawToDigi.fedIds = cms.vuint32(0x1a1, 0x1a2, 0x1a9, 0x1aa, 0x1b5, 0x1bd)
 
 # geometry
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
@@ -52,8 +50,8 @@ process.load("TotemAnalysis.TotemNtuplizer.TotemNtuplizer_cfi")
 process.TotemNtuplizer.outputFileName = "ntuple.root"
 
 process.p = cms.Path(
-    process.TotemTriggerRawToDigi *
-    process.TotemRPRawToDigi *
+    process.totemTriggerRawToDigi *
+    process.totemRPRawToDigi *
     process.TotemRPLocalReconstruction *
     process.TotemNtuplizer
 )
