@@ -1,6 +1,6 @@
 import FWCore.ParameterSet.Config as cms
 
-TotemDAQTriggerDQMSource = cms.EDAnalyzer("TotemDAQTriggerDQMSource",
-  tagFEDInfo = cms.InputTag("TotemRPRawToDigi", "RP"),
-  tagTriggerCounters = cms.InputTag("TotemTriggerRawToDigi")
+totemDAQTriggerDQMSource = cms.EDAnalyzer("TotemDAQTriggerDQMSource",
+  tagFEDInfo = cms.InputTag("totemRPRawToDigi", "RP"),
+  tagTriggerCounters = cms.InputTag("totemTriggerRawToDigi")
 )

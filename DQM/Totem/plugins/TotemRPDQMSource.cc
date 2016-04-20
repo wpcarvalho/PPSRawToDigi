@@ -511,16 +511,6 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
 
       if (s.isIDMismatch() || s.isFootprintError() || s.isCRCError())
         plots.vfat_corruption->Fill(plNum, s.getChipPosition());
-
-      // TODO
-      if (s.isMissing())
-        printf("* missing\n");
-
-      if (s.isECProgressError() || s.isBCProgressError())
-        printf("* ec, bc @ RP %u\n", rpId);
-
-      if (s.isIDMismatch() || s.isFootprintError() || s.isCRCError())
-        printf("* corruption\n");
     }
   }
   

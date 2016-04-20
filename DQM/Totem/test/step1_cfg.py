@@ -46,19 +46,18 @@ process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
 process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/totem_rp_210far_220_mapping.xml")
 
 # process.load('EventFilter.TotemRawToDigi.TotemRPRawToDigi_cfi')
-# process.TotemRPRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
-# process.TotemRPRawToDigi.fedIds = cms.vuint32(577, 578, 579, 580)
-# process.TotemRPRawToDigi.RawToDigi.printErrorSummary = 0
-# process.TotemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 0
+# process.totemRPRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
+# process.totemRPRawToDigi.fedIds = cms.vuint32(577, 578, 579, 580)
+# process.totemRPRawToDigi.RawToDigi.printErrorSummary = 0
+# process.totemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 0
 
 process.load("EventFilter.TotemRawToDigi.TotemTriggerRawToDigi_cfi")
-process.TotemTriggerRawToDigi.rawDataTag = cms.InputTag("source")
-process.TotemTriggerRawToDigi.fedId = 0x29c
+process.totemTriggerRawToDigi.rawDataTag = cms.InputTag("source")
+process.totemTriggerRawToDigi.fedId = 0x29c
 
 process.load('EventFilter.TotemRawToDigi.TotemRPRawToDigi_cfi')
-process.TotemRPRawToDigi.rawDataTag = cms.InputTag("source")
-process.TotemRPRawToDigi.fedIds = cms.vuint32(0x1a1, 0x1a2, 0x1a9, 0x1aa, 0x1b5, 0x1bd)
-process.TotemRPRawToDigi.RawToDigi.verbosity = 2
+process.totemRPRawToDigi.rawDataTag = cms.InputTag("source")
+process.totemRPRawToDigi.fedIds = cms.vuint32(0x1a1, 0x1a2, 0x1a9, 0x1aa, 0x1b5, 0x1bd)
 
 # RP geometry
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
@@ -78,14 +77,14 @@ process.DQMOutput = cms.OutputModule("DQMRootOutputModule",
 
 # execution schedule
 process.reco_step = cms.Path(
-  process.TotemTriggerRawToDigi *
-  process.TotemRPRawToDigi *
-  process.TotemRPLocalReconstruction
+  process.totemTriggerRawToDigi *
+  process.totemRPRawToDigi *
+  process.totemRPLocalReconstruction
 )
 
 process.dqm_produce_step = cms.Path(
-  process.TotemDAQTriggerDQMSource *
-  process.TotemRPDQMSource
+  process.totemDAQTriggerDQMSource *
+  process.totemRPDQMSource
 )
 
 process.dqm_output_step = cms.EndPath(
