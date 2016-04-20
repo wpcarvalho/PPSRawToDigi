@@ -9,8 +9,15 @@
 
 #include "RecoLocalCTPPS/TotemRP/interface/TotemRPLocalTrackFitterAlgorithm.h"
 
+#include "FWCore/MessageLogger/interface/MessageLogger.h"
+
 #include "TMath.h"
 #include "TMatrixD.h"
+
+//----------------------------------------------------------------------------------------------------
+
+using namespace std;
+using namespace edm;
 
 //----------------------------------------------------------------------------------------------------
 
@@ -23,7 +30,6 @@ TotemRPLocalTrackFitterAlgorithm::TotemRPLocalTrackFitterAlgorithm(const edm::Pa
 
 void TotemRPLocalTrackFitterAlgorithm::Reset()
 {
-  cout << ">> TotemRPLocalTrackFitterAlgorithm::Reset" << endl;
   det_data_map_.clear();
 }
 
@@ -134,7 +140,8 @@ bool TotemRPLocalTrackFitterAlgorithm::FitTrack(const edm::DetSetVector<TotemRPR
   }
   catch (cms::Exception &e)
   {
-    printf(">> TotemRPLocalTrackFitterAlgorithm::FitTrack > Fit matrix is singular. Skipping.\n");
+    LogProblem("Totem") << "Error in TotemRPLocalTrackFitterAlgorithm::FitTrack > "
+      << "Fit matrix is singular. Skipping.";
     return false;
   }
   //tot_rp::Print(std::cout, V_a_mult);
@@ -186,19 +193,11 @@ bool TotemRPLocalTrackFitterAlgorithm::FitTrack(const edm::DetSetVector<TotemRPR
 
 void TotemRPLocalTrackFitterAlgorithm::MultiplyByDiagonalInPlace(TMatrixD &mt, const TVectorD &diag)
 {
-  if(mt.GetNcols()!=diag.GetNrows())
-  {
-    std::cout<<"TotemRPLocalTrackFitterAlgorithm::MultiplyByDiagonalinPlace: mt.GetNcols()!=diag.GetNrows()"<<std::endl;
-    exit(0);
-  }
-    
   for(int i=0; i<mt.GetNrows(); ++i)
   {
     for(int j=0; j<mt.GetNcols(); ++j)
     {
-      //std::cout<<"i="<<i<<" j="<<j<<" mt[i][j]="<<mt[i][j];
-      mt[i][j]*=diag[j];
-      //std::cout<<" diag[j]="<<diag[j]<<" mt[i][j]="<<mt[i][j]<<std::endl;
+      mt[i][j] *= diag[j];
     }
   }
 }

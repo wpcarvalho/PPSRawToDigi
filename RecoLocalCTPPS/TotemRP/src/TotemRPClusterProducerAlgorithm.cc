@@ -69,15 +69,6 @@ int TotemRPClusterProducerAlgorithm::BuildClusters(unsigned int detId, const std
     cluster_end=prev_strip;
     clusters.push_back(TotemRPCluster((uint16_t)cluster_beg, (uint16_t) cluster_end));
   }
-
-  if (verbosity_)
-  {
-    for(unsigned int i=0; i<clusters.size(); ++i)
-    {
-      std::cout<<"Cluster, StrBeg=" << clusters[i].getStripBegin()
-          << " StrEnd=" << clusters[i].getStripEnd() << " Pos=" << clusters[i].getCenterStripPosition() << std::endl;
-    }
-  }
     
   return clusters.size();
 }
