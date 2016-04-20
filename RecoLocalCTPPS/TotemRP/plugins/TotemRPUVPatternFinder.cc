@@ -6,7 +6,7 @@
 *
 ****************************************************************************/
 
-#include "FWCore/Framework/interface/one/EDProducer.h"
+#include "FWCore/Framework/interface/stream/EDProducer.h"
 #include "FWCore/Framework/interface/ESWatcher.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
@@ -33,7 +33,7 @@
  * The search is perfomed in global U,V coordinates (wrt. beam). In this way (some of)
  * the alignment corrections can be taken into account.
 **/
-class TotemRPUVPatternFinder : public edm::one::EDProducer<>
+class TotemRPUVPatternFinder : public edm::stream::EDProducer<>
 {
   public:
     TotemRPUVPatternFinder(const edm::ParameterSet& conf);

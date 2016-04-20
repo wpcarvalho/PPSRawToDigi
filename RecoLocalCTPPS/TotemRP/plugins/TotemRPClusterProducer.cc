@@ -9,7 +9,7 @@
 
 #include "FWCore/Framework/interface/MakerMacros.h"
 
-#include "FWCore/Framework/interface/one/EDProducer.h"
+#include "FWCore/Framework/interface/stream/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -25,15 +25,13 @@
 /**
  * Merges neighbouring active TOTEM RP strips into clusters.
  **/
-class TotemRPClusterProducer : public edm::one::EDProducer<>
+class TotemRPClusterProducer : public edm::stream::EDProducer<>
 {
   public:
   
     explicit TotemRPClusterProducer(const edm::ParameterSet& conf);
   
-    virtual ~TotemRPClusterProducer();
-  
-    virtual void beginJob();
+    virtual ~TotemRPClusterProducer() {}
   
     virtual void produce(edm::Event& e, const edm::EventSetup& c);
   
@@ -65,18 +63,6 @@ TotemRPClusterProducer::TotemRPClusterProducer(edm::ParameterSet const& conf) :
   digiInputTagToken_ = consumes<edm::DetSetVector<TotemRPDigi> >(digiInputTag_);
 
   produces< edm::DetSetVector<TotemRPCluster> > ();
-}
-
-//----------------------------------------------------------------------------------------------------
- 
-TotemRPClusterProducer::~TotemRPClusterProducer()
-{
-}
-
-//----------------------------------------------------------------------------------------------------
- 
-void TotemRPClusterProducer::beginJob()
-{
 }
 
 //----------------------------------------------------------------------------------------------------

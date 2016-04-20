@@ -10,7 +10,7 @@
 #include "FWCore/Framework/interface/MakerMacros.h"
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "FWCore/Framework/interface/one/EDProducer.h"
+#include "FWCore/Framework/interface/stream/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/ESHandle.h"
@@ -31,12 +31,13 @@
 /**
  *\brief Fits tracks trough a single RP.
  **/
-class TotemRPLocalTrackFitter : public edm::one::EDProducer<>
+class TotemRPLocalTrackFitter : public edm::stream::EDProducer<>
 {
   public:
     explicit TotemRPLocalTrackFitter(const edm::ParameterSet& conf);
-    virtual ~TotemRPLocalTrackFitter();
-    virtual void beginJob();
+
+    virtual ~TotemRPLocalTrackFitter() {}
+
     virtual void produce(edm::Event& e, const edm::EventSetup& c);
 
   private:
@@ -69,18 +70,6 @@ TotemRPLocalTrackFitter::TotemRPLocalTrackFitter(const edm::ParameterSet& conf)
   patternCollectionToken = consumes<DetSetVector<TotemRPUVPattern>>(tagUVPattern);
 
   produces<DetSetVector<TotemRPLocalTrack>>();
-}
-
-//----------------------------------------------------------------------------------------------------
-
-TotemRPLocalTrackFitter::~TotemRPLocalTrackFitter()
-{
-}
-
-//----------------------------------------------------------------------------------------------------
-
-void TotemRPLocalTrackFitter::beginJob()
-{
 }
 
 //----------------------------------------------------------------------------------------------------

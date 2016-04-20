@@ -9,7 +9,7 @@
 
 #include "FWCore/Framework/interface/MakerMacros.h"
 
-#include "FWCore/Framework/interface/one/EDProducer.h"
+#include "FWCore/Framework/interface/stream/EDProducer.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -23,15 +23,13 @@
  
 //----------------------------------------------------------------------------------------------------
 
-class TotemRPRecHitProducer : public edm::one::EDProducer<>
+class TotemRPRecHitProducer : public edm::stream::EDProducer<>
 {
   public:
   
     explicit TotemRPRecHitProducer(const edm::ParameterSet& conf);
   
-    virtual ~TotemRPRecHitProducer();
-  
-    virtual void beginJob();
+    virtual ~TotemRPRecHitProducer() {}
   
     virtual void produce(edm::Event& e, const edm::EventSetup& c);
   
@@ -62,18 +60,6 @@ TotemRPRecHitProducer::TotemRPRecHitProducer(const edm::ParameterSet& conf) :
   tokenCluster_ = consumes<edm::DetSetVector<TotemRPCluster> >(tagCluster_);
 
   produces<edm::DetSetVector<TotemRPRecHit>>();
-}
-
-//----------------------------------------------------------------------------------------------------
- 
-TotemRPRecHitProducer::~TotemRPRecHitProducer()
-{
-}
- 
-//----------------------------------------------------------------------------------------------------
-
-void TotemRPRecHitProducer::beginJob()
-{
 }
 
 //----------------------------------------------------------------------------------------------------
