@@ -38,7 +38,7 @@ process.source.printProgressFrequency = 0
 process.source.fileNames.append('/afs/cern.ch/user/j/jkaspar/public/run_9987_EVB11_1.003.srs')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(200)
+    input = cms.untracked.int32(100)
 )
 
 # raw-to-digi conversion
@@ -58,8 +58,7 @@ process.TotemTriggerRawToDigi.fedId = 0x29c
 process.load('EventFilter.TotemRawToDigi.TotemRPRawToDigi_cfi')
 process.TotemRPRawToDigi.rawDataTag = cms.InputTag("source")
 process.TotemRPRawToDigi.fedIds = cms.vuint32(0x1a1, 0x1a2, 0x1a9, 0x1aa, 0x1b5, 0x1bd)
-process.TotemRPRawToDigi.RawToDigi.printErrorSummary = 0
-process.TotemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 0
+process.TotemRPRawToDigi.RawToDigi.verbosity = 2
 
 # RP geometry
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")

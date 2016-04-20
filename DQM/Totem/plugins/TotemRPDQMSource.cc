@@ -305,9 +305,9 @@ TotemRPDQMSource::PotPlots::PotPlots(DQMStore::IBooker &ibooker, unsigned int id
 {
   ibooker.setCurrentFolder(string("Totem/") + TotemRPDetId::rpName(id, TotemRPDetId::nPath));
 
-  vfat_missing = ibooker.book2D("vfats missing", "plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
-  vfat_ec_bc_error = ibooker.book2D("vfats with EC or BC error", "plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
-  vfat_corruption = ibooker.book2D("vfats with data corruption", "plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
+  vfat_missing = ibooker.book2D("vfats missing", ";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
+  vfat_ec_bc_error = ibooker.book2D("vfats with EC or BC error", ";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
+  vfat_corruption = ibooker.book2D("vfats with data corruption", ";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
 
   activity = ibooker.book1D("active planes", "active planes;number of active planes", 11, -0.5, 10.5);
   activity_u = ibooker.book1D("active planes U", "active planes U;number of active U planes", 11, -0.5, 10.5);
@@ -511,6 +511,16 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
 
       if (s.isIDMismatch() || s.isFootprintError() || s.isCRCError())
         plots.vfat_corruption->Fill(plNum, s.getChipPosition());
+
+      // TODO
+      if (s.isMissing())
+        printf("* missing\n");
+
+      if (s.isECProgressError() || s.isBCProgressError())
+        printf("* ec, bc @ RP %u\n", rpId);
+
+      if (s.isIDMismatch() || s.isFootprintError() || s.isCRCError())
+        printf("* corruption\n");
     }
   }
   
