@@ -47,9 +47,10 @@ class TotemVFATStatus
     /// Some channels from VFAT ale masked out, but not all
     inline bool isPartiallyMaskedOut() const { return status[7]; }
 
-    /// None channels are masked out
+    /// No channels are masked out
     inline bool isNotMasked() const { return !(status[6] || status[7]); }
 
+    inline uint8_t getChipPosition() const { return chipPosition; }
     inline void setChipPosition(uint8_t _cp) { chipPosition = _cp; }
     
     inline void setMissing() { status[0]=true; }
