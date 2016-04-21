@@ -51,11 +51,11 @@ process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemRea
 # process.totemRPRawToDigi.RawToDigi.printErrorSummary = 0
 # process.totemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 0
 
-process.load("EventFilter.TotemRawToDigi.TotemTriggerRawToDigi_cfi")
+process.load("EventFilter.TotemRawToDigi.totemTriggerRawToDigi_cfi")
 process.totemTriggerRawToDigi.rawDataTag = cms.InputTag("source")
 process.totemTriggerRawToDigi.fedId = 0x29c
 
-process.load('EventFilter.TotemRawToDigi.TotemRPRawToDigi_cfi')
+process.load('EventFilter.TotemRawToDigi.totemRPRawToDigi_cfi')
 process.totemRPRawToDigi.rawDataTag = cms.InputTag("source")
 process.totemRPRawToDigi.fedIds = cms.vuint32(0x1a1, 0x1a2, 0x1a9, 0x1aa, 0x1b5, 0x1bd)
 
@@ -67,8 +67,8 @@ process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/d
 process.load("RecoLocalCTPPS.TotemRP.LocalRecoChain_cfi")
 
 # TOTEM DQM modules
-process.load("DQM.Totem.TotemDAQTriggerDQMSource_cfi")
-process.load("DQM.Totem.TotemRPDQMSource_cfi")
+process.load("DQM.Totem.totemDAQTriggerDQMSource_cfi")
+process.load("DQM.Totem.totemRPDQMSource_cfi")
 
 # DQM output
 process.DQMOutput = cms.OutputModule("DQMRootOutputModule",

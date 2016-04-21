@@ -1,16 +1,16 @@
 import FWCore.ParameterSet.Config as cms
 
 # clusterization
-from RecoLocalCTPPS.TotemRP.TotemRPClusterProducer_cfi import *
+from RecoLocalCTPPS.TotemRP.totemRPClusterProducer_cfi import *
 
 # reco hit production
-from RecoLocalCTPPS.TotemRP.TotemRPRecHitProducer_cfi import *
+from RecoLocalCTPPS.TotemRP.totemRPRecHitProducer_cfi import *
 
 # non-parallel pattern recognition
-from RecoLocalCTPPS.TotemRP.TotemRPUVPatternFinder_cfi import *
+from RecoLocalCTPPS.TotemRP.totemRPUVPatternFinder_cfi import *
 
 # local track fitting
-from RecoLocalCTPPS.TotemRP.TotemRPLocalTrackFitter_cfi import *
+from RecoLocalCTPPS.TotemRP.totemRPLocalTrackFitter_cfi import *
 
 totemRPLocalReconstruction = cms.Sequence(
     totemRPClusterProducer *
