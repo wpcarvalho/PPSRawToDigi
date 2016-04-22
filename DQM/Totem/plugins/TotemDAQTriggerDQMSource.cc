@@ -44,6 +44,7 @@ class TotemDAQTriggerDQMSource: public DQMEDAnalyzer
     edm::EDGetTokenT<TotemTriggerCounters> tokenTriggerCounters;
     
     MonitorElement *daq_bx_diff;
+    MonitorElement *daq_event_bx_diff;
     MonitorElement *daq_trigger_bx_diff;
 
     MonitorElement *trigger_type;
@@ -92,22 +93,23 @@ void TotemDAQTriggerDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::R
   
   ibooker.setCurrentFolder("Totem/DAQ/");
 
-  daq_bx_diff = ibooker.book1D("bx_diff", "bx_diff", 100, 0., 0.);
+  daq_bx_diff = ibooker.book1D("bx_diff", ";OptoRx_{i}.BX - OptoRx_{j}.BX", 100, 0., 0.);
+  daq_event_bx_diff = ibooker.book1D("daq_event_bx_diff", ";OptoRx_{i}.BX - Event.BX", 100, 0., 0.);
 
-  daq_trigger_bx_diff = ibooker.book1D("trigger_bx_diff", "trigger_bx_diff", 100, 0., 0.);
+  daq_trigger_bx_diff = ibooker.book1D("trigger_bx_diff", ";OptoRx_{i}.BX - LoneG.BX", 100, 0., 0.);
 
   ibooker.setCurrentFolder("Totem/Trigger/");
 
-  trigger_type = ibooker.book1D("type", "type", 100, 0., 0.);
-  trigger_event_num = ibooker.book1D("event_num", "event_num", 100, 0., 0.);
-  trigger_bunch_num = ibooker.book1D("bunch_num", "bunch_num", 100, 0., 0.);
-  trigger_src_id = ibooker.book1D("src_id", "src_id", 100, 0., 0.);
-  trigger_orbit_num = ibooker.book1D("orbit_num", "orbit_num", 100, 0., 0.);
-  trigger_revision_num = ibooker.book1D("revision_num", "revision_num", 100, 0., 0.);
-  trigger_run_num = ibooker.book1D("run_num", "run_num", 100, 0., 0.);
-  trigger_trigger_num = ibooker.book1D("trigger_num", "trigger_num", 100, 0., 0.);
-  trigger_inhibited_triggers_num = ibooker.book1D("inhibited_triggers_num", "inhibited_triggers_num", 100, 0., 0.);
-  trigger_input_status_bits = ibooker.book1D("input_status_bits", "input_status_bits", 100, 0., 0.);
+  trigger_type = ibooker.book1D("type", ";type", 100, 0., 0.);
+  trigger_event_num = ibooker.book1D("event_num", ";event_num", 100, 0., 0.);
+  trigger_bunch_num = ibooker.book1D("bunch_num", ";bunch_num", 100, 0., 0.);
+  trigger_src_id = ibooker.book1D("src_id", ";src_id", 100, 0., 0.);
+  trigger_orbit_num = ibooker.book1D("orbit_num", ";orbit_num", 100, 0., 0.);
+  trigger_revision_num = ibooker.book1D("revision_num", ";revision_num", 100, 0., 0.);
+  trigger_run_num = ibooker.book1D("run_num", ";run_num", 100, 0., 0.);
+  trigger_trigger_num = ibooker.book1D("trigger_num", ";trigger_num", 100, 0., 0.);
+  trigger_inhibited_triggers_num = ibooker.book1D("inhibited_triggers_num", ";inhibited_triggers_num", 100, 0., 0.);
+  trigger_input_status_bits = ibooker.book1D("input_status_bits", ";input_status_bits", 100, 0., 0.);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -144,6 +146,8 @@ void TotemDAQTriggerDQMSource::analyze(edm::Event const& event, edm::EventSetup 
   // DAQ plots
   for (auto &it1 : *fedInfo)
   {
+    daq_event_bx_diff->Fill(it1.getBX() - event.bunchCrossing());
+
     for (auto &it2 : *fedInfo)
     {
       if (it2.getFEDId() <= it1.getFEDId())
