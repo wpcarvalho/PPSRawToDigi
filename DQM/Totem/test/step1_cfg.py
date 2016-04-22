@@ -64,7 +64,7 @@ process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
 
 # local RP reconstruction chain with standard settings
-process.load("RecoCTPPS.TotemRPLocal.LocalRecoChain_cfi")
+process.load("RecoCTPPS.TotemRPLocal.totemRPLocalReconstruction_cff")
 
 # TOTEM DQM modules
 process.load("DQM.Totem.totemDAQTriggerDQMSource_cfi")

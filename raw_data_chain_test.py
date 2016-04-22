@@ -41,7 +41,7 @@ process.load("Alignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.RealFiles = cms.vstring()
 
 # local RP reconstruction chain with standard settings
-process.load("RecoCTPPS.TotemRPLocal.LocalRecoChain_cfi")
+process.load("RecoCTPPS.TotemRPLocal.totemRPLocalReconstruction_cff")
 
 process.dump = cms.EDAnalyzer("EventContentAnalyzer")
 
