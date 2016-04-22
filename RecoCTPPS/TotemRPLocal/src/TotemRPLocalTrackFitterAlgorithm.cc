@@ -7,7 +7,7 @@
 *
 ****************************************************************************/
 
-#include "RecoLocalCTPPS/TotemRP/interface/TotemRPLocalTrackFitterAlgorithm.h"
+#include "RecoCTPPS/TotemRPLocal/interface/TotemRPLocalTrackFitterAlgorithm.h"
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 

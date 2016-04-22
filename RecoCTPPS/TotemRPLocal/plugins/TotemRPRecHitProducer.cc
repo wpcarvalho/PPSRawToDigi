@@ -19,7 +19,7 @@
 #include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 
-#include "RecoLocalCTPPS/TotemRP/interface/TotemRPRecHitProducerAlgorithm.h"
+#include "RecoCTPPS/TotemRPLocal/interface/TotemRPRecHitProducerAlgorithm.h"
  
 //----------------------------------------------------------------------------------------------------
 

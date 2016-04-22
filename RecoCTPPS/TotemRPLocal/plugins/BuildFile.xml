@@ -1,4 +1,4 @@
-<library name="RecoLocalCTPPSTotemRPPlugins" file="*.cc">
+<library name="RecoCTPPSTotemRPLocalPlugins" file="*.cc">
   <flags EDM_PLUGIN="1"/>
 
   <use name="FWCore/Framework"/>
@@ -12,5 +12,5 @@
   <use name="Geometry/Records"/>
   <use name="Geometry/VeryForwardGeometryBuilder"/>
 
-  <use name="RecoLocalCTPPS/TotemRP"/>
+  <use name="RecoCTPPS/TotemRPLocal"/>
 </library>

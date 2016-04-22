@@ -6,7 +6,7 @@
 *
 ****************************************************************************/
 
-#include "RecoLocalCTPPS/TotemRP/interface/FastLineRecognition.h"
+#include "RecoCTPPS/TotemRPLocal/interface/FastLineRecognition.h"
 
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 

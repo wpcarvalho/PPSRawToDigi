@@ -7,8 +7,8 @@
 *
 ****************************************************************************/
 
-#ifndef RecoLocalCTPPS_TotemRP_TotemRPLocalTrackFitterAlgorithm
-#define RecoLocalCTPPS_TotemRP_TotemRPLocalTrackFitterAlgorithm
+#ifndef RecoCTPPS_TotemRPLocal_TotemRPLocalTrackFitterAlgorithm
+#define RecoCTPPS_TotemRPLocal_TotemRPLocalTrackFitterAlgorithm
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 

@@ -23,7 +23,7 @@
 #include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 
-#include "RecoLocalCTPPS/TotemRP/interface/FastLineRecognition.h"
+#include "RecoCTPPS/TotemRPLocal/interface/FastLineRecognition.h"
 
 //----------------------------------------------------------------------------------------------------
 

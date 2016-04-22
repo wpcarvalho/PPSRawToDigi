@@ -18,7 +18,7 @@
 #include "DataFormats/Common/interface/DetSet.h"
 #include "DataFormats/TotemDigi/interface/TotemRPDigi.h"
 
-#include "RecoLocalCTPPS/TotemRP/interface/TotemRPClusterProducerAlgorithm.h"
+#include "RecoCTPPS/TotemRPLocal/interface/TotemRPClusterProducerAlgorithm.h"
  
 //----------------------------------------------------------------------------------------------------
 

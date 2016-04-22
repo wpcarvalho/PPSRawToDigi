@@ -6,8 +6,8 @@
 *
 ****************************************************************************/
 
-#ifndef RecoLocalCTPPS_TotemRP_FastLineRecognition
-#define RecoLocalCTPPS_TotemRP_FastLineRecognition
+#ifndef RecoCTPPS_TotemRPLocal_FastLineRecognition
+#define RecoCTPPS_TotemRPLocal_FastLineRecognition
 
 #include "DataFormats/Common/interface/DetSet.h"
 #include "DataFormats/Common/interface/DetSetVector.h"

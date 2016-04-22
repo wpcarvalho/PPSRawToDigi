@@ -7,7 +7,7 @@
 *
 ****************************************************************************/
 
-#include "RecoLocalCTPPS/TotemRP/interface/TotemRPRecHitProducerAlgorithm.h"
+#include "RecoCTPPS/TotemRPLocal/interface/TotemRPRecHitProducerAlgorithm.h"
 
 //----------------------------------------------------------------------------------------------------
 
