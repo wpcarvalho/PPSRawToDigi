@@ -56,8 +56,11 @@ process.p = cms.Path(
     process.totemNtuplizer
 )
 
+# output configuration
+from RecoCTPPS.Configuration.RecoCTPPS_EventContent_cff import RecoCTPPSRECO
 process.output = cms.OutputModule("PoolOutputModule",
-    fileName = cms.untracked.string("file:./reco.root")
+    fileName = cms.untracked.string("file:./reco.root"),
+    outputCommands = RecoCTPPSRECO.outputCommands
 )
 
 process.outpath = cms.EndPath(process.output)
