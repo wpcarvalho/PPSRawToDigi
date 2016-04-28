@@ -6,17 +6,23 @@ process = cms.Process("DQM")
 #### Event Source
 #----------------------------
 # for live online DQM in P5
-process.load("DQM.Integration.config.inputsource_cfi")
+#process.load("DQM.Integration.config.inputsource_cfi")
 
 # for testing in lxplus
-#process.load("DQM.Integration.config.fileinputsource_cfi")
+process.load("DQM.Integration.config.fileinputsource_cfi")
+process.source.fileNames = cms.untracked.vstring(
+  "file:/afs/cern.ch/user/j/jkaspar/public/run268608_ls0001_streamA_StorageManager.root"
+)
 
 #----------------------------
 #### DQM Environment
 #----------------------------
 process.load("DQM.Integration.config.environment_cfi")
-process.dqmEnv.subSystemFolder = 'Info'
-process.dqmSaver.tag = 'Info'
+process.dqmEnv.subSystemFolder = 'Totem'
+process.dqmSaver.tag = 'Totem'
+
+process.dqmSaver.path = "." # TODO: remove, only for testing
+
 #-----------------------------
 process.load("DQMServices.Components.DQMProvInfo_cfi")
 
@@ -33,6 +39,7 @@ process.load("DQM.Integration.config.FrontierCondition_GT_cfi")
 process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
 process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/totem_rp_210far_220_mapping.xml")
 
+# TODO: uncomment if/once data contain LoneG frame
 # process.load('EventFilter.TotemRawToDigi.TotemRPRawToDigi_cfi')
 # process.totemRPRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
 # process.totemRPRawToDigi.fedIds = cms.vuint32(577, 578, 579, 580)
@@ -40,12 +47,12 @@ process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemRea
 # process.totemRPRawToDigi.RawToDigi.printUnknownFrameSummary = 0
 
 process.load("EventFilter.TotemRawToDigi.totemTriggerRawToDigi_cfi")
-process.totemTriggerRawToDigi.rawDataTag = cms.InputTag("source")
+process.totemTriggerRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
 process.totemTriggerRawToDigi.fedId = 0x29c
 
 process.load('EventFilter.TotemRawToDigi.totemRPRawToDigi_cfi')
-process.totemRPRawToDigi.rawDataTag = cms.InputTag("source")
-process.totemRPRawToDigi.fedIds = cms.vuint32(0x1a1, 0x1a2, 0x1a9, 0x1aa, 0x1b5, 0x1bd)
+process.totemRPRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
+process.totemRPRawToDigi.fedIds = cms.vuint32(0x1a1, 0x1a2, 0x1a9, 0x1aa, 0x1b5, 0x1bd) # TODO: remove once all TOTEM FED are used
 
 # RP geometry
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
@@ -59,18 +66,22 @@ process.load("DQM.Totem.totemDAQTriggerDQMSource_cfi")
 process.load("DQM.Totem.totemRPDQMSource_cfi")
 
 # processing path
-
 process.recoStep = cms.Sequence(
   process.totemTriggerRawToDigi *
   process.totemRPRawToDigi *
   process.totemRPLocalReconstruction
 )
 
-process.dqmModules = cms.Sequence(process.dqmEnv + process.dqmSaver)
+process.dqmModules = cms.Sequence(
+  process.totemDAQTriggerDQMSource +
+  process.totemRPDQMSource +
+  process.dqmEnv +
+  process.dqmSaver
+)
 
 process.path = cms.Path(
   process.recoStep *
-  process.dqmProvInfo *
+  #  process.dqmProvInfo * # TODO: needed?
   process.dqmModules
 )
 
