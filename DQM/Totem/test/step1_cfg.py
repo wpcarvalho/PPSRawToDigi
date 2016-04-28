@@ -26,6 +26,7 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:mc', '')  #for MC
 # load DQM frame work
 process.load("DQMServices.Core.DQM_cfg")
 process.load("DQMServices.Components.DQMEnvironment_cfi")
+process.load("DQMServices.Components.DQMStoreStats_cfi")
 
 # raw data source
 #process.source = cms.Source("PoolSource",
@@ -91,8 +92,11 @@ process.dqm_output_step = cms.EndPath(
     process.DQMOutput
 )
 
+process.dqm_stats = cms.Path(process.dqmStoreStats)
+
 process.schedule = cms.Schedule(
     process.reco_step,
     process.dqm_produce_step,
-    process.dqm_output_step
+    process.dqm_output_step,
+    process.dqm_stats
 )
