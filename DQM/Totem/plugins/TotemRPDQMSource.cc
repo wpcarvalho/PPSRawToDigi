@@ -114,7 +114,7 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     /// plots related to one RP
     struct PotPlots
     {
-      MonitorElement *vfat_missing=NULL, *vfat_ec_bc_error=NULL, *vfat_corruption=NULL;
+      MonitorElement *vfat_problem=NULL, *vfat_missing=NULL, *vfat_ec_bc_error=NULL, *vfat_corruption=NULL;
 
       MonitorElement *activity=NULL, *activity_u=NULL, *activity_v=NULL;
       MonitorElement *hit_plane_hist=NULL;
@@ -305,6 +305,7 @@ TotemRPDQMSource::PotPlots::PotPlots(DQMStore::IBooker &ibooker, unsigned int id
 {
   ibooker.setCurrentFolder(string("Totem/") + TotemRPDetId::rpName(id, TotemRPDetId::nPath));
 
+  vfat_problem = ibooker.book2D("vfats with any problem", ";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
   vfat_missing = ibooker.book2D("vfats missing", ";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
   vfat_ec_bc_error = ibooker.book2D("vfats with EC or BC error", ";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
   vfat_corruption = ibooker.book2D("vfats with data corruption", ";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
@@ -504,13 +505,22 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     for (auto &s : ds)
     {
       if (s.isMissing())
+      {
+        plots.vfat_problem->Fill(plNum, s.getChipPosition());
         plots.vfat_missing->Fill(plNum, s.getChipPosition());
+      }
 
       if (s.isECProgressError() || s.isBCProgressError())
+      {
+        plots.vfat_problem->Fill(plNum, s.getChipPosition());
         plots.vfat_ec_bc_error->Fill(plNum, s.getChipPosition());
+      }
 
       if (s.isIDMismatch() || s.isFootprintError() || s.isCRCError())
+      {
+        plots.vfat_problem->Fill(plNum, s.getChipPosition());
         plots.vfat_corruption->Fill(plNum, s.getChipPosition());
+      }
     }
   }
   
