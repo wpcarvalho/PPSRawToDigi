@@ -281,7 +281,7 @@ void TotemStandaloneRawDataSource::beginJob()
     // run number
     FileInfo fi;
     fi.fileName = fileNames[i];
-    fi.runNumber = i + 1;
+    fi.runNumber = i + 10001;
 
     // open file
     fi.file = new SRSFileReader();

@@ -24,6 +24,12 @@ process.load("DQMServices.Components.DQMStoreStats_cfi")
 process.dqmEnv.subSystemFolder = 'Totem'
 process.dqmSaver.workflow = '/Totem/Test/Workflow'
 
+process.dqmSaver = cms.EDAnalyzer("DQMFileSaverOnline",
+  producer = cms.untracked.string("DQM"),
+  tag = cms.untracked.string("Totem"),
+  path = cms.untracked.string("."),
+)
+
 # RP raw data and digi
 process.load("DQM.Totem.test.standaloneDataInput_cff")
 #process.load("DQM.Totem.test.emulatedDataInput_cff")
