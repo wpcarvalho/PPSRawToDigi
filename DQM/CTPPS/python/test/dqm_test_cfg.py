@@ -21,18 +21,17 @@ process.load("DQMServices.Core.DQM_cfg")
 process.load("DQMServices.Components.DQMEnvironment_cfi")
 process.load("DQMServices.Components.DQMStoreStats_cfi")
 
-process.dqmEnv.subSystemFolder = 'Totem'
-process.dqmSaver.workflow = '/Totem/Test/Workflow'
+process.dqmEnv.subSystemFolder = 'CTPPS'
 
 process.dqmSaver = cms.EDAnalyzer("DQMFileSaverOnline",
   producer = cms.untracked.string("DQM"),
-  tag = cms.untracked.string("Totem"),
+  tag = cms.untracked.string("CTPPS"),
   path = cms.untracked.string("."),
 )
 
 # RP raw data and digi
-process.load("DQM.Totem.test.standaloneDataInput_cff")
-#process.load("DQM.Totem.test.emulatedDataInput_cff")
+process.load("DQM.CTPPS.test.standaloneDataInput_cff")
+#process.load("DQM.CTPPS.test.emulatedDataInput_cff")
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(-1)
@@ -46,8 +45,8 @@ process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/d
 process.load("RecoCTPPS.TotemRPLocal.totemRPLocalReconstruction_cff")
 
 # TOTEM DQM modules
-process.load("DQM.Totem.totemDAQTriggerDQMSource_cfi")
-process.load("DQM.Totem.totemRPDQMSource_cfi")
+process.load("DQM.CTPPS.totemDAQTriggerDQMSource_cfi")
+process.load("DQM.CTPPS.totemRPDQMSource_cfi")
 
 # execution schedule
 process.reco_totem = cms.Path(

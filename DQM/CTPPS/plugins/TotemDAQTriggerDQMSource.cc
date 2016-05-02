@@ -1,6 +1,6 @@
 /****************************************************************************
 *
-* This is a part of TotemDQM and TOTEM offline software.
+* This is a part of TOTEM offline software.
 * Authors:
 *   Jan Kašpar (jan.kaspar@gmail.com)
 *   Rafał Leszko (rafal.leszko@gmail.com)
@@ -91,14 +91,14 @@ void TotemDAQTriggerDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::R
 {
   ibooker.cd();
   
-  ibooker.setCurrentFolder("Totem/DAQ/");
+  ibooker.setCurrentFolder("CTPPS/DAQ/");
 
   daq_bx_diff = ibooker.book1D("bx_diff", ";OptoRx_{i}.BX - OptoRx_{j}.BX", 100, 0., 0.);
   daq_event_bx_diff = ibooker.book1D("daq_event_bx_diff", ";OptoRx_{i}.BX - Event.BX", 100, 0., 0.);
 
   daq_trigger_bx_diff = ibooker.book1D("trigger_bx_diff", ";OptoRx_{i}.BX - LoneG.BX", 100, 0., 0.);
 
-  ibooker.setCurrentFolder("Totem/Trigger/");
+  ibooker.setCurrentFolder("CTPPS/Trigger/");
 
   trigger_type = ibooker.book1D("type", ";type", 100, 0., 0.);
   trigger_event_num = ibooker.book1D("event_num", ";event_num", 100, 0., 0.);

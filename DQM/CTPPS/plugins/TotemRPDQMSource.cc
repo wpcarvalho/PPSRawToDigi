@@ -32,7 +32,7 @@
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 
-#include "DQM/Totem/interface/CorrelationPlotsSelector.h"
+#include "DQM/CTPPS/interface/CorrelationPlotsSelector.h"
 
 #include <string>
 
@@ -166,7 +166,7 @@ TotemRPDQMSource::DiagonalPlots::DiagonalPlots(DQMStore::IBooker &ibooker, int _
     (top56) ? "top" : "bot"
   );
 
-  ibooker.setCurrentFolder(string("Totem/RP/") + name);
+  ibooker.setCurrentFolder(string("CTPPS/TrackingStrip/") + name);
 
   h_lrc_x_d = ibooker.book2D("dx left vs right", string(name) + " : dx left vs. right, histogram;#Delta x_{45};#Delta x_{56}", 50, 0., 0., 50, 0., 0.);
   h_lrc_x_n = ibooker.book2D("xn left vs right", string(name) + " : xn left vs. right, histogram;x^{N}_{45};x^{N}_{56}", 50, 0., 0., 50, 0., 0.);
@@ -181,7 +181,9 @@ TotemRPDQMSource::DiagonalPlots::DiagonalPlots(DQMStore::IBooker &ibooker, int _
 
 TotemRPDQMSource::ArmPlots::ArmPlots(DQMStore::IBooker &ibooker, int _id) : id(_id)
 {
-  ibooker.setCurrentFolder(string("Totem/") + TotemRPDetId::armName(id, TotemRPDetId::nPath));
+  string path = TotemRPDetId::armName(id, TotemRPDetId::nPath);
+  path.replace(0, 2, "TrackingStrip");
+  ibooker.setCurrentFolder(string("CTPPS/") + path);
 
   h_numRPWithTrack_top = ibooker.book1D("number of top RPs with tracks", "number of top RPs with tracks;number of top RPs with tracks", 5, -0.5, 4.5);
   h_numRPWithTrack_hor = ibooker.book1D("number of hor RPs with tracks", "number of hor RPs with tracks;number of hor RPs with tracks", 5, -0.5, 4.5);
@@ -212,7 +214,9 @@ TotemRPDQMSource::StationPlots::StationPlots(DQMStore::IBooker &ibooker, int _id
   bool allocateCorrelationPlots, CorrelationPlotsSelector *correlationPlotsSelector, int limit) : 
     id(_id)
 {
-  ibooker.setCurrentFolder(string("Totem/") + TotemRPDetId::stationName(id, TotemRPDetId::nPath));
+  string path = TotemRPDetId::stationName(id, TotemRPDetId::nPath);
+  path.replace(0, 2, "TrackingStrip");
+  ibooker.setCurrentFolder(string("CTPPS/") + path);
 
   if (allocateCorrelationPlots)
     Add(ibooker, planes, correlationPlotsSelector, limit);
@@ -303,7 +307,9 @@ void TotemRPDQMSource::StationPlots::Add(DQMStore::IBooker &ibooker, std::set<un
 
 TotemRPDQMSource::PotPlots::PotPlots(DQMStore::IBooker &ibooker, unsigned int id)
 {
-  ibooker.setCurrentFolder(string("Totem/") + TotemRPDetId::rpName(id, TotemRPDetId::nPath));
+  string path = TotemRPDetId::rpName(id, TotemRPDetId::nPath);
+  path.replace(0, 2, "TrackingStrip");
+  ibooker.setCurrentFolder(string("CTPPS/") + path);
 
   vfat_problem = ibooker.book2D("vfats with any problem", ";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
   vfat_missing = ibooker.book2D("vfats missing", ";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
@@ -341,7 +347,9 @@ TotemRPDQMSource::PotPlots::PotPlots(DQMStore::IBooker &ibooker, unsigned int id
 
 TotemRPDQMSource::PlanePlots::PlanePlots(DQMStore::IBooker &ibooker, unsigned int id)
 {
-  ibooker.setCurrentFolder(string("Totem/") + TotemRPDetId::planeName(id, TotemRPDetId::nPath));
+  string path = TotemRPDetId::planeName(id, TotemRPDetId::nPath);
+  path.replace(0, 2, "TrackingStrip");
+  ibooker.setCurrentFolder(string("CTPPS/") + path);
 
   digi_profile_cumulative = ibooker.book1D("digi profile", "digi profile;strip number", 512, -0.5, 511.5);
   cluster_profile_cumulative = ibooker.book1D("cluster profile", "cluster profile;cluster center", 1024, -0.25, 511.75);
@@ -384,7 +392,7 @@ void TotemRPDQMSource::dqmBeginRun(edm::Run const &, edm::EventSetup const &)
 void TotemRPDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::Run const &, edm::EventSetup const &)
 {
   ibooker.cd();
-  ibooker.setCurrentFolder("TotemRP");
+  ibooker.setCurrentFolder("CTPPS");
 
   // initialize diagonals
   diagonalPlots[1] = DiagonalPlots(ibooker, 1);  // 45 bot - 56 top
