@@ -23,7 +23,7 @@ RawDataUnpacker::RawDataUnpacker(const edm::ParameterSet &conf)
 
 //----------------------------------------------------------------------------------------------------
 
-int RawDataUnpacker::Run(int fedId, const FEDRawData &data, vector<TotemFEDInfo> &fedInfoColl, SimpleVFATFrameCollection &coll)
+int RawDataUnpacker::Run(int fedId, const FEDRawData &data, vector<TotemFEDInfo> &fedInfoColl, SimpleVFATFrameCollection &coll) const
 {
   unsigned int size_in_words = data.size() / 8; // bytes -> words
   if (size_in_words < 2)
@@ -40,7 +40,7 @@ int RawDataUnpacker::Run(int fedId, const FEDRawData &data, vector<TotemFEDInfo>
 
 //----------------------------------------------------------------------------------------------------
 
-int RawDataUnpacker::ProcessOptoRxFrame(const word *buf, unsigned int frameSize, TotemFEDInfo &fedInfo, SimpleVFATFrameCollection *fc)
+int RawDataUnpacker::ProcessOptoRxFrame(const word *buf, unsigned int frameSize, TotemFEDInfo &fedInfo, SimpleVFATFrameCollection *fc) const
 {
   // get OptoRx metadata
   unsigned long long head = buf[0];
@@ -90,7 +90,7 @@ int RawDataUnpacker::ProcessOptoRxFrame(const word *buf, unsigned int frameSize,
 
 //----------------------------------------------------------------------------------------------------
 
-int RawDataUnpacker::ProcessOptoRxFrameSerial(const word *buf, unsigned int frameSize, SimpleVFATFrameCollection *fc)
+int RawDataUnpacker::ProcessOptoRxFrameSerial(const word *buf, unsigned int frameSize, SimpleVFATFrameCollection *fc) const
 {
   // get OptoRx metadata
   unsigned int OptoRxId = (buf[0] >> 8) & 0xFFF;
@@ -173,7 +173,7 @@ int RawDataUnpacker::ProcessOptoRxFrameSerial(const word *buf, unsigned int fram
 
 //----------------------------------------------------------------------------------------------------
 
-int RawDataUnpacker::ProcessOptoRxFrameParallel(const word *buf, unsigned int frameSize, TotemFEDInfo &fedInfo, SimpleVFATFrameCollection *fc)
+int RawDataUnpacker::ProcessOptoRxFrameParallel(const word *buf, unsigned int frameSize, TotemFEDInfo &fedInfo, SimpleVFATFrameCollection *fc) const
 {
   // get OptoRx metadata
   unsigned long long head = buf[0];
@@ -202,7 +202,7 @@ int RawDataUnpacker::ProcessOptoRxFrameParallel(const word *buf, unsigned int fr
 
 //----------------------------------------------------------------------------------------------------
 
-int RawDataUnpacker::ProcessVFATDataParallel(const uint16_t *buf, unsigned int OptoRxId, SimpleVFATFrameCollection *fc)
+int RawDataUnpacker::ProcessVFATDataParallel(const uint16_t *buf, unsigned int OptoRxId, SimpleVFATFrameCollection *fc) const
 {
   // start counting processed words
   unsigned int wordsProcessed = 1;
