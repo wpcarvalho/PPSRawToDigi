@@ -231,25 +231,25 @@ int RawDataUnpacker::ProcessVFATDataParallel(const uint16_t *buf, unsigned int O
   VFATFrame::word *fd = f.getData();
 
   // copy footprint, BC, EC, Flags, ID, if they exist
-  f.presenceFlags = 0;
+  uint8_t presenceFlags = 0;
 
   if (((buf[wordsProcessed] >> 12) & 0xF) == 0xA)  // BC
   {
-    f.presenceFlags |= 0x1;
+    presenceFlags |= 0x1;
     fd[11] = buf[wordsProcessed];
     wordsProcessed++;
   }
 
   if (((buf[wordsProcessed] >> 12) & 0xF) == 0xC)  // EC, flags
   {
-    f.presenceFlags |= 0x2;
+    presenceFlags |= 0x2;
     fd[10] = buf[wordsProcessed];
     wordsProcessed++;
   }
 
   if (((buf[wordsProcessed] >> 12) & 0xF) == 0xE)  // ID
   {
-    f.presenceFlags |= 0x4;
+    presenceFlags |= 0x4;
     fd[9] = buf[wordsProcessed];
     wordsProcessed++;
   }
@@ -275,7 +275,7 @@ int RawDataUnpacker::ProcessVFATDataParallel(const uint16_t *buf, unsigned int O
   unsigned int tErrFlags = (buf[wordsProcessed] >> 8) & 0xF;
   unsigned int tSize = buf[wordsProcessed] & 0xFF;
 
-  f.daqErrorFlags = tErrFlags;
+  f.setDAQErrorFlags(tErrFlags);
 
   bool skipFrame = false;
   bool suppressChannelErrors = false;
@@ -316,10 +316,19 @@ int RawDataUnpacker::ProcessVFATDataParallel(const uint16_t *buf, unsigned int O
     while ( (buf[dataOffset + nCl] >> 12) != 0xF )
     {
       const uint16_t &w = buf[dataOffset + nCl];
-      unsigned int clSize = (w >> 8) & 0x7F;
+      unsigned int upperBlock = w >> 8;
+      unsigned int clSize = upperBlock & 0x7F;
       unsigned int clPos = (w >> 0) & 0xFF;
 
-      // special case: size 0 means chip full
+      // special case: upperBlock=0xD0 => numberOfClusters
+      if (upperBlock == 0xD0)
+      {
+        presenceFlags |= 0x10;
+        f.setNumberOfClusters(clPos);
+        continue;
+      }
+
+      // special case: size=0 means chip full
       if (clSize == 0)
         clSize = 128;
 
@@ -356,11 +365,12 @@ int RawDataUnpacker::ProcessVFATDataParallel(const uint16_t *buf, unsigned int O
       fd[8 - i] = buf[dataOffset + i];
 
     // copy CRC
-    f.presenceFlags |= 0x8;
+    presenceFlags |= 0x8;
     fd[0] = buf[dataOffset + 8];
   }
 
   // save frame to output
+  f.setPresenceFlags(presenceFlags);
   fc->Insert(fp, f);
 
   return wordsProcessed;
