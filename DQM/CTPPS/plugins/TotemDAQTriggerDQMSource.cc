@@ -130,48 +130,54 @@ void TotemDAQTriggerDQMSource::analyze(edm::Event const& event, edm::EventSetup 
   event.getByToken(tokenTriggerCounters, triggerCounters);
 
   // check validity
-  bool valid = true;
-  valid &= fedInfo.isValid();
-  valid &= triggerCounters.isValid();
+  bool daqValid = fedInfo.isValid();
+  bool triggerValid = triggerCounters.isValid();
 
-  if (!valid)
+  if (!daqValid || !triggerValid)
   {
-    printf("ERROR in TotemDAQTriggerDQMSource::analyze > some of the required inputs are not valid. Skipping this event.\n");
+    printf("WARNING in TotemDAQTriggerDQMSource::analyze > some of the required inputs are not valid.\n");
     printf("\tfedInfo.isValid = %i\n", fedInfo.isValid());
     printf("\ttriggerCounters.isValid = %i\n", triggerCounters.isValid());
-
-    return;
   }
 
   // DAQ plots
-  for (auto &it1 : *fedInfo)
+  if (daqValid)
   {
-    daq_event_bx_diff->Fill(it1.getBX() - event.bunchCrossing());
-
-    for (auto &it2 : *fedInfo)
+    for (auto &it1 : *fedInfo)
     {
-      if (it2.getFEDId() <= it1.getFEDId())
-        continue;
-
-      daq_bx_diff->Fill(it2.getBX() - it1.getBX());
+      daq_event_bx_diff->Fill(it1.getBX() - event.bunchCrossing());
+  
+      for (auto &it2 : *fedInfo)
+      {
+        if (it2.getFEDId() <= it1.getFEDId())
+          continue;
+  
+        daq_bx_diff->Fill(it2.getBX() - it1.getBX());
+      }
     }
   }
 
   // trigger plots
-  trigger_type->Fill(triggerCounters->type);
-  trigger_event_num->Fill(triggerCounters->event_num);
-  trigger_bunch_num->Fill(triggerCounters->bunch_num);
-  trigger_src_id->Fill(triggerCounters->src_id);
-  trigger_orbit_num->Fill(triggerCounters->orbit_num);
-  trigger_revision_num->Fill(triggerCounters->revision_num);
-  trigger_run_num->Fill(triggerCounters->run_num);
-  trigger_trigger_num->Fill(triggerCounters->trigger_num);
-  trigger_inhibited_triggers_num->Fill(triggerCounters->inhibited_triggers_num);
-  trigger_input_status_bits->Fill(triggerCounters->input_status_bits);
+  if (triggerValid)
+  {
+    trigger_type->Fill(triggerCounters->type);
+    trigger_event_num->Fill(triggerCounters->event_num);
+    trigger_bunch_num->Fill(triggerCounters->bunch_num);
+    trigger_src_id->Fill(triggerCounters->src_id);
+    trigger_orbit_num->Fill(triggerCounters->orbit_num);
+    trigger_revision_num->Fill(triggerCounters->revision_num);
+    trigger_run_num->Fill(triggerCounters->run_num);
+    trigger_trigger_num->Fill(triggerCounters->trigger_num);
+    trigger_inhibited_triggers_num->Fill(triggerCounters->inhibited_triggers_num);
+    trigger_input_status_bits->Fill(triggerCounters->input_status_bits);
+  }
 
   // combined DAQ + trigger plots
-  for (auto &it : *fedInfo)
-    daq_trigger_bx_diff->Fill(it.getBX() - triggerCounters->orbit_num);
+  if (daqValid && triggerValid)
+  {
+    for (auto &it : *fedInfo)
+      daq_trigger_bx_diff->Fill(it.getBX() - triggerCounters->orbit_num);
+  }
 }
 
 //----------------------------------------------------------------------------------------------------
