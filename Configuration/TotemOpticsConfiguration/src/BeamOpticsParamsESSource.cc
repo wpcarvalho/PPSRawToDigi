@@ -1,6 +1,7 @@
+#include "Configuration/TotemOpticsConfiguration/interface/BeamOpticsParamsESSource.h"
+
 #include <iostream>
 #include "FWCore/Framework/interface/ESHandle.h"
-#include "Configuration/TotemOpticsConfiguration/interface/BeamOpticsParamsESSource.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/Framework/interface/ModuleFactory.h"
@@ -11,8 +12,7 @@ BeamOpticsParamsESSource::BeamOpticsParamsESSource(const edm::ParameterSet& conf
 : conf_(conf)
 {
   edm::LogInfo("BeamOpticsParamsESSource::BeamOpticsParamsESSource");
-  //the following line is needed to tell the framework what
-  // data is being produced
+
   setWhatProduced(this);
   findingRecord<BeamOpticsParamsRcd>();
 }
@@ -25,12 +25,14 @@ BeamOpticsParamsESSource::~BeamOpticsParamsESSource()
   
 }
 
-std::auto_ptr<BeamOpticsParams> BeamOpticsParamsESSource::produce(const BeamOpticsParamsRcd & )
+std::unique_ptr<BeamOpticsParams> BeamOpticsParamsESSource::produce(const BeamOpticsParamsRcd &)
 {
-  BeamOpticsParams * obj = new BeamOpticsParams(conf_);
+  std::unique_ptr<BeamOpticsParams> obj( new BeamOpticsParams(conf_) );
+
   std::cout << ">> BeamOpticsParamsESSource::produce : Loaded optics with energy " << obj->GetBeamEnergy()
 	  << " GeV and beta* " << obj->GetBetaStarX() << "/" << obj->GetBetaStarY() << " m" << std::endl;
-  return std::auto_ptr<BeamOpticsParams>(obj);
+
+  return obj;
 }
 
 void BeamOpticsParamsESSource::setIntervalFor( const edm::eventsetup::EventSetupRecordKey&, 

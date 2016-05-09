@@ -2,12 +2,12 @@
 #define ConfigurationTotemOpticsConfigurationBeamOpticsParamsESSource_h
 
 #include <memory>
-#include "boost/shared_ptr.hpp"
-
 
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/ESProducer.h"
 #include "FWCore/Framework/interface/EventSetupRecordIntervalFinder.h"
+#include "FWCore/Framework/interface/ESProducts.h"
+
 #include "TotemCondFormats/BeamOpticsParamsObjects/interface/BeamOpticsParams.h"
 #include "TotemCondFormats/DataRecord/interface/BeamOpticsParamsRcd.h"
 
@@ -18,9 +18,7 @@ class BeamOpticsParamsESSource : public edm::ESProducer, public edm::EventSetupR
   BeamOpticsParamsESSource(const edm::ParameterSet &);
   ~BeamOpticsParamsESSource();
   
-  //      typedef edm::ESProducts<> ReturnType;
-  
-  virtual std::auto_ptr<BeamOpticsParams> produce(const BeamOpticsParamsRcd &);
+  virtual std::unique_ptr<BeamOpticsParams> produce(const BeamOpticsParamsRcd &);
   
   protected:
     virtual void setIntervalFor( const edm::eventsetup::EventSetupRecordKey&,
