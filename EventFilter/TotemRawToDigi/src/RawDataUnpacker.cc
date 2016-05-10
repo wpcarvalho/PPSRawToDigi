@@ -312,8 +312,7 @@ int RawDataUnpacker::ProcessVFATDataParallel(const uint16_t *buf, unsigned int O
   // get channel data - cluster mode
   if (hFlag == vmCluster)
   {
-    unsigned int nCl = 0;
-    while ( (buf[dataOffset + nCl] >> 12) != 0xF )
+    for (unsigned int nCl = 0; (buf[dataOffset + nCl] >> 12) != 0xF; ++nCl)
     {
       const uint16_t &w = buf[dataOffset + nCl];
       unsigned int upperBlock = w >> 8;
@@ -331,8 +330,6 @@ int RawDataUnpacker::ProcessVFATDataParallel(const uint16_t *buf, unsigned int O
       // special case: size=0 means chip full
       if (clSize == 0)
         clSize = 128;
-
-      nCl++;
 
       // activate channels
       //  convention - range <pos, pos-size+1>
