@@ -117,6 +117,7 @@ class TotemRPDQMSource: public DQMEDAnalyzer
       MonitorElement *vfat_problem=NULL, *vfat_missing=NULL, *vfat_ec_bc_error=NULL, *vfat_corruption=NULL;
 
       MonitorElement *activity=NULL, *activity_u=NULL, *activity_v=NULL;
+      MonitorElement *activity_per_bx=NULL;
       MonitorElement *hit_plane_hist=NULL;
       MonitorElement *patterns_u=NULL, *patterns_v=NULL;
       MonitorElement *h_planes_fit_u=NULL, *h_planes_fit_v=NULL;
@@ -319,6 +320,8 @@ TotemRPDQMSource::PotPlots::PotPlots(DQMStore::IBooker &ibooker, unsigned int id
   activity = ibooker.book1D("active planes", "active planes;number of active planes", 11, -0.5, 10.5);
   activity_u = ibooker.book1D("active planes U", "active planes U;number of active U planes", 11, -0.5, 10.5);
   activity_v = ibooker.book1D("active planes V", "active planes V;number of active V planes", 11, -0.5, 10.5);
+
+  activity_per_bx = ibooker.book1D("activity per BX", "activity per BX;Event.BX", 4002, -1.5, 4000. + 0.5);
 
   hit_plane_hist = ibooker.book2D("activity in planes (2D)", "activity in planes;plane number;strip number", 10, -0.5, 9.5, 32, -0.5, 511.5);
 
@@ -594,6 +597,9 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     it->second.activity->Fill(planes[it->first].size());
     it->second.activity_u->Fill(planes_u[it->first].size());
     it->second.activity_v->Fill(planes_v[it->first].size());
+
+    if (planes[it->first].size() >= 6)
+      it->second.activity_per_bx->Fill(event.bunchCrossing());
   }
   
   for (DetSetVector<TotemRPCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)

@@ -45,6 +45,7 @@ class TotemDAQTriggerDQMSource: public DQMEDAnalyzer
     
     MonitorElement *daq_bx_diff;
     MonitorElement *daq_event_bx_diff;
+    MonitorElement *daq_event_bx_diff_vs_fed;
     MonitorElement *daq_trigger_bx_diff;
 
     MonitorElement *trigger_type;
@@ -95,6 +96,7 @@ void TotemDAQTriggerDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::R
 
   daq_bx_diff = ibooker.book1D("bx_diff", ";OptoRx_{i}.BX - OptoRx_{j}.BX", 100, 0., 0.);
   daq_event_bx_diff = ibooker.book1D("daq_event_bx_diff", ";OptoRx_{i}.BX - Event.BX", 100, 0., 0.);
+  daq_event_bx_diff_vs_fed = ibooker.book2D("daq_event_bx_diff_vs_fed", ";OptoRx.ID;OptoRx.BX - Event.BX", 10, 0., 0., 10., 0., 0.);
 
   daq_trigger_bx_diff = ibooker.book1D("trigger_bx_diff", ";OptoRx_{i}.BX - LoneG.BX", 100, 0., 0.);
 
@@ -146,6 +148,7 @@ void TotemDAQTriggerDQMSource::analyze(edm::Event const& event, edm::EventSetup 
     for (auto &it1 : *fedInfo)
     {
       daq_event_bx_diff->Fill(it1.getBX() - event.bunchCrossing());
+      daq_event_bx_diff_vs_fed->Fill(it1.getFEDId(), it1.getBX() - event.bunchCrossing());
   
       for (auto &it2 : *fedInfo)
       {
