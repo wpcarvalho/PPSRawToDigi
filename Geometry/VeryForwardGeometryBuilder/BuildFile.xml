@@ -2,6 +2,7 @@
 <use name="CondFormats/DataRecord"/>
 <use name="DataFormats/DetId"/>
 <use name="DataFormats/TotemRPDetId"/>
+<use name="DataFormats/CTPPSAlignment"/>
 <use name="Geometry/TrackerNumberingBuilder"/>
 <use name="clhep"/>
 <use name="hepmc"/>
