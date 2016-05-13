@@ -1,5 +1,13 @@
-#ifndef Geometry_VeryForwardGeometryBuilder_GeometryTestModule
-#define Geometry_VeryForwardGeometryBuilder_GeometryTestModule
+/****************************************************************************
+*
+* This is a part of TOTEM offline software.
+* Authors: 
+*	Jan Kaspar (jan.kaspar@gmail.com) 
+*
+****************************************************************************/
+
+#ifndef Geometry_TestModule_H
+#define Geometry_TestModule_H
 
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
@@ -7,6 +15,12 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 
+/**
+ * \ingroup TotemRPGeometry
+ * \brief Testing module.
+ *
+ * See schema of \ref TotemRPGeometry "TOTEM RP geometry classes"
+ **/
 class GeometryTestModule : public edm::EDAnalyzer {
    public:
       explicit GeometryTestModule(const edm::ParameterSet&);

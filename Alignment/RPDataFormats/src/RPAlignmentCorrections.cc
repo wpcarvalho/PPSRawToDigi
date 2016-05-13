@@ -355,11 +355,11 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
   unsigned int verbosity) const
 {
   // TODO: sh_z
-  
+
   // clean first
   expanded.Clear();
   factored.Clear();
-   
+
   // save full alignments of all sensors first
   // skip elements that are not being optimized
   mapType &origAlignments = expanded.sensors;
@@ -418,7 +418,7 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
       const RPAlignmentCorrection &oa = origAlignments[*dit];
 
       // shifts part
-      double sh_r = oa.sh_r(); 
+      double sh_r = oa.sh_r();
       double sh_r_e = oa.sh_r_e();
       if (sh_r_e <= 0.)
         sh_r_e = 1E-8; // in mm
@@ -432,7 +432,7 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
       A(idx, 1) = d.dx;
       A(idx, 2) = d.dy*zeff;
       A(idx, 3) = d.dy;
-      
+
       B(idx, 0) = d.dx;
       B(idx, 1) = d.dy;
 
@@ -441,8 +441,8 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
       m(idx) = sh_r;
 
       // rotations part
-      double rot_z = oa.rot_z(); 
-      double rot_z_e = oa.rot_z_e(); 
+      double rot_z = oa.rot_z();
+      double rot_z_e = oa.rot_z_e();
       if (rot_z_e <= 0.)
         rot_z_e = 1E-8; // rad
 
@@ -450,12 +450,12 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
       Sr += rot_z * w;
       S1 += 1. * w;
       Sss += rot_z_e * rot_z_e;
-    
+
       //printf("%u %u | %.3f +- %.3f | %.3f +- %.3f\n", *dit, idx, sh_r*1E3, sh_r_e*1E3, rot_z*1E3, rot_z_e*1E3);
 
       idx++;
     }
-    
+
     // linear shift fit
     TMatrixD AT(TMatrixD::kTransposed, A);
     TMatrixD VRi(TMatrixD::kInverted, V);
@@ -468,33 +468,33 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
       printf("ERROR in RPAlignmentCorrections::FactorRPFromSensorCorrections > AT A matrix is singular, skipping RP %u.\n", rpId);
       continue;
     }
-    
+
     TVectorD th(4);
-    th = ATVRiAi * AT * VRi * m; 
-    
+    th = ATVRiAi * AT * VRi * m;
+
     // g: intercepts (mm), h: slopes (rad), with errors
     double hx = th[0], hx_error = sqrt(ATVRiAi(0, 0));
     double gx = th[1], gx_error = sqrt(ATVRiAi(1, 1));
     double hy = th[2], hy_error = sqrt(ATVRiAi(2, 2));
     double gy = th[3], gy_error = sqrt(ATVRiAi(3, 3));
-    
+
     // constant shift fit
     TMatrixD BT(TMatrixD::kTransposed, B);
     TMatrixD BTViB(BT, TMatrixD::kMult, Vi * B);
     TMatrixD BTViBi(TMatrixD::kInverted, BTViB);
-    
+
     TMatrixD V_th_B_eW(BTViBi * BT * V * B * BTViBi);
     TMatrixD &V_th_B = (equalWeights) ? V_th_B_eW : BTViBi;
 
     TVectorD th_B(2);
-    th_B = BTViBi * BT * Vi * m; 
+    th_B = BTViBi * BT * Vi * m;
     double g0x = th_B[0], g0x_error = sqrt(V_th_B(0, 0));
     double g0y = th_B[1], g0y_error = sqrt(V_th_B(1, 1));
-    
+
     // const rotation fit
     double rot_z_mean = Sr / S1;
     double rot_z_mean_error = (equalWeights) ? sqrt(Sss)/S1 : sqrt(1. / S1);
- 
+
     /*
     // filter matrix (to suppress slopes)
     TMatrixD F(4, 4);
@@ -503,19 +503,19 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
 
     // shift corrections
     TVectorD sc(A * F * th);
-    
+
     // corrected/internal shift error matrix
     TMatrixD I(m.GetNrows(), m.GetNrows());
     I.UnitMatrix();
-    TMatrixD Cm = I - A*F*ATViAi*AT*Vi; 
+    TMatrixD Cm = I - A*F*ATViAi*AT*Vi;
     TMatrixD CmT(TMatrixD::kTransposed, Cm);
     TMatrixD V(TMatrixD::kInverted, Vi);
     TMatrixD SE(Cm*V*CmT);
     */
-    
+
     // shift corrections
     TVectorD sc(B * th_B);
-    
+
     // corrected/internal shift error matrix
     TMatrixD VR(V);
     VR -= B * BTViBi * BT;
@@ -532,7 +532,7 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
 
     // store factored values
     //  sh_r,  sh_r_e,  sh_x,  sh_x_e,  sh_y,  sh_y_e,  sh_z,  sh_z_e,  rot_z,  rot_z_e);
-    factored.rps[rpId] = RPAlignmentCorrection(0., 0., g0x, g0x_error, g0y, g0y_error, 0., 0., rot_z_mean, rot_z_mean_error); 
+    factored.rps[rpId] = RPAlignmentCorrection(0., 0., g0x, g0x_error, g0y, g0y_error, 0., 0., rot_z_mean, rot_z_mean_error);
 
     // calculate and store residuals for sensors
     idx = 0;

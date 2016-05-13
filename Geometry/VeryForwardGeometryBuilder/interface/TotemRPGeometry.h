@@ -1,12 +1,13 @@
 /****************************************************************************
 *
+* This is a part of TOTEM offline software.
 * Authors:
 *  Jan Kašpar (jan.kaspar@gmail.com)
 *
 ****************************************************************************/
 
-#ifndef Geometry_VeryForwardGeometryBuilder_TotemRPGeometry
-#define Geometry_VeryForwardGeometryBuilder_TotemRPGeometry
+#ifndef Geometry_TotemRPGeometry_H
+#define Geometry_TotemRPGeometry_H
 
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
 #include "CLHEP/Vector/ThreeVector.h"
@@ -19,6 +20,10 @@
 
 class DetId;
 
+///\defgroup TotemRPGeometry TOTEM RP Geometry
+///\brief Classes that build up and manage geometry of TOTEM RPs.
+/// The structure of the classes is shown in the following scheme
+/// \image html Geometry/TotemRPGeometryBuilder/doc/schema.gif
 /**
  * \ingroup TotemRPGeometry
  * \brief The manager class for TOTEM RP geometry.

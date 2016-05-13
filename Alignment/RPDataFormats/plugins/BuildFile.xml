@@ -2,6 +2,7 @@
 	<use name="Alignment/RPDataFormats"/>
 	<use name="CondFormats/AlignmentRecord"/>
 	<use name="FWCore/Framework"/>
+	<use name="Geometry/VeryForwardGeometryBuilder"/>
 	<use name="CondFormats/DataRecord"/>
 	<flags EDM_PLUGIN="1"/>
 </library>
