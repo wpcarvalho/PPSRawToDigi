@@ -6,9 +6,6 @@
 
 namespace {
   namespace {
-	LocalTrackFit ltf;
-	edm::Wrapper<LocalTrackFit> wltf;
-
 	RPAlignmentCorrection ac;
 	RPAlignmentCorrections acs;
   }

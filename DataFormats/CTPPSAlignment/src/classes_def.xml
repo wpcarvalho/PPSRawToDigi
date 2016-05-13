@@ -1,4 +1,6 @@
 <lcgdict>
 	<class name="LocalTrackFit"/>
 	<class name="edm::Wrapper<LocalTrackFit>"/>
-</lcgdict>
+	<class name="RPAlignmentCorrectionData"/>
+	<class name="RPAlignmentCorrectionsData"/>
+</lcgdict>                                                                                                                                                              
