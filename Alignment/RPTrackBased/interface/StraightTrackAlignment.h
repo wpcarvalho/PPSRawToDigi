@@ -18,7 +18,7 @@
 #include <TFile.h>
 
 #include "Alignment/RPDataFormats/interface/RPAlignmentCorrections.h"
-#include "Alignment/RPDataFormats/interface/LocalTrackFit.h"
+#include "DataFormats/CTPPSAlignment/interface/LocalTrackFit.h"
 #include "Alignment/RPTrackBased/interface/AlignmentGeometry.h"
 #include "Alignment/RPTrackBased/interface/HitCollection.h"
 #include "Alignment/RPTrackBased/interface/AlignmentAlgorithm.h"

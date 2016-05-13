@@ -16,7 +16,7 @@
 #include "Alignment/RPTrackBased/interface/HitCollection.h"
 #include "Alignment/RPTrackBased/interface/SingularMode.h"
 #include "Alignment/RPTrackBased/interface/AlignmentConstraint.h"
-#include "Alignment/RPDataFormats/interface/LocalTrackFit.h"
+#include "DataFormats/CTPPSAlignment/interface/LocalTrackFit.h"
 
 #include <string>
 

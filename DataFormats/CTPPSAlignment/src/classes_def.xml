@@ -1,0 +1,4 @@
+<lcgdict>
+	<class name="LocalTrackFit"/>
+	<class name="edm::Wrapper<LocalTrackFit>"/>
+</lcgdict>
