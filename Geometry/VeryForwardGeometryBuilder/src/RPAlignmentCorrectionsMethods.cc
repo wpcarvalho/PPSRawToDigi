@@ -168,6 +168,92 @@ RPAlignmentCorrectionsData RPAlignmentCorrectionsMethods::GetCorrectionsData(DOM
 
 }
 
+#define WRITE(q, dig, lim) \
+  if (precise) \
+    fprintf(f, " " #q "=\"%.15E\"", q()*1E3);\
+  else \
+    if (fabs(q()*1E3) < lim && q() != 0) \
+      fprintf(f, " " #q "=\"%+8.1E\"", q()*1E3);\
+    else \
+      fprintf(f, " " #q "=\"%+8." #dig "f\"", q()*1E3);
+
+void RPAlignmentCorrectionsMethods::WriteXML(const RPAlignmentCorrectionData & data, FILE *f, bool precise, bool wrErrors, bool wrSh_r, bool wrSh_xy,
+  bool wrSh_z, bool wrRot_z)
+{
+  if (wrSh_r) {
+    WRITE(data.sh_r, 2, 0.1);
+    if (wrErrors) {
+      WRITE(data.sh_r_e, 2, 0.1);
+    }
+    /*
+    fprintf(f, " sh_r=\"%+8.2f\"", data.sh_r()*1E3);
+    if (wrErrors)
+      if (fabs(data.sh_r_e())*1E3 < 0.1)
+        fprintf(f, " sh_r_e=\"%+8.1E\"", data.sh_r_e()*1E3);
+      else
+        fprintf(f, " sh_r_e=\"%+8.2f\"", data.sh_r_e()*1E3);
+    */
+  }
+
+  if (wrSh_xy) {
+    WRITE(data.sh_x, 2, 0.1);
+    WRITE(data.sh_y, 2, 0.1);
+    if (wrErrors) {
+      WRITE(data.sh_x_e, 2, 0.1);
+      WRITE(data.sh_y_e, 2, 0.1);
+    }
+    /*
+    fprintf(f, " sh_x=\"%+8.2f\" sh_y=\"%+8.2f\"", data.sh_x()*1E3, data.sh_y()*1E3);
+    if (wrErrors) {
+      if (fabs(data.sh_x_e())*1E3 < 0.1)
+        fprintf(f, " sh_x_e=\"%+8.1E\"", data.sh_x_e()*1E3);
+      else
+        fprintf(f, " sh_x_e=\"%+8.2f\"", data.sh_x_e()*1E3);
+
+      if (fabs(data.sh_y_e())*1E3 < 0.1)
+        fprintf(f, " sh_y_e=\"%+8.1E\"", data.sh_y_e()*1E3);
+      else
+        fprintf(f, " sh_y_e=\"%+8.2f\"", data.sh_y_e()*1E3);
+    }
+    */
+  }
+
+  // TODO: add the other 2 rotations
+
+  if (wrRot_z) {
+    WRITE(data.rot_z, 3, 0.01);
+    if (wrErrors) {
+      WRITE(data.rot_z_e, 3, 0.01);
+    }
+    /*
+    fprintf(f, " rot_z=\"%+8.3f\"", data.rot_z()*1E3);
+    if (wrErrors)
+      if (fabs(data.rot_z_e())*1E3 < 0.01)
+        fprintf(f, " rot_z_e=\"%+8.1E\"", data.rot_z_e()*1E3);
+      else
+        fprintf(f, " rot_z_e=\"%+8.3f\"", data.rot_z_e()*1E3);
+    */
+  }
+
+  if (wrSh_z) {
+    WRITE(data.sh_z, 2, 0.1);
+    if (wrErrors) {
+      WRITE(data.sh_z_e, 2, 0.1);
+    }
+
+    /*
+    fprintf(f, " sh_z=\"%+8.2f\"", data.sh_z()*1E3);
+    if (wrErrors)
+      if (fabs(data.sh_z_e())*1E3 < 0.1)
+        fprintf(f, " sh_z_e=\"%+8.1E\"", data.sh_z_e()*1E3);
+      else
+        fprintf(f, " sh_z_e=\"%+8.2f\"", data.sh_z_e()*1E3);
+    */
+  }
+}
+
+#undef WRITE
+
 
 //----------------------------------------------------------------------------------------------------
 
@@ -194,44 +280,47 @@ void RPAlignmentCorrectionsMethods::WriteXMLFile(const RPAlignmentCorrectionsDat
 void RPAlignmentCorrectionsMethods::WriteXMLBlock(const RPAlignmentCorrectionsData & data, FILE *rf, bool precise, bool wrErrors, bool wrSh_r,
   bool wrSh_xy, bool wrSh_z, bool wrRot_z)
 {
-//  bool firstRP = true;
-//  unsigned int prevRP = 0;
-//  set<unsigned int> writtenRPs;
+  bool firstRP = true;
+  unsigned int prevRP = 0;
+  set<unsigned int> writtenRPs;
 
-//  for (mapType::const_iterator it = sensors.begin(); it != sensors.end(); ++it) {
-//    // start a RP block
-//    unsigned int rp = it->first / 10;
-//    if (firstRP || prevRP != rp) {
-//      if (!firstRP)
-//        fprintf(rf, "\n");
-//      firstRP = false;
-//
-//      mapType::const_iterator rit = rps.find(rp);
-//      if (rit != rps.end()) {
-//        fprintf(rf, "\t<rp  id=\"%4u\"                                  ", rit->first);
-//        rit->second.WriteXML(rf, precise, wrErrors, false, wrSh_xy, wrSh_z, wrRot_z);
-//        fprintf(rf, "/>\n");
-//        writtenRPs.insert(rp);
-//      } else
-//        fprintf(rf, "\t<!-- RP %3u -->\n", rp);
-//    }
-//    prevRP = rp;
-//
-//    // write the correction
-//    fprintf(rf, "\t<det id=\"%4u\"", it->first);
-//    it->second.WriteXML(rf, precise, wrErrors, wrSh_r, wrSh_xy, wrSh_z, wrRot_z);
-//    fprintf(rf, "/>\n");
-//  }
-//
-//  // write remaining RPs
-//  for (mapType::const_iterator it = rps.begin(); it != rps.end(); ++it) {
-//    set<unsigned int>::iterator wit = writtenRPs.find(it->first);
-//    if (wit == writtenRPs.end()) {
-//      fprintf(rf, "\t<rp  id=\"%4u\"                                ", it->first);
-//      it->second.WriteXML(rf, precise, wrErrors, false, wrSh_xy, wrSh_z, wrRot_z);
-//      fprintf(rf, "/>\n");
-//    }
-//  }
+  RPAlignmentCorrectionsData::mapType sensors = data.GetSensorMap();
+  RPAlignmentCorrectionsData::mapType rps = data.GetRPMap();
+
+  for (RPAlignmentCorrectionsData::mapType::const_iterator it = sensors.begin(); it != sensors.end(); ++it) {
+    // start a RP block
+    unsigned int rp = it->first / 10;
+    if (firstRP || prevRP != rp) {
+      if (!firstRP)
+        fprintf(rf, "\n");
+      firstRP = false;
+
+      RPAlignmentCorrectionsData::mapType::const_iterator rit = rps.find(rp);
+      if (rit != rps.end()) {
+        fprintf(rf, "\t<rp  id=\"%4u\"                                  ", rit->first);
+        WriteXML( rit->second , rf, precise, wrErrors, false, wrSh_xy, wrSh_z, wrRot_z );
+        fprintf(rf, "/>\n");
+        writtenRPs.insert(rp);
+      } else
+        fprintf(rf, "\t<!-- RP %3u -->\n", rp);
+    }
+    prevRP = rp;
+
+    // write the correction
+    fprintf(rf, "\t<det id=\"%4u\"", it->first);
+    WriteXML(it->second, rf, precise, wrErrors, wrSh_r, wrSh_xy, wrSh_z, wrRot_z);
+    fprintf(rf, "/>\n");
+  }
+
+  // write remaining RPs
+  for (RPAlignmentCorrectionsData::mapType::const_iterator it = rps.begin(); it != rps.end(); ++it) {
+    set<unsigned int>::iterator wit = writtenRPs.find(it->first);
+    if (wit == writtenRPs.end()) {
+      fprintf(rf, "\t<rp  id=\"%4u\"                                ", it->first);
+      WriteXML(it->second, rf, precise, wrErrors, false, wrSh_xy, wrSh_z, wrRot_z);
+      fprintf(rf, "/>\n");
+    }
+  }
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -251,11 +340,11 @@ void RPAlignmentCorrectionsMethods::FactorRPFromSensorCorrections(RPAlignmentCor
   unsigned int verbosity)
 {
   // TODO: sh_z
-//
-//  // clean first
-//  expanded.Clear();
-//  factored.Clear();
-//
+
+  // clean first
+  expanded.Clear();
+  factored.Clear();
+
 //  // save full alignments of all sensors first
 //  // skip elements that are not being optimized
 //  mapType &origAlignments = expanded.sensors;
