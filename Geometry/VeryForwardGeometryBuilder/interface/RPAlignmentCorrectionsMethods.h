@@ -20,30 +20,15 @@ namespace edm {
   class ParameterSet;
 }
 
-//class AlignmentGeometry;
+class AlignmentGeometry;
 
 
-/**
- *\brief Container for RP alignment corrections.
- * The corrections are stored on two levels - RP and sensor. For every level,
- * there is a map: symbolic ID --> alignment correction. Sensors inherit the
- * alignment corrections for the corresponding RP, see GetFullSensorCorrection
- * method.
- **/
 class RPAlignmentCorrectionsMethods
 {
 
   public:
     RPAlignmentCorrectionsMethods() {}
-  
-    /// constructs object from an XML file
-//    RPAlignmentCorrectionsMethods(const std::string &fileName)
-//      { LoadXMLFile(fileName); }
-//
-//    /// constructs object from a block of alignment-sequence XML file
-//    RPAlignmentCorrectionsMethods(xercesc::DOMNode *e)
-//      { LoadXMLBlock(e); }
-  
+
     static RPAlignmentCorrectionsData GetCorrectionsDataFromFile(const std::string &fileName);
 
     static RPAlignmentCorrectionsData GetCorrectionsData(xercesc::DOMNode *);
@@ -60,10 +45,10 @@ class RPAlignmentCorrectionsMethods
         bool wrSh_xy=true, bool wrSh_z=true, bool wrRot_z=true);
   
 
-//    /// factors out the common shifts and rotations for every RP and saves these values as RPalignment
-//    /// (factored variable), the expanded alignments are created as a by-product
-//    static void FactorRPFromSensorCorrections(RPAlignmentCorrectionsData & data, RPAlignmentCorrectionsData &expanded, RPAlignmentCorrectionsData &factored,
-//      const AlignmentGeometry &, bool equalWeights=false, unsigned int verbosity = 0);
+    /// factors out the common shifts and rotations for every RP and saves these values as RPalignment
+    /// (factored variable), the expanded alignments are created as a by-product
+    static void FactorRPFromSensorCorrections(RPAlignmentCorrectionsData & data, RPAlignmentCorrectionsData &expanded, RPAlignmentCorrectionsData &factored,
+      const AlignmentGeometry &, bool equalWeights=false, unsigned int verbosity = 0);
 
 };
 
