@@ -107,7 +107,7 @@ vector<SingularMode> MillepedeAlgorithm::Analyze()
 //----------------------------------------------------------------------------------------------------
 
 unsigned int MillepedeAlgorithm::Solve(const std::vector<AlignmentConstraint> &constraints,
-  RPAlignmentCorrections &result, TDirectory *dir)
+  RPAlignmentCorrectionsData &result, TDirectory *dir)
 {
   printf(">> MillepedeAlgorithm::Solve\n");
   result.Clear();

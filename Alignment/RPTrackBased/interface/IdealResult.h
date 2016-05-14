@@ -13,7 +13,7 @@
 
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "Alignment/RPTrackBased/interface/AlignmentAlgorithm.h"
-#include "Alignment/RPDataFormats/interface/RPAlignmentCorrections.h"
+#include "DataFormats/CTPPSAlignment/interface/RPAlignmentCorrectionsData.h"
 
 #include <vector>
 
@@ -50,7 +50,7 @@ class IdealResult : public AlignmentAlgorithm
     virtual void SaveDiagnostics(TDirectory *) {}
     virtual std::vector<SingularMode> Analyze();
     virtual unsigned int Solve(const std::vector<AlignmentConstraint>&,
-      RPAlignmentCorrections &result, TDirectory *dir);
+      RPAlignmentCorrectionsData &result, TDirectory *dir);
     virtual void End() {}
 };
 

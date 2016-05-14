@@ -17,8 +17,8 @@
 #include <TVectorD.h>
 #include <TFile.h>
 
-#include "Alignment/RPDataFormats/interface/RPAlignmentCorrections.h"
 #include "DataFormats/CTPPSAlignment/interface/LocalTrackFit.h"
+#include "DataFormats/CTPPSAlignment/interface/RPAlignmentCorrectionsData.h"
 #include "Alignment/RPTrackBased/interface/AlignmentGeometry.h"
 #include "Alignment/RPTrackBased/interface/HitCollection.h"
 #include "Alignment/RPTrackBased/interface/AlignmentAlgorithm.h"
@@ -152,7 +152,7 @@ class StraightTrackAlignment
     LocalTrackFitter fitter;
 
     /// (real geometry) alignments before this alignment iteration
-    RPAlignmentCorrections initialAlignments;                  
+    RPAlignmentCorrectionsData initialAlignments;
     
     // ---------- diagnostics parameters and plots ----------                                        
     
@@ -231,9 +231,9 @@ class StraightTrackAlignment
 
     /// result pretty printing routines
     void PrintN(const char *str, unsigned int N);
-    void PrintLineSeparator(const std::vector<RPAlignmentCorrections> &);
-    void PrintQuantitiesLine(const std::vector<RPAlignmentCorrections> &);
-    void PrintAlgorithmsLine(const std::vector<RPAlignmentCorrections> &);
+    void PrintLineSeparator(const std::vector<RPAlignmentCorrectionsData> &);
+    void PrintQuantitiesLine(const std::vector<RPAlignmentCorrectionsData> &);
+    void PrintAlgorithmsLine(const std::vector<RPAlignmentCorrectionsData> &);
 
     /// saves a ROOT file with diagnostic plots
     void SaveDiagnostics() const;

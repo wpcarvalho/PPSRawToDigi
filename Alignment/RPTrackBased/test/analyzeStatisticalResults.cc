@@ -23,7 +23,8 @@
 
 #include "FWCore/Utilities/interface/Exception.h"
 
-#include "Alignment/RPDataFormats/interface/RPAlignmentCorrections.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/RPAlignmentCorrectionsMethods.h"
+#include "DataFormats/CTPPSAlignment/interface/RPAlignmentCorrectionsData.h"
 
 using namespace std;
 
@@ -175,15 +176,15 @@ void ResetStatistics()
 
 //----------------------------------------------------------------------------------------------------
 
-void UpdateSensorStatistics(unsigned int N, unsigned iteration, const RPAlignmentCorrections &r_actual,
-  const RPAlignmentCorrections &r_ideal)
+void UpdateSensorStatistics(unsigned int N, unsigned iteration, const RPAlignmentCorrectionsData &r_actual,
+  const RPAlignmentCorrectionsData &r_ideal)
 {
-  for (RPAlignmentCorrections::mapType::const_iterator it = r_actual.GetSensorMap().begin();
+  for (RPAlignmentCorrectionsData::mapType::const_iterator it = r_actual.GetSensorMap().begin();
       it != r_actual.GetSensorMap().end(); ++it) {
 
     unsigned int id = it->first;
-    const RPAlignmentCorrection &c_actual = r_actual.GetFullSensorCorrection(id, false);
-    const RPAlignmentCorrection &c_ideal = r_ideal.GetFullSensorCorrection(id, false);
+    const RPAlignmentCorrectionData &c_actual = r_actual.GetFullSensorCorrection(id, false);
+    const RPAlignmentCorrectionData &c_ideal = r_ideal.GetFullSensorCorrection(id, false);
 
     DetStat &s = det_stat[Desc(N, iteration, id)];
 
@@ -203,15 +204,15 @@ void UpdateSensorStatistics(unsigned int N, unsigned iteration, const RPAlignmen
 
 //----------------------------------------------------------------------------------------------------
 
-void UpdateRPStatistics(unsigned int N, unsigned iteration, const RPAlignmentCorrections &r_actual,
-  const RPAlignmentCorrections &r_ideal)
+void UpdateRPStatistics(unsigned int N, unsigned iteration, const RPAlignmentCorrectionsData &r_actual,
+  const RPAlignmentCorrectionsData &r_ideal)
 {
-  for (RPAlignmentCorrections::mapType::const_iterator it = r_actual.GetRPMap().begin();
+  for (RPAlignmentCorrectionsData::mapType::const_iterator it = r_actual.GetRPMap().begin();
       it != r_actual.GetRPMap().end(); ++it) {
 
     unsigned int id = it->first;
-    const RPAlignmentCorrection &c_actual = r_actual.GetRPCorrection(id);
-    const RPAlignmentCorrection &c_ideal = r_ideal.GetRPCorrection(id);
+    const RPAlignmentCorrectionData &c_actual = r_actual.GetRPCorrection(id);
+    const RPAlignmentCorrectionData &c_ideal = r_ideal.GetRPCorrection(id);
 
     RPStat &s = rp_stat[Desc(N, iteration, id)];
 
@@ -690,12 +691,12 @@ int main(int argc, const char* argv[])
               
                 // load and process alignments
                 try { 
-                  RPAlignmentCorrections r_actual(r_actual_file.c_str());
-                  RPAlignmentCorrections r_ideal(r_ideal_file.c_str());
+                  RPAlignmentCorrectionsData r_actual = RPAlignmentCorrectionsMethods::GetCorrectionsDataFromFile(r_actual_file.c_str());
+                  RPAlignmentCorrectionsData r_ideal = RPAlignmentCorrectionsMethods::GetCorrectionsDataFromFile(r_ideal_file.c_str());
                   UpdateRPStatistics(nit->first, iit->first, r_actual, r_ideal);
                   
-                  RPAlignmentCorrections s_actual(s_actual_file.c_str());
-                  RPAlignmentCorrections s_ideal(s_ideal_file.c_str());
+                  RPAlignmentCorrectionsData s_actual = RPAlignmentCorrectionsMethods::GetCorrectionsDataFromFile(s_actual_file.c_str());
+                  RPAlignmentCorrectionsData s_ideal = RPAlignmentCorrectionsMethods::GetCorrectionsDataFromFile(s_ideal_file.c_str());
                   UpdateSensorStatistics(nit->first, iit->first, s_actual, s_ideal);
                 }
                 catch (cms::Exception e) {

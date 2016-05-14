@@ -9,6 +9,8 @@
 <use name="FWCore/Framework"/>
 <use name="FWCore/MessageLogger"/>
 <use name="Alignment/RPDataFormats"/>
+<use name="xerces-c"/>
+<use name="root"/>
 <export>
 	<lib name="1"/>
 </export>

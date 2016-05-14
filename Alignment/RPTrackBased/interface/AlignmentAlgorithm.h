@@ -11,7 +11,8 @@
 
 #include "FWCore/Framework/interface/EventSetup.h"
 
-#include "Alignment/RPDataFormats/interface/RPAlignmentCorrections.h"
+#include "DataFormats/CTPPSAlignment/interface/RPAlignmentCorrectionData.h"
+#include "DataFormats/CTPPSAlignment/interface/RPAlignmentCorrectionsData.h"
 #include "Alignment/RPTrackBased/interface/AlignmentGeometry.h"
 #include "Alignment/RPTrackBased/interface/HitCollection.h"
 #include "Alignment/RPTrackBased/interface/SingularMode.h"
@@ -76,7 +77,7 @@ class AlignmentAlgorithm
     /// \param dir a directory (in StraightTrackAlignment::taskDataFileName) where
     /// intermediate results can be stored
     virtual unsigned int Solve(const std::vector<AlignmentConstraint>&,
-      RPAlignmentCorrections &result, TDirectory *dir = NULL) = 0;
+      RPAlignmentCorrectionsData &result, TDirectory *dir = NULL) = 0;
 
     /// cleans up after processing
     virtual void End() = 0;

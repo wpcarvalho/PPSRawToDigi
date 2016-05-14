@@ -12,7 +12,8 @@
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 
-#include "Alignment/RPDataFormats/interface/RPAlignmentCorrections.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/RPAlignmentCorrectionsMethods.h"
+#include "DataFormats/CTPPSAlignment/interface/RPAlignmentCorrectionsData.h"
 #include "Alignment/RPTrackBased/interface/AlignmentTask.h"
 
 #include "TFile.h"
@@ -54,21 +55,21 @@ void RedoAlignmentFactorization::beginJob()
     g = &t->geometry;
   }
 
-  RPAlignmentCorrections input(ps.getUntrackedParameter<string>("inputFile"));
+  RPAlignmentCorrectionsData input = RPAlignmentCorrectionsMethods::GetCorrectionsDataFromFile(ps.getUntrackedParameter<string>("inputFile"));
 
   bool equalWeights = ps.getUntrackedParameter<bool>("equalWeights");
   unsigned int verbosity = ps.getUntrackedParameter<unsigned int>("verbosity", 1);
   string expandedFileName = ps.getUntrackedParameter<string>("expandedFileName");
   string factoredFileName = ps.getUntrackedParameter<string>("factoredFileName");
 
-  RPAlignmentCorrections expanded, factored;
-  input.FactorRPFromSensorCorrections(expanded, factored, *g, equalWeights, verbosity);
+  RPAlignmentCorrectionsData expanded, factored;
+  RPAlignmentCorrectionsMethods::FactorRPFromSensorCorrections(input, expanded, factored, *g, equalWeights, verbosity);
 
   if (!expandedFileName.empty())
-    expanded.WriteXMLFile(expandedFileName);
+    RPAlignmentCorrectionsMethods::WriteXMLFile(expanded, expandedFileName);
   
   if (!factoredFileName.empty())
-    factored.WriteXMLFile(factoredFileName);
+    RPAlignmentCorrectionsMethods::WriteXMLFile(factored, factoredFileName);
  
   delete tdf; 
 }

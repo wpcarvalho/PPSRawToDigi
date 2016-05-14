@@ -1,9 +1,9 @@
 >> TotemRPIncludeAlignments::PrepareSequence(Measured)
 >> TotemRPIncludeAlignments::PrepareSequence(Real)
 >> TotemRPIncludeAlignments::PrepareSequence(Misaligned)
->> TotemStandaloneRawDataSource::beginJob > Opening file `/afs/cern.ch/user/j/jkaspar/public/run_9987_EVB11_1.003.srs'.
+>> TotemStandaloneRawDataSource::beginJob > Opening file `sample.srs'.
 >> TotemStandaloneRawDataSource::beginJob > files opened:
- 0 : /afs/cern.ch/user/j/jkaspar/public/run_9987_EVB11_1.003.srs
+ 0 : sample.srs
 >> TotemRPIncludeAlignments::setIntervalFor(RPRealAlignmentRecord)
 	run=1, event=0, UNIX timestamp=1445120688 (2015-10-18 00:24:48)
 	setting validity interval [1445120688, +inf]

@@ -3,41 +3,41 @@
 * This is a part of TOTEM offline software.
 * Authors: 
 *  Jan Kašpar (jan.kaspar@gmail.com) 
-*
+*    
 ****************************************************************************/
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
-#include "FWCore/Framework/interface/Event.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Framework/interface/EventSetup.h"
-#include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/Framework/interface/ESHandle.h"
+#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/Event.h"
+#include "FWCore/Framework/interface/MakerMacros.h"
 
-#include "DataFormats/CTPPSAlignment/interface/RPAlignmentCorrectionsData.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/RPAlignmentCorrectionsDataSequence.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
-#include "Geometry/VeryForwardGeometryBuilder/interface/RPAlignmentCorrectionsMethods.h"
 #include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
 #include "DataFormats/TotemRPDetId/interface/TotemRPDetId.h"
-#include "Alignment/RPTrackBased/interface/AlignmentTask.h"
 
-#include "TMatrixD.h"
-#include "TVectorD.h"
+#include <string>
 
-/**
- *\brief Modifies the alignment modes unconstrained by the track-based alignment.
- **/
-class ModifySingularModes : public edm::EDAnalyzer
+class BuildElasticCorrectionsFile : public edm::EDAnalyzer
 {
   public:
-    ModifySingularModes(const edm::ParameterSet &ps); 
-    ~ModifySingularModes() {}
+    BuildElasticCorrectionsFile(const edm::ParameterSet &ps); 
+    ~BuildElasticCorrectionsFile() {}
 
   private:
-    edm::ParameterSet ps;
+    std::string inputFileName, outputFileName;
 
     virtual void beginRun(edm::Run const&, edm::EventSetup const&);
     virtual void analyze(const edm::Event &e, const edm::EventSetup &es) {}
     virtual void endJob() {}
+
+    void ProcessOneStation(unsigned int id, double N_a, double N_b, double N_c,
+      double F_a, double F_b, double F_c, RPAlignmentCorrectionsData &corr, const TotemRPGeometry &geom);
+
+    void ProcessOnePot(unsigned int id, double a, double b, double c,
+      RPAlignmentCorrectionsData &corr, TotemRPGeometry const &geom);
 };
 
 using namespace std;
@@ -45,25 +45,60 @@ using namespace edm;
 
 //----------------------------------------------------------------------------------------------------
 
-ModifySingularModes::ModifySingularModes(const ParameterSet &_ps) : ps(_ps)
+BuildElasticCorrectionsFile::BuildElasticCorrectionsFile(const ParameterSet &ps) :
+  inputFileName(ps.getParameter<string>("inputFileName")),
+  outputFileName(ps.getParameter<string>("outputFileName"))
 {
 }
 
 //----------------------------------------------------------------------------------------------------
 
-void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
+void BuildElasticCorrectionsFile::beginRun(edm::Run const&, edm::EventSetup const& es)
 {
-  printf(">> ModifySingularModes::beginRun\n");
-
-  // get input alignments
-  RPAlignmentCorrectionsData input(RPAlignmentCorrectionsMethods::GetCorrectionsDataFromFile(ps.getUntrackedParameter<string>("inputFile")));
-  //ESHandle<RPAlignmentCorrections> input;
-  //es.get<VeryForwardRealGeometryRecord>().get(input);
-  
-  // get (base) geometry
+  // get geometry (including pre-elastic alignments)
   ESHandle<TotemRPGeometry> geom;
   es.get<VeryForwardRealGeometryRecord>().get(geom);
 
+  // open input file
+  FILE *inF = fopen(inputFileName.c_str(), "r");
+  if (!inF)
+    throw cms::Exception("BuildElasticCorrectionsFile") << "Can't open file `" << inputFileName << "'." << endl;
+
+  // prepare output
+  RPAlignmentCorrectionsDataSequence sequence;
+
+  // process input data
+  while (!feof(inF)) {
+    unsigned long from, to;
+    float L_F_a, L_F_b, L_F_c;
+    float L_N_a, L_N_b, L_N_c;
+    float R_N_a, R_N_b, R_N_c;
+    float R_F_a, R_F_b, R_F_c;
+
+    int count = fscanf(inF, "%lu,%lu,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E,%E", &from, &to,
+      &L_F_a, &L_F_b, &L_F_c, &L_N_a, &L_N_b, &L_N_c,
+      &R_N_a, &R_N_b, &R_N_c, &R_F_a, &R_F_b, &R_F_c);
+
+    if (count >=0 && count != 14)
+      throw cms::Exception("BuildElasticCorrectionsFile") << "Only " << count << " numbers in a row." << endl;
+
+    if (count != 14)
+      continue;
+
+    RPAlignmentCorrectionsData corr;
+
+    ProcessOneStation( 2, L_N_a*1E-3, L_N_b*1E-3, L_N_c*1E-3, L_F_a*1E-3, L_F_b*1E-3, L_F_c*1E-3, corr, *geom);
+    ProcessOneStation(12, R_N_a*1E-3, R_N_b*1E-3, R_N_c*1E-3, R_F_a*1E-3, R_F_b*1E-3, R_F_c*1E-3, corr, *geom);
+
+    sequence.Insert(from, to, corr);
+  }
+
+  fclose(inF);
+
+  // save output
+  sequence.WriteXMLFile(outputFileName, false, false, false, true, false, true);
+
+#if 0
   // get parameters
   double z1 = ps.getUntrackedParameter<double>("z1");
   double z2 = ps.getUntrackedParameter<double>("z2");
@@ -89,7 +124,7 @@ void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
     unsigned int rawId = TotemRPDetId::decToRawId(it->first);
     CLHEP::Hep3Vector d = geom->LocalToGlobalDirection(rawId, CLHEP::Hep3Vector(0., 1., 0.));
 
-    RPAlignmentCorrectionData ac = input.GetFullSensorCorrection(it->first);
+    RPAlignmentCorrectionsData ac = input.GetFullSensorCorrection(it->first);
     ac.XYTranslationToReadout(d.x(), d.y());
     output.SetSensorCorrection(it->first, ac);
   }
@@ -115,7 +150,7 @@ void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
     double inc_rho = de_rho;
     //printf("\t\t %E, %E\n", inc_s, inc_rho);
     
-    RPAlignmentCorrectionData &ac = output.GetSensorCorrection(it->first);
+    RPAlignmentCorrectionsData &ac = output.GetSensorCorrection(it->first);
     ac.SetTranslationR(ac.sh_r() + inc_s, ac.sh_r_e());
     ac.SetRotationZ(ac.rot_z() + inc_rho, ac.rot_z_e());
     ac.ReadoutTranslationToXY(dx, dy);
@@ -133,14 +168,12 @@ void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
       }
   }
   AlignmentGeometry alGeom;
-  vector<unsigned int> excludePlanes;
-  AlignmentTask::BuildGeometry(rps, excludePlanes, geom.product(), 0., alGeom);
+  AlignmentTask::BuildGeometry(rps, geom.product(), 0., alGeom);
   RPAlignmentCorrectionsData expanded, factored;
-  RPAlignmentCorrectionsMethods::FactorRPFromSensorCorrections(output, expanded, factored, alGeom);
-  RPAlignmentCorrectionsMethods::WriteXMLFile(factored,ps.getUntrackedParameter<string>("outputFile"));
+  output.FactorRPFromSensorCorrections(expanded, factored, alGeom);
+  RPAlignmentCorrectionsMethods.WriteXMLFile(factored, ps.getUntrackedParameter<string>("outputFile"));
 
 
-#if 0
   // constants
   double z0 = ps.getUntrackedParameter("z0", 0.);
   
@@ -171,7 +204,7 @@ void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
     TMatrixD A(size, 4);
     TVectorD M(size);
     unsigned idx = 0;
-    for (RPAlignmentCorrections::mapType::const_iterator it = output.GetSensorMap().begin();
+    for (RPAlignmentCorrectionsData::mapType::const_iterator it = output.GetSensorMap().begin();
         it != output.GetSensorMap().end(); ++it) {
       unsigned int rawId = TotemRPDetId::decToRawId(it->first);
 
@@ -190,59 +223,48 @@ void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
       idx++;
     }
 
-    TMatrixD AT(4, size);
-    AT.Transpose(A);
-
-    TMatrixD ATA(4, 4);
-    ATA = AT * A;
-    TMatrixD ATAi(4, 4);
-    ATAi = ATA.Invert();
-
-    TVectorD th(4);
-    th = ATAi * AT * M;
-
-    printf(">> fit: th0=%E, th1=%E, th2=%E, th3=%E\n", th[0], th[1], th[2], th[3]);
-
-    printf(">> user: ax=%E, bx=%E, ay=%E, by=%E\n", ax, bx, ay, by);
-
-    if (!add) {
-      ax -= th[0];
-      bx -= th[1];
-      ay -= th[2];
-      by -= th[3];
-    }
-    
-    printf(">> user (- fit): ax=%E, bx=%E, ay=%E, by=%E\n", ax, bx, ay, by);
-    
-    // build new alignment corrections
-    idx = 0;
-    for (RPAlignmentCorrections::mapType::const_iterator it = output.GetSensorMap().begin();
-        it != output.GetSensorMap().end(); ++it) {
-      RPAlignmentCorrectionData &rc = output.GetSensorCorrection(it->first);
-      double corr = A(idx, 0)*ax + A(idx, 1)*bx + A(idx, 2)*ay + A(idx, 3)*by;
-      printf("* %3u, %4u, %E\n", idx, it->first, corr);
-      rc.SetTranslationR(rc.sh_r() + corr);
-      rc.ReadoutTranslationToXY(A(idx, 1), A(idx, 3));
-      idx++;
-    }
-  }
-
-  // shift in z
-  // TODO
-  const ParameterSet &ps_shift_z = ps.getParameterSet("shift_z");
-
-  // RP shift in z
-  // TODO?
-  
-  // rot about z
-  const ParameterSet &ps_rot_z = ps.getParameterSet("rot_z");
-  perform = rot_z.getUntrackedParameter<bool>("perform");
-  if (perform) {
-
-  }
 
 #endif
 }
 
-DEFINE_FWK_MODULE(ModifySingularModes);
+//----------------------------------------------------------------------------------------------------
+
+void BuildElasticCorrectionsFile::ProcessOneStation(unsigned int id, double N_a, double N_b, double N_c,
+      double F_a, double F_b, double F_c, RPAlignmentCorrectionsData &corr, const TotemRPGeometry &geom)
+{
+  
+  ProcessOnePot(id*10 + 0, N_a, N_b, N_c, corr, geom);
+  ProcessOnePot(id*10 + 1, N_a, N_b, N_c, corr, geom);
+
+  // TODO: horizontals 
+
+  ProcessOnePot(id*10 + 4, F_a, F_b, F_c, corr, geom);
+  ProcessOnePot(id*10 + 5, F_a, F_b, F_c, corr, geom);
+}
+
+//----------------------------------------------------------------------------------------------------
+
+void BuildElasticCorrectionsFile::ProcessOnePot(unsigned int rpId, double a, double b, double c,
+  RPAlignmentCorrectionsData &corr, const TotemRPGeometry &geom)
+{
+  // distances in mm, angles in rad
+  
+  for (unsigned int i = 0; i < 10; i++) {
+    unsigned int symId = rpId*10 + i;
+    unsigned int rawId = TotemRPDetId::decToRawId(symId);
+    CLHEP::Hep3Vector dc = geom.GetDetTranslation(rawId);
+
+    double de_x = (cos(a) - 1.) * dc.x() - sin(a) * dc.y();
+    double de_y = sin(a) * dc.x() + (cos(a) - 1.) * dc.y();
+  
+    double sh_x = de_x - b;
+    double sh_y = de_y - c;
+    double rot_z = a;
+
+    corr.SetSensorCorrection(symId, RPAlignmentCorrectionData(sh_x, sh_y, 0., rot_z));
+  }
+}
+
+
+DEFINE_FWK_MODULE(BuildElasticCorrectionsFile);
 

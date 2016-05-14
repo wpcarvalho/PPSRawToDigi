@@ -10,8 +10,12 @@
 #include <string>
 #include <vector>
 
-#include "Alignment/RPDataFormats/interface/RPAlignmentCorrections.h"
+#include <Math/Rotation3D.h>
+
+#include "Geometry/VeryForwardGeometryBuilder/interface/RPAlignmentCorrectionsMethods.h"
+#include "DataFormats/CTPPSAlignment/interface/RPAlignmentCorrectionsData.h"
 #include "Alignment/RPTrackBased/interface/AlignmentGeometry.h"
+
 
 using namespace std;
 
@@ -69,17 +73,17 @@ int main()
     for (vector<string>::iterator it = algorithms.begin(); it != algorithms.end(); ++it) {
       printf("> %s\n", it->c_str());
       string input_file = string("./cumulative_results_") + *it + ".xml";
-      RPAlignmentCorrections input(input_file);
+      RPAlignmentCorrectionsData input(RPAlignmentCorrectionsMethods::GetCorrectionsDataFromFile(input_file));
   
-      RPAlignmentCorrections expanded, factored;
+      RPAlignmentCorrectionsData expanded, factored;
   
-      input.FactorRPFromSensorCorrections(expanded, factored, geom, 2);
+      RPAlignmentCorrectionsMethods::FactorRPFromSensorCorrections(input, expanded, factored, geom, 2);
     
       string exp_output_file = string("expanded_results_") + *it + ".xml";
-      expanded.WriteXMLFile(exp_output_file);
+      RPAlignmentCorrectionsMethods::WriteXMLFile(expanded, exp_output_file);
   
       string refac_output_file = string("refactored_results_") + *it + ".xml";
-      factored.WriteXMLFile(refac_output_file);
+      RPAlignmentCorrectionsMethods::WriteXMLFile(factored, refac_output_file);
     }
   }
   catch (...) {
