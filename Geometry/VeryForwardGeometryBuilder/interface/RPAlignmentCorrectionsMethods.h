@@ -62,7 +62,7 @@ class RPAlignmentCorrectionsMethods
 
     /// factors out the common shifts and rotations for every RP and saves these values as RPalignment
     /// (factored variable), the expanded alignments are created as a by-product
-    static void FactorRPFromSensorCorrections(RPAlignmentCorrectionsData &expanded, RPAlignmentCorrectionsData &factored,
+    static void FactorRPFromSensorCorrections(RPAlignmentCorrectionsData & data, RPAlignmentCorrectionsData &expanded, RPAlignmentCorrectionsData &factored,
       const AlignmentGeometry &, bool equalWeights=false, unsigned int verbosity = 0);
 
 };
