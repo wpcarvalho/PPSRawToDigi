@@ -57,7 +57,7 @@ void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
 
   // get input alignments
   RPAlignmentCorrectionsData input(RPAlignmentCorrectionsMethods::GetCorrectionsDataFromFile(ps.getUntrackedParameter<string>("inputFile")));
-  //ESHandle<RPAlignmentCorrections> input;
+  //ESHandle<RPAlignmentCorrectionsData> input;
   //es.get<VeryForwardRealGeometryRecord>().get(input);
   
   // get (base) geometry

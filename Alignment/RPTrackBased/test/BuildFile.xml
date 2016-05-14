@@ -4,6 +4,7 @@
   <use   name="boost"/>
   <use name="xerces-c"/>
   <use   name="DataFormats/CTPPSAlignment"/>
+  <use   name="Geometry/VeryForwardGeometryBuilder"/>
 </bin>
 <bin   name="summarizeRealAlignmentResults" file="summarizeRealAlignmentResults.cc">
   <flags   cxxflags="-O3 -g3 $(CUSTOM_FLAGS)"/>
@@ -11,12 +12,14 @@
   <use   name="boost"/>
   <use name="xerces-c"/>
   <use   name="DataFormats/CTPPSAlignment"/>
+  <use   name="Geometry/VeryForwardGeometryBuilder"/>
 </bin>
 <bin   name="refactorStatisticalResults" file="refactorStatisticalResults.cc">
   <flags   cxxflags="-O3 -g3 $(CUSTOM_FLAGS)"/>
   <use   name="rootmath"/>
   <use name="xerces-c"/>
   <use   name="DataFormats/CTPPSAlignment"/>
+  <use   name="Geometry/VeryForwardGeometryBuilder"/>
 </bin>
 <bin   name="TaskDataTestReader" file="TaskDataTestReader.cc">
   <flags   cxxflags="-O3 -g3 $(CUSTOM_FLAGS)"/>

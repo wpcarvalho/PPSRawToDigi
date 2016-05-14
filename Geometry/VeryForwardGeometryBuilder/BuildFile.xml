@@ -8,7 +8,6 @@
 <use name="hepmc"/>
 <use name="FWCore/Framework"/>
 <use name="FWCore/MessageLogger"/>
-<use name="Alignment/RPDataFormats"/>
 <use name="xerces-c"/>
 <use name="root"/>
 <export>
