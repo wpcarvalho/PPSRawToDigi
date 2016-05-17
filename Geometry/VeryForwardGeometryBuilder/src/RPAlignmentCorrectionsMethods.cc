@@ -11,7 +11,7 @@
 #include "FWCore/Utilities/interface/Exception.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "Alignment/RPDataFormats/interface/RPAlignmentCorrections.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/RPAlignmentCorrectionsMethods.h"
 #include "Alignment/RPTrackBased/interface/AlignmentGeometry.h"
 
 #include <set>
@@ -30,9 +30,9 @@ using namespace xercesc;
 
 //----------------------------------------------------------------------------------------------------
 
-void RPAlignmentCorrections::LoadXMLFile(const string &fileName)
+RPAlignmentCorrectionsData RPAlignmentCorrectionsMethods::GetCorrectionsDataFromFile(const string &fileName)
 {
-  printf(">> RPAlignmentCorrections::LoadXMLFile(%s)\n", fileName.c_str());
+  printf(">> RPAlignmentCorrectionsMethods::LoadXMLFile(%s)\n", fileName.c_str());
 
   // prepend CMSSW src dir
   char *cmsswPath = getenv("CMSSW_BASE");
@@ -47,7 +47,7 @@ void RPAlignmentCorrections::LoadXMLFile(const string &fileName)
   }
   catch (const XMLException& toCatch) {
     char* message = XMLString::transcode(toCatch.getMessage());
-    throw cms::Exception("RPAlignmentCorrections") << "An XMLException caught with message: " << message << ".\n";
+    throw cms::Exception("RPAlignmentCorrectionsMethods") << "An XMLException caught with message: " << message << ".\n";
     XMLString::release(&message);
   }
 
@@ -59,29 +59,31 @@ void RPAlignmentCorrections::LoadXMLFile(const string &fileName)
     parser->parse(fn.c_str());
   }
   catch (...) {
-    throw cms::Exception("RPAlignmentCorrections") << "Cannot parse file `" << fn << "' (exception)." << endl;
+    throw cms::Exception("RPAlignmentCorrectionsMethods") << "Cannot parse file `" << fn << "' (exception)." << endl;
   }
 
   if (!parser)
-    throw cms::Exception("RPAlignmentCorrections") << "Cannot parse file `" << fn << "' (parser = NULL)." << endl;
+    throw cms::Exception("RPAlignmentCorrectionsMethods") << "Cannot parse file `" << fn << "' (parser = NULL)." << endl;
   
   DOMDocument* xmlDoc = parser->getDocument();
 
   if (!xmlDoc)
-    throw cms::Exception("RPAlignmentCorrections") << "Cannot parse file `" << fn << "' (xmlDoc = NULL)." << endl;
+    throw cms::Exception("RPAlignmentCorrectionsMethods") << "Cannot parse file `" << fn << "' (xmlDoc = NULL)." << endl;
 
   DOMElement* elementRoot = xmlDoc->getDocumentElement();
   if (!elementRoot)
-    throw cms::Exception("RPAlignmentCorrections") << "File `" << fn << "' is empty." << endl;
+    throw cms::Exception("RPAlignmentCorrectionsMethods") << "File `" << fn << "' is empty." << endl;
 
-  LoadXMLBlock(elementRoot);
+  RPAlignmentCorrectionsData d = GetCorrectionsData(elementRoot);
 
   XMLPlatformUtils::Terminate();
+
+  return d;
 }
 
 //----------------------------------------------------------------------------------------------------
 
-void RPAlignmentCorrections::LoadXMLBlock(DOMNode *root)
+RPAlignmentCorrectionsData RPAlignmentCorrectionsMethods::GetCorrectionsData(DOMNode *root)
 {
   DOMNodeList *children = root->getChildNodes();
   for (unsigned int i = 0; i < children->getLength(); i++) {
@@ -95,18 +97,18 @@ void RPAlignmentCorrections::LoadXMLBlock(DOMNode *root)
     if (!strcmp(XMLString::transcode(n->getNodeName()), "rp")) nodeType = 2;
 
     if (!nodeType)
-      throw cms::Exception("RPAlignmentCorrections") << "Unknown node `" << XMLString::transcode(n->getNodeName()) << "'.";
+      throw cms::Exception("RPAlignmentCorrectionsMethods") << "Unknown node `" << XMLString::transcode(n->getNodeName()) << "'.";
 
     // check children
     if (n->getChildNodes()->getLength() > 0)
-        edm::LogProblem("RPAlignmentCorrections") << ">> RPAlignmentCorrections::LoadXMLFile > Warning: tag `" <<
+        edm::LogProblem("RPAlignmentCorrectionsMethods") << ">> RPAlignmentCorrectionsMethods::LoadXMLFile > Warning: tag `" <<
           XMLString::transcode(n->getNodeName()) << "' has " << n->getChildNodes()->getLength() << 
           " children nodes - they will be all ignored.";
 
     // default values
     double sh_r = 0., sh_x = 0., sh_y = 0., sh_z = 0., rot_z = 0.;
     double sh_r_e = 0., sh_x_e = 0., sh_y_e = 0., sh_z_e = 0., rot_z_e = 0.;
-    unsigned int id = 0;
+//    unsigned int id = 0;
     bool idSet = false;
 
     // get attributes
@@ -117,7 +119,7 @@ void RPAlignmentCorrections::LoadXMLBlock(DOMNode *root)
       //printf("\t%s\n", XMLString::transcode(a->getNodeName()));
 
       if (!strcmp(XMLString::transcode(a->getNodeName()), "id")) {
-        id = atoi(XMLString::transcode(a->getNodeValue()));
+//        id = atoi(XMLString::transcode(a->getNodeValue()));
         idSet = true;
       } else if (!strcmp(XMLString::transcode(a->getNodeName()), "sh_r"))
           sh_r = atof(XMLString::transcode(a->getNodeValue()));
@@ -140,143 +142,123 @@ void RPAlignmentCorrections::LoadXMLBlock(DOMNode *root)
                         else if (!strcmp(XMLString::transcode(a->getNodeName()), "rot_z_e"))
                           rot_z_e = atof(XMLString::transcode(a->getNodeValue()));
                         else
-                          edm::LogProblem("RPAlignmentCorrections") << ">> RPAlignmentCorrections::LoadXMLFile > Warning: unknown attribute `"
+                          edm::LogProblem("RPAlignmentCorrectionsMethods") << ">> RPAlignmentCorrectionsMethods::LoadXMLFile > Warning: unknown attribute `"
                             << XMLString::transcode(a->getNodeName()) << "'.";
     }
 
     // id must be set
     if (!idSet)
-        throw cms::Exception("RPAlignmentCorrections") << "Id not set for tag `" << XMLString::transcode(n->getNodeName()) << "'.";
+        throw cms::Exception("RPAlignmentCorrectionsMethods") << "Id not set for tag `" << XMLString::transcode(n->getNodeName()) << "'.";
 
     // build alignment
-    RPAlignmentCorrection a(sh_r*1E-3, sh_r_e*1E-3, sh_x*1E-3, sh_x_e*1E-3, sh_y*1E-3, sh_y_e*1E-3,
+    RPAlignmentCorrectionData a(sh_r*1E-3, sh_r_e*1E-3, sh_x*1E-3, sh_x_e*1E-3, sh_y*1E-3, sh_y_e*1E-3,
       sh_z*1E-3, sh_z_e*1E-3, rot_z*1E-3, rot_z_e*1E-3);
 
     //printf("id = %u\n", id);
    
-    // add the alignment to the right list
-    if (nodeType == 1)
-      AddSensorCorrection(id, a, true);
-    else
-      AddRPCorrection(id, a, true);
+//    // add the alignment to the right list
+//    if (nodeType == 1)
+//      AddSensorCorrection(id, a, true);
+//    else
+//      AddRPCorrection(id, a, true);
+
+
+  }
+    return RPAlignmentCorrectionsData();
+
+}
+
+#define WRITE(q, dig, lim) \
+  if (precise) \
+    fprintf(f, " " #q "=\"%.15E\"", q()*1E3);\
+  else \
+    if (fabs(q()*1E3) < lim && q() != 0) \
+      fprintf(f, " " #q "=\"%+8.1E\"", q()*1E3);\
+    else \
+      fprintf(f, " " #q "=\"%+8." #dig "f\"", q()*1E3);
+
+void RPAlignmentCorrectionsMethods::WriteXML(const RPAlignmentCorrectionData & data, FILE *f, bool precise, bool wrErrors, bool wrSh_r, bool wrSh_xy,
+  bool wrSh_z, bool wrRot_z)
+{
+  if (wrSh_r) {
+    WRITE(data.sh_r, 2, 0.1);
+    if (wrErrors) {
+      WRITE(data.sh_r_e, 2, 0.1);
+    }
+    /*
+    fprintf(f, " sh_r=\"%+8.2f\"", data.sh_r()*1E3);
+    if (wrErrors)
+      if (fabs(data.sh_r_e())*1E3 < 0.1)
+        fprintf(f, " sh_r_e=\"%+8.1E\"", data.sh_r_e()*1E3);
+      else
+        fprintf(f, " sh_r_e=\"%+8.2f\"", data.sh_r_e()*1E3);
+    */
+  }
+
+  if (wrSh_xy) {
+    WRITE(data.sh_x, 2, 0.1);
+    WRITE(data.sh_y, 2, 0.1);
+    if (wrErrors) {
+      WRITE(data.sh_x_e, 2, 0.1);
+      WRITE(data.sh_y_e, 2, 0.1);
+    }
+    /*
+    fprintf(f, " sh_x=\"%+8.2f\" sh_y=\"%+8.2f\"", data.sh_x()*1E3, data.sh_y()*1E3);
+    if (wrErrors) {
+      if (fabs(data.sh_x_e())*1E3 < 0.1)
+        fprintf(f, " sh_x_e=\"%+8.1E\"", data.sh_x_e()*1E3);
+      else
+        fprintf(f, " sh_x_e=\"%+8.2f\"", data.sh_x_e()*1E3);
+
+      if (fabs(data.sh_y_e())*1E3 < 0.1)
+        fprintf(f, " sh_y_e=\"%+8.1E\"", data.sh_y_e()*1E3);
+      else
+        fprintf(f, " sh_y_e=\"%+8.2f\"", data.sh_y_e()*1E3);
+    }
+    */
+  }
+
+  // TODO: add the other 2 rotations
+
+  if (wrRot_z) {
+    WRITE(data.rot_z, 3, 0.01);
+    if (wrErrors) {
+      WRITE(data.rot_z_e, 3, 0.01);
+    }
+    /*
+    fprintf(f, " rot_z=\"%+8.3f\"", data.rot_z()*1E3);
+    if (wrErrors)
+      if (fabs(data.rot_z_e())*1E3 < 0.01)
+        fprintf(f, " rot_z_e=\"%+8.1E\"", data.rot_z_e()*1E3);
+      else
+        fprintf(f, " rot_z_e=\"%+8.3f\"", data.rot_z_e()*1E3);
+    */
+  }
+
+  if (wrSh_z) {
+    WRITE(data.sh_z, 2, 0.1);
+    if (wrErrors) {
+      WRITE(data.sh_z_e, 2, 0.1);
+    }
+
+    /*
+    fprintf(f, " sh_z=\"%+8.2f\"", data.sh_z()*1E3);
+    if (wrErrors)
+      if (fabs(data.sh_z_e())*1E3 < 0.1)
+        fprintf(f, " sh_z_e=\"%+8.1E\"", data.sh_z_e()*1E3);
+      else
+        fprintf(f, " sh_z_e=\"%+8.2f\"", data.sh_z_e()*1E3);
+    */
   }
 }
 
-//----------------------------------------------------------------------------------------------------
+#undef WRITE
 
-RPAlignmentCorrection& RPAlignmentCorrections::GetRPCorrection(unsigned int id)
-{
-  return rps[id];
-}
 
 //----------------------------------------------------------------------------------------------------
 
-RPAlignmentCorrection RPAlignmentCorrections::GetRPCorrection(unsigned int id) const
-{
-  RPAlignmentCorrection a;
-  mapType::const_iterator it = rps.find(id);
-  if (it != rps.end())
-	  a = it->second;
-  return a;
-} 
-
-//----------------------------------------------------------------------------------------------------
-
-RPAlignmentCorrection& RPAlignmentCorrections::GetSensorCorrection(unsigned int id)
-{
-  return sensors[id];
-}
-
-RPAlignmentCorrection RPAlignmentCorrections::GetSensorCorrection(unsigned int id) const
-{
-  RPAlignmentCorrection a;
-  mapType::const_iterator it = sensors.find(id);
-  if (it != sensors.end())
-	  a = it->second;
-  return a;
-}
-
-//----------------------------------------------------------------------------------------------------
-
-RPAlignmentCorrection RPAlignmentCorrections::GetFullSensorCorrection(unsigned int id,
-  bool useRPErrors) const
-{
-  RPAlignmentCorrection c;
-  mapType::const_iterator it = rps.find(id / 10);
-  if (it != rps.end())
-    c = it->second;
-  it = sensors.find(id);
-  if (it != sensors.end())
-    c.Add(it->second, useRPErrors);
-
-  //printf("> full correction %u | ", id);
-  //c.Print();
-
-  return c;
-}
-
-//----------------------------------------------------------------------------------------------------
-
-void RPAlignmentCorrections::SetRPCorrection(unsigned int id, const RPAlignmentCorrection& ac)
-{
-  rps[id] = ac;
-}
-
-//----------------------------------------------------------------------------------------------------
-
-void RPAlignmentCorrections::SetSensorCorrection(unsigned int id, const RPAlignmentCorrection& ac)
-{
-  sensors[id] = ac;
-}
-
-//----------------------------------------------------------------------------------------------------
-
-void RPAlignmentCorrections::AddRPCorrection(unsigned int id, const RPAlignmentCorrection &a,
-  bool sumErrors, bool addShR, bool addShZ, bool addRotZ)
-{
-  mapType::iterator it = rps.find(id);
-  if (it == rps.end())
-    rps.insert(mapType::value_type(id, a));
-  else
-    it->second.Add(a, sumErrors, addShR, addShZ, addRotZ);
-}
-
-//----------------------------------------------------------------------------------------------------
-
-void RPAlignmentCorrections::AddSensorCorrection(unsigned int id, const RPAlignmentCorrection &a,
-  bool sumErrors, bool addShR, bool addShZ, bool addRotZ)
-{
-  mapType::iterator it = sensors.find(id);
-  if (it == sensors.end())
-    sensors.insert(mapType::value_type(id, a));
-  else
-    it->second.Add(a, sumErrors, addShR, addShZ, addRotZ);
-}
-
-//----------------------------------------------------------------------------------------------------
-
-void RPAlignmentCorrections::AddCorrections(const RPAlignmentCorrections &nac, bool sumErrors,
-  bool addShR, bool addShZ, bool addRotZ)
-{
-  for (mapType::const_iterator it = nac.rps.begin(); it != nac.rps.end(); ++it)
-    AddRPCorrection(it->first, it->second, sumErrors, addShR, addShZ, addRotZ);
-  
-  for (mapType::const_iterator it = nac.sensors.begin(); it != nac.sensors.end(); ++it)
-    AddSensorCorrection(it->first, it->second, sumErrors, addShR, addShZ, addRotZ);
-}
-
-//----------------------------------------------------------------------------------------------------
-
-void RPAlignmentCorrections::Clear()
-{
-  rps.clear();
-  sensors.clear();
-}
-
-//----------------------------------------------------------------------------------------------------
-
-void RPAlignmentCorrections::WriteXMLFile(const string &fileName, bool precise, bool wrErrors, bool wrSh_r,
-  bool wrSh_xy, bool wrSh_z, bool wrRot_z) const
+void RPAlignmentCorrectionsMethods::WriteXMLFile(const RPAlignmentCorrectionsData & data, const string &fileName, bool precise, bool wrErrors, bool wrSh_r,
+  bool wrSh_xy, bool wrSh_z, bool wrRot_z)
 {
   FILE *rf = fopen(fileName.c_str(), "w");
   if (!rf)
@@ -287,7 +269,7 @@ void RPAlignmentCorrections::WriteXMLFile(const string &fileName, bool precise, 
   fprintf(rf, "Alignment/RPDataFormats/src/RPAlignmentCorrectionsSequence.cc\n-->\n\n");
   fprintf(rf, "<xml DocumentType=\"AlignmentDescription\">\n");
 
-  WriteXMLBlock(rf, precise, wrErrors, wrSh_r, wrSh_xy, wrSh_z, wrRot_z);
+  WriteXMLBlock(data, rf, precise, wrErrors, wrSh_r, wrSh_xy, wrSh_z, wrRot_z);
 
   fprintf(rf, "</xml>\n");
   fclose(rf);
@@ -295,14 +277,17 @@ void RPAlignmentCorrections::WriteXMLFile(const string &fileName, bool precise, 
 
 //----------------------------------------------------------------------------------------------------
 
-void RPAlignmentCorrections::WriteXMLBlock(FILE *rf, bool precise, bool wrErrors, bool wrSh_r,
-  bool wrSh_xy, bool wrSh_z, bool wrRot_z) const
+void RPAlignmentCorrectionsMethods::WriteXMLBlock(const RPAlignmentCorrectionsData & data, FILE *rf, bool precise, bool wrErrors, bool wrSh_r,
+  bool wrSh_xy, bool wrSh_z, bool wrRot_z)
 {
   bool firstRP = true;
   unsigned int prevRP = 0;
   set<unsigned int> writtenRPs;
 
-  for (mapType::const_iterator it = sensors.begin(); it != sensors.end(); ++it) {
+  RPAlignmentCorrectionsData::mapType sensors = data.GetSensorMap();
+  RPAlignmentCorrectionsData::mapType rps = data.GetRPMap();
+
+  for (RPAlignmentCorrectionsData::mapType::const_iterator it = sensors.begin(); it != sensors.end(); ++it) {
     // start a RP block
     unsigned int rp = it->first / 10;
     if (firstRP || prevRP != rp) {
@@ -310,10 +295,10 @@ void RPAlignmentCorrections::WriteXMLBlock(FILE *rf, bool precise, bool wrErrors
         fprintf(rf, "\n");
       firstRP = false;
 
-      mapType::const_iterator rit = rps.find(rp);
+      RPAlignmentCorrectionsData::mapType::const_iterator rit = rps.find(rp);
       if (rit != rps.end()) {
         fprintf(rf, "\t<rp  id=\"%4u\"                                  ", rit->first);
-        rit->second.WriteXML(rf, precise, wrErrors, false, wrSh_xy, wrSh_z, wrRot_z);
+        WriteXML( rit->second , rf, precise, wrErrors, false, wrSh_xy, wrSh_z, wrRot_z );
         fprintf(rf, "/>\n");
         writtenRPs.insert(rp);
       } else
@@ -323,16 +308,16 @@ void RPAlignmentCorrections::WriteXMLBlock(FILE *rf, bool precise, bool wrErrors
 
     // write the correction
     fprintf(rf, "\t<det id=\"%4u\"", it->first);
-    it->second.WriteXML(rf, precise, wrErrors, wrSh_r, wrSh_xy, wrSh_z, wrRot_z);
+    WriteXML(it->second, rf, precise, wrErrors, wrSh_r, wrSh_xy, wrSh_z, wrRot_z);
     fprintf(rf, "/>\n");
   }
-  
+
   // write remaining RPs
-  for (mapType::const_iterator it = rps.begin(); it != rps.end(); ++it) {
+  for (RPAlignmentCorrectionsData::mapType::const_iterator it = rps.begin(); it != rps.end(); ++it) {
     set<unsigned int>::iterator wit = writtenRPs.find(it->first);
     if (wit == writtenRPs.end()) {
       fprintf(rf, "\t<rp  id=\"%4u\"                                ", it->first);
-      it->second.WriteXML(rf, precise, wrErrors, false, wrSh_xy, wrSh_z, wrRot_z);
+      WriteXML(it->second, rf, precise, wrErrors, false, wrSh_xy, wrSh_z, wrRot_z);
       fprintf(rf, "/>\n");
     }
   }
@@ -340,39 +325,43 @@ void RPAlignmentCorrections::WriteXMLBlock(FILE *rf, bool precise, bool wrErrors
 
 //----------------------------------------------------------------------------------------------------
 
-/**
- * NOTE ON ERROR PROPAGATION
- *
- * It is not possible to split (and merge again) the experimental errors between the RP and sensor
- * contributions. To do so, one would need to keep the entire covariance matrix. Thus, it has been
- * decided to save:
- *   RP errors = the uncertainty of the common shift/rotation
- *   sensor error = the full experimental uncertainty
- * In consequence: RP and sensor errors SHALL NEVER BE SUMMED!
- **/
-void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrections &expanded,
-  RPAlignmentCorrections &factored, const AlignmentGeometry &geometry, bool equalWeights,
-  unsigned int verbosity) const
+///**
+// * NOTE ON ERROR PROPAGATION
+// *
+// * It is not possible to split (and merge again) the experimental errors between the RP and sensor
+// * contributions. To do so, one would need to keep the entire covariance matrix. Thus, it has been
+// * decided to save:
+// *   RP errors = the uncertainty of the common shift/rotation
+// *   sensor error = the full experimental uncertainty
+// * In consequence: RP and sensor errors SHALL NEVER BE SUMMED!
+// **/
+void RPAlignmentCorrectionsMethods::FactorRPFromSensorCorrections(RPAlignmentCorrectionsData & data, RPAlignmentCorrectionsData &expanded,
+  RPAlignmentCorrectionsData &factored, const AlignmentGeometry &geometry, bool equalWeights,
+  unsigned int verbosity)
 {
   // TODO: sh_z
-  
+
   // clean first
   expanded.Clear();
   factored.Clear();
-   
+
+  RPAlignmentCorrectionsData::mapType sensors = data.GetSensorMap();
+  RPAlignmentCorrectionsData::mapType rps = data.GetRPMap();
+
+
   // save full alignments of all sensors first
   // skip elements that are not being optimized
-  mapType &origAlignments = expanded.sensors;
+  RPAlignmentCorrectionsData::mapType origAlignments = expanded.GetSensorMap();
   map<unsigned int, set<unsigned int> > detsPerPot;
-  for (mapType::const_iterator it = sensors.begin(); it != sensors.end(); ++it) {
+  for (RPAlignmentCorrectionsData::mapType::const_iterator it = sensors.begin(); it != sensors.end(); ++it) {
     AlignmentGeometry::const_iterator git = geometry.find(it->first);
     if (git == geometry.end())
       continue;
     const DetGeometry &d = git->second;
 
     // RP errors are coming from the previous iteration and shall be discarded!
-    origAlignments[it->first] = GetFullSensorCorrection(it->first, false);
-
+    origAlignments[it->first] = data.GetFullSensorCorrection(it->first, false);
+//
     origAlignments[it->first].XYTranslationToReadout(d.dx, d.dy);
     detsPerPot[it->first/10].insert(it->first);
   }
@@ -415,10 +404,10 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
     for (set<unsigned int>::const_iterator dit = dets.begin(); dit != dets.end(); ++dit) {
       AlignmentGeometry::const_iterator git = geometry.find(*dit);
       const DetGeometry &d = git->second;
-      const RPAlignmentCorrection &oa = origAlignments[*dit];
+      const RPAlignmentCorrectionData &oa = origAlignments[*dit];
 
       // shifts part
-      double sh_r = oa.sh_r(); 
+      double sh_r = oa.sh_r();
       double sh_r_e = oa.sh_r_e();
       if (sh_r_e <= 0.)
         sh_r_e = 1E-8; // in mm
@@ -432,7 +421,7 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
       A(idx, 1) = d.dx;
       A(idx, 2) = d.dy*zeff;
       A(idx, 3) = d.dy;
-      
+
       B(idx, 0) = d.dx;
       B(idx, 1) = d.dy;
 
@@ -441,8 +430,8 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
       m(idx) = sh_r;
 
       // rotations part
-      double rot_z = oa.rot_z(); 
-      double rot_z_e = oa.rot_z_e(); 
+      double rot_z = oa.rot_z();
+      double rot_z_e = oa.rot_z_e();
       if (rot_z_e <= 0.)
         rot_z_e = 1E-8; // rad
 
@@ -450,12 +439,12 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
       Sr += rot_z * w;
       S1 += 1. * w;
       Sss += rot_z_e * rot_z_e;
-    
+
       //printf("%u %u | %.3f +- %.3f | %.3f +- %.3f\n", *dit, idx, sh_r*1E3, sh_r_e*1E3, rot_z*1E3, rot_z_e*1E3);
 
       idx++;
     }
-    
+
     // linear shift fit
     TMatrixD AT(TMatrixD::kTransposed, A);
     TMatrixD VRi(TMatrixD::kInverted, V);
@@ -468,54 +457,37 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
       printf("ERROR in RPAlignmentCorrections::FactorRPFromSensorCorrections > AT A matrix is singular, skipping RP %u.\n", rpId);
       continue;
     }
-    
+
     TVectorD th(4);
-    th = ATVRiAi * AT * VRi * m; 
-    
+    th = ATVRiAi * AT * VRi * m;
+
     // g: intercepts (mm), h: slopes (rad), with errors
     double hx = th[0], hx_error = sqrt(ATVRiAi(0, 0));
     double gx = th[1], gx_error = sqrt(ATVRiAi(1, 1));
     double hy = th[2], hy_error = sqrt(ATVRiAi(2, 2));
     double gy = th[3], gy_error = sqrt(ATVRiAi(3, 3));
-    
+
     // constant shift fit
     TMatrixD BT(TMatrixD::kTransposed, B);
     TMatrixD BTViB(BT, TMatrixD::kMult, Vi * B);
     TMatrixD BTViBi(TMatrixD::kInverted, BTViB);
-    
+
     TMatrixD V_th_B_eW(BTViBi * BT * V * B * BTViBi);
     TMatrixD &V_th_B = (equalWeights) ? V_th_B_eW : BTViBi;
 
     TVectorD th_B(2);
-    th_B = BTViBi * BT * Vi * m; 
+    th_B = BTViBi * BT * Vi * m;
     double g0x = th_B[0], g0x_error = sqrt(V_th_B(0, 0));
     double g0y = th_B[1], g0y_error = sqrt(V_th_B(1, 1));
-    
+
     // const rotation fit
     double rot_z_mean = Sr / S1;
     double rot_z_mean_error = (equalWeights) ? sqrt(Sss)/S1 : sqrt(1. / S1);
- 
-    /*
-    // filter matrix (to suppress slopes)
-    TMatrixD F(4, 4);
-    F(1, 1) = 1.;
-    F(3, 3) = 1.;
+
 
     // shift corrections
-    TVectorD sc(A * F * th);
-    
-    // corrected/internal shift error matrix
-    TMatrixD I(m.GetNrows(), m.GetNrows());
-    I.UnitMatrix();
-    TMatrixD Cm = I - A*F*ATViAi*AT*Vi; 
-    TMatrixD CmT(TMatrixD::kTransposed, Cm);
-    TMatrixD V(TMatrixD::kInverted, Vi);
-    TMatrixD SE(Cm*V*CmT);
-    */
-    
-    // shift corrections
     TVectorD sc(B * th_B);
-    
+
     // corrected/internal shift error matrix
     TMatrixD VR(V);
     VR -= B * BTViBi * BT;
@@ -532,14 +504,14 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
 
     // store factored values
     //  sh_r,  sh_r_e,  sh_x,  sh_x_e,  sh_y,  sh_y_e,  sh_z,  sh_z_e,  rot_z,  rot_z_e);
-    factored.rps[rpId] = RPAlignmentCorrection(0., 0., g0x, g0x_error, g0y, g0y_error, 0., 0., rot_z_mean, rot_z_mean_error); 
+    factored.SetRPCorrection(rpId, RPAlignmentCorrectionData(0., 0., g0x, g0x_error, g0y, g0y_error, 0., 0., rot_z_mean, rot_z_mean_error));
 
     // calculate and store residuals for sensors
     idx = 0;
     for (set<unsigned int>::const_iterator dit = dets.begin(); dit != dets.end(); ++dit, ++idx) {
       AlignmentGeometry::const_iterator git = geometry.find(*dit);
       const DetGeometry &d = git->second;
-      const RPAlignmentCorrection &oa = origAlignments[*dit];
+      const RPAlignmentCorrectionData &oa = origAlignments[*dit];
 
       double s = oa.sh_r() - sc[idx];
       double s_e_full = oa.sh_r_e(); // keep the full error
@@ -559,30 +531,14 @@ void RPAlignmentCorrections::FactorRPFromSensorCorrections(RPAlignmentCorrection
           sp,
           rot_z_res*1E3, rot_z_e_full*1E3, rot_z_e_res*1E3);
 
-      RPAlignmentCorrection ac(
+      RPAlignmentCorrectionData ac(
         s, s_e_full,
         s*d.dx, s_e_full*d.dx, s*d.dy, s_e_full*d.dy,   // sigma(sh_x) = sigma(sh_r) * dx
         oa.sh_z(), oa.sh_z_e(),
         rot_z_res, rot_z_e_full
       );
-      factored.sensors[*dit] = ac;
+      factored.SetSensorCorrection(*dit, ac);
     }
   }
 }
-
-//----------------------------------------------------------------------------------------------------
-
-void RPAlignmentCorrections::insertValues(const std::string& identifier, const std::vector<double>& values)
-{
-  unsigned int key = 0;
-  if (sscanf(identifier.c_str(), "%u", &key) < 0)
-    throw cms::Exception ("RPAlignmentCorrections::insertValues") << "Invalid identifier `" << 
-      identifier << "'." << std::endl;
-
-  RPAlignmentCorrection ac;
-  ac.setValues(values);
-  sensors[key] = ac;
-}
-
-TYPELOOKUP_DATA_REG (RPAlignmentCorrections);
 

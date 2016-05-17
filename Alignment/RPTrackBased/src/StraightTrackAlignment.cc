@@ -15,6 +15,7 @@
 
 #include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/RPAlignmentCorrectionsMethods.h"
 #include "Geometry/Records/interface/VeryForwardRealGeometryRecord.h"
 #include "CondFormats/AlignmentRecord/interface/RPRealAlignmentRecord.h"
 #include "Alignment/RPTrackBased/interface/IdealResult.h"
@@ -258,7 +259,7 @@ void StraightTrackAlignment::Begin(const EventSetup &es)
   
   // get initial alignments
   try {
-    ESHandle<RPAlignmentCorrections> h;
+    ESHandle<RPAlignmentCorrectionsData> h;
     es.get<RPRealAlignmentRecord>().get(h);
     initialAlignments = *h;
   }
@@ -579,7 +580,7 @@ void StraightTrackAlignment::Finish()
   }
 
   // solve
-  vector<RPAlignmentCorrections> results;
+  vector<RPAlignmentCorrectionsData> results;
   for (vector<AlignmentAlgorithm *>::iterator it = algorithms.begin(); it != algorithms.end(); ++it) {
     TDirectory *dir = NULL;
     if (taskDataFile && saveIntermediateResults)
@@ -609,7 +610,7 @@ void StraightTrackAlignment::Finish()
 
     for (unsigned int q = 0; q < task.quantityClasses.size(); q++) {
       for (unsigned int a = 0; a < results.size(); a++) {
-        RPAlignmentCorrections::mapType::const_iterator it = results[a].sensors.find(dit->first);
+        RPAlignmentCorrectionsData::mapType::const_iterator it = results[a].sensors.find(dit->first);
         if (it == results[a].sensors.end()) {
           if (algorithms[a]->HasErrorEstimate())
             printf("%18s", "----│");
@@ -618,7 +619,7 @@ void StraightTrackAlignment::Finish()
           continue;
         }
 
-        const RPAlignmentCorrection &ac = it->second;
+        const RPAlignmentCorrectionData &ac = it->second;
         double v = 0., e = 0.;
         switch (task.quantityClasses[q]) {
           case AlignmentTask::qcShR: v = ac.sh_r();   e = ac.sh_r_e(); break;
@@ -650,7 +651,7 @@ void StraightTrackAlignment::Finish()
   // save results
   for (unsigned int a = 0; a < results.size(); a++) {
     // convert readout corrections to X and Y
-    for (RPAlignmentCorrections::mapType::iterator it = results[a].sensors.begin();
+    for (RPAlignmentCorrectionsData::mapType::iterator it = results[a].sensors.begin();
         it != results[a].sensors.end(); ++it) {
       DetGeometry &d = task.geometry[it->first];
       double cos = d.dx, sin = d.dy;
@@ -659,17 +660,17 @@ void StraightTrackAlignment::Finish()
 
     // write non-cumulative results
     if (!fileNamePrefix.empty())
-      results[a].WriteXMLFile(fileNamePrefix + algorithms[a]->GetName() + ".xml",
+      RPAlignmentCorrectionsMethods::WriteXMLFile(results[a], fileNamePrefix + algorithms[a]->GetName() + ".xml",
         preciseXMLFormat, algorithms[a]->HasErrorEstimate());
 
     // merge alignments
-    RPAlignmentCorrections cumulativeAlignments;
+    RPAlignmentCorrectionsData cumulativeAlignments;
     cumulativeAlignments.AddCorrections(initialAlignments, false);
     cumulativeAlignments.AddCorrections(results[a], false, task.resolveShR,
       task.resolveShZ || task.resolveRPShZ, task.resolveRotZ);
 
     // synchronize XY and readout shifts, normalize z rotations
-    for (RPAlignmentCorrections::mapType::iterator it = cumulativeAlignments.sensors.begin(); 
+    for (RPAlignmentCorrectionsData::mapType::iterator it = cumulativeAlignments.sensors.begin();
         it != cumulativeAlignments.sensors.end(); ++it) {
       DetGeometry &d = task.geometry[it->first];
       double cos = d.dx, sin = d.dy;
@@ -679,26 +680,26 @@ void StraightTrackAlignment::Finish()
 
     // write cumulative results
     if (!cumulativeFileNamePrefix.empty())
-      cumulativeAlignments.WriteXMLFile(cumulativeFileNamePrefix + algorithms[a]->GetName() + ".xml",
+      RPAlignmentCorrectionsMethods::WriteXMLFile(cumulativeAlignments, cumulativeFileNamePrefix + algorithms[a]->GetName() + ".xml",
         preciseXMLFormat, algorithms[a]->HasErrorEstimate());
 
     // write expanded and factored results
     if (!expandedFileNamePrefix.empty() || !factoredFileNamePrefix.empty()) {
-      RPAlignmentCorrections expandedAlignments;
-      RPAlignmentCorrections factoredAlignments;
+      RPAlignmentCorrectionsData expandedAlignments;
+      RPAlignmentCorrectionsData factoredAlignments;
 
       if (factorizationVerbosity)
         printf(">> Factorizing results of %s algorithm\n", algorithms[a]->GetName().c_str());
       
-      cumulativeAlignments.FactorRPFromSensorCorrections(expandedAlignments, factoredAlignments,
+      RPAlignmentCorrectionsMethods::FactorRPFromSensorCorrections(cumulativeAlignments, expandedAlignments, factoredAlignments,
         task.geometry, factorizationVerbosity);
 
       if (!expandedFileNamePrefix.empty())
-        expandedAlignments.WriteXMLFile(expandedFileNamePrefix + algorithms[a]->GetName() + ".xml",
+        RPAlignmentCorrectionsMethods::WriteXMLFile(expandedAlignments, expandedFileNamePrefix + algorithms[a]->GetName() + ".xml",
           preciseXMLFormat, algorithms[a]->HasErrorEstimate());
 
       if (!factoredFileNamePrefix.empty())
-        factoredAlignments.WriteXMLFile(factoredFileNamePrefix + algorithms[a]->GetName() + ".xml",
+        RPAlignmentCorrectionsMethods::WriteXMLFile(factoredAlignments, factoredFileNamePrefix + algorithms[a]->GetName() + ".xml",
           preciseXMLFormat, algorithms[a]->HasErrorEstimate());
     }
   }
@@ -739,7 +740,7 @@ void StraightTrackAlignment::PrintN(const char *str, unsigned int N)
 
 //----------------------------------------------------------------------------------------------------
 
-void StraightTrackAlignment::PrintLineSeparator(const std::vector<RPAlignmentCorrections> &results)
+void StraightTrackAlignment::PrintLineSeparator(const std::vector<RPAlignmentCorrectionsData> &results)
 {
   printf("═════╬");
   for (unsigned int q = 0; q < task.quantityClasses.size(); q++) {
@@ -755,7 +756,7 @@ void StraightTrackAlignment::PrintLineSeparator(const std::vector<RPAlignmentCor
 
 //----------------------------------------------------------------------------------------------------
 
-void StraightTrackAlignment::PrintQuantitiesLine(const std::vector<RPAlignmentCorrections> &results)
+void StraightTrackAlignment::PrintQuantitiesLine(const std::vector<RPAlignmentCorrectionsData> &results)
 {
   printf("     ║");
 
@@ -778,7 +779,7 @@ void StraightTrackAlignment::PrintQuantitiesLine(const std::vector<RPAlignmentCo
 
 //----------------------------------------------------------------------------------------------------
 
-void StraightTrackAlignment::PrintAlgorithmsLine(const std::vector<RPAlignmentCorrections> &results)
+void StraightTrackAlignment::PrintAlgorithmsLine(const std::vector<RPAlignmentCorrectionsData> &results)
 {
   printf("     ║");
 

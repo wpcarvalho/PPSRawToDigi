@@ -37,7 +37,7 @@ process.totemRPRawToDigi.fedIds = cms.vuint32(0x1a1, 0x1a2, 0x1a9, 0x1aa, 0x1b5,
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
 process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
 
-process.load("Alignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
+process.load("Geometry.VeryForwardGeometryBuilder.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.RealFiles = cms.vstring()
 
 # local RP reconstruction chain with standard settings

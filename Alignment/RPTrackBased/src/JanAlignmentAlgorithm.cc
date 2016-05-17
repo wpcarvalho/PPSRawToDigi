@@ -370,7 +370,7 @@ vector<SingularMode> JanAlignmentAlgorithm::Analyze()
 //----------------------------------------------------------------------------------------------------
 
 unsigned int JanAlignmentAlgorithm::Solve(const std::vector<AlignmentConstraint> &constraints,
-  RPAlignmentCorrections &result, TDirectory *dir)
+  RPAlignmentCorrectionsData &result, TDirectory *dir)
 {
   printf(">> JanAlignmentAlgorithm::Solve\n");
   result.Clear();
@@ -607,7 +607,7 @@ unsigned int JanAlignmentAlgorithm::Solve(const std::vector<AlignmentConstraint>
   }
 
   for (AlignmentGeometry::const_iterator dit = task->geometry.begin(); dit != task->geometry.end(); ++dit) {
-    RPAlignmentCorrection r;
+    RPAlignmentCorrectionData r;
 
     for (unsigned int i = 0; i < task->quantityClasses.size(); i++) {
       unsigned idx = (task->quantityClasses[i] != AlignmentTask::qcRPShZ) ? dit->second.matrixIndex : dit->second.rpMatrixIndex;

@@ -47,7 +47,7 @@ class MillepedeAlgorithm : public AlignmentAlgorithm
     virtual void SaveDiagnostics(TDirectory *) {}
     virtual std::vector<SingularMode> Analyze();
     virtual unsigned int Solve(const std::vector<AlignmentConstraint>&,
-      RPAlignmentCorrections &result, TDirectory *dir);
+      RPAlignmentCorrectionsData &result, TDirectory *dir);
     virtual void End();
 };
 

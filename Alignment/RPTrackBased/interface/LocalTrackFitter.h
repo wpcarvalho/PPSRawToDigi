@@ -9,7 +9,7 @@
 #ifndef Alignment_RPTrackBased_LocalTrackFitter
 #define Alignment_RPTrackBased_LocalTrackFitter
 
-#include "Alignment/RPDataFormats/interface/LocalTrackFit.h"
+#include "DataFormats/CTPPSAlignment/interface/LocalTrackFit.h"
 #include "Alignment/RPTrackBased/interface/AlignmentGeometry.h"
 #include "Alignment/RPTrackBased/interface/HitCollection.h"
 

@@ -19,7 +19,7 @@
 
 #include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
 
-#include "Alignment/RPDataFormats/interface/LocalTrackFit.h"
+#include "DataFormats/CTPPSAlignment/interface/LocalTrackFit.h"
 #include "Alignment/RPTrackBased/interface/LocalTrackFitter.h"
 #include "Alignment/RPTrackBased/interface/AlignmentGeometry.h"
 #include "Alignment/RPTrackBased/interface/AlignmentTask.h"

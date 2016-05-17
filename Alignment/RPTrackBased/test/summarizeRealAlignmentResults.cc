@@ -23,7 +23,8 @@
 
 #include "FWCore/Utilities/interface/Exception.h"
 
-#include "Alignment/RPDataFormats/interface/RPAlignmentCorrections.h"
+#include "DataFormats/CTPPSAlignment/interface/RPAlignmentCorrectionsData.h"
+#include "Geometry/VeryForwardGeometryBuilder/interface/RPAlignmentCorrectionsMethods.h"
 
 using namespace std;
 
@@ -102,14 +103,14 @@ void PreparePlots(TFile *sf, const char *d1, const char *d2, const char *d3)
 
 //----------------------------------------------------------------------------------------------------
 
-void UpdatePlots(unsigned int i, RPAlignmentCorrections &r)
+void UpdatePlots(unsigned int i, RPAlignmentCorrectionsData &r)
 {
   //printf("* %u\n", i);
   
   // update RP plots
   for (PlotMap::iterator it = rpPlots.begin(); it != rpPlots.end(); ++it) {
     unsigned int idx = it->second.shr->GetN();
-    const RPAlignmentCorrection &ac = r.GetRPCorrection(it->first);
+    const RPAlignmentCorrectionData &ac = r.GetRPCorrection(it->first);
 
     it->second.shr->SetPoint(idx, i, ac.sh_r()*1E3);
     it->second.shr->SetPointError(idx, 0., ac.sh_r_e()*1E3);
@@ -127,7 +128,7 @@ void UpdatePlots(unsigned int i, RPAlignmentCorrections &r)
   // update det plots
   for (PlotMap::iterator it = detPlots.begin(); it != detPlots.end(); ++it) {
     unsigned int idx = it->second.shr->GetN();
-    const RPAlignmentCorrection &ac = r.GetSensorCorrection(it->first);
+    const RPAlignmentCorrectionData &ac = r.GetSensorCorrection(it->first);
 
     it->second.shr->SetPoint(idx, i, ac.sh_r()*1E3);
     it->second.shr->SetPointError(idx, 0., ac.sh_r_e()*1E3);
@@ -264,7 +265,7 @@ int main(void)
             ProcessLog(iteration);
 
             try {
-              RPAlignmentCorrections r("./cumulative_factored_results_Jan.xml");
+              RPAlignmentCorrectionsData r = RPAlignmentCorrectionsMethods::GetCorrectionsDataFromFile("./cumulative_factored_results_Jan.xml");
               UpdatePlots(iteration, r);
             }
             catch (cms::Exception e) {
