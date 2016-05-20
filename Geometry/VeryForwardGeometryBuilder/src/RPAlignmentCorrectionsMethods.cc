@@ -325,16 +325,16 @@ void RPAlignmentCorrectionsMethods::WriteXMLBlock(const RPAlignmentCorrectionsDa
 
 //----------------------------------------------------------------------------------------------------
 
-///**
-// * NOTE ON ERROR PROPAGATION
-// *
-// * It is not possible to split (and merge again) the experimental errors between the RP and sensor
-// * contributions. To do so, one would need to keep the entire covariance matrix. Thus, it has been
-// * decided to save:
-// *   RP errors = the uncertainty of the common shift/rotation
-// *   sensor error = the full experimental uncertainty
-// * In consequence: RP and sensor errors SHALL NEVER BE SUMMED!
-// **/
+/**
+ * NOTE ON ERROR PROPAGATION
+ *
+ * It is not possible to split (and merge again) the experimental errors between the RP and sensor
+ * contributions. To do so, one would need to keep the entire covariance matrix. Thus, it has been
+ * decided to save:
+ *   RP errors = the uncertainty of the common shift/rotation
+ *   sensor error = the full experimental uncertainty
+ * In consequence: RP and sensor errors SHALL NEVER BE SUMMED!
+ **/
 void RPAlignmentCorrectionsMethods::FactorRPFromSensorCorrections(RPAlignmentCorrectionsData & data, RPAlignmentCorrectionsData &expanded,
   RPAlignmentCorrectionsData &factored, const AlignmentGeometry &geometry, bool equalWeights,
   unsigned int verbosity)
