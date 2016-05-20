@@ -655,7 +655,7 @@ void StraightTrackAlignment::Finish()
         it != results[a].sensors.end(); ++it) {
       DetGeometry &d = task.geometry[it->first];
       double cos = d.dx, sin = d.dy;
-      it->second.ReadoutTranslationToXY(cos, sin);
+      it->second.readoutTranslationToXY(cos, sin);
     }
 
     // write non-cumulative results
@@ -674,8 +674,8 @@ void StraightTrackAlignment::Finish()
         it != cumulativeAlignments.sensors.end(); ++it) {
       DetGeometry &d = task.geometry[it->first];
       double cos = d.dx, sin = d.dy;
-      it->second.XYTranslationToReadout(cos, sin);
-      it->second.NormalizeRotationZ();
+      it->second.xyTranslationToReadout(cos, sin);
+      it->second.normalizeRotationZ();
     }
 
     // write cumulative results

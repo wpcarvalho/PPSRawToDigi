@@ -163,9 +163,9 @@ unsigned int MillepedeAlgorithm::Solve(const std::vector<AlignmentConstraint> &c
     if (!iss.fail()) {
       unsigned int det = label % 10000, type = label / 10000;
       switch (type) {
-        case AlignmentTask::qcShR: result.GetSensorCorrection(det).SetTranslationR(value); break;
-        case AlignmentTask::qcShZ: result.GetSensorCorrection(det).SetTranslationZ(value); break;
-        case AlignmentTask::qcRotZ: result.GetSensorCorrection(det).SetRotationZ(value); break;
+        case AlignmentTask::qcShR: result.GetSensorCorrection(det).setTranslationR(value); break;
+        case AlignmentTask::qcShZ: result.GetSensorCorrection(det).setTranslationZ(value); break;
+        case AlignmentTask::qcRotZ: result.GetSensorCorrection(det).setRotationZ(value); break;
                                     // TODO RPShZ is missing
       }
     }

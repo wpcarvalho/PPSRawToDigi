@@ -340,10 +340,10 @@ unsigned int IdealResult::Solve(const std::vector<AlignmentConstraint> &constrai
       unsigned idx = (task->quantityClasses[i] != AlignmentTask::qcRPShZ) ? dit->second.matrixIndex : dit->second.rpMatrixIndex;
       const double &v = (task->quantityClasses[i] != AlignmentTask::qcRotZ) ? Fnr_sol[offsets[i] + idx] : Fr_sol[idx];
       switch (task->quantityClasses[i]) {
-        case AlignmentTask::qcShR: r.SetTranslationR(v); break;
-        case AlignmentTask::qcShZ: r.SetTranslationZ(v); break;
-        case AlignmentTask::qcRPShZ: r.SetTranslationZ(v); break;
-        case AlignmentTask::qcRotZ: r.SetRotationZ(v); break;
+        case AlignmentTask::qcShR: r.setTranslationR(v); break;
+        case AlignmentTask::qcShZ: r.setTranslationZ(v); break;
+        case AlignmentTask::qcRPShZ: r.setTranslationZ(v); break;
+        case AlignmentTask::qcRotZ: r.setRotationZ(v); break;
       }
     }
 
