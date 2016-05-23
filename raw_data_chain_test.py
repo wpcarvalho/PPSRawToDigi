@@ -12,10 +12,9 @@ process.MessageLogger = cms.Service("MessageLogger",
 )
 
 # raw data source
-process.load('TotemRawData.Readers.TotemStandaloneRawDataSource_cfi')
-process.source.verbosity = 10
-process.source.printProgressFrequency = 0
-process.source.fileNames.append('/afs/cern.ch/user/j/jkaspar/public/run_9987_EVB11_1.003.srs')
+process.source = cms.Source("PoolSource",
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/j/jkaspar/public/run273062_ls0001-2_stream.root')
+)
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(-1)
@@ -23,15 +22,13 @@ process.maxEvents = cms.untracked.PSet(
 
 # raw-to-digi conversion
 process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
-process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/totem_rp_210far_220_mapping.xml")
+process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/ctpps_210_mapping.xml")
 
 process.load("EventFilter.TotemRawToDigi.totemTriggerRawToDigi_cfi")
-process.totemTriggerRawToDigi.rawDataTag = cms.InputTag("source")
-process.totemTriggerRawToDigi.fedId = 0x29c
+process.totemTriggerRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
 
 process.load('EventFilter.TotemRawToDigi.totemRPRawToDigi_cfi')
-process.totemRPRawToDigi.rawDataTag = cms.InputTag("source")
-process.totemRPRawToDigi.fedIds = cms.vuint32(0x1a1, 0x1a2, 0x1a9, 0x1aa, 0x1b5, 0x1bd)
+process.totemRPRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
 
 # geometry
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
