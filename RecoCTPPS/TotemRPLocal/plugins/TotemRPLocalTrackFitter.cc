@@ -163,11 +163,8 @@ void TotemRPLocalTrackFitter::produce(edm::Event& e, const edm::EventSetup& setu
     TotemRPLocalTrack track;
     fitter_.FitTrack(hits, z0, *geometry, track);
     
-    if (track.isValid())
-    {
-      DetSet<TotemRPLocalTrack> &ds = output.find_or_insert(rpId);
-      ds.push_back(track);
-    }
+    DetSet<TotemRPLocalTrack> &ds = output.find_or_insert(rpId);
+    ds.push_back(track);
 
     if (verbosity_ > 5)
     {
