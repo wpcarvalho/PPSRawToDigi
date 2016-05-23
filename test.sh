@@ -9,9 +9,9 @@ shopt -s expand_aliases # Expand command alias to the command itself.
                         # Required for non-interactive shell.
 
 source /opt/cms/cmsset_default.sh
-scram b -j2
+scram b -j4
 scram b -j
 eval `scram runtime -sh`
-sed -i 's#/afs/cern.ch/user/j/jkaspar/public/run_9987_EVB11_1.003#sample#g' raw_data_chain_test.py
-sed -i 's#/afs/cern.ch/user/j/jkaspar/public/run_9987_EVB11_1.003#sample#g' raw_data_chain_test.reference_output
+sed -i 's#/afs/cern.ch/user/j/jkaspar/public/run273062_ls0001-2_stream#sample#g' raw_data_chain_test.py
+sed -i 's#/afs/cern.ch/user/j/jkaspar/public/run273062_ls0001-2_stream#sample#g' raw_data_chain_test.reference_output
 cmsRun raw_data_chain_test.py
