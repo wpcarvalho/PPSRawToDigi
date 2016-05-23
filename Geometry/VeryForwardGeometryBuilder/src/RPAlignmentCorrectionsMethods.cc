@@ -325,16 +325,16 @@ void RPAlignmentCorrectionsMethods::WriteXMLBlock(const RPAlignmentCorrectionsDa
 
 //----------------------------------------------------------------------------------------------------
 
-///**
-// * NOTE ON ERROR PROPAGATION
-// *
-// * It is not possible to split (and merge again) the experimental errors between the RP and sensor
-// * contributions. To do so, one would need to keep the entire covariance matrix. Thus, it has been
-// * decided to save:
-// *   RP errors = the uncertainty of the common shift/rotation
-// *   sensor error = the full experimental uncertainty
-// * In consequence: RP and sensor errors SHALL NEVER BE SUMMED!
-// **/
+/**
+ * NOTE ON ERROR PROPAGATION
+ *
+ * It is not possible to split (and merge again) the experimental errors between the RP and sensor
+ * contributions. To do so, one would need to keep the entire covariance matrix. Thus, it has been
+ * decided to save:
+ *   RP errors = the uncertainty of the common shift/rotation
+ *   sensor error = the full experimental uncertainty
+ * In consequence: RP and sensor errors SHALL NEVER BE SUMMED!
+ **/
 void RPAlignmentCorrectionsMethods::FactorRPFromSensorCorrections(RPAlignmentCorrectionsData & data, RPAlignmentCorrectionsData &expanded,
   RPAlignmentCorrectionsData &factored, const AlignmentGeometry &geometry, bool equalWeights,
   unsigned int verbosity)
@@ -362,7 +362,7 @@ void RPAlignmentCorrectionsMethods::FactorRPFromSensorCorrections(RPAlignmentCor
     // RP errors are coming from the previous iteration and shall be discarded!
     origAlignments[it->first] = data.GetFullSensorCorrection(it->first, false);
 //
-    origAlignments[it->first].XYTranslationToReadout(d.dx, d.dy);
+    origAlignments[it->first].xyTranslationToReadout(d.dx, d.dy);
     detsPerPot[it->first/10].insert(it->first);
   }
 

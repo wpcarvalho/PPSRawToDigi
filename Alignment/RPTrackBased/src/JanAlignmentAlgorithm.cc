@@ -615,10 +615,10 @@ unsigned int JanAlignmentAlgorithm::Solve(const std::vector<AlignmentConstraint>
       double v = AL[fi];
       double e = sqrt(EM[fi][fi]);
       switch (task->quantityClasses[i]) {
-        case AlignmentTask::qcShR: r.SetTranslationR(v, e); break;
-        case AlignmentTask::qcShZ: r.SetTranslationZ(v, e); break;
-        case AlignmentTask::qcRPShZ: r.SetTranslationZ(v, e); break;
-        case AlignmentTask::qcRotZ: r.SetRotationZ(v, e); break;
+        case AlignmentTask::qcShR: r.setTranslationR(v, e); break;
+        case AlignmentTask::qcShZ: r.setTranslationZ(v, e); break;
+        case AlignmentTask::qcRPShZ: r.setTranslationZ(v, e); break;
+        case AlignmentTask::qcRotZ: r.setRotationZ(v, e); break;
       }
     }
 

@@ -90,7 +90,7 @@ void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
     CLHEP::Hep3Vector d = geom->LocalToGlobalDirection(rawId, CLHEP::Hep3Vector(0., 1., 0.));
 
     RPAlignmentCorrectionData ac = input.GetFullSensorCorrection(it->first);
-    ac.XYTranslationToReadout(d.x(), d.y());
+    ac.xyTranslationToReadout(d.x(), d.y());
     output.SetSensorCorrection(it->first, ac);
   }
 
@@ -116,9 +116,9 @@ void ModifySingularModes::beginRun(edm::Run const&, edm::EventSetup const& es)
     //printf("\t\t %E, %E\n", inc_s, inc_rho);
     
     RPAlignmentCorrectionData &ac = output.GetSensorCorrection(it->first);
-    ac.SetTranslationR(ac.sh_r() + inc_s, ac.sh_r_e());
-    ac.SetRotationZ(ac.rot_z() + inc_rho, ac.rot_z_e());
-    ac.ReadoutTranslationToXY(dx, dy);
+    ac.setTranslationR(ac.sh_r() + inc_s, ac.sh_r_e());
+    ac.setRotationZ(ac.rot_z() + inc_rho, ac.rot_z_e());
+    ac.readoutTranslationToXY(dx, dy);
   }
 
   // factorize alignments and write output
