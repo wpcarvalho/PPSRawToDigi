@@ -2,37 +2,38 @@ import FWCore.ParameterSet.Config as cms
 
 RecoCTPPSFEVT = cms.PSet(
   outputCommands = cms.untracked.vstring(
-    'keep TotemFEDInfos_*_*_*',
-    'keep TotemTriggerCounters_*_*_*',
-    'keep TotemRPDigiedmDetSetVector_*_*_*',
-    'keep TotemVFATStatusedmDetSetVector_*_*_*',
-    'keep TotemRPClusteredmDetSetVector_*_*_*',
-    'keep TotemRPRecHitedmDetSetVector_*_*_*',
-    'keep TotemRPUVPatternedmDetSetVector_*_*_*',
-    'keep TotemRPLocalTrackedmDetSetVector_*_*_*'
+    'keep TotemFEDInfos_totemRPRawToDigi_*_*',
+    'keep TotemTriggerCounters_totemTriggerRawToDigi_*_*',
+    'keep TotemRPDigiedmDetSetVector_totemRPRawToDigi_*_*',
+    'keep TotemVFATStatusedmDetSetVector_totemRPRawToDigi_*_*',
+    'keep TotemRPClusteredmDetSetVector_totemRPClusterProducer_*_*',
+    'keep TotemRPRecHitedmDetSetVector_totemRPRecHitProducer_*_*',
+    'keep TotemRPUVPatternedmDetSetVector_totemRPUVPatternFinder_*_*',
+    'keep TotemRPLocalTrackedmDetSetVector_totemRPLocalTrackFitter_*_*'
   )
 )
 
 
 RecoCTPPSRECO = cms.PSet(
   outputCommands = cms.untracked.vstring(
-    'keep TotemFEDInfos_*_*_*',
-    'keep TotemTriggerCounters_*_*_*',
-    'keep TotemRPDigiedmDetSetVector_*_*_*',
-    'keep TotemVFATStatusedmDetSetVector_*_*_*',
-    'keep TotemRPClusteredmDetSetVector_*_*_*',
-    'keep TotemRPRecHitedmDetSetVector_*_*_*',
-    'keep TotemRPUVPatternedmDetSetVector_*_*_*',
-    'keep TotemRPLocalTrackedmDetSetVector_*_*_*'
+    'keep TotemFEDInfos_totemRPRawToDigi_*_*',
+    'keep TotemTriggerCounters_totemTriggerRawToDigi_*_*',
+    'keep TotemRPDigiedmDetSetVector_totemRPRawToDigi_*_*',
+    'keep TotemVFATStatusedmDetSetVector_totemRPRawToDigi_*_*',
+    'keep TotemRPClusteredmDetSetVector_totemRPClusterProducer_*_*',
+    'keep TotemRPRecHitedmDetSetVector_totemRPRecHitProducer_*_*',
+    'keep TotemRPUVPatternedmDetSetVector_totemRPUVPatternFinder_*_*',
+    'keep TotemRPLocalTrackedmDetSetVector_totemRPLocalTrackFitter_*_*'
   )
 )
 
 
 RecoCTPPSAOD = cms.PSet(
   outputCommands = cms.untracked.vstring(
-    'keep TotemRPClusteredmDetSetVector_*_*_*',
-    'keep TotemRPRecHitedmDetSetVector_*_*_*',
-    'keep TotemRPUVPatternedmDetSetVector_*_*_*',
-    'keep TotemRPLocalTrackedmDetSetVector_*_*_*'
+    'keep TotemVFATStatusedmDetSetVector_totemRPRawToDigi_*_*',
+    'keep TotemRPClusteredmDetSetVector_totemRPClusterProducer_*_*',
+    'keep TotemRPRecHitedmDetSetVector_totemRPRecHitProducer_*_*',
+    'keep TotemRPUVPatternedmDetSetVector_totemRPUVPatternFinder_*_*',
+    'keep TotemRPLocalTrackedmDetSetVector_totemRPLocalTrackFitter_*_*'
   )
 )
