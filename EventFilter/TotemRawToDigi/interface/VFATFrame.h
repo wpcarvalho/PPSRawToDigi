@@ -29,6 +29,7 @@ class VFATFrame
       setData(copy.data);
       presenceFlags = copy.presenceFlags;
       daqErrorFlags = copy.daqErrorFlags;
+      numberOfClusters = copy.numberOfClusters;
     }
 
     virtual ~VFATFrame() {}
