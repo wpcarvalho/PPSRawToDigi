@@ -188,11 +188,13 @@ TotemRPDQMSource::ArmPlots::ArmPlots(DQMStore::IBooker &ibooker, int _id) : id(_
   path.replace(0, 2, "TrackingStrip");
   ibooker.setCurrentFolder(string("CTPPS/") + path);
 
-  h_numRPWithTrack_top = ibooker.book1D("number of top RPs with tracks", "number of top RPs with tracks;number of top RPs with tracks", 5, -0.5, 4.5);
-  h_numRPWithTrack_hor = ibooker.book1D("number of hor RPs with tracks", "number of hor RPs with tracks;number of hor RPs with tracks", 5, -0.5, 4.5);
-  h_numRPWithTrack_bot = ibooker.book1D("number of bot RPs with tracks", "number of bot RPs with tracks;number of bot RPs with tracks", 5, -0.5, 4.5);
+  string title = TotemRPDetId::armName(id, TotemRPDetId::nFull);
 
-  h_trackCorr = ibooker.book2D("track RP correlation", "track RP correlation", 13, -0.5, 12.5, 13, -0.5, 12.5);
+  h_numRPWithTrack_top = ibooker.book1D("number of top RPs with tracks", title+";number of top RPs with tracks", 5, -0.5, 4.5);
+  h_numRPWithTrack_hor = ibooker.book1D("number of hor RPs with tracks", title+";number of hor RPs with tracks", 5, -0.5, 4.5);
+  h_numRPWithTrack_bot = ibooker.book1D("number of bot RPs with tracks", title+";number of bot RPs with tracks", 5, -0.5, 4.5);
+
+  h_trackCorr = ibooker.book2D("track RP correlation", title, 13, -0.5, 12.5, 13, -0.5, 12.5);
   TH2F *h_trackCorr_h = h_trackCorr->getTH2F();
   TAxis *xa = h_trackCorr_h->GetXaxis(), *ya = h_trackCorr_h->GetYaxis();
   xa->SetBinLabel(1, "210, near, top"); ya->SetBinLabel(1, "210, near, top");
@@ -208,7 +210,21 @@ TotemRPDQMSource::ArmPlots::ArmPlots(DQMStore::IBooker &ibooker, int _id) : id(_
   xa->SetBinLabel(12, "top"); ya->SetBinLabel(12, "top");
   xa->SetBinLabel(13, "bot"); ya->SetBinLabel(13, "bot");
 
-  h_trackCorr_overlap = ibooker.book2D("track RP correlation hor-vert overlaps", "track RP correlation hor-vert overlaps", 13, -0.5, 12.5, 13, -0.5, 12.5);
+  h_trackCorr_overlap = ibooker.book2D("track RP correlation hor-vert overlaps", title, 13, -0.5, 12.5, 13, -0.5, 12.5);
+  h_trackCorr_h = h_trackCorr_overlap->getTH2F();
+  xa = h_trackCorr_h->GetXaxis(); ya = h_trackCorr_h->GetYaxis();
+  xa->SetBinLabel(1, "210, near, top"); ya->SetBinLabel(1, "210, near, top");
+  xa->SetBinLabel(2, "bot"); ya->SetBinLabel(2, "bot");
+  xa->SetBinLabel(3, "hor"); ya->SetBinLabel(3, "hor");
+  xa->SetBinLabel(4, "far, hor"); ya->SetBinLabel(4, "far, hor");
+  xa->SetBinLabel(5, "top"); ya->SetBinLabel(5, "top");
+  xa->SetBinLabel(6, "bot"); ya->SetBinLabel(6, "bot");
+  xa->SetBinLabel(8, "220, near, top"); ya->SetBinLabel(8, "220, near, top");
+  xa->SetBinLabel(9, "bot"); ya->SetBinLabel(9, "bot");
+  xa->SetBinLabel(10, "hor"); ya->SetBinLabel(10, "hor");
+  xa->SetBinLabel(11, "far, hor"); ya->SetBinLabel(11, "far, hor");
+  xa->SetBinLabel(12, "top"); ya->SetBinLabel(12, "top");
+  xa->SetBinLabel(13, "bot"); ya->SetBinLabel(13, "bot");
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -314,26 +330,28 @@ TotemRPDQMSource::PotPlots::PotPlots(DQMStore::IBooker &ibooker, unsigned int id
   path.replace(0, 2, "TrackingStrip");
   ibooker.setCurrentFolder(string("CTPPS/") + path);
 
-  vfat_problem = ibooker.book2D("vfats with any problem", ";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
-  vfat_missing = ibooker.book2D("vfats missing", ";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
-  vfat_ec_bc_error = ibooker.book2D("vfats with EC or BC error", ";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
-  vfat_corruption = ibooker.book2D("vfats with data corruption", ";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
+  string title = TotemRPDetId::rpName(id, TotemRPDetId::nFull);
 
-  activity = ibooker.book1D("active planes", "active planes;number of active planes", 11, -0.5, 10.5);
-  activity_u = ibooker.book1D("active planes U", "active planes U;number of active U planes", 11, -0.5, 10.5);
-  activity_v = ibooker.book1D("active planes V", "active planes V;number of active V planes", 11, -0.5, 10.5);
+  vfat_problem = ibooker.book2D("vfats with any problem", title+";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
+  vfat_missing = ibooker.book2D("vfats missing", title+";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
+  vfat_ec_bc_error = ibooker.book2D("vfats with EC or BC error", title+";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
+  vfat_corruption = ibooker.book2D("vfats with data corruption", title+";plane;vfat index", 10, -0.5, 9.5, 4, -0.5, 3.5);
 
-  activity_per_bx = ibooker.book1D("activity per BX", "activity per BX;Event.BX", 4002, -1.5, 4000. + 0.5);
+  activity = ibooker.book1D("active planes", title+";number of active planes", 11, -0.5, 10.5);
+  activity_u = ibooker.book1D("active planes U", title+";number of active U planes", 11, -0.5, 10.5);
+  activity_v = ibooker.book1D("active planes V", title+";number of active V planes", 11, -0.5, 10.5);
 
-  hit_plane_hist = ibooker.book2D("activity in planes (2D)", "activity in planes;plane number;strip number", 10, -0.5, 9.5, 32, -0.5, 511.5);
+  activity_per_bx = ibooker.book1D("activity per BX", title+";Event.BX", 4002, -1.5, 4000. + 0.5);
 
-  patterns_u = ibooker.book1D("recognized patterns U", "recognized patterns U;number of recognized U patterns", 11, -0.5, 10.5); 
-  patterns_v = ibooker.book1D("recognized patterns V", "recognized patterns V;number of recognized V patterns", 11, -0.5, 10.5); 
+  hit_plane_hist = ibooker.book2D("activity in planes (2D)", title+";plane number;strip number", 10, -0.5, 9.5, 32, -0.5, 511.5);
 
-  h_planes_fit_u = ibooker.book1D("planes contributing to fit U", "planes contributing to fit U;number of planes contributing to U fit", 6, -0.5, 5.5);
-  h_planes_fit_v = ibooker.book1D("planes contributing to fit V", "planes contributing to fit V;number of planes contributing to V fit", 6, -0.5, 5.5);
+  patterns_u = ibooker.book1D("recognized patterns U", title+";number of recognized U patterns", 11, -0.5, 10.5); 
+  patterns_v = ibooker.book1D("recognized patterns V", title+";number of recognized V patterns", 11, -0.5, 10.5); 
 
-  event_category = ibooker.book1D("event category", "event category", 5, -0.5, 4.5);
+  h_planes_fit_u = ibooker.book1D("planes contributing to fit U", title+";number of planes contributing to U fit", 6, -0.5, 5.5);
+  h_planes_fit_v = ibooker.book1D("planes contributing to fit V", title+";number of planes contributing to V fit", 6, -0.5, 5.5);
+
+  event_category = ibooker.book1D("event category", title+";event category", 5, -0.5, 4.5);
   TH1F *event_category_h = event_category->getTH1F();
   event_category_h->GetXaxis()->SetBinLabel(1, "empty");
   event_category_h->GetXaxis()->SetBinLabel(2, "insufficient");
@@ -341,10 +359,10 @@ TotemRPDQMSource::PotPlots::PotPlots(DQMStore::IBooker &ibooker, unsigned int id
   event_category_h->GetXaxis()->SetBinLabel(4, "multi-track");
   event_category_h->GetXaxis()->SetBinLabel(5, "shower");
 
-  trackHitsCumulativeHist = ibooker.book2D("track XY profile", "track XY profile;x   (mm);y   (mm)", 100, -18., +18., 100, -18., +18.);
+  trackHitsCumulativeHist = ibooker.book2D("track XY profile", title+";x   (mm);y   (mm)", 100, -18., +18., 100, -18., +18.);
 
-  track_u_profile = ibooker.book1D("track profile U", "track profile U; U   (mm)", 512, -256*66E-3, +256*66E-3);
-  track_v_profile = ibooker.book1D("track profile V", "track profile V; V   (mm)", 512, -256*66E-3, +256*66E-3);
+  track_u_profile = ibooker.book1D("track profile U", title+"; U   (mm)", 512, -256*66E-3, +256*66E-3);
+  track_v_profile = ibooker.book1D("track profile V", title+"; V   (mm)", 512, -256*66E-3, +256*66E-3);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -356,10 +374,12 @@ TotemRPDQMSource::PlanePlots::PlanePlots(DQMStore::IBooker &ibooker, unsigned in
   path.replace(0, 2, "TrackingStrip");
   ibooker.setCurrentFolder(string("CTPPS/") + path);
 
-  digi_profile_cumulative = ibooker.book1D("digi profile", "digi profile;strip number", 512, -0.5, 511.5);
-  cluster_profile_cumulative = ibooker.book1D("cluster profile", "cluster profile;cluster center", 1024, -0.25, 511.75);
-  hit_multiplicity = ibooker.book1D("hit multiplicity", "hit multiplicity;hits/detector/event", 6, -0.5, 5.5);
-  cluster_size = ibooker.book1D("cluster size", "cluster size;hits per cluster", 5, 0.5, 5.5);
+  string title = TotemRPDetId::planeName(id, TotemRPDetId::nFull);
+
+  digi_profile_cumulative = ibooker.book1D("digi profile", title+";strip number", 512, -0.5, 511.5);
+  cluster_profile_cumulative = ibooker.book1D("cluster profile", title+";cluster center", 1024, -0.25, 511.75);
+  hit_multiplicity = ibooker.book1D("hit multiplicity", title+";hits/detector/event", 6, -0.5, 5.5);
+  cluster_size = ibooker.book1D("cluster size", title+";hits per cluster", 5, 0.5, 5.5);
 }
 
 //----------------------------------------------------------------------------------------------------
