@@ -397,6 +397,8 @@ void TotemRPDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::Run const
   ibooker.cd();
   ibooker.setCurrentFolder("CTPPS");
 
+  // temporarily disabled
+  /*
   // initialize diagonals
   diagonalPlots[1] = DiagonalPlots(ibooker, 1);  // 45 bot - 56 top
   diagonalPlots[2] = DiagonalPlots(ibooker, 2);  // 45 top - 45 bot
@@ -404,6 +406,7 @@ void TotemRPDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::Run const
   // initialize anti-diagonals
   diagonalPlots[0] = DiagonalPlots(ibooker, 0);  // 45 bot - 56 bot
   diagonalPlots[3] = DiagonalPlots(ibooker, 3);  // 45 top - 56 top
+  */
 
   // loop over arms
   for (unsigned int arm = 0; arm < 2; arm++)
