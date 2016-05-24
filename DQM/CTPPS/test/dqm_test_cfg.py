@@ -29,13 +29,24 @@ process.dqmSaver = cms.EDAnalyzer("DQMFileSaverOnline",
   path = cms.untracked.string("."),
 )
 
-# RP raw data and digi
-process.load("DQM.CTPPS.test.standaloneDataInput_cff")
-#process.load("DQM.CTPPS.test.emulatedDataInput_cff")
+# RP raw data
+process.source = cms.Source("PoolSource",
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/j/jkaspar/public/run273062_ls0001-2_stream.root')
+)
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(-1)
 )
+
+# RP digi
+process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
+process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/ctpps_210_mapping.xml")
+
+process.load("EventFilter.TotemRawToDigi.totemTriggerRawToDigi_cfi")
+process.totemTriggerRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
+
+process.load('EventFilter.TotemRawToDigi.totemRPRawToDigi_cfi')
+process.totemRPRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
 
 # RP geometry
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
@@ -50,7 +61,8 @@ process.load("DQM.CTPPS.totemRPDQMSource_cfi")
 
 # execution schedule
 process.reco_totem = cms.Path(
-  process.totemRawToDigi *
+  process.totemTriggerRawToDigi *
+  process.totemRPRawToDigi *
   process.totemRPLocalReconstruction
 )
 
