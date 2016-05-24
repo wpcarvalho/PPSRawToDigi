@@ -712,7 +712,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
       pp.hit_plane_hist->Fill(planeNum, dit->getCenterStripPosition());   
   }
 
-  // recognized pattern histograms and event-category histogram
+  // recognized pattern histograms
   for (auto &ds : *patterns)
   {
     unsigned int rpId = ds.detId();
@@ -734,15 +734,53 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
 
     pp.patterns_u->Fill(u);
     pp.patterns_v->Fill(v);
-  
-    // determine category
-    unsigned int category = 100;
+  }
 
-    if (u == 0 && v == 0) category = 0;                   // empty
-    if (u > 0 && v > 0 && u <= 3 && v <= 3) category = 3; // multi-track
-    if (u+v == 1) category = 1;                           // insuff
-    if (u == 1 && v == 1) category = 2;                   // 1-track
-    if (u > 3 || v > 3) category = 4;                     // shower
+  // event-category histogram
+  for (auto &it : potPlots)
+  {
+    const unsigned int &id = it.first;
+    auto &pp = it.second;
+
+    // process hit data for this plot
+    unsigned int pl_u = planes_u[id].size();
+    unsigned int pl_v = planes_v[id].size();
+
+    // process pattern data for this pot
+    const auto &rp_pat_it = patterns->find(id);
+
+    unsigned int pat_u = 0, pat_v = 0;
+    if (rp_pat_it != patterns->end())
+    {
+      for (auto &p : *rp_pat_it)
+      {
+        if (! p.getFittable())
+          continue;
+  
+        if (p.getProjection() == TotemRPUVPattern::projU)
+          pat_u++;
+  
+        if (p.getProjection() == TotemRPUVPattern::projV)
+          pat_v++;
+      }
+    }
+
+    // determine category
+    signed int category = -1;
+
+    if (pl_u == 0 && pl_v == 0) category = 0;   // empty
+    
+    if (category == -1 && pat_u + pat_v <= 1)
+    {
+      if (pl_u + pl_v < 6)
+        category = 1;                           // insuff
+      else
+        category = 4;                           // shower
+    }
+
+    if (pat_u == 1 && pat_v == 1) category = 2; // 1-track
+
+    if (category == -1) category = 3;           // multi-track
 
     pp.event_category->Fill(category);
   }
