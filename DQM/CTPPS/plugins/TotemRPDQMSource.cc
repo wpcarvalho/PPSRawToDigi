@@ -67,6 +67,14 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     unsigned int correlationPlotsLimit;                   ///< maximum number of created correlation plots
     CorrelationPlotsSelector correlationPlotsSelector;
 
+    /// plots related to the whole system
+    struct GlobalPlots
+    {
+      MonitorElement *events_per_bx = NULL;
+    };
+
+    GlobalPlots globalPlots;
+
     /// plots related to one (anti)diagonal
     struct DiagonalPlots
     {
@@ -420,6 +428,9 @@ void TotemRPDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::Run const
   ibooker.cd();
   ibooker.setCurrentFolder("CTPPS");
 
+  // global plots
+  globalPlots.events_per_bx = ibooker.book1D("events per BX", "rp;Event.BX", 4002, -1.5, 4000. + 0.5);
+
   // temporarily disabled
   /*
   // initialize diagonals
@@ -531,6 +542,11 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
 
     return;
   }
+
+  //------------------------------
+  // Global Plots
+
+  globalPlots.events_per_bx->Fill(event.bunchCrossing());
 
   //------------------------------
   // Status Plots
