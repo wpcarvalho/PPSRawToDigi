@@ -53,6 +53,8 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     void endRun(edm::Run const& run, edm::EventSetup const& eSetup);
 
   private:
+    unsigned int verbosity;
+
     edm::EDGetTokenT< edm::DetSetVector<TotemVFATStatus> > tokenStatus;
     edm::EDGetTokenT< edm::DetSetVector<TotemRPDigi> > tokenDigi;
     edm::EDGetTokenT< edm::DetSetVector<TotemRPCluster> > tokenCluster;
@@ -363,7 +365,8 @@ TotemRPDQMSource::PlanePlots::PlanePlots(DQMStore::IBooker &ibooker, unsigned in
 //----------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------
 
-TotemRPDQMSource::TotemRPDQMSource(const edm::ParameterSet& ps) : 
+TotemRPDQMSource::TotemRPDQMSource(const edm::ParameterSet& ps) :
+  verbosity(ps.getUntrackedParameter<unsigned int>("verbosity", 0)),
   buildCorrelationPlots(ps.getUntrackedParameter<bool>("buildCorrelationPlots", false)),
   correlationPlotsLimit(ps.getUntrackedParameter<unsigned int>("correlationPlotsLimit", 50)),
   correlationPlotsSelector(ps.getUntrackedParameter<std::string>("correlationPlotsFilter", ""))
@@ -493,14 +496,18 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
 
   if (!valid)
   {
-    printf("ERROR in TotemDQMModuleRP::analyze > some of the required inputs are not valid. Skipping this event.\n");
-    printf("\tstatus.isValid = %i\n", status.isValid());
-    printf("\tdigi.isValid = %i\n", digi.isValid());
-    printf("\tdigCluster.isValid = %i\n", digCluster.isValid());
-    printf("\thits.isValid = %i\n", hits.isValid());
-    printf("\tpatterns.isValid = %i\n", patterns.isValid());
-    printf("\ttracks.isValid = %i\n", tracks.isValid());
-    //printf("\tmultiTracks.isValid = %i\n", multiTracks.isValid());
+    if (verbosity)
+    {
+      LogProblem("TotemRPDQMSource") <<
+        "ERROR in TotemDQMModuleRP::analyze > some of the required inputs are not valid. Skipping this event.\n"
+        << "    status.isValid = " << status.isValid() << "\n"
+        << "    digi.isValid = " << digi.isValid() << "\n"
+        << "    digCluster.isValid = " << digCluster.isValid() << "\n"
+        << "    hits.isValid = " << hits.isValid() << "\n"
+        << "    patterns.isValid = " << patterns.isValid() << "\n"
+        << "    tracks.isValid = " << tracks.isValid();
+      //<< "    multiTracks.isValid = %i\n", multiTracks.isValid()
+    }
 
     return;
   }

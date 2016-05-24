@@ -40,6 +40,8 @@ class TotemDAQTriggerDQMSource: public DQMEDAnalyzer
     void endRun(edm::Run const& run, edm::EventSetup const& eSetup);
 
   private:
+    unsigned int verbosity;
+
     edm::EDGetTokenT<std::vector<TotemFEDInfo>> tokenFEDInfo;
     edm::EDGetTokenT<TotemTriggerCounters> tokenTriggerCounters;
     
@@ -68,7 +70,8 @@ using namespace edm;
 
 //----------------------------------------------------------------------------------------------------
 
-TotemDAQTriggerDQMSource::TotemDAQTriggerDQMSource(const edm::ParameterSet& ps)
+TotemDAQTriggerDQMSource::TotemDAQTriggerDQMSource(const edm::ParameterSet& ps) :
+  verbosity(ps.getUntrackedParameter<unsigned int>("verbosity", 0))
 {
   tokenFEDInfo = consumes<vector<TotemFEDInfo>>(ps.getParameter<edm::InputTag>("tagFEDInfo"));
   tokenTriggerCounters = consumes<TotemTriggerCounters>(ps.getParameter<edm::InputTag>("tagTriggerCounters"));
@@ -137,9 +140,13 @@ void TotemDAQTriggerDQMSource::analyze(edm::Event const& event, edm::EventSetup 
 
   if (!daqValid || !triggerValid)
   {
-    printf("WARNING in TotemDAQTriggerDQMSource::analyze > some of the required inputs are not valid.\n");
-    printf("\tfedInfo.isValid = %i\n", fedInfo.isValid());
-    printf("\ttriggerCounters.isValid = %i\n", triggerCounters.isValid());
+    if (verbosity)
+    {
+      LogPrint("TotemDAQTriggerDQMSource") <<
+        "WARNING in TotemDAQTriggerDQMSource::analyze > some of the inputs are not valid.\n"
+        << "    fedInfo.isValid = " << fedInfo.isValid() << "\n"
+        << "    triggerCounters.isValid = " << triggerCounters.isValid();
+    }
   }
 
   // DAQ plots

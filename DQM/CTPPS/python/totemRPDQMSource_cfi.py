@@ -7,6 +7,8 @@ totemRPDQMSource = cms.EDAnalyzer("TotemRPDQMSource",
     tagRecHit = cms.InputTag("totemRPRecHitProducer"),
     tagUVPattern = cms.InputTag("totemRPUVPatternFinder"),
     tagLocalTrack = cms.InputTag("totemRPLocalTrackFitter"),
+  
+    verbosity = cms.untracked.uint32(0),
 
     buildCorrelationPlots = cms.untracked.bool(False),
     correlationPlotsLimit = cms.untracked.uint32(50),
