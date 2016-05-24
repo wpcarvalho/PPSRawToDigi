@@ -71,6 +71,9 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     struct GlobalPlots
     {
       MonitorElement *events_per_bx = NULL;
+      MonitorElement *h_trackCorr_hor = NULL;
+
+      void Init(DQMStore::IBooker &ibooker);
     };
 
     GlobalPlots globalPlots;
@@ -161,6 +164,21 @@ class TotemRPDQMSource: public DQMEDAnalyzer
 
 using namespace std;
 using namespace edm;
+
+//----------------------------------------------------------------------------------------------------
+
+void TotemRPDQMSource::GlobalPlots::Init(DQMStore::IBooker &ibooker)
+{
+  events_per_bx = ibooker.book1D("events per BX", "rp;Event.BX", 4002, -1.5, 4000. + 0.5);
+
+  h_trackCorr_hor = ibooker.book2D("track correlation RP-210-hor", "rp, 210, hor", 4, -0.5, 3.5, 4, -0.5, 3.5);
+  TH2F *hist = h_trackCorr_hor->getTH2F();
+  TAxis *xa = hist->GetXaxis(), *ya = hist->GetYaxis();
+  xa->SetBinLabel(1, "45, 210, near"); ya->SetBinLabel(1, "45, 210, near");
+  xa->SetBinLabel(2, "45, 210, far"); ya->SetBinLabel(2, "45, 210, far");
+  xa->SetBinLabel(3, "56, 210, near"); ya->SetBinLabel(3, "56, 210, near");
+  xa->SetBinLabel(4, "56, 210, far"); ya->SetBinLabel(4, "56, 210, far");
+}
 
 //----------------------------------------------------------------------------------------------------
 
@@ -429,7 +447,7 @@ void TotemRPDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::Run const
   ibooker.setCurrentFolder("CTPPS");
 
   // global plots
-  globalPlots.events_per_bx = ibooker.book1D("events per BX", "rp;Event.BX", 4002, -1.5, 4000. + 0.5);
+  globalPlots.Init(ibooker);
 
   // temporarily disabled
   /*
@@ -547,6 +565,42 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   // Global Plots
 
   globalPlots.events_per_bx->Fill(event.bunchCrossing());
+
+  for (auto &ds1 : *tracks)
+  {
+    for (auto &tr1 : ds1)
+    {
+      if (! tr1.isValid())
+        continue;
+  
+      unsigned int rpId1 = ds1.detId();
+      unsigned int arm1 = rpId1 / 100;
+      unsigned int stNum1 = (rpId1 / 10) % 10;
+      unsigned int rpNum1 = rpId1 % 10;
+      if (stNum1 != 0 || (rpNum1 != 2 && rpNum1 != 3))
+        continue;
+      unsigned int idx1 = arm1*2 + rpNum1-2;
+
+      for (auto &ds2 : *tracks)
+      {
+        for (auto &tr2 : ds2)
+        {
+          if (! tr2.isValid())
+            continue;
+        
+          unsigned int rpId2 = ds2.detId();
+          unsigned int arm2 = rpId2 / 100;
+          unsigned int stNum2 = (rpId2 / 10) % 10;
+          unsigned int rpNum2 = rpId2 % 10;
+          if (stNum2 != 0 || (rpNum2 != 2 && rpNum2 != 3))
+            continue;
+          unsigned int idx2 = arm2*2 + rpNum2-2;
+  
+          globalPlots.h_trackCorr_hor->Fill(idx1, idx2); 
+        }
+      }
+    }
+  }
 
   //------------------------------
   // Status Plots
