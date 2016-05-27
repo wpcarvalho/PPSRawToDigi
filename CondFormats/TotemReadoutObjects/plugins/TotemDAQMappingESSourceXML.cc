@@ -972,7 +972,7 @@ TotemFramePosition TotemDAQMappingESSourceXML::ChipFramePosition(xercesc::DOMNod
   if (!fp.checkXMLAttributeFlag(attributeFlag))
   {
     throw cms::Exception("TotemDAQMappingESSourceXML") <<
-      "Wrong/incomplete DAQ channel specification (attributeFlag = " << attributeFlag << ")." << endl;
+      "Wrong/incomplete DAQ channel specification (attributeFlag = " << (unsigned int) attributeFlag << ")." << endl;
   }
 
   return fp;
@@ -1005,7 +1005,6 @@ TotemDAQMappingESSourceXML::NodeType TotemDAQMappingESSourceXML::GetNodeType(xer
   if (Test(n, tagT1CSC)) return nT1CSC;
   if (Test(n, tagT1ChannelType)) return nT1ChannelType;
   if (Test(n, tagChannel)) return nChannel;
-
 
   throw cms::Exception("TotemDAQMappingESSourceXML::GetNodeType") << "Unknown tag `"
     << XMLString::transcode(n->getNodeName()) << "'.\n";
