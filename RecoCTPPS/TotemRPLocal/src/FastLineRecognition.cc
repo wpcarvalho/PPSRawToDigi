@@ -13,11 +13,11 @@
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 
 #include <map>
-#include <math.h>
-#include <stdio.h>
+#include <cmath>
+#include <cstdio>
 #include <algorithm>
 
-//#define DEBUG 1
+//#define CTPPS_DEBUG 1
 
 using namespace std;
 using namespace edm;
@@ -118,7 +118,7 @@ void FastLineRecognition::getPatterns(const DetSetVector<TotemRPRecHit> &input, 
     }
   }
 
-#if DEBUG > 0
+#if CTPPS_DEBUG > 0
   printf(">> FastLineRecognition::getPatterns(z0 = %E)\n", z0);
   printf(">>>>>>>>>>>>>>>>>>>\n");
 #endif
@@ -135,13 +135,13 @@ void FastLineRecognition::getPatterns(const DetSetVector<TotemRPRecHit> &input, 
     pattern.setB(c.Sbw/c.Sw);
     pattern.setW(c.weight);
 
-#if DEBUG > 0
+#if CTPPS_DEBUG > 0
     printf("\tpoints of the selected cluster: %lu\n", c.contents.size());
 #endif
 
     for (auto &pit : c.contents)
     { 
-#if DEBUG > 0
+#if CTPPS_DEBUG > 0
       printf("\t\t%.1f\n", pit->z);
 #endif
       pattern.addHit(pit->detId, *(pit->hit));
@@ -149,7 +149,7 @@ void FastLineRecognition::getPatterns(const DetSetVector<TotemRPRecHit> &input, 
 
     patterns.push_back(pattern);
 
-#if DEBUG > 0
+#if CTPPS_DEBUG > 0
     unsigned int u_points_b = 0;
     for (vector<Point>::iterator dit = points.begin(); dit != points.end(); ++dit)
       if (dit->usable)
@@ -172,7 +172,7 @@ void FastLineRecognition::getPatterns(const DetSetVector<TotemRPRecHit> &input, 
       }
     }
 
-#if DEBUG > 0
+#if CTPPS_DEBUG > 0
     unsigned int u_points_a = 0;
     for (vector<Point>::iterator dit = points.begin(); dit != points.end(); ++dit)
       if (dit->usable)
@@ -181,7 +181,7 @@ void FastLineRecognition::getPatterns(const DetSetVector<TotemRPRecHit> &input, 
 #endif
   }
 
-#if DEBUG > 0
+#if CTPPS_DEBUG > 0
   printf("patterns at end: %lu\n", patterns.size());
   printf("<<<<<<<<<<<<<<<<<<<\n");
 #endif
@@ -192,7 +192,7 @@ void FastLineRecognition::getPatterns(const DetSetVector<TotemRPRecHit> &input, 
 bool FastLineRecognition::getOneLine(const vector<FastLineRecognition::Point> &points,
   double threshold, FastLineRecognition::Cluster &result)
 {
-#if DEBUG > 0
+#if CTPPS_DEBUG > 0
   printf("\tFastLineRecognition::getOneLine\n");
 #endif
 
@@ -229,7 +229,7 @@ bool FastLineRecognition::getOneLine(const vector<FastLineRecognition::Point> &p
       double b = p1 - z1 * a;
       double w = w1 + w2;
 
-#if DEBUG > 0
+#if CTPPS_DEBUG > 0
       printf("\t\t\tz: 1=%+5.1f, 2=%+5.1f | U/V: 1=%+6.3f, 2=%+6.3f | a=%+6.3f rad, b=%+6.3f mm, w=%.1f\n", z1, z2, p1, p2, a, b, w);
 #endif
 
@@ -241,7 +241,7 @@ bool FastLineRecognition::getOneLine(const vector<FastLineRecognition::Point> &p
         if (c.S1 < 1. || c.Sw <= 0.)
           continue;
 
-#if DEBUG > 0
+#if CTPPS_DEBUG > 0
         if (k < 10)
           printf("\t\t\t\ttest cluster %u at a=%+6.3f, b=%+6.3f : %+6.3f, %+6.3f : %i, %i\n", k, c.Saw/c.Sw, c.Sbw/c.Sw, 
             chw_a, chw_b,
@@ -252,7 +252,7 @@ bool FastLineRecognition::getOneLine(const vector<FastLineRecognition::Point> &p
         {
           newCluster = false;
           clusters[k].add(& (*it1), & (*it2), a, b, w);
-#if DEBUG > 0
+#if CTPPS_DEBUG > 0
           printf("\t\t\t\t--> cluster %u\n", k);
 #endif
           break;
@@ -262,7 +262,7 @@ bool FastLineRecognition::getOneLine(const vector<FastLineRecognition::Point> &p
       // make new cluster
       if (newCluster)
       {
-#if DEBUG > 0
+#if CTPPS_DEBUG > 0
         printf("\t\t\t\t--> new cluster %lu\n", clusters.size());
 #endif
         clusters.push_back(Cluster());
@@ -271,7 +271,7 @@ bool FastLineRecognition::getOneLine(const vector<FastLineRecognition::Point> &p
     }
   }
 
-#if DEBUG > 0
+#if CTPPS_DEBUG > 0
   printf("\t\tclusters: %lu\n", clusters.size());
 #endif
 
@@ -292,7 +292,7 @@ bool FastLineRecognition::getOneLine(const vector<FastLineRecognition::Point> &p
     }
   }
 
-#if DEBUG > 0
+#if CTPPS_DEBUG > 0
   printf("\t\tmw = %.1f, mk = %u\n", mw, mk);
 #endif
 
