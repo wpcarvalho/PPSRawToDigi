@@ -32,8 +32,6 @@
 #include "Geometry/VeryForwardGeometryBuilder/interface/TotemRPGeometry.h"
 #include "Geometry/VeryForwardRPTopology/interface/RPTopology.h"
 
-#include "DQM/CTPPS/interface/CorrelationPlotsSelector.h"
-
 #include <string>
 
 //----------------------------------------------------------------------------------------------------
@@ -62,10 +60,6 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     edm::EDGetTokenT< edm::DetSetVector<TotemRPUVPattern> > tokenUVPattern;
     edm::EDGetTokenT< edm::DetSetVector<TotemRPLocalTrack> > tokenLocalTrack;
     //edm::EDGetTokenT< RPMulFittedTrackCollection > tokenMultiTrackColl;
-
-    bool buildCorrelationPlots;                           ///< decides wheather the correlation plots are created
-    unsigned int correlationPlotsLimit;                   ///< maximum number of created correlation plots
-    CorrelationPlotsSelector correlationPlotsSelector;
 
     /// plots related to the whole system
     struct GlobalPlots
@@ -111,15 +105,8 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     /// plots related to one station
     struct StationPlots
     {
-      int id;
-
-      std::map<int, std::map<int, MonitorElement*> > hist;
-
       StationPlots() {}
-      StationPlots(DQMStore::IBooker &ibooker, int _id, std::set<unsigned int> planes, bool allocateCorrelationPlots, 
-        CorrelationPlotsSelector *correlationPlotsSelector, int limit = -1);
-
-      void Add(DQMStore::IBooker &ibooker, std::set<unsigned int> planes, CorrelationPlotsSelector *correlationPlotsSelector, int limit = -1);
+      StationPlots(DQMStore::IBooker &ibooker, int _id);
     };
 
     std::map<unsigned int, StationPlots> stationPlots;
@@ -255,96 +242,11 @@ TotemRPDQMSource::ArmPlots::ArmPlots(DQMStore::IBooker &ibooker, int _id) : id(_
 
 //----------------------------------------------------------------------------------------------------
 
-TotemRPDQMSource::StationPlots::StationPlots(DQMStore::IBooker &ibooker, int _id, std::set<unsigned int> planes, 
-  bool allocateCorrelationPlots, CorrelationPlotsSelector *correlationPlotsSelector, int limit) : 
-    id(_id)
+TotemRPDQMSource::StationPlots::StationPlots(DQMStore::IBooker &ibooker, int id) 
 {
   string path = TotemRPDetId::stationName(id, TotemRPDetId::nPath);
   path.replace(0, 2, "TrackingStrip");
   ibooker.setCurrentFolder(string("CTPPS/") + path);
-
-  if (allocateCorrelationPlots)
-    Add(ibooker, planes, correlationPlotsSelector, limit);
-}
-
-//----------------------------------------------------------------------------------------------------
-
-void TotemRPDQMSource::StationPlots::Add(DQMStore::IBooker &ibooker, std::set<unsigned int> planes, CorrelationPlotsSelector *correlationPlotsSelector, int limit)
-{
-  int correlationPlotsCounter = 0;
-
-  bool limited;
-  if (limit == -1)
-    limited = false;
-  else
-    limited = true;
-
-  for (std::set<unsigned int>::iterator i = planes.begin(); i != planes.end(); i++)
-  {
-    for (std::set<unsigned int>::iterator j = i; j != planes.end(); j++)
-    {
-      if (hist[*i][*j] == 0 && hist[*j][*i] == 0 && *i != *j && i != j)
-      {
-        unsigned int plane1 = std::min(*i, *j);
-        unsigned int plane2 = std::max(*i, *j);
-        if (correlationPlotsSelector->IfTwoCorrelate(plane1, plane2) && (!limited || correlationPlotsCounter < limit))
-        {
-          char buf1[200];
-          char buf2[200];
-          unsigned int RPPlaneId1 = plane1 + 100 * id;
-          unsigned int RPPlaneId2 = plane2 + 100 * id;
-          std::string RPPlane1 = "";
-          std::string RPPlane2 = "";
-          RPPlane1 += TotemRPDetId::planeName(RPPlaneId1, TotemRPDetId::nPath);
-          RPPlane2 += TotemRPDetId::planeName(RPPlaneId2, TotemRPDetId::nPath);
-          size_t pos1 = RPPlane1.rfind('/');
-          size_t pos2 = RPPlane2.rfind('/');
-          
-          if (pos1 == std::string::npos)
-          {
-            pos1 = 0;
-          } else {
-            RPPlane1 = RPPlane1.substr(0, pos1);
-          }
-          
-          if (pos2 == std::string::npos) {
-            pos2 = 0;
-          } else {
-            RPPlane2 = RPPlane2.substr(0, pos2);
-          }
-
-          pos1 = RPPlane1.rfind('/');
-          pos2 = RPPlane2.rfind('/');
-
-          if (pos1 == std::string::npos) {
-            pos1 = 0;
-          } else {
-            RPPlane1 = RPPlane1.substr(pos1 + 1);
-          }
-
-          if (pos2 == std::string::npos)
-          {
-            pos2 = 0;
-          } else {
-            RPPlane2 = RPPlane2.substr(pos2 + 1);
-          }
-          RPPlane1 += '_';
-          RPPlane2 += '_';
-
-          sprintf(buf1, "%s%u", RPPlane1.c_str(), plane1 % 10);
-          sprintf(buf2, "%s%u", RPPlane2.c_str(), plane2 % 10);
-
-          hist[plane1][plane2] = ibooker.book2D(string("correlation profile ") +  buf1 + " vs " + buf2,
-            string("correlation profile ") + buf1 + " vs " + buf2 + ";strip in " + buf1 + ";strip in " + buf2, 512, -0.5, 511.5, 512, -0.5, 511.5);
-
-          correlationPlotsCounter++;
-        }
-      }
-    }
-  }
-
-  if (limited && correlationPlotsCounter >= limit)
-    printf("WARNING in TotemRPDQMSource > Number of correlation plots for station %i has been limited to %i.\n", id, limit);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -412,10 +314,7 @@ TotemRPDQMSource::PlanePlots::PlanePlots(DQMStore::IBooker &ibooker, unsigned in
 //----------------------------------------------------------------------------------------------------
 
 TotemRPDQMSource::TotemRPDQMSource(const edm::ParameterSet& ps) :
-  verbosity(ps.getUntrackedParameter<unsigned int>("verbosity", 0)),
-  buildCorrelationPlots(ps.getUntrackedParameter<bool>("buildCorrelationPlots", false)),
-  correlationPlotsLimit(ps.getUntrackedParameter<unsigned int>("correlationPlotsLimit", 50)),
-  correlationPlotsSelector(ps.getUntrackedParameter<std::string>("correlationPlotsFilter", ""))
+  verbosity(ps.getUntrackedParameter<unsigned int>("verbosity", 0))
 {
   tokenStatus = consumes<DetSetVector<TotemVFATStatus>>(ps.getParameter<edm::InputTag>("tagStatus"));
 
@@ -469,8 +368,8 @@ void TotemRPDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::Run const
     for (unsigned int st = 0; st < 3; st += 2)
     {
       unsigned int stId = 10*arm + st;
-
-      set<unsigned int> stationPlanes;
+      
+      stationPlots[stId] = StationPlots(ibooker, stId);
 
       // loop over RPs
       for (unsigned int rp = 0; rp < 6; ++rp)
@@ -484,14 +383,8 @@ void TotemRPDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::Run const
         {
           unsigned int plId = 10*rpId + pl;
           planePlots[plId] = PlanePlots(ibooker, plId);
-
-		  if (correlationPlotsSelector.IfCorrelate(plId))
-		    stationPlanes.insert(plId % 100);
         }
       }
-
-      stationPlots[stId] = StationPlots(ibooker, stId, stationPlanes,
-        buildCorrelationPlots, &correlationPlotsSelector, correlationPlotsLimit);
     }
   }
 }
@@ -843,38 +736,6 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   //------------------------------
   // Station Plots
 
-  // Correlation profile
-  if (buildCorrelationPlots)
-  {
-    for (DetSetVector<TotemRPDigi>::const_iterator i = digi->begin(); i != digi->end(); i++)
-    {
-      for (DetSetVector<TotemRPDigi>::const_iterator j = i; j != digi->end(); j++)
-      {
-        if (i == j)
-          continue;
-
-        unsigned int DetId1 = TotemRPDetId::rawToDecId(i->detId());
-        unsigned int DetId2 = TotemRPDetId::rawToDecId(j->detId());
-        unsigned int StationId1 = DetId1 / 100;
-        unsigned int StationId2 = DetId2 / 100;
-
-        if (StationId1 != StationId2)
-          continue;
-
-        unsigned int RPPlaneId1 = DetId1 % 100;
-        unsigned int RPPlaneId2 = DetId2 % 100;
-        if (stationPlots[StationId1].hist[RPPlaneId1][RPPlaneId2])
-        {
-          for (DetSet<TotemRPDigi>::const_iterator di = i->begin(); di != i->end(); di++)
-          {
-            for (DetSet<TotemRPDigi>::const_iterator dj = j->begin(); dj != j->end(); dj++)
-              stationPlots[StationId1].hist[RPPlaneId1][RPPlaneId2]->Fill(di->getStripNumber(), dj->getStripNumber());
-          }
-        }
-
-      }
-    }
-  }
   
   //------------------------------
   // Arm Plots
