@@ -138,6 +138,7 @@ class TotemRPDQMSource: public DQMEDAnalyzer
       MonitorElement *cluster_profile_cumulative = NULL;
       MonitorElement *hit_multiplicity = NULL;
       MonitorElement *cluster_size = NULL;
+      MonitorElement *efficiency_num = NULL, *efficiency_den = NULL;
 
       PlanePlots() {}
       PlanePlots(DQMStore::IBooker &ibooker, unsigned int id);
@@ -308,6 +309,9 @@ TotemRPDQMSource::PlanePlots::PlanePlots(DQMStore::IBooker &ibooker, unsigned in
   cluster_profile_cumulative = ibooker.book1D("cluster profile", title+";cluster center", 1024, -0.25, 511.75);
   hit_multiplicity = ibooker.book1D("hit multiplicity", title+";hits/detector/event", 6, -0.5, 5.5);
   cluster_size = ibooker.book1D("cluster size", title+";hits per cluster", 5, 0.5, 5.5);
+
+  efficiency_num = ibooker.book1D("efficiency num", title+";track position   (mm)", 30, -15., 0.);
+  efficiency_den = ibooker.book1D("efficiency den", title+";track position   (mm)", 30, -15., 0.);
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -580,11 +584,35 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
 
       for (unsigned int plNum = 0; plNum < 10; ++plNum)
       {
-        unsigned int plRawId = TotemRPDetId::decToRawId(rpId*10 + plNum);
+        unsigned int plDecId = rpId*10 + plNum;
+        unsigned int plRawId = TotemRPDetId::decToRawId(plDecId);
 
-        double pl_z = geometry->GetDetector(plRawId)->translation().z();
-        double pl_x = ft.getX0() + ft.getTx() * (pl_z - rp_z);
-        double pl_y = ft.getY0() + ft.getTy() * (pl_z - rp_z);
+        double ft_z = ft.getZ0();
+        double ft_x = ft.getX0() + ft.getTx() * (ft_z - rp_z);
+        double ft_y = ft.getY0() + ft.getTy() * (ft_z - rp_z);
+
+        double ft_v = geometry->GlobalToLocal(plRawId, CLHEP::Hep3Vector(ft_x, ft_y, ft_z)).y();
+
+        bool hasMatchingHit = false;
+        const auto &hit_ds_it = hits->find(plRawId);
+        if (hit_ds_it != hits->end())
+        {
+          for (const auto &h : *hit_ds_it)
+          {
+            bool match = (fabs(ft_v - h.getPosition()) < 2.*0.066);
+            if (match)
+            {
+              hasMatchingHit = true;
+              break;
+            }
+          }
+        }
+
+        auto &pp = planePlots[plDecId];
+
+        pp.efficiency_den->Fill(ft_v);
+        if (hasMatchingHit)
+          pp.efficiency_num->Fill(ft_v);
       }
     }
   }
