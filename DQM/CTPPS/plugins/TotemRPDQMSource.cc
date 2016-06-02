@@ -566,16 +566,43 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
       planePlots[DetId].cluster_size->Fill(dit->getNumberOfStrips());
   }
 
+  // plane efficiency plots
+  for (auto &ds : *tracks)
+  {
+    unsigned int rpId = ds.detId();
+
+    for (auto &ft : ds)
+    {
+      if (!ft.isValid())
+        continue;
+
+      double rp_z = geometry->GetRPGlobalTranslation(rpId).z();
+
+      for (unsigned int plNum = 0; plNum < 10; ++plNum)
+      {
+        unsigned int plRawId = TotemRPDetId::decToRawId(rpId*10 + plNum);
+
+        double pl_z = geometry->GetDetector(plRawId)->translation().z();
+        double pl_x = ft.getX0() + ft.getTx() * (pl_z - rp_z);
+        double pl_y = ft.getY0() + ft.getTy() * (pl_z - rp_z);
+      }
+    }
+  }
+
+
   //------------------------------
   // Roman Pots Plots
 
-  // plane activity histogram
+  // determine active planes (from RecHits and VFATStatus)
   map<unsigned int, set<unsigned int> > planes;
   map<unsigned int, set<unsigned int> > planes_u;
   map<unsigned int, set<unsigned int> > planes_v;
-  for (DetSetVector<TotemRPRecHit>::const_iterator it = hits->begin(); it != hits->end(); ++it)
+  for (const auto &ds : *hits)
   {
-    unsigned int DetId = TotemRPDetId::rawToDecId(it->detId());
+    if (ds.empty())
+      continue;
+
+    unsigned int DetId = TotemRPDetId::rawToDecId(ds.detId());
     unsigned int RPId = TotemRPDetId::rpOfDet(DetId);
     unsigned int planeNum = DetId % 10;
     planes[RPId].insert(planeNum);
@@ -584,7 +611,33 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     else
       planes_v[RPId].insert(planeNum);
   }
-  
+
+  for (const auto &ds : *status)
+  {
+    bool activity = false;
+    for (const auto &s : ds)
+    {
+      if (s.isNumberOfClustersSpecified() && s.getNumberOfClusters() > 0)
+      {
+        activity = true;
+        break;
+      }
+    } 
+
+    if (!activity)
+      continue;
+
+    unsigned int DetId = TotemRPDetId::rawToDecId(ds.detId());
+    unsigned int RPId = TotemRPDetId::rpOfDet(DetId);
+    unsigned int planeNum = DetId % 10;
+    planes[RPId].insert(planeNum);
+    if (TotemRPDetId::isStripsCoordinateUDirection(DetId))
+      planes_u[RPId].insert(planeNum);
+    else
+      planes_v[RPId].insert(planeNum);
+  }
+
+  // plane activity histogram
   for (std::map<unsigned int, PotPlots>::iterator it = potPlots.begin(); it != potPlots.end(); it++)
   {
     it->second.activity->Fill(planes[it->first].size());
@@ -678,7 +731,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     pp.event_category->Fill(category);
   }
 
-  // cumulative RP fit plots
+  // RP track-fit plots
   for (auto &ds : *tracks)
   {
     unsigned int RPId = ds.detId();
