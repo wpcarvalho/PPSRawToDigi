@@ -11,7 +11,6 @@
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "TMath.h"
 #include "TMatrixD.h"
 
 //----------------------------------------------------------------------------------------------------
@@ -168,7 +167,7 @@ bool TotemRPLocalTrackFitterAlgorithm::fitTrack(const edm::DetSetVector<TotemRPR
     V_T_Cov_X_Y(0,1) = readout_dir.Y();
     TMatrixD V_T_Cov_X_Y_mult(V_T_Cov_X_Y, TMatrixD::kMult, fitted_track.trackPointInterpolationCovariance(det_z));
     double fit_strip_var = V_T_Cov_X_Y_mult(0,0)*readout_dir.X() + V_T_Cov_X_Y_mult(0,1)*readout_dir.Y();
-    double pull_normalization = TMath::Sqrt(sigma_str_2 - fit_strip_var);
+    double pull_normalization = sqrt(sigma_str_2 - fit_strip_var);
     double pull = residual/pull_normalization;
     
     Chi_2+=residual/sigma_str_2;
