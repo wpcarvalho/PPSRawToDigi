@@ -29,24 +29,31 @@ process.dqmSaver = cms.EDAnalyzer("DQMFileSaverOnline",
   path = cms.untracked.string("."),
 )
 
-# RP raw data
+# raw data source
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/j/jkaspar/public/run273062_ls0001-2_stream.root')
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    # TODO: revert to -1
+    #input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(10)
 )
 
-# RP digi
-process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
+# raw-to-digi conversion
+process.load("CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi")
 process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/ctpps_210_mapping.xml")
 
 process.load("EventFilter.TotemRawToDigi.totemTriggerRawToDigi_cfi")
 process.totemTriggerRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
 
-process.load('EventFilter.TotemRawToDigi.totemRPRawToDigi_cfi')
+process.load("EventFilter.TotemRawToDigi.totemRPRawToDigi_cfi")
 process.totemRPRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
+
+process.totemRawToDigi = cms.Sequence(
+  #process.totemTriggerRawToDigi *
+  process.totemRPRawToDigi
+)
 
 # RP geometry
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
@@ -58,17 +65,33 @@ process.load("RecoCTPPS.TotemRPLocal.totemRPLocalReconstruction_cff")
 # TOTEM DQM modules
 process.load("DQM.CTPPS.totemDAQTriggerDQMSource_cfi")
 process.load("DQM.CTPPS.totemRPDQMSource_cfi")
+process.load("DQM.CTPPS.totemRPDQMHarvester_cfi")
+
+# ntuplizer
+process.load("TotemAnalysis.TotemNtuplizer.TotemNtuplizer_cfi")
+process.totemNtuplizer.outputFileName = "dqm_ntuple.root"
+
+# output configuration
+from RecoCTPPS.Configuration.RecoCTPPS_EventContent_cff import RecoCTPPSRECO
+process.output = cms.OutputModule("PoolOutputModule",
+    fileName = cms.untracked.string("file:./dqm_reco.root"),
+    outputCommands = RecoCTPPSRECO.outputCommands
+)
 
 # execution schedule
 process.reco_totem = cms.Path(
-  process.totemTriggerRawToDigi *
-  process.totemRPRawToDigi *
+  process.totemRawToDigi *
   process.totemRPLocalReconstruction
+)
+
+process.ntuple_totem = cms.Path(
+  process.totemNtuplizer
 )
 
 process.dqm_totem = cms.Path(
   process.totemDAQTriggerDQMSource *
-  process.totemRPDQMSource
+  process.totemRPDQMSource *
+  process.totemRPDQMHarvester
 )
 
 process.dqm_common = cms.Path(
@@ -77,8 +100,12 @@ process.dqm_common = cms.Path(
     #process.dqmStoreStats
 )
 
+process.outpath = cms.EndPath(process.output)
+
 process.schedule = cms.Schedule(
     process.reco_totem,
     process.dqm_totem,
-    process.dqm_common
+    process.dqm_common,
+    process.ntuple_totem,
+    process.outpath
 )
