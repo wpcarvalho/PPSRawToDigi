@@ -57,7 +57,7 @@ process.totemRawToDigi = cms.Sequence(
 
 # RP geometry
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
+process.XMLIdealGeometryESSource_CTPPS.geomXMLFiles.append("Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
 
 # local RP reconstruction chain with standard settings
 process.load("RecoCTPPS.TotemRPLocal.totemRPLocalReconstruction_cff")

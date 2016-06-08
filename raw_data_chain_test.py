@@ -32,7 +32,7 @@ process.totemRPRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
 
 # geometry
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
+process.XMLIdealGeometryESSource_CTPPS.geomXMLFiles.append("Geometry/VeryForwardData/data/RP_Garage/RP_Dist_Beam_Cent.xml")
 
 process.load("Geometry.VeryForwardGeometryBuilder.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.RealFiles = cms.vstring()

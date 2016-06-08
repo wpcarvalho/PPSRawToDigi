@@ -15,7 +15,7 @@ process.source.fileNames.append('run_9998_EVB15_2.127.srs')
 
 process.load("Configuration.TotemCommon.LoggerMax_cfi")
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/2015_10_18_fill4511/RP_Dist_Beam_Cent.xml")
+process.XMLIdealGeometryESSource_CTPPS.geomXMLFiles.append("Geometry/VeryForwardData/data/2015_10_18_fill4511/RP_Dist_Beam_Cent.xml")
 
 process.load("Alignment.RPDataFormats.TotemRPIncludeAlignments_cfi")
 process.TotemRPIncludeAlignments.RealFiles = cms.vstring(
