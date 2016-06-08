@@ -26,7 +26,7 @@ process.dqmEnv.subSystemFolder = 'CTPPS'
 process.dqmSaver = cms.EDAnalyzer("DQMFileSaverOnline",
   producer = cms.untracked.string("DQM"),
   tag = cms.untracked.string("CTPPS"),
-  path = cms.untracked.string("."),
+  path = cms.untracked.string(".")
 )
 
 # raw data source
@@ -79,33 +79,18 @@ process.output = cms.OutputModule("PoolOutputModule",
 )
 
 # execution schedule
-process.reco_totem = cms.Path(
+process.path = cms.Path(
   process.totemRawToDigi *
-  process.totemRPLocalReconstruction
-)
+  process.totemRPLocalReconstruction *
 
-process.ntuple_totem = cms.Path(
-  process.totemNtuplizer
-)
-
-process.dqm_totem = cms.Path(
   process.totemDAQTriggerDQMSource *
   process.totemRPDQMSource *
-  process.totemRPDQMHarvester
-)
+  process.totemRPDQMHarvester *
+  
+  process.dqmEnv *
+  process.dqmSaver
 
-process.dqm_common = cms.Path(
-    process.dqmEnv *
-    process.dqmSaver
-    #process.dqmStoreStats
+  #process.totemNtuplizer
 )
 
 process.outpath = cms.EndPath(process.output)
-
-process.schedule = cms.Schedule(
-    process.reco_totem,
-    process.dqm_totem,
-    process.dqm_common,
-    process.ntuple_totem,
-    process.outpath
-)
