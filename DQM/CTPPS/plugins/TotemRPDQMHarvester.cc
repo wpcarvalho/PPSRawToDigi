@@ -68,7 +68,7 @@ void TotemRPDQMHarvester::MakeHitNumberRatios(unsigned int id, DQMStore::IBooker
   // book new histograms
   ibooker.setCurrentFolder(string("CTPPS/") + path);
   string title = TotemRPDetId::rpName(id, TotemRPDetId::nFull);
-  MonitorElement *hit_ratio = ibooker.book1D("hit ratio in hot spot", title+";plane", 10, -0.5, 9.5);
+  MonitorElement *hit_ratio = ibooker.book1D("hit ratio in hot spot", title+";plane;N_hits(320<strip<440) / N_hits(all)", 10, -0.5, 9.5);
 
   // calculate ratios
   TAxis *y_axis = activity->getTH2F()->GetYaxis();
