@@ -18,8 +18,8 @@ else:
 
 # DQM environment
 process.load("DQM.Integration.config.environment_cfi")
-process.dqmEnv.subSystemFolder = 'Totem'
-process.dqmSaver.tag = 'Totem'
+process.dqmEnv.subSystemFolder = 'CTPPS'
+process.dqmSaver.tag = 'CTPPS'
 
 if test:
   process.dqmSaver.path = "."
