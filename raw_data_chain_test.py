@@ -21,21 +21,10 @@ process.maxEvents = cms.untracked.PSet(
 )
 
 # raw-to-digi conversion
-process.load('CondFormats.TotemReadoutObjects.TotemDAQMappingESSourceXML_cfi')
-process.TotemDAQMappingESSourceXML.mappingFileNames.append("CondFormats/TotemReadoutObjects/xml/ctpps_210_mapping.xml")
-
-process.load("EventFilter.TotemRawToDigi.totemTriggerRawToDigi_cfi")
-process.totemTriggerRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
-
-process.load('EventFilter.TotemRawToDigi.totemRPRawToDigi_cfi')
-process.totemRPRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
+process.load("EventFilter.TotemRawToDigi.totemRawToDigi_cff")
 
 # geometry
-process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
-process.XMLIdealGeometryESSource_CTPPS.geomXMLFiles.append("Geometry/VeryForwardData/data/2016_ctpps_15sigma_margin0/RP_Dist_Beam_Cent.xml")
-
-process.load("Geometry.VeryForwardGeometryBuilder.TotemRPIncludeAlignments_cfi")
-process.TotemRPIncludeAlignments.RealFiles = cms.vstring()
+process.load("RecoCTPPS.Configuration.recoCTPPS_cff")
 
 # local RP reconstruction chain with standard settings
 process.load("RecoCTPPS.TotemRPLocal.totemRPLocalReconstruction_cff")
@@ -49,7 +38,7 @@ process.totemNtuplizer.outputFileName = "ntuple.root"
 process.p = cms.Path(
     process.totemTriggerRawToDigi *
     process.totemRPRawToDigi *
-    process.totemRPLocalReconstruction *
+    process.recoCTPPS *
     process.totemNtuplizer
 )
 
