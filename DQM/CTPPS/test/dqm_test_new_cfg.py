@@ -34,9 +34,7 @@ process.load("EventFilter.TotemRawToDigi.totemRawToDigi_cff")
 process.load("RecoCTPPS.Configuration.recoCTPPS_cff")
 
 # CTPPS DQM modules
-process.load("DQM.CTPPS.totemDAQTriggerDQMSource_cfi")
-process.load("DQM.CTPPS.totemRPDQMSource_cfi")
-process.load("DQM.CTPPS.totemRPDQMHarvester_cfi")
+process.load("DQM.CTPPS.totemDQM_cff")
 
 process.path = cms.Path(
   process.totemTriggerRawToDigi *
@@ -44,9 +42,7 @@ process.path = cms.Path(
 
   process.recoCTPPS *
 
-  process.totemDAQTriggerDQMSource *
-  process.totemRPDQMSource *
-  process.totemRPDQMHarvester
+  process.totemDQM
 )
 
 process.end_path = cms.EndPath(

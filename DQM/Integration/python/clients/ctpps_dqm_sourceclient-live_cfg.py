@@ -42,9 +42,7 @@ process.load("EventFilter.TotemRawToDigi.totemRawToDigi_cff")
 process.load("RecoCTPPS.Configuration.recoCTPPS_cff")
 
 # DQM Modules
-process.load("DQM.CTPPS.totemDAQTriggerDQMSource_cfi")
-process.load("DQM.CTPPS.totemRPDQMSource_cfi")
-process.load("DQM.CTPPS.totemRPDQMHarvester_cfi")
+process.load("DQM.CTPPS.totemDQM_cff")
 
 # processing path
 process.recoStep = cms.Sequence(
@@ -54,9 +52,7 @@ process.recoStep = cms.Sequence(
 )
 
 process.dqmModules = cms.Sequence(
-  process.totemDAQTriggerDQMSource +
-  process.totemRPDQMSource +
-  process.totemRPDQMHarvester +
+  process.totemDQM +
   process.dqmEnv +
   process.dqmSaver
 )
