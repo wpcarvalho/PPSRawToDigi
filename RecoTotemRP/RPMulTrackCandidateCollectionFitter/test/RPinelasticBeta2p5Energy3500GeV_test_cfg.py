@@ -45,7 +45,6 @@ process.SmearingGenerator.modifyLabel = 'source'
 
 # G4 Geometry - beta* specific
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
-process.XMLIdealGeometryESSource_CTPPS.geomXMLFiles.append('Geometry/VeryForwardData/data/RP_3500_Beta_2.5_220/RP_Dist_Beam_Cent.xml')		##### 3.5 / 2.5
 
 # Magnetic Field, by default we have 3.8T
 process.load("Configuration.StandardSequences.MagneticField_cff")

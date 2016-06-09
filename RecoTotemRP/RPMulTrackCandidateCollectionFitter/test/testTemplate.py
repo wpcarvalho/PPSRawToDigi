@@ -34,7 +34,6 @@ process.load("RecoTotemRP.TotemRPRecHitProducer.TotemRPRecHitProdConf_cfi")
 
 # geometry
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
-process.XMLIdealGeometryESSource_CTPPS.geomXMLFiles.append("Geometry/VeryForwardData/data/2010_10_08/RP_Dist_Beam_Cent.xml")
 process.TotemRPGeometryESModule = cms.ESProducer("TotemRPGeometryESModule")
 
 #add alignment here

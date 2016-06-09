@@ -16,7 +16,6 @@ process.maxEvents = cms.untracked.PSet(
 
 # nominal geometry
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
-process.XMLIdealGeometryESSource_CTPPS.geomXMLFiles.append("Geometry/VeryForwardData/data/2011_10_20_1/RP_Dist_Beam_Cent.xml")
 process.TotemRPGeometryESModule = cms.ESProducer("TotemRPGeometryESModule")
 
 # include initial alignments

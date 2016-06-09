@@ -13,7 +13,7 @@ process.MessageLogger = cms.Service("MessageLogger",
 
 # raw data source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/j/jkaspar/public/run273062_ls0001-2_stream.root')
+    fileNames = cms.untracked.vstring('/store/data/Run2016B/JetHT/RAW/v2/000/273/725/00000/9817A8A7-4F1E-E611-9248-02163E011EB4.root')
 )
 
 process.maxEvents = cms.untracked.PSet(
