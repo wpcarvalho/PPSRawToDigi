@@ -36,7 +36,6 @@ process.RPFastStationSimulation.angular_distribution.y_width = 0.1E-3
 # optics parameters and ideal geometry
 process.load("Configuration.TotemOpticsConfiguration.OpticsConfig_7000GeV_1535_cfi")
 process.load("Geometry.VeryForwardGeometry.geometryRP_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append('Geometry/VeryForwardData/data/' + 'RP_V:2.7_H:3.3' + '/RP_Dist_Beam_Cent.xml')
 
 # (mis)alignments
 process.load("Geometry.VeryForwardGeometryBuilder.TotemRPIncludeAlignments_cfi")

@@ -64,7 +64,7 @@ class TotemRPDQMSource: public DQMEDAnalyzer
     /// plots related to the whole system
     struct GlobalPlots
     {
-      MonitorElement *events_per_bx = NULL;
+      MonitorElement *events_per_bx = NULL, *events_per_bx_short = NULL;
       MonitorElement *h_trackCorr_hor = NULL;
 
       void Init(DQMStore::IBooker &ibooker);
@@ -117,7 +117,7 @@ class TotemRPDQMSource: public DQMEDAnalyzer
       MonitorElement *vfat_problem=NULL, *vfat_missing=NULL, *vfat_ec_bc_error=NULL, *vfat_corruption=NULL;
 
       MonitorElement *activity=NULL, *activity_u=NULL, *activity_v=NULL;
-      MonitorElement *activity_per_bx=NULL;
+      MonitorElement *activity_per_bx=NULL, *activity_per_bx_short=NULL;
       MonitorElement *hit_plane_hist=NULL;
       MonitorElement *patterns_u=NULL, *patterns_v=NULL;
       MonitorElement *h_planes_fit_u=NULL, *h_planes_fit_v=NULL;
@@ -158,6 +158,7 @@ using namespace edm;
 void TotemRPDQMSource::GlobalPlots::Init(DQMStore::IBooker &ibooker)
 {
   events_per_bx = ibooker.book1D("events per BX", "rp;Event.BX", 4002, -1.5, 4000. + 0.5);
+  events_per_bx_short = ibooker.book1D("events per BX (short)", "rp;Event.BX", 102, -1.5, 100. + 0.5);
 
   h_trackCorr_hor = ibooker.book2D("track correlation RP-210-hor", "rp, 210, hor", 4, -0.5, 3.5, 4, -0.5, 3.5);
   TH2F *hist = h_trackCorr_hor->getTH2F();
@@ -271,6 +272,7 @@ TotemRPDQMSource::PotPlots::PotPlots(DQMStore::IBooker &ibooker, unsigned int id
   activity_v = ibooker.book1D("active planes V", title+";number of active V planes", 11, -0.5, 10.5);
 
   activity_per_bx = ibooker.book1D("activity per BX", title+";Event.BX", 4002, -1.5, 4000. + 0.5);
+  activity_per_bx_short = ibooker.book1D("activity per BX (short)", title+";Event.BX", 102, -1.5, 100. + 0.5);
 
   hit_plane_hist = ibooker.book2D("activity in planes (2D)", title+";plane number;strip number", 10, -0.5, 9.5, 32, -0.5, 511.5);
 
@@ -462,6 +464,7 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
   // Global Plots
 
   globalPlots.events_per_bx->Fill(event.bunchCrossing());
+  globalPlots.events_per_bx_short->Fill(event.bunchCrossing());
 
   for (auto &ds1 : *tracks)
   {
@@ -673,7 +676,10 @@ void TotemRPDQMSource::analyze(edm::Event const& event, edm::EventSetup const& e
     it->second.activity_v->Fill(planes_v[it->first].size());
 
     if (planes[it->first].size() >= 6)
+    {
       it->second.activity_per_bx->Fill(event.bunchCrossing());
+      it->second.activity_per_bx_short->Fill(event.bunchCrossing());
+    }
   }
   
   for (DetSetVector<TotemRPCluster>::const_iterator it = digCluster->begin(); it != digCluster->end(); it++)

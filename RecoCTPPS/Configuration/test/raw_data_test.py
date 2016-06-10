@@ -13,7 +13,7 @@ process.MessageLogger = cms.Service("MessageLogger",
 
 # raw data source
 process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/j/jkaspar/public/run273062_ls0001-2_stream.root')
+    fileNames = cms.untracked.vstring('/store/data/Run2016B/JetHT/RAW/v2/000/273/725/00000/9817A8A7-4F1E-E611-9248-02163E011EB4.root')
 )
 
 process.maxEvents = cms.untracked.PSet(
@@ -23,27 +23,20 @@ process.maxEvents = cms.untracked.PSet(
 # raw-to-digi conversion
 process.load("EventFilter.TotemRawToDigi.totemRawToDigi_cff")
 
-# local RP reconstruction chain with standard settings
+# RP reconstruction chain with standard settings
 process.load("RecoCTPPS.Configuration.recoCTPPS_cff")
-
-process.dump = cms.EDAnalyzer("EventContentAnalyzer")
-
-# ntuplizer
-process.load("TotemAnalysis.TotemNtuplizer.TotemNtuplizer_cfi")
-process.totemNtuplizer.outputFileName = "ntuple.root"
 
 process.p = cms.Path(
     process.totemTriggerRawToDigi *
     process.totemRPRawToDigi *
-    process.recoCTPPS *
-    process.totemNtuplizer
+    process.recoCTPPS
 )
 
 # output configuration
-from RecoCTPPS.Configuration.RecoCTPPS_EventContent_cff import RecoCTPPSRECO
+from RecoCTPPS.Configuration.RecoCTPPS_EventContent_cff import RecoCTPPSAOD
 process.output = cms.OutputModule("PoolOutputModule",
-    fileName = cms.untracked.string("file:./reco.root"),
-    outputCommands = RecoCTPPSRECO.outputCommands
+    fileName = cms.untracked.string("file:./AOD.root"),
+    outputCommands = RecoCTPPSAOD.outputCommands
 )
 
 process.outpath = cms.EndPath(process.output)

@@ -38,7 +38,6 @@ process.load("RecoTotemRP.RPRecoHitProducer.RPRecoHitProdConf_cfi")
 
 # geometry
 process.load("Configuration.TotemCommon.geometryRP_real_cfi")
-process.XMLIdealGeometryESSource.geomXMLFiles.append("Geometry/VeryForwardData/data/2011_05_18/RP_Dist_Beam_Cent.xml")
 
 # track search/pattern recognition
 process.load("RecoTotemRP.RPNonParallelTrackCandidateFinder.RPNonParallelTrackCandidateFinder_cfi")
