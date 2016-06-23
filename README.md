@@ -16,7 +16,7 @@ migrated to newer version of CMSSW framework.
 ssh -X $USER@lxplus
 source /afs/cern.ch/cms/cmsset_default.sh
 cmsrel CMSSW_8_1_0_pre5
-git clone https://github.com/CTPPS/ctpps-offline.git CMSSW_8_1_0_pre5/rc
+git clone https://github.com/CTPPS/ctpps-offline.git CMSSW_8_1_0_pre5/src
 cd CMSSW_8_1_0_pre5/src
 cmsenv
 scram build -j 15
