@@ -6,10 +6,9 @@
 *
 ****************************************************************************/
 
-// TODO: remove this file completely
-
 #include "TotemAnalysis/TotemNtuplizer/interface/RawMetaDataNtuplizer.h"
 
+// TODO: use DataFormats/TotemDigi/interface/TotemTriggerCounters.h instead
 //#include "DataFormats/TotemDigi/interface/TotemRawEvent.h"
 
 #include "FWCore/Framework/interface/Event.h"
@@ -27,7 +26,7 @@ ClassImp(EventMetaData)
 //----------------------------------------------------------------------------------------------------
 
 RawMetaDataNtuplizer::RawMetaDataNtuplizer(const edm::ParameterSet &ps) : Ntuplizer(ps),
-    rawEventLabel(ps.getParameter< edm::InputTag >("RawEventLabel"))
+    fedInfosLabel(ps.getParameter< edm::InputTag >("FEDInfosLabel"))
 {
 }
 
@@ -42,15 +41,18 @@ void RawMetaDataNtuplizer::CreateBranches(const edm::EventSetup&, TTree *tree)
 
 void RawMetaDataNtuplizer::FillEvent(const edm::Event &event, const edm::EventSetup &es)
 {
+  // use fedInfosLabel
   /*
   Handle< TotemRawEvent > input;
   event.getByLabel(rawEventLabel, input);
+  */
 
   data.run_no = event.id().run();
   data.event_no = event.id().event();
   data.timestamp = event.time().unixTime();
-  data.daq_event_number = input->getDataEventNumber();
+  data.daq_event_number = 0;
 
+  /*
   data.optoRx_Id.clear();
   data.optoRx_BX.clear();
   data.optoRx_LV1.clear();

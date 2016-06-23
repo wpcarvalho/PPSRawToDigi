@@ -22,11 +22,12 @@ class RawMetaDataNtuplizer : public Ntuplizer
 
     virtual ~RawMetaDataNtuplizer() {}
 
-    virtual void CreateBranches(const edm::EventSetup&, TTree *);
-    virtual void FillEvent(const edm::Event&, const edm::EventSetup&);
+    virtual void DeclareConsumes(edm::EDAnalyzer *analyzer) override {}
+    virtual void CreateBranches(const edm::EventSetup&, TTree *) override;
+    virtual void FillEvent(const edm::Event&, const edm::EventSetup&) override;
 
   private:
     /// data to populate one `row' of the tree
     EventMetaData data;
-    edm::InputTag rawEventLabel;
+    edm::InputTag fedInfosLabel;
 };

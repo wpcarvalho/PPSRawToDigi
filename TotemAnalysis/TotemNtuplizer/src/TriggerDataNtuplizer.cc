@@ -25,7 +25,7 @@ ClassImp(TriggerData)
 //----------------------------------------------------------------------------------------------------
 
 TriggerDataNtuplizer::TriggerDataNtuplizer(const edm::ParameterSet &ps) : Ntuplizer(ps),
-    rawEventLabel(ps.getParameter<edm::InputTag>("RawEventLabel"))
+    triggerCountersLabel(ps.getParameter<edm::InputTag>("TriggerCountersLabel"))
 {
 }
 
@@ -41,7 +41,7 @@ void TriggerDataNtuplizer::CreateBranches(const edm::EventSetup&, TTree *tree)
 void TriggerDataNtuplizer::FillEvent(const edm::Event &event, const edm::EventSetup &es)
 {
   Handle< TotemTriggerCounters > input;
-  event.getByLabel(rawEventLabel, input);
+  event.getByLabel(triggerCountersLabel, input);
 
   data.type = input->type;
   data.event_num = input->event_num;

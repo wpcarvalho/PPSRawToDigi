@@ -5,6 +5,7 @@
 *  Jan Kašpar (jan.kaspar@gmail.com) 
 *
 ****************************************************************************/
+
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "TotemAnalysis/TotemNtuplizer/interface/Ntuplizer.h"
@@ -19,10 +20,11 @@ class TriggerDataNtuplizer : public Ntuplizer
     TriggerDataNtuplizer(const edm::ParameterSet &ps);
     virtual ~TriggerDataNtuplizer() {}
 
-    virtual void CreateBranches(const edm::EventSetup&, TTree *);
-    virtual void FillEvent(const edm::Event&, const edm::EventSetup&);
+    virtual void DeclareConsumes(edm::EDAnalyzer *analyzer) override {}
+    virtual void CreateBranches(const edm::EventSetup&, TTree *) override;
+    virtual void FillEvent(const edm::Event&, const edm::EventSetup&) override;
 
   private:
-    edm::InputTag rawEventLabel;
+    edm::InputTag triggerCountersLabel;
     TriggerData data;
 };

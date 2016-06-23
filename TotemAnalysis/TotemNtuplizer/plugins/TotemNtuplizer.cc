@@ -18,8 +18,11 @@
 #include "TotemAnalysis/TotemNtuplizer/interface/RPNtuplizer.h"
 #include "TotemCondFormats/DataRecord/interface/BeamOpticsParamsRcd.h"
 
+#include "DataFormats/Common/interface/DetSetVector.h"
+#include "DataFormats/CTPPSReco/interface/TotemRPCluster.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
-
+#include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
+#include "DataFormats/TotemDigi/interface/TotemTriggerCounters.h"
 #include "RecoTotemRP/RPRecoDataFormats/interface/RPMulFittedTrackCollection.h"
 
 #include "TTree.h"
@@ -61,8 +64,8 @@ class TotemNtuplizer : public edm::EDAnalyzer
     /// internal reference to RPNtuplizer
     RPNtuplizer *rp_ntupl_;
     
-    // flag for branch creating
-    bool branchCreated; 
+    /// whether the tree branches have been declared
+    bool branchesCreated; 
 };
 
 using namespace std;
@@ -72,31 +75,51 @@ using namespace edm;
 
 TotemNtuplizer::TotemNtuplizer(const edm::ParameterSet &ps) :
   verbosity(ps.getUntrackedParameter<unsigned int>("verbosity", 0)),
-  outputFileName(ps.getUntrackedParameter<string>("outputFileName"))
+  outputFileName(ps.getUntrackedParameter<string>("outputFileName")),
+  rp_ntupl_(NULL),
+  branchesCreated(false)
 {
-  consumes<DetSetVector<TotemRPUVPattern>>(edm::InputTag("totemRPUVPatternFinder"));
+  // instantiate selected worker modules
+  vector<string> modules = ps.getParameter< vector<string> >("modules");
+
+  for (const auto &m : modules)
+  {
+    if (m.compare("raw") == 0)
+      workers.push_back(new RawMetaDataNtuplizer(ps));
+      
+    if (m.compare("trigger") == 0)
+      workers.push_back(new TriggerDataNtuplizer(ps));
+
+    if (m.compare("rp") == 0)
+      workers.push_back(rp_ntupl_ = new RPNtuplizer(ps));
+  }
+
+  // declare what is consumed
+  for (auto &w : workers)
+    w->DeclareConsumes(this);
+
+  // TODO: move int DeclareConsumes methods
+  auto triggerCountersLabel(ps.getParameter<edm::InputTag>("TriggerCountersLabel"));
+  consumes<TotemTriggerCounters>(triggerCountersLabel);
+  
+  auto rpDigClusterLabel = ps.getParameter<edm::InputTag>("RPDigClusterLabel");
+  consumes<DetSetVector<TotemRPCluster>>(rpDigClusterLabel);
+
+  auto rpUVPatternLabel = ps.getParameter<edm::InputTag>("RPUVPatternLabel");
+  consumes<DetSetVector<TotemRPUVPattern>>(rpUVPatternLabel);
 
   auto tagLocalTrack = ps.getParameter<edm::InputTag>("RPFittedTrackCollectionLabel");
   consumes<DetSetVector<TotemRPLocalTrack>>(tagLocalTrack);
 
   auto rpMulFittedTrackCollectionLabel = ps.getParameter<edm::InputTag>("RPMulFittedTrackCollectionLabel");
   consumes<RPMulFittedTrackCollection>(rpMulFittedTrackCollectionLabel);
-
-  workers.push_back(new RawMetaDataNtuplizer(ps)); 
-
-  // TODO: uncomment
-  //workers.push_back(new TriggerDataNtuplizer(ps));
-  
-  rp_ntupl_ = new RPNtuplizer(ps);
-  workers.push_back(rp_ntupl_);
-  
-  branchCreated = false;
 }
 
 //----------------------------------------------------------------------------------------------------
 
 void TotemNtuplizer::beginRun(edm::Run const& r, edm::EventSetup const& es)
 {
+  // TODO
   /*
   edm::ESHandle<BeamOpticsParams> BOParH;
   es.get<BeamOpticsParamsRcd>().get(BOParH);
@@ -107,10 +130,12 @@ void TotemNtuplizer::beginRun(edm::Run const& r, edm::EventSetup const& es)
   */
 
   // let all workes create their branches
-  if( branchCreated == false){
-    for (vector<Ntuplizer *>::iterator it = workers.begin(); it != workers.end(); ++it)
-      (*it)->CreateBranches(es, tree);
-    branchCreated = true;
+  if (branchesCreated == false)
+  {
+    for (auto &w : workers)
+      w->CreateBranches(es, tree);
+
+    branchesCreated = true;
   }
 }
 
@@ -128,8 +153,8 @@ void TotemNtuplizer::beginJob()
 void TotemNtuplizer::analyze(const edm::Event &ev, const edm::EventSetup &es)
 {
   // let all workes fill their event data
-  for (vector<Ntuplizer *>::iterator it = workers.begin(); it != workers.end(); ++it)
-    (*it)->FillEvent(ev, es);
+  for (auto &w : workers)
+    w->FillEvent(ev, es);
 
   // commit the data
   tree->Fill();

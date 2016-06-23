@@ -36,17 +36,29 @@ class RPNtuplizer : public Ntuplizer
     RPNtuplizer(const edm::ParameterSet&);
     virtual ~RPNtuplizer() {}
     
-    virtual void CreateBranches(const edm::EventSetup&, TTree *);
-    virtual void FillEvent(const edm::Event&, const edm::EventSetup&);
+    virtual void DeclareConsumes(edm::EDAnalyzer *analyzer) override;
+    virtual void CreateBranches(const edm::EventSetup&, TTree *) override;
+    virtual void FillEvent(const edm::Event&, const edm::EventSetup&) override;
+
     void SetOpticsConfig(const BeamOpticsParams & opt_cfg) {BOPar_ = opt_cfg;}
     
   private:
     typedef std::map<int, const RPReconstructedProton*> reconstructed_prot_map_type;
     
     bool FindReconstrucedProtons(const edm::Event& e);
+
+    /// The purpose of this function is to read most forward primary protons for given event
     bool FindSimulatedProtons(const edm::Event& e);
+
+    /// The purpose of this function is to read most forward primary protons' vertices for given event
     bool FindSimulatedProtonsVertex(const edm::Event& e);
     bool FindReconstrucedProtonPair(const edm::Event& e);
+
+    /**
+    * This function computes the parameters of simulated proton that will be saved in root file.
+    * proton - can be left_prim_prot_ or right_prim_prot_
+    * simulatedProtonNumber - left_prim_prot_ - 0, right_prim_prot_ - 1
+    */
     void FindParametersOfSimulatedProtons(PrimaryProton proton, int simulatedProtonNumber);
     
     BeamOpticsParams BOPar_;
@@ -56,7 +68,7 @@ class RPNtuplizer : public Ntuplizer
     
     std::map<unsigned int, RPRootDumpTrackInfo> track_info_;
     std::map<unsigned int, RPRootDumpDigiInfo> digi_info_;
-    std::map<unsigned int, RPRootDumpPatternInfo > par_patterns_info_, nonpar_patterns_info_;
+    std::map<unsigned int, RPRootDumpPatternInfo > patterns_info_;
 
     std::map<unsigned int, std::vector<RPRootDumpTrackInfo> > multi_track_info_;
     std::map<unsigned int, RPRootDumpReconstructedProton> rec_pr_info_;
@@ -94,6 +106,7 @@ class RPNtuplizer : public Ntuplizer
     edm::InputTag rpMulFittedTrackCollectionLabel;
     edm::InputTag rpStripDigiSetLabel;
     edm::InputTag rpDigClusterLabel;
+    edm::InputTag rpUVPatternLabel;
     edm::InputTag rpReconstructedProtonCollectionLabel;
     edm::InputTag rpReconstructedProtonPairCollectionLabel;
 };

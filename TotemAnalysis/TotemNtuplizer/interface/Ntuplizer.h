@@ -9,6 +9,8 @@
 #ifndef _TotemAnalysis_TotemNtuplizer_Ntuplizer_h_
 #define _TotemAnalysis_TotemNtuplizer_Ntuplizer_h_
 
+#include "FWCore/Framework/interface/EDAnalyzer.h"
+
 namespace edm {
   class ParameterSet;
   class EventSetup;
@@ -25,6 +27,9 @@ class Ntuplizer
  public:
   /// constructor
   Ntuplizer(const edm::ParameterSet&);
+
+  /// book your branches here
+  virtual void DeclareConsumes(edm::EDAnalyzer *analyzer) = 0;
 
   /// book your branches here
   virtual void CreateBranches(const edm::EventSetup&, TTree *) = 0;

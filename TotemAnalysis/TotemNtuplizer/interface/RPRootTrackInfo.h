@@ -7,6 +7,8 @@
 #include "fastjet/ClusterSequence.hh"
 #include "RecoTotemRP/RPRecoDataFormats/interface/CentralMassInfo.h"
 
+//----------------------------------------------------------------------------------------------------
+
 struct RPRootDumpTrackInfo
 {
   bool valid;                       ///< whether track fit is valid
@@ -36,6 +38,8 @@ struct RPRootDumpTrackInfo
   ClassDef(RPRootDumpTrackInfo,1)
 };
 
+//----------------------------------------------------------------------------------------------------
+
 struct RPRootDumpDigiInfo
 {
   std::vector<int> numberOfClusters;  ///< number of clusters in a given plane (indexed from 0 to 9)
@@ -51,7 +55,7 @@ struct RPRootDumpDigiInfo
     numberOfPlanesOn = uPlanesOn = vPlanesOn = 0;
     numberOfClusters = std::vector<int>();
     numberOfClusters.reserve(10);
-    numberOfClusters.assign(10,0);
+    numberOfClusters.assign(10, 0);
     planeId = std::vector<int>();
     clusterSize = std::vector<int>();
     centralStrip = std::vector<int>();
@@ -61,6 +65,8 @@ struct RPRootDumpDigiInfo
   
   ClassDef(RPRootDumpDigiInfo,1)
 };
+
+//----------------------------------------------------------------------------------------------------
 
 struct RPRootDumpReconstructedProton
 {
@@ -74,13 +80,12 @@ struct RPRootDumpReconstructedProton
     xi = 1;
   } 
   
-  virtual ~RPRootDumpReconstructedProton(){
-
-  }
+  virtual ~RPRootDumpReconstructedProton() {}
 
   ClassDef(RPRootDumpReconstructedProton,1)
 };
 
+//----------------------------------------------------------------------------------------------------
 
 struct RPRootDumpReconstructedProtonPair
 {
@@ -104,28 +109,30 @@ struct RPRootDumpReconstructedProtonPair
     xir = xil = 1.0; 
   } 
   
-  virtual ~ RPRootDumpReconstructedProtonPair(){
-
-  }
+  virtual ~ RPRootDumpReconstructedProtonPair() {}
 
   ClassDef(RPRootDumpReconstructedProtonPair,1)
 };
+
+//----------------------------------------------------------------------------------------------------
 
 /**
  * \brief Describes a recognized linear pattern.
  **/
 struct RPRootDumpPattern
 {
-  double a; ///< slope in rad
-  double b; ///< intercept (at the middle of the RP) in mm
-  double w; ///< weight
+  double a;       ///< slope in rad
+  double b;       ///< intercept (at the middle of the RP) in mm
+  double w;       ///< weight
+  bool fittable;  ///< whether this pattern can be used for fitting
 
-  RPRootDumpPattern(double _a=0., double _b=0., double _w=0.) : a(_a), b(_b), w(_w) {}
+  RPRootDumpPattern(double _a=0., double _b=0., double _w=0., bool _f=false) : a(_a), b(_b), w(_w), fittable(_f) {}
   virtual ~RPRootDumpPattern() {}
   
-  ClassDef(RPRootDumpPattern,1)
+  ClassDef(RPRootDumpPattern, 2)
 };
 
+//----------------------------------------------------------------------------------------------------
 
 /**
  * \brief Describes a pattern-recognition result.
@@ -133,21 +140,22 @@ struct RPRootDumpPattern
 struct RPRootDumpPatternInfo
 {
   std::vector<RPRootDumpPattern> u, v;  ///< arrays of recognized patterns in u and v projections
-  bool fittable;                        ///< whether there is one (and only one) combined u-v pattern worth fitting
   unsigned int u_no, v_no;              ///< number of candidates per projection
 
-  RPRootDumpPatternInfo(bool _f = false) : fittable(_f) {}
+  RPRootDumpPatternInfo() : u_no(0), v_no(0) {}
   virtual ~RPRootDumpPatternInfo() {}
-  void Reset() {
+
+  void Reset()
+  {
     u.clear();
     v.clear();
-    fittable = false;
     u_no = v_no = 0;
   }
   
-  ClassDef(RPRootDumpPatternInfo,1)
+  ClassDef(RPRootDumpPatternInfo, 2)
 };
 
+//----------------------------------------------------------------------------------------------------
 
 struct RPRootDumpJet
 {
@@ -190,6 +198,7 @@ struct RPRootDumpJet
   ClassDef(RPRootDumpJet,1)
 };
 
+//----------------------------------------------------------------------------------------------------
 
 struct RPRootDumpJetInfo
 {
@@ -212,6 +221,7 @@ struct RPRootDumpJetInfo
   ClassDef(RPRootDumpJetInfo,1)
 };
 
+//----------------------------------------------------------------------------------------------------
 
 struct RPRootDiffMassInfo
 {
