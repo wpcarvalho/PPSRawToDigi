@@ -27,6 +27,7 @@ scram build -j 15
 ```
 cmsRun src/raw_data_chain_test.py
 
-#### Runing samples config for diamond
+### Runing samples config for diamond
+
 cmsRun src/diamondraw_data_chain_test.py
 ```
