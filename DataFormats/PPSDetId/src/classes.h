@@ -4,6 +4,7 @@
 #include "DataFormats/PPSDetId/interface/PPSTrackerDetId.h"
 #include "DataFormats/Common/interface/Wrapper.h"
 #include "DataFormats/PPSDetId/interface/PPSTimingDetId.h"
+#include "DataFormats/PPSDetId/interface/DiamondDetId.h"
 
 #include <map>
 
