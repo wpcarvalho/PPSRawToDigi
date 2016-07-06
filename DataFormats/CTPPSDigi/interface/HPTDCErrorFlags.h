@@ -1,6 +1,8 @@
 #ifndef CTPPSDigi_HPTDCErrorFlags_h
 #define CTPPSDigi_HPTDCErrorFlags_h
 
+#include <string>
+
 /** \class HPTDCErrorFlags
  *
  * HPTDC error flags container
@@ -32,6 +34,27 @@
         case 13: return HitLostL1OverflowGroup0();
         case 14: return HitLostROFifoOverflowGroup0();
         default: return true;
+      }
+    }
+    
+    std::string ErrorName(unsigned short id) const {
+      switch (id) {
+        case 0: return "InternalFatalChipError";
+        case 1: return "EventLost";
+        case 2: return "HitRejectedByEventSizeLimit";
+        case 3: return "HitErrorGroup3";
+        case 4: return "HitLostL1OverflowGroup3";
+        case 5: return "HitLostROFifoOverflowGroup3";
+        case 6: return "HitErrorGroup2";
+        case 7: return "HitLostL1OverflowGroup2";
+        case 8: return "HitLostROFifoOverflowGroup2";
+        case 9: return "HitErrorGroup1";
+        case 10: return "HitLostL1OverflowGroup1";
+        case 11: return "HitLostROFifoOverflowGroup1";
+        case 12: return "HitErrorGroup0";
+        case 13: return "HitLostL1OverflowGroup0";
+        case 14: return "HitLostROFifoOverflowGroup0";
+        default: return "NONE";
       }
     }
 

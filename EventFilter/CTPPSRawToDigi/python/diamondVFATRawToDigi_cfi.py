@@ -24,9 +24,9 @@ diamondVFATRawToDigi = cms.EDProducer("DiamondVFATRawToDigi",
     # 0: do not perform the test at all
     # 1: print an error message, but keep the frame
     # 2: print an error message and do not process the frame
-    testFootprint = cms.uint32(2),
-    testCRC = cms.uint32(2),
-    testID = cms.uint32(2),               # compare the ID from data and mapping
+    testFootprint = cms.uint32(1),
+    testCRC = cms.uint32(0),
+    testID = cms.uint32(0),               # compare the ID from data and mapping
     testECMostFrequent = cms.uint32(2),   # compare frame's EC with the most frequent value in the event
     testBCMostFrequent = cms.uint32(2),   # compare frame's BC with the most frequent value in the event
 

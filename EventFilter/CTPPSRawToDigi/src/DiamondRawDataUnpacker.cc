@@ -109,7 +109,7 @@ int DiamondRawDataUnpacker::ProcessOptoRxFrameParallel(const word *buf, unsigned
   {
     unsigned int wordsProcessed = ProcessVFATDataFED(payload + offset, FEDId, fc);
    
-   offset += wordsProcessed;
+    offset += wordsProcessed;
   }
 
   return 0;

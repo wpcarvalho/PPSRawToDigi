@@ -18,9 +18,14 @@ process.dqmEnv.eventInfoFolder = "EventInfo"
 process.dqmSaver.path = ""
 process.dqmSaver.tag = "CTPPS"
 
+## raw data source
+#process.source = cms.Source("PoolSource",
+    #fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/j/jkaspar/public/run273062_ls0001-2_stream.root')
+#)
+
 # raw data source
-process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/j/jkaspar/public/run273062_ls0001-2_stream.root')
+process.source = cms.Source("NewEventStreamFileReader",
+    fileNames = cms.untracked.vstring('/store/t0streamer/Minidaq/A/000/276/390/run276390_ls0001_streamA_StorageManager.dat')
 )
 
 process.maxEvents = cms.untracked.PSet(
@@ -28,8 +33,14 @@ process.maxEvents = cms.untracked.PSet(
 )
 
 # raw-to-digi conversion
+process.load('CondFormats.CTPPSReadoutObjects.DiamondDAQMappingESSourceXML_cfi')
+process.DiamondDAQMappingESSourceXML.mappingFileNames.append("CondFormats/CTPPSReadoutObjects/xml/ctpps_timing_diamond_215_mapping.xml")
+
 process.load("EventFilter.TotemRawToDigi.totemRawToDigi_cff")
 
+process.load('EventFilter.CTPPSRawToDigi.diamondRPRawToDigi_cfi')
+process.diamondRPRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
+process.diamondRPRawToDigi.RawToDigi.verbosity = cms.untracked.uint32(0)
 # local RP reconstruction chain with standard settings
 process.load("RecoCTPPS.Configuration.recoCTPPS_cff")
 
@@ -38,7 +49,8 @@ process.load("DQM.CTPPS.totemDQM_cff")
 
 process.path = cms.Path(
   process.totemTriggerRawToDigi *
-  process.totemRPRawToDigi *
+  (process.totemRPRawToDigi +
+  process.diamondRPRawToDigi )*
 
   process.recoCTPPS *
 

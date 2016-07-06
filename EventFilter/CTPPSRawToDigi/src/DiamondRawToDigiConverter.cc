@@ -57,14 +57,14 @@ void DiamondRawToDigiConverter::RunCommon(const DiamondVFATInterface &input, con
   // event error message buffer
   stringstream ees;
 
-std::cout << __PRETTY_FUNCTION__ << "---> " << input.Size() << std::endl;
+// std::cout << __PRETTY_FUNCTION__ << "---> " << input.Size() << std::endl;
   // associate data frames with records
   for (DiamondVFATInterface::Iterator fr(&input); !fr.IsEnd(); fr.Next())
   {
     // frame error message buffer
     stringstream fes;
 
-std::cout << "---> unpacking " << fr.Position() << std::endl;
+// std::cout << "---> unpacking " << fr.Position() << std::endl;
     bool problemsPresent = false;
     bool stopProcessing = false;
     // skip data frames not listed in the DAQ mapping
@@ -239,15 +239,15 @@ void DiamondRawToDigiConverter::Run(const DiamondVFATInterface &input,
           record.status.setPartiallyMaskedOut();
    
       }*///FIXME
-std::cout << "-----> analyzing record " << record.info->symbolicID << std::endl;
-record.frame->Print(true);
+// std::cout << "-----> analyzing record " << record.info->symbolicID << std::endl;
+// record.frame->Print(false);
       // create the digi
         // skip masked channels
     //    if (!anMa.fullMask && anMa.maskedChannels.find(ch) == anMa.maskedChannels.end())
    //        {
       DetSet<DiamondDigi> &digiDetSet = rpData.find_or_insert(detId);
       digiDetSet.push_back(DiamondDigi(chID,record.frame->getLeadingEtime(),record.frame->getTrailingEtime(),record.frame->getThresholdVolt(),record.frame->getMultihit(),record.frame->getHptdcerrorflag()));
-      cout<< "FIND ONE  GOOD EVENT"<<endl;
+//       cout<< "FIND ONE  GOOD EVENT"<<endl;
      //   }
 
     
