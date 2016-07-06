@@ -86,7 +86,7 @@ DiamondVFATRawToDigi::DiamondVFATRawToDigi(const edm::ParameterSet &conf):
   {
     if (subSystem == "RP")
     {
-      for (int id = FEDNumbering::MINTotemRPFEDID; id <= FEDNumbering::MAXTotemRPFEDID; ++id)
+      for (int id = FEDNumbering::MINCTPPSDiamondsFEDID; id <= FEDNumbering::MAXCTPPSDiamondsFEDID; ++id)
         fedIds.push_back(id);
     }
   }
