@@ -35,8 +35,6 @@ class DiamondVFATFrame
 //     DiamondVFATFrame::timeinfo getMultihit() const;
 //     DiamondVFATFrame::timeinfo getHptdcerrorflag() const;
    
-     
-
     /// Copies a memory block to data buffer.
     void setDataAndCast(const word *_data);
 
@@ -44,8 +42,6 @@ class DiamondVFATFrame
     {
       return data;
     }
-
-
 
     /// Returns Bunch Crossing number (BC<11:0>).
     DiamondVFATFrame::word getBC() const
@@ -76,12 +72,10 @@ class DiamondVFATFrame
       return data[2] & 0x01;
     }
 
- DiamondVFATFrame::word getHptdcerrorflag() const
+    DiamondVFATFrame::word getHptdcerrorflag() const
     {
       return data[1] & 0xFFFF;
     }
-
-
 
     /// Returns the CRC.
     DiamondVFATFrame::word getCRC() const
@@ -136,19 +130,12 @@ class DiamondVFATFrame
       return presenceFlags & 0x40;
     }
 
-
-
-
-
     /// Checks the fixed bits in the frame.
     /// Returns false if any of the groups (in BC, EC and ID words) is present but wrong.
     bool checkFootprint() const;
 
     /// Returns false if any of the groups (in LEDTime, TEDTime, Threshold Voltage and Multi hit  words) is present but wrong.
     bool checkTimeinfo() const;
-
-
-
 
     /// Prints the frame.
     /// If binary is true, binary format is used.
@@ -185,7 +172,6 @@ class DiamondVFATFrame
     ///   bit 7: "Multi hit" (bufer index 2)
 
     uint8_t presenceFlags;
-
 
 };                                                                     
 

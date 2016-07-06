@@ -7,96 +7,58 @@
 #include <stdio.h>
 #include <cstring>
 #include <iostream>
-using namespace std;
 
+using namespace std;
 
 //----------------------------------------------------------------------------------------------------
 
 DiamondVFATFrame::DiamondVFATFrame(const DiamondVFATFrame::word *_data) :
   presenceFlags(127)    // by default BC, EC, ID, LEDTime, TEDtime,ThreVolt and MuHit are present
 {
-  if (_data)
-    {
-    setDataAndCast(_data);
-   } 
- else
-    memset(data, 0, 12 * sizeof(word));
+  if (_data) setDataAndCast(_data);
+  else memset(data, 0, 12 * sizeof(word));
 }
-
-
-
 
 //----------------------------------------------------------------------------------------------------
 
-void DiamondVFATFrame::setDataAndCast(const DiamondVFATFrame::word *_data)
+void
+DiamondVFATFrame::setDataAndCast(const DiamondVFATFrame::word *_data)
 {
   memcpy(data, _data, 24);
   memcpy(semidata, _data, 24);
   memmove (semidata,semidata+3,18);
-  DiamondVFATFrame::timeinfo*  timedata_ = (  DiamondVFATFrame::timeinfo *) semidata;
+  DiamondVFATFrame::timeinfo* timedata_ = (DiamondVFATFrame::timeinfo*) semidata;
   memcpy(timedata, timedata_, 24);
 }
 
 //----------------------------------------------------------------------------------------------------
 
-
- DiamondVFATFrame::timeinfo  DiamondVFATFrame::getLeadingEtime() const
+DiamondVFATFrame::timeinfo
+DiamondVFATFrame::getLeadingEtime() const
 {
-
-/*cout<<"######data 16 bity"<<endl;
-cout<<data[0]<<endl;
-cout<<data[1]<<endl;
-cout<<data[2]<<endl;
-cout<<data[3]<<endl;
-cout<<data[4]<<endl;
-cout<<data[5]<<endl;
-cout<<data[6]<<endl;
-cout<<data[7]<<endl;
-cout<<data[8]<<endl;
-cout<<data[9]<<endl;
-cout<<data[10]<<endl;
-cout<<data[11]<<endl;
-cout<<"###### Move Data by 3 bit"<<endl;
-cout<<semidata[0]<<endl;
-cout<<semidata[1]<<endl;
-cout<<semidata[2]<<endl;
-cout<<semidata[3]<<endl;
-cout<<semidata[4]<<endl;
-cout<<semidata[5]<<endl;
-cout<<semidata[6]<<endl;
-cout<<semidata[7]<<endl;
-cout<<semidata[8]<<endl;
-cout<<semidata[9]<<endl;
-cout<<semidata[10]<<endl;
-cout<<semidata[11]<<endl;
-cout<<"######Timedata 32 bity"<<endl;
-cout<<timedata[0]<<endl; 
-cout<<timedata[1]<<endl;
-cout<<timedata[2]<<endl;
-cout<<timedata[3]<<endl;
-cout<<timedata[4]<<endl;
-cout<<timedata[5]<<endl<<endl;
-cout<<"######################################"<<endl<<endl;
-*/
-  return (timedata[2] >> 11) & 0x1FFFFF;
-
+  //return (timedata[2] >> 11) & 0x1FFFFF;
+  return ((data[8]&0x1f)<<16)+data[7]; //FW bug
 }
 
-DiamondVFATFrame::timeinfo DiamondVFATFrame::getTrailingEtime() const
-
+DiamondVFATFrame::timeinfo
+DiamondVFATFrame::getTrailingEtime() const
 {
-  return (timedata[1] >> 11) & 0x1FFFFF;
+  //return (timedata[1] >> 11) & 0x1FFFFF;
+  return ((data[6]&0x1f)<<16)+data[5]; //FW bug
 }
 
-DiamondVFATFrame::timeinfo DiamondVFATFrame::getThresholdVolt() const
+DiamondVFATFrame::timeinfo
+DiamondVFATFrame::getThresholdVolt() const
 {
-  return (timedata[0] >>5 ) & 0x7FFFFFF;
+  //return (timedata[0] >>5 ) & 0x7FFFFFF;
+  return ((data[4]&0x7ff)<<16)+data[3]; //FW bug
 }
 
 
 //----------------------------------------------------------------------------------------------------
 
-bool DiamondVFATFrame::checkTimeinfo() const
+bool
+DiamondVFATFrame::checkTimeinfo() const
 {
   if (isLEDTimePresent() && (data[7] & 0xF800) != 0x6000)
     return false;
@@ -107,7 +69,7 @@ bool DiamondVFATFrame::checkTimeinfo() const
   if (isThVolPresent() && (data[3] & 0xF800) != 0x7000)
     return false;
 
-if (isMuHitPresent() && (data[2] & 0xF800) != 0x7800)
+  if (isMuHitPresent() && (data[2] & 0xF800) != 0x7800)
     return false;
 
   return true;
@@ -115,11 +77,8 @@ if (isMuHitPresent() && (data[2] & 0xF800) != 0x7800)
 
 //----------------------------------------------------------------------------------------------------
 
-
-
-//----------------------------------------------------------------------------------------------------
-
-bool DiamondVFATFrame::checkFootprint() const
+bool
+DiamondVFATFrame::checkFootprint() const
 {
   if (isIDPresent() && (data[9] & 0xF000) != 0xE000)
     return false;
@@ -135,11 +94,8 @@ bool DiamondVFATFrame::checkFootprint() const
 
 //----------------------------------------------------------------------------------------------------
 
-
-//----------------------------------------------------------------------------------------------------
-
-
-void DiamondVFATFrame::Print(bool binary) const
+void
+DiamondVFATFrame::Print(bool binary) const
 {
   if (binary)
   {

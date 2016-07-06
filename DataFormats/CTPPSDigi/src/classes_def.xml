@@ -1,10 +1,12 @@
 <lcgdict>
-  <class name="DiamondDigi" ClassVersion="6">
+  <class name="DiamondDigi" ClassVersion="8">
+   <version ClassVersion="8" checksum="45130511"/>
+   <version ClassVersion="7" checksum="2143928350"/>
    <version ClassVersion="6" checksum="4149173398"/>
    <version ClassVersion="5" checksum="1153544083"/>
    <version ClassVersion="4" checksum="3701195360"/>
    <version ClassVersion="3" checksum="2833097793"/>
-    <version ClassVersion="2" checksum="3444194306"/>
+   <version ClassVersion="2" checksum="3444194306"/>
   </class>
   <class name="edm::DetSet<DiamondDigi>"/>
   <class name="std::vector<edm::DetSet<DiamondDigi> >"/>
@@ -13,22 +15,19 @@
   <class name="edm::Wrapper<edm::DetSet<DiamondDigi> >"/>
   <class name="edm::Wrapper<edm::DetSetVector<DiamondDigi> >"/>
 
+  <class name="HPTDCErrorFlags"/>
 
-  <class name="DiamondVFATStatus" ClassVersion="5">
+  <class name="DiamondVFATStatus" ClassVersion="6">
+   <version ClassVersion="6" checksum="483323115"/>
    <version ClassVersion="5" checksum="3660187843"/>
    <version ClassVersion="4" checksum="428005250"/>
    <version ClassVersion="3" checksum="3773430636"/>
-    <version ClassVersion="2" checksum="3003040825"/>
+   <version ClassVersion="2" checksum="3003040825"/>
   </class>
   <class name="edm::Wrapper<DiamondVFATStatus>"/>
   <class name="edm::DetSetVector<DiamondVFATStatus>"/>
   <class name="edm::Wrapper< edm::DetSetVector<DiamondVFATStatus> >"/>
-
-  <class name="std::bitset<8>"/>
-  <class name="edm::Wrapper<std::bitset<8> >"/>
-    
-<class name="std::bitset<16>"/>
-  <class name="edm::Wrapper<std::bitset<16> >"/>
+  <class name="DiamondVFATStatus::DiamondVFATStatusWord"/>
 
   <class name="DiamondFEDInfo" ClassVersion="3">
    <version ClassVersion="3" checksum="2183885918"/>

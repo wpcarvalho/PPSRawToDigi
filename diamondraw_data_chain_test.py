@@ -8,17 +8,14 @@ input = cms.untracked.int32(1000)
 process.MessageLogger = cms.Service("MessageLogger",
     statistics = cms.untracked.vstring(),
     destinations = cms.untracked.vstring('cerr'),
-    cerr = cms.untracked.PSet(
-        threshold = cms.untracked.string('DEBUG')
-
-    )
+    cerr = cms.untracked.PSet( threshold = cms.untracked.string('DEBUG') )
 )
 
 # raw data source
-process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/j/jkaspar/public/run273062_ls0001-2_stream.root')
+process.source = cms.Source("NewEventStreamFileReader",
+    #fileNames = cms.untracked.vstring('/store/t0streamer/Minidaq/A/000/276/395/run276395_ls0001_streamA_StorageManager.dat')
+    fileNames = cms.untracked.vstring('/store/t0streamer/Minidaq/A/000/276/390/run276390_ls0001_streamA_StorageManager.dat')
 )
-
 
 # raw-to-digi conversion
 process.load('CondFormats.CTPPSReadoutObjects.DiamondDAQMappingESSourceXML_cfi')
@@ -30,15 +27,16 @@ process.totemTriggerRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
 process.load('EventFilter.CTPPSRawToDigi.diamondRPRawToDigi_cfi')
 process.diamondRPRawToDigi.rawDataTag = cms.InputTag("rawDataCollector")
 
-
 process.dump = cms.EDAnalyzer("EventContentAnalyzer")
 
 # ntuplizer
-process.load("TotemAnalysis.TotemNtuplizer.TotemNtuplizer_cfi")
-process.totemNtuplizer.outputFileName = "ntuple.root"
+#process.load("TotemAnalysis.TotemNtuplizer.TotemNtuplizer_cfi")
+#process.totemNtuplizer.outputFileName = "ntuple.root"
 
 process.p = cms.Path(
-    process.diamondRPRawToDigi 
+    process.totemTriggerRawToDigi
+    * process.diamondRPRawToDigi
+#    * process.dump
 )
 
 
@@ -51,9 +49,5 @@ process.output = cms.OutputModule("PoolOutputModule",
     'keep DiamondVFATStatusedmDetSetVector_diamondRPRawToDigi_*_*'
  )
 )
-
-
-
-
 
 process.outpath = cms.EndPath(process.output)
