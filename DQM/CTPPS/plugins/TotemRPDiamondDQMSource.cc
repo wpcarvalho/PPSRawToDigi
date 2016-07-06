@@ -274,23 +274,9 @@ TotemRPDiamondDQMSource::ChannelPlots::ChannelPlots(DQMStore::IBooker &ibooker, 
   string title = TotemRPDetId::planeName(id, TotemRPDetId::nFull);	//TODO
 
   error_flags = ibooker.book1D("digi profile", title+";channel number", 16, -0.5, 15.5);
-  int error_index=1;
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "");
-  error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index++, "MH");
+  for (int error_index=1; error_index<16; ++error_index) 
+    error_flags->getTH1F()->GetXaxis()->SetBinLabel(error_index, "");
+  error_flags->getTH1F()->GetXaxis()->SetBinLabel(16, "MH");
   
   leading_edge_cumulative = ibooker.book1D("Leading Edge", title+";leading edge", 100, -0.5e-9, 19.5e-3);
   time_over_threshold_cumulative = ibooker.book1D("Time over Threshold", title+";time over threshold", 100, -0.5e-9, 19.5e-3);
@@ -367,9 +353,10 @@ void TotemRPDiamondDQMSource::bookHistograms(DQMStore::IBooker &ibooker, edm::Ru
 	  planePlots[plId] = PlanePlots(ibooker, plId);
 	  
 	  // loop over channels
-	  for (unsigned int ch = 1; ch <= 12; ++pl)
+	  for (unsigned int ch = 1; ch <= 12; ++ch)
 	  {
-	    unsigned int chId = 10*plId + ch;
+	    unsigned int chId = 100*plId + ch;
+	    cout<<chId<<std::endl;
 	    channelPlots[chId] = ChannelPlots(ibooker, chId);
 	  }
 	  
@@ -428,8 +415,7 @@ void TotemRPDiamondDQMSource::analyze(edm::Event const& event, edm::EventSetup c
     return;
   }
   
-  /*
-
+  
   //------------------------------
   // Global Plots
 
@@ -437,8 +423,8 @@ void TotemRPDiamondDQMSource::analyze(edm::Event const& event, edm::EventSetup c
 
   //------------------------------
   // Status Plots
-
-  for (DetSetVector<DiamondVFATStatus> &ds : *status)
+/*
+  for (auto &ds : *status)
   {
     unsigned int decId = TotemRPDetId::rawToDecId(ds.detId());
     unsigned int rpId = decId / 10;
