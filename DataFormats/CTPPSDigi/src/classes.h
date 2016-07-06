@@ -9,6 +9,7 @@
 #include "DataFormats/CTPPSDigi/interface/DiamondDigi.h"
 #include "DataFormats/CTPPSDigi/interface/DiamondVFATStatus.h"
 #include "DataFormats/CTPPSDigi/interface/DiamondFEDInfo.h"
+#include "DataFormats/CTPPSDigi/interface/HPTDCErrorFlags.h"
 
 #include <vector>
 
@@ -22,13 +23,15 @@ namespace {
     edm::Wrapper<edm::DetSet<DiamondDigi> > wds_rp_diamo_dig;
     edm::Wrapper<edm::DetSetVector<DiamondDigi> > wdsv_rp_diamo_dig;
 
+    HPTDCErrorFlags rm_hptdcerr;
 
     std::map<unsigned int, uint64_t> dummy37;
 
     DiamondVFATStatus dummy40;
-    edm::Wrapper< DiamondVFATStatus > dummy41;
-    edm::DetSetVector<DiamondVFATStatus> dummy42;
-    edm::Wrapper< edm::DetSetVector<DiamondVFATStatus> > dummy43;
+    edm::Wrapper< DiamondVFATStatus > d_vf_st;
+    edm::DetSetVector<DiamondVFATStatus> dsv_d_vf_st;
+    edm::Wrapper< edm::DetSetVector<DiamondVFATStatus> > wdsv_d_vf_st;
+    DiamondVFATStatus::DiamondVFATStatusWord d_vf_st_w;
 
     std::bitset<8> dummy60;
     edm::Wrapper< std::bitset<8> > dummy61;

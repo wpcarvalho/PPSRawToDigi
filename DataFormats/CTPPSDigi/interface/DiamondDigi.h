@@ -11,70 +11,63 @@
  */
 
 #include <boost/cstdint.hpp>
+#include "DataFormats/CTPPSDigi/interface/HPTDCErrorFlags.h"
 
 class DiamondDigi{
 
-public:
+ public:
   
-  DiamondDigi (int chid_,int ledgt_, int tedgt_, int threvolt,int mhit_, int hptdcerror_);
-  // Default construction.
-  
-  DiamondDigi ();
+  DiamondDigi(unsigned short chid_, unsigned int ledgt_, unsigned int tedgt_, unsigned int threvolt, bool mhit_, unsigned short hptdcerror_);
+  DiamondDigi();
   ~DiamondDigi() {};
   
-
   /// Digis are equal if they are have same chid, ledt and tedt, threshold voltage, multihit flag, hptdcerror flags
   bool operator==(const DiamondDigi& digi) const;
 
-
   /// Return digi values number
-  int getCHID() const;
-  int getLEDT() const;
-  int getTEDT() const;
-  int getTHREVOLT() const;
-  int getMHIT() const;
-  int getHPTDCERROR() const;
-
+  unsigned short getChannelId() const { return chid; }
+  unsigned int getLeadingEdge() const { return ledgt; }
+  unsigned int getTrailingEdge() const { return tedgt; }
+  unsigned int getThresholdVoltage() const { return threvolt; }
+  bool getMultipleHit() const { return mhit; }
+  HPTDCErrorFlags getHPTDCErrorFlags() const { return hptdcerror; }
 
   /// Set digi values
-  void setCHID (int chid_);
-  void setLEDT(int ledgt_);  
-  void setTEDT(int tedgt_);
-  void setTHREVOLT(int threvolt_);
-  void setMHIT(int mhit_);
-  void setHPTDCERROR(int hptdcerror_);
-
+  inline void setChannelId(unsigned char chid_) { chid = chid_; }
+  inline void setLeadingEdge(unsigned int ledgt_) { ledgt = ledgt_; }
+  inline void setTrailingEdge(unsigned int tedgt_) { tedgt = tedgt_; }
+  inline void setThresholdVoltage(unsigned int threvolt_) { threvolt = threvolt_; }
+  inline void setMultipleHit(bool mhit_) { mhit = mhit_; }
+  inline void setHPTDCErrorFlags(const HPTDCErrorFlags& hptdcerror_) { hptdcerror = hptdcerror_; }
 
   /// Print content of digi
- //   void print() const;
+  //void print() const;
 
-private:
-
-  int chid;
-  int ledgt;
-  int tedgt;
-  int threvolt;
-  int mhit;
-  int hptdcerror;
+ private:
+  unsigned char chid;
+  unsigned int ledgt;
+  unsigned int tedgt;
+  unsigned int threvolt;
+  bool mhit;
+  HPTDCErrorFlags hptdcerror;
 };
-
 
 inline bool operator< (const DiamondDigi& one, const DiamondDigi& other)
 {
-   return one.getCHID() < other.getCHID();
-
+  return one.getChannelId() < other.getChannelId();
 }
 
+#include <iostream>
 
-  #include<iostream>
-  inline std::ostream & operator<<(std::ostream & o, const DiamondDigi& digi) {
-return o   << " " << digi.getCHID()
-           << " " << digi.getLEDT()
-	   << " " << digi.getTEDT()
-           << " " << digi.getTHREVOLT()
-             << " " << digi.getMHIT()
-           << " " << digi.getHPTDCERROR();
-
+inline std::ostream & operator<<(std::ostream & o, const DiamondDigi& digi)
+{
+  return o << " " << digi.getChannelId()
+           << " " << digi.getLeadingEdge()
+	   << " " << digi.getTrailingEdge()
+           << " " << digi.getThresholdVoltage()
+           << " " << digi.getMultipleHit()
+           << " " << digi.getHPTDCErrorFlags().error_flags;
 }
+
 #endif
 
