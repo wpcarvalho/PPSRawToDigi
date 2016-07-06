@@ -1,6 +1,6 @@
-<use   name="xerces-c"/>
 <use   name="FWCore/MessageLogger"/>
 <use   name="root"/>
+<use   name="xerces-c"/>
 <export>
   <lib   name="1"/>
 </export>

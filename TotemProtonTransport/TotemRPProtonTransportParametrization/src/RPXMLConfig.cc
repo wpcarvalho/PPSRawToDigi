@@ -27,13 +27,20 @@ RPXMLConfig::RPXMLConfig ()
   XMLString::transcode ("LS", tempStr, 99);
   DOMImplementation *impl =
     DOMImplementationRegistry::getDOMImplementation (tempStr);
-  this->parser =
-    ((DOMImplementationLS *) impl)->
-    createDOMBuilder (DOMImplementationLS::MODE_SYNCHRONOUS, 0);
-  this->writer = ((DOMImplementationLS *) impl)->createDOMWriter ();
 
-  if (this->writer->canSetFeature (XMLUni::fgDOMWRTFormatPrettyPrint, true))
-    this->writer->setFeature (XMLUni::fgDOMWRTFormatPrettyPrint, true);
+#if _XERCES_VERSION <30100
+  this->parser = (dynamic_cast<DOMImplementationLS*>(impl))->createDOMBuilder(DOMImplementationLS::MODE_SYNCHRONOUS, 0);
+  this->writer = (dynamic_cast<DOMImplementation*>(impl))->createDOMWriter();
+  if (this->writer->canSetFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true))
+    this->writer->setFeature(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+#else
+  this->parser = (dynamic_cast<DOMImplementationLS*>(impl))->createLSParser(DOMImplementationLS::MODE_SYNCHRONOUS, 0);
+  this->writer = (dynamic_cast<DOMImplementation*>(impl))->createLSSerializer();
+  if (this->writer->getDomConfig()->canSetParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true))
+    this->writer->getDomConfig()->setParameter(XMLUni::fgDOMWRTFormatPrettyPrint, true);
+  this->writer_output = (dynamic_cast<DOMImplementation*>(impl))->createLSOutput();
+#endif
+
 
   this->doc = 0;
 
@@ -47,6 +54,10 @@ RPXMLConfig::RPXMLConfig ()
 RPXMLConfig::~RPXMLConfig ()
 {
   this->parser->release ();
+  this->writer->release();
+#if _XERCES_VERSION >=30100
+  this->writer_output->release();
+#endif
   XMLString::release (&this->id_string);
   XMLString::release (&this->subitem_string);
   XMLString::release (&this->item_string);
@@ -68,7 +79,12 @@ void
 RPXMLConfig::save (const std::string filename)
 {
   XMLFormatTarget *myForm = new StdOutFormatTarget ();
+#if _XERCES_VERSION <30100
   writer->writeNode (myForm, *doc);
+#else
+  writer_output->setByteStream(myForm);
+  writer->write(doc, writer_output);        
+#endif
 }
 
 void

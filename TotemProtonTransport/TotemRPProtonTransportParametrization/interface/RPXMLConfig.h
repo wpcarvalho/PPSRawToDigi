@@ -6,7 +6,13 @@
 #include <xercesc/dom/DOM.hpp>
 #include <xercesc/dom/DOMNodeList.hpp>
 #include <xercesc/dom/DOMElement.hpp>
-#include <xercesc/dom/DOMWriter.hpp>
+#if _XERCES_VERSION <30100
+#include "xercesc/dom/DOMWriter.hpp"
+#else
+ #include "xercesc/dom/DOMLSParser.hpp"
+ #include "xercesc/dom/DOMLSSerializer.hpp"
+ #include "xercesc/dom/DOMLSOutput.hpp"
+#endif
 #include <xercesc/dom/DOMImplementation.hpp>
 #include <xercesc/dom/DOMImplementationLS.hpp>
 #include <xercesc/util/XMLString.hpp>
@@ -105,13 +111,19 @@ private:
 // default filename
   std::string fileName;
 // parser
-  DOMBuilder * parser;
 // document
  DOMDocument * doc;
 // main node
  DOMNode * mn;
 // writer
+#if _XERCES_VERSION <30100
+ DOMBuilder * parser;
  DOMWriter * writer;
+#else
+ DOMLSParser * parser;
+ DOMLSSerializer * writer;
+ DOMLSOutput * writer_output;
+#endif
 
 // Constants
  XMLCh * id_string;
