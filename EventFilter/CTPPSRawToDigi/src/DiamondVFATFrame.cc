@@ -51,7 +51,7 @@ DiamondVFATFrame::timeinfo
 DiamondVFATFrame::getThresholdVolt() const
 {
   //return (timedata[0] >>5 ) & 0x7FFFFFF;
-  return ((data[4]&0x3ff)<<16)+data[3]; //FW bug
+  return ((data[4]&0x7ff)<<16)+data[3]; //FW bug
 }
 
 
