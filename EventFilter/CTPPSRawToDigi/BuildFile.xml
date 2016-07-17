@@ -8,7 +8,7 @@
 <use name="DataFormats/CTPPSDigi"/>
 <use name="DataFormats/PPSDetId"/>
 
-<use name="CondFormats/DiamondReadoutObjects"/>
+<use name="CondFormats/CTPPSReadoutObjects"/>
 
 <export>
 	<lib name="1"/>

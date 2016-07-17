@@ -18,15 +18,15 @@ diamondVFATRawToDigi = cms.EDProducer("DiamondVFATRawToDigi",
     # 1: one-line message for every event with at least one corrupted VFAT frame
     # 2: lists all corrupted VFATs in all events
     # 3: lists all corruptions for all corrupted VFATs in all events
-    verbosity = cms.untracked.uint32(0),
+    verbosity = cms.untracked.uint32(3),
 
     # flags for available consistency tests
     # 0: do not perform the test at all
     # 1: print an error message, but keep the frame
     # 2: print an error message and do not process the frame
-    testFootprint = cms.uint32(2),
-    testCRC = cms.uint32(2),
-    testID = cms.uint32(2),               # compare the ID from data and mapping
+    testFootprint = cms.uint32(1),
+    testCRC = cms.uint32(0),
+    testID = cms.uint32(0),               # compare the ID from data and mapping
     testECMostFrequent = cms.uint32(2),   # compare frame's EC with the most frequent value in the event
     testBCMostFrequent = cms.uint32(2),   # compare frame's BC with the most frequent value in the event
 

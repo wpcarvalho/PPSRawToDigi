@@ -12,8 +12,11 @@ process.MessageLogger = cms.Service("MessageLogger",
 )
 
 # raw data source
-process.source = cms.Source("PoolSource",
-    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/j/jkaspar/public/run273062_ls0001-2_stream.root')
+#process.source = cms.Source("PoolSource",
+#    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/j/jkaspar/public/run273062_ls0001-2_stream.root')
+#)
+process.source = cms.Source("NewEventStreamFileReader",
+    fileNames = cms.untracked.vstring('/store/t0streamer/Minidaq/A/000/276/395/run276395_ls0001_streamA_StorageManager.dat')
 )
 
 process.maxEvents = cms.untracked.PSet(
@@ -42,7 +45,7 @@ process.p = cms.Path(
 # output configuration
 from RecoCTPPS.Configuration.RecoCTPPS_EventContent_cff import RecoCTPPSRECO
 process.output = cms.OutputModule("PoolOutputModule",
-    fileName = cms.untracked.string("file:./reco.root"),
+    fileName = cms.untracked.string("file:reco.root"),
     outputCommands = RecoCTPPSRECO.outputCommands
 )
 
