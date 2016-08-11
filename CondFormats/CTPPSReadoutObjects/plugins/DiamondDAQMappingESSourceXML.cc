@@ -1,6 +1,6 @@
 /****************************************************************************
-* Seyed Mohsen Etesami
-****************************************************************************/
+ * Seyed Mohsen Etesami
+ ****************************************************************************/
 
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/Framework/interface/SourceFactory.h"
@@ -63,7 +63,7 @@ public:
 
 private:
   unsigned int verbosity;
-
+  int plane_id;
   /// the mapping files
   std::vector<std::string> mappingFileNames;
 
@@ -81,7 +81,7 @@ private:
 
   /// recursive method to extract RP-related information from the DOM tree
   void ParseTreeDiamond(ParseType, xercesc::DOMNode *, NodeType, unsigned int parentID,
-    const boost::shared_ptr<TotemDAQMappingDiamond>&, const boost::shared_ptr<DiamondAnalysisMask>&);
+			const boost::shared_ptr<TotemDAQMappingDiamond>&, const boost::shared_ptr<DiamondAnalysisMask>&);
 
 
 private:
@@ -114,7 +114,7 @@ private:
 
   DiamondFramePosition ChipFramePosition(xercesc::DOMNode *chipnode);
 
-/// extracts VFAT's DAQ channel from XML attributes
+  /// extracts VFAT's DAQ channel from XML attributes
   DiamondFramePosition DiamondchFramePosition(xercesc::DOMNode *chipnode);
 
   void GetChannels(xercesc::DOMNode *n, std::set<unsigned char> &channels);
@@ -182,7 +182,7 @@ string DiamondDAQMappingESSourceXML::CompleteFileName(const string &fn)
 //----------------------------------------------------------------------------------------------------
 
 void DiamondDAQMappingESSourceXML::setIntervalFor(const edm::eventsetup::EventSetupRecordKey&,
-  const edm::IOVSyncValue& iosv, edm::ValidityInterval& oValidity)
+						  const edm::IOVSyncValue& iosv, edm::ValidityInterval& oValidity)
 {
   ValidityInterval infinity(iosv.beginOfTime(), iosv.endOfTime());
   oValidity = infinity;
@@ -199,7 +199,7 @@ DOMDocument* DiamondDAQMappingESSourceXML::GetDOMDocument(string file)
 
   if (!xmlDoc)
     throw cms::Exception("DiamondDAQMappingESSourceXML::GetDOMDocument") << "Cannot parse file `" << file
-      << "' (xmlDoc = NULL)." << endl;
+									 << "' (xmlDoc = NULL)." << endl;
 
   return xmlDoc;
 }
@@ -213,21 +213,21 @@ DiamondDAQMappingESSourceXML::~DiamondDAQMappingESSourceXML()
 //----------------------------------------------------------------------------------------------------
 
 edm::ESProducts< boost::shared_ptr<TotemDAQMappingDiamond>, boost::shared_ptr<DiamondAnalysisMask> >
-  DiamondDAQMappingESSourceXML::produce( const DiamondReadoutRcd & )
+DiamondDAQMappingESSourceXML::produce( const DiamondReadoutRcd & )
 {
   boost::shared_ptr<TotemDAQMappingDiamond> mapping(new TotemDAQMappingDiamond());
   boost::shared_ptr<DiamondAnalysisMask> mask(new DiamondAnalysisMask());
   // initialize Xerces
   try
-  {
-    XMLPlatformUtils::Initialize();
-  }
+    {
+      XMLPlatformUtils::Initialize();
+    }
   catch (const XMLException& toCatch)
-  {
-    char* message = XMLString::transcode(toCatch.getMessage());
-    throw cms::Exception("DiamondDAQMappingESSourceXML") << "An XMLException caught with message: " << message << ".\n";
-    XMLString::release(&message);
-  }
+    {
+      char* message = XMLString::transcode(toCatch.getMessage());
+      throw cms::Exception("DiamondDAQMappingESSourceXML") << "An XMLException caught with message: " << message << ".\n";
+      XMLString::release(&message);
+    }
 
   // load mapping files
   for (unsigned int i = 0; i < mappingFileNames.size(); ++i)
@@ -247,7 +247,7 @@ edm::ESProducts< boost::shared_ptr<TotemDAQMappingDiamond>, boost::shared_ptr<Di
 //----------------------------------------------------------------------------------------------------
 
 void DiamondDAQMappingESSourceXML::ParseXML(ParseType pType, const string &file,
-  const boost::shared_ptr<TotemDAQMappingDiamond> &mapping, const boost::shared_ptr<DiamondAnalysisMask> &mask)
+					    const boost::shared_ptr<TotemDAQMappingDiamond> &mapping, const boost::shared_ptr<DiamondAnalysisMask> &mask)
 {
 
   DOMDocument* domDoc = GetDOMDocument(file);
@@ -264,136 +264,135 @@ void DiamondDAQMappingESSourceXML::ParseXML(ParseType pType, const string &file,
 //-----------------------------------------------------------------------------------------------------------
 
 void DiamondDAQMappingESSourceXML::ParseTreeDiamond(ParseType pType, xercesc::DOMNode * parent, NodeType parentType,
-  unsigned int parentID, const boost::shared_ptr<TotemDAQMappingDiamond>& mapping,
-  const boost::shared_ptr<DiamondAnalysisMask>& mask)
+						    unsigned int parentID, const boost::shared_ptr<TotemDAQMappingDiamond>& mapping,
+						    const boost::shared_ptr<DiamondAnalysisMask>& mask)
 {
 #ifdef DEBUG
   printf(">> DiamondDAQMappingESSourceXML::ParseTreeDiamond(%s, %u, %u)\n", XMLString::transcode(parent->getNodeName()),
-    parentType, parentID);
+	 parentType, parentID);
 #endif
 
   DOMNodeList *children = parent->getChildNodes();
 
   for (unsigned int i = 0; i < children->getLength(); i++)
-  {
-    DOMNode *n = children->item(i);
-    if (n->getNodeType() != DOMNode::ELEMENT_NODE)
-      continue;
+    {
+      DOMNode *n = children->item(i);
+      if (n->getNodeType() != DOMNode::ELEMENT_NODE)
+	continue;
   
-    NodeType type = GetNodeType(n);
+      NodeType type = GetNodeType(n);
 #ifdef DEBUG
-    printf("\tname = %s, type = %u\n", XMLString::transcode(n->getNodeName()), type);
+      printf("\tname = %s, type = %u\n", XMLString::transcode(n->getNodeName()), type);
 #endif
 
-    // structure control
-    if (!RPNode(type))
-      continue;
+      // structure control
+      if (!RPNode(type))
+	continue;
 
-    if ((type != parentType + 1)&&parentType != nRPPot)
-    {
-      if (parentType == nTop && type == nRPPot)
-      {
-	    LogPrint("DiamondDAQMappingESSourceXML") << ">> DiamondDAQMappingESSourceXML::ParseTreeDiamond > Warning: tag `" << tagRPPot
-					<< "' found in global scope, assuming station ID = 12.";
-	    parentID = 12;
-      } else {
-        throw cms::Exception("DiamondDAQMappingESSourceXML") << "Node " << XMLString::transcode(n->getNodeName())
-          << " not allowed within " << XMLString::transcode(parent->getNodeName()) << " block.\n";
-      }
-    }
+      if ((type != parentType + 1)&&parentType != nRPPot)
+	{
+	  if (parentType == nTop && type == nRPPot)
+	    {
+	      LogPrint("DiamondDAQMappingESSourceXML") << ">> DiamondDAQMappingESSourceXML::ParseTreeDiamond > Warning: tag `" << tagRPPot
+						       << "' found in global scope, assuming station ID = 12.";
+	      parentID = 12;
+	    } else {
+	    throw cms::Exception("DiamondDAQMappingESSourceXML") << "Node " << XMLString::transcode(n->getNodeName())
+								 << " not allowed within " << XMLString::transcode(parent->getNodeName()) << " block.\n";
+	  }
+	}
 
-    // parse tag attributes
-    unsigned int id =0,hw_id = 0; 
-    bool id_set = false,hw_id_set = false; 
-    bool fullMask = false;
-    DOMNamedNodeMap* attr = n->getAttributes();
+      // parse tag attributes
+      unsigned int id =0,hw_id = 0; 
+      bool id_set = false,hw_id_set = false; 
+      bool fullMask = false;
+      DOMNamedNodeMap* attr = n->getAttributes();
 
-    for (unsigned int j = 0; j < attr->getLength(); j++)
-    {
-      DOMNode *a = attr->item(j);
+      for (unsigned int j = 0; j < attr->getLength(); j++)
+	{
+	  DOMNode *a = attr->item(j);
 
 
 
-      if (!strcmp(XMLString::transcode(a->getNodeName()), "id"))
-      {
-        sscanf(XMLString::transcode(a->getNodeValue()), "%u", &id);
-        id_set = true;
-      }
+	  if (!strcmp(XMLString::transcode(a->getNodeName()), "id"))
+	    {
+	      sscanf(XMLString::transcode(a->getNodeValue()), "%u", &id);
+	      id_set = true;
+	    }
 
-      if (!strcmp(XMLString::transcode(a->getNodeName()), "hw_id"))
-      {
-        sscanf(XMLString::transcode(a->getNodeValue()), "%x", &hw_id);
-        hw_id_set = true;
-      }
+	  if (!strcmp(XMLString::transcode(a->getNodeName()), "hw_id"))
+	    {
+	      sscanf(XMLString::transcode(a->getNodeValue()), "%x", &hw_id);
+	      hw_id_set = true;
+	    }
 
-      if (!strcmp(XMLString::transcode(a->getNodeName()), "full_mask"))
-        fullMask = (strcmp(XMLString::transcode(a->getNodeValue()), "no") != 0);
-    }
+	  if (!strcmp(XMLString::transcode(a->getNodeName()), "full_mask"))
+	    fullMask = (strcmp(XMLString::transcode(a->getNodeValue()), "no") != 0);
+	}
 
-    // content control
-    if (!id_set) 
-      throw cms::Exception("DiamondDAQMappingESSourceXML::ParseTreeDiamond") << "id not given for element `"
-       << XMLString::transcode(n->getNodeName()) << "'" << endl;
+      // content control
+      if (!id_set) 
+	throw cms::Exception("DiamondDAQMappingESSourceXML::ParseTreeDiamond") << "id not given for element `"
+									       << XMLString::transcode(n->getNodeName()) << "'" << endl;
 
 
       if (!hw_id_set && type == nChip && pType == pMapping)
-      throw cms::Exception("TotemDAQMappingESSourceXML::ParseTreeDiamond") << "hw_id not given for element `"
-     << XMLString::transcode(n->getNodeName()) << "'" << endl;
+	throw cms::Exception("TotemDAQMappingESSourceXML::ParseTreeDiamond") << "hw_id not given for element `"
+									     << XMLString::transcode(n->getNodeName()) << "'" << endl;
  
-    if (type == nRPPlane && id > 9)
-      throw cms::Exception("DiamondDAQMappingESSourceXML::ParseTreeDiamond") <<
-        "Plane IDs range from 0 to 9. id = " << id << " is invalid." << endl;
+      if (type == nRPPlane && id > 9)
+	throw cms::Exception("DiamondDAQMappingESSourceXML::ParseTreeDiamond") <<
+	  "Plane IDs range from 0 to 9. id = " << id << " is invalid." << endl;
 
 #ifdef DEBUG
-    printf("\tID found: 0x%x\n", id);
+      printf("\tID found: 0x%x\n", id);
 #endif
 
+      if(pType == pMapping &&type == nRPPlane)
+	plane_id=id;
 
 
+      // store mapping data
+      if (pType == pMapping &&type == nChip)
+	{
+
+	  const DiamondFramePosition &framepos = ChipFramePosition(n);
+
+	  DiamondVFATInfo vfatInfo;
+	  vfatInfo.hwID = hw_id;     
+	  vfatInfo.symbolicID.subSystem = CTPPSTimingSymbID::Diamond;
+
+	  if (type == nChip)
+	    {
+	      vfatInfo.symbolicID.symbolicID = parentID - plane_id * 10 + plane_id * 12 + id;
+
+	      vfatInfo.type = DiamondVFATInfo::data;
+	    }
 
 
+	  mapping->insert(framepos, vfatInfo);
 
-    // store mapping data
-    if (pType == pMapping &&type == nChip)
-    {
+	  continue;
+	}
 
-       const DiamondFramePosition &framepos = ChipFramePosition(n);
+      // store mask data
+      if (pType == pMask && type == nChip)
+	{
+	  CTPPSTimingSymbID symbId;
+	  symbId.subSystem = CTPPSTimingSymbID::Diamond;
+	  symbId.symbolicID = parentID * 12 + id;
 
-      DiamondVFATInfo vfatInfo;
-      vfatInfo.hwID = hw_id;     
-      vfatInfo.symbolicID.subSystem = CTPPSTimingSymbID::Diamond;
+	  DiamondVFATAnalysisMask am;
+	  am.fullMask = fullMask;
+	  GetChannels(n, am.maskedChannels);
 
-      if (type == nChip)
-      {
-     vfatInfo.symbolicID.symbolicID = parentID * 100 + id;
-     
-   vfatInfo.type = DiamondVFATInfo::data;
-      }
+	  mask->insert(symbId, am);
 
-
-      mapping->insert(framepos, vfatInfo);
-
-      continue;
+	  continue;
+	}
+      // recursion (deeper in the tree)
+      ParseTreeDiamond(pType, n, type,  parentID * 10 +id*10 , mapping, mask);
     }
-
-    // store mask data
-    if (pType == pMask && type == nChip)
-    {
-      CTPPSTimingSymbID symbId;
-      symbId.subSystem = CTPPSTimingSymbID::Diamond;
-      symbId.symbolicID = parentID * 10 + id;
-
-      DiamondVFATAnalysisMask am;
-      am.fullMask = fullMask;
-      GetChannels(n, am.maskedChannels);
-
-      mask->insert(symbId, am);
-
-      continue;
-    }
-    // recursion (deeper in the tree)
-    ParseTreeDiamond(pType, n, type,  parentID * 10 + id, mapping, mask);
-  }
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -406,28 +405,28 @@ DiamondFramePosition DiamondDAQMappingESSourceXML::DiamondchFramePosition(xerces
 
   DOMNamedNodeMap* attr = chipnode->getAttributes();
   for (unsigned int j = 0; j < attr->getLength(); j++)
-  {
-    DOMNode *a = attr->item(j);
+    {
+      DOMNode *a = attr->item(j);
 
-    Values=0;
-    sscanf(XMLString::transcode(a->getNodeValue()), "%x", &Values);
-    std::ostringstream converts;
-    converts << Values;
-    values = converts.str();
-     if(fp.setXMLAttribute(XMLString::transcode(a->getNodeName()),values , attributeFlag)>1)
-   {
-      throw cms::Exception("DiamondDAQMappingESSourceXML") <<
-        "Unrecognized tag `" << XMLString::transcode(a->getNodeName()) <<
-        "' or incompatible value `" << XMLString::transcode(a->getNodeValue()) <<
-        "'." << endl;
+      Values=0;
+      sscanf(XMLString::transcode(a->getNodeValue()), "%x", &Values);
+      std::ostringstream converts;
+      converts << Values;
+      values = converts.str();
+      if(fp.setXMLAttribute(XMLString::transcode(a->getNodeName()),values , attributeFlag)>1)
+	{
+	  throw cms::Exception("DiamondDAQMappingESSourceXML") <<
+	    "Unrecognized tag `" << XMLString::transcode(a->getNodeName()) <<
+	    "' or incompatible value `" << XMLString::transcode(a->getNodeValue()) <<
+	    "'." << endl;
+	}
     }
-  }
 
   if (!fp.checkXMLAttributeFlag(attributeFlag))
-  {
-    throw cms::Exception("DiamondDAQMappingESSourceXML") <<
-      "Wrong/incomplete DAQ channel specification (attributeFlag = " << attributeFlag << ")." << endl;
-  }
+    {
+      throw cms::Exception("DiamondDAQMappingESSourceXML") <<
+	"Wrong/incomplete DAQ channel specification (attributeFlag = " << attributeFlag << ")." << endl;
+    }
 
   return fp;
 }
@@ -443,24 +442,24 @@ DiamondFramePosition DiamondDAQMappingESSourceXML::ChipFramePosition(xercesc::DO
 
   DOMNamedNodeMap* attr = chipnode->getAttributes();
   for (unsigned int j = 0; j < attr->getLength(); j++)
-  {
-    DOMNode *a = attr->item(j);
+    {
+      DOMNode *a = attr->item(j);
    
 
- if (fp.setXMLAttribute(XMLString::transcode(a->getNodeName()), XMLString::transcode(a->getNodeValue()), attributeFlag) > 1)
-   {
-      throw cms::Exception("DiamondDAQMappingESSourceXML") <<
-        "Unrecognized tag `" << XMLString::transcode(a->getNodeName()) <<
-        "' or incompatible value `" << XMLString::transcode(a->getNodeValue()) <<
-        "'." << endl;
+      if (fp.setXMLAttribute(XMLString::transcode(a->getNodeName()), XMLString::transcode(a->getNodeValue()), attributeFlag) > 1)
+	{
+	  throw cms::Exception("DiamondDAQMappingESSourceXML") <<
+	    "Unrecognized tag `" << XMLString::transcode(a->getNodeName()) <<
+	    "' or incompatible value `" << XMLString::transcode(a->getNodeValue()) <<
+	    "'." << endl;
+	}
     }
-  }
 
   if (!fp.checkXMLAttributeFlag(attributeFlag))
-  {
-    throw cms::Exception("DiamondDAQMappingESSourceXML") <<
-      "Wrong/incomplete DAQ channel specification (attributeFlag = " << attributeFlag << ")." << endl;
-  }
+    {
+      throw cms::Exception("DiamondDAQMappingESSourceXML") <<
+	"Wrong/incomplete DAQ channel specification (attributeFlag = " << attributeFlag << ")." << endl;
+    }
 
   return fp;
 }
@@ -481,7 +480,7 @@ DiamondDAQMappingESSourceXML::NodeType DiamondDAQMappingESSourceXML::GetNodeType
 
 
   throw cms::Exception("DiamondAQMappingESSourceXML::GetNodeType") << "Unknown tag `"
-    << XMLString::transcode(n->getNodeName()) << "'.\n";
+								   << XMLString::transcode(n->getNodeName()) << "'.\n";
 }
 
 //----------------------------------------------------------------------------------------------------
@@ -490,33 +489,33 @@ void DiamondDAQMappingESSourceXML::GetChannels(xercesc::DOMNode *n, set<unsigned
 {
   DOMNodeList *children = n->getChildNodes();
   for (unsigned int i = 0; i < children->getLength(); i++)
-  {
-    DOMNode *n = children->item(i);
-    if (n->getNodeType() != DOMNode::ELEMENT_NODE || !Test(n, "channel"))
-      continue;
-
-    DOMNamedNodeMap* attr = n->getAttributes();
-    bool idSet = false;
-    for (unsigned int j = 0; j < attr->getLength(); j++)
     {
-      DOMNode *a = attr->item(j);
+      DOMNode *n = children->item(i);
+      if (n->getNodeType() != DOMNode::ELEMENT_NODE || !Test(n, "channel"))
+	continue;
 
-      if (!strcmp(XMLString::transcode(a->getNodeName()), "id"))
-      {
-        unsigned int id = 0;
-        sscanf(XMLString::transcode(a->getNodeValue()), "%u", &id);
-        channels.insert(id);
-        idSet = true;
-        break;
-      }
-    }
+      DOMNamedNodeMap* attr = n->getAttributes();
+      bool idSet = false;
+      for (unsigned int j = 0; j < attr->getLength(); j++)
+	{
+	  DOMNode *a = attr->item(j);
 
-    if (!idSet)
-    {
-      throw cms::Exception("DiamondDAQMappingESSourceXML::GetChannels") <<
-        "Channel tags must have an `id' attribute.";
+	  if (!strcmp(XMLString::transcode(a->getNodeName()), "id"))
+	    {
+	      unsigned int id = 0;
+	      sscanf(XMLString::transcode(a->getNodeValue()), "%u", &id);
+	      channels.insert(id);
+	      idSet = true;
+	      break;
+	    }
+	}
+
+      if (!idSet)
+	{
+	  throw cms::Exception("DiamondDAQMappingESSourceXML::GetChannels") <<
+	    "Channel tags must have an `id' attribute.";
+	}
     }
-  }
 }
 
 //----------------------------------------------------------------------------------------------------
