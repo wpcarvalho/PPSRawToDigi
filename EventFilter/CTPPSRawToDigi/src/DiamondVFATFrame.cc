@@ -1,6 +1,6 @@
 /****************************************************************************
-*  Seyed Mohsen Etesami
-****************************************************************************/
+ *  Seyed Mohsen Etesami
+ ****************************************************************************/
 
 #include "EventFilter/CTPPSRawToDigi/interface/DiamondVFATFrame.h"
 
@@ -98,24 +98,24 @@ void
 DiamondVFATFrame::Print(bool binary) const
 {
   if (binary)
-  {
-    for (int i = 0; i < 12; i++)
     {
-      const word &w = data[11 - i];
-      word mask = (1 << 15);
-      for (int j = 0; j < 16; j++)
-      {
-        if (w & mask)
-          printf("1");
-        else
-          printf("0");
-        mask = (mask >> 1);
-        if ((j + 1) % 4 == 0)
-          printf("|");
-      }
-      printf("\n");
-    }
-  } else {
+      for (int i = 0; i < 12; i++)
+	{
+	  const word &w = data[11 - i];
+	  word mask = (1 << 15);
+	  for (int j = 0; j < 16; j++)
+	    {
+	      if (w & mask)
+		printf("1");
+	      else
+		printf("0");
+	      mask = (mask >> 1);
+	      if ((j + 1) % 4 == 0)
+		printf("|");
+	    }
+	  printf("\n");
+	}
+    } else {
     printf("ID = %03x, BC = %04u, EC = %03u, flags = %2u, CRC = %04x ", getChannelID(), getBC(), getEC(), getFlags(), getCRC());
 
 

@@ -22,59 +22,59 @@
  */
 class DiamondCounterChecker 
 {
-  public:
-    typedef unsigned short word;
+ public:
+  typedef unsigned short word;
 
-    typedef std::map<word, std::vector<DiamondFramePosition> > CounterMap;
+  typedef std::map<word, std::vector<DiamondFramePosition> > CounterMap;
 
-    enum CheckerType {BCChecker, ECChecker};
+  enum CheckerType {BCChecker, ECChecker};
   
-    /**
-     * \param t: CounterChecker::ECCounter or CounterChecker::BCCounter. On that, depends whether
-     * checker will fill wrong EC or BC rogress error.
-     * \param name: name
-     * \param min: minimal required number of frames to search for the most frequent one
-     */
-    DiamondCounterChecker(CheckerType _type = DiamondCounterChecker::BCChecker, const std::string &_name="",
-      unsigned int _min=0, double _fraction=0., unsigned int _verbosity=0) : type(_type),
-      name(_name), min(_min), fraction(_fraction), verbosity(_verbosity) {}
+  /**
+   * \param t: CounterChecker::ECCounter or CounterChecker::BCCounter. On that, depends whether
+   * checker will fill wrong EC or BC rogress error.
+   * \param name: name
+   * \param min: minimal required number of frames to search for the most frequent one
+   */
+ DiamondCounterChecker(CheckerType _type = DiamondCounterChecker::BCChecker, const std::string &_name="",
+		       unsigned int _min=0, double _fraction=0., unsigned int _verbosity=0) : type(_type),
+    name(_name), min(_min), fraction(_fraction), verbosity(_verbosity) {}
 
-    /// add new value to map, counter takes value of EC or BC number
-    void Fill(word counter, DiamondFramePosition fr);
+  /// add new value to map, counter takes value of EC or BC number
+  void Fill(word counter, DiamondFramePosition fr);
 
-    /// summarizes and fill the status (wrong EC and BC progress error for some frames)
-    template<typename T>
+  /// summarizes and fill the status (wrong EC and BC progress error for some frames)
+  template<typename T>
     void Analyze(T &status, bool error, std::ostream &es);
   
-  private:
-    class Comparer
+ private:
+  class Comparer
+  {
+  public:
+    typedef unsigned short word;
+    bool operator()(const std::pair<word, std::vector<DiamondFramePosition> > &a, const std::pair<word, std::vector<DiamondFramePosition> > &b)
     {
-      public:
-        typedef unsigned short word;
-        bool operator()(const std::pair<word, std::vector<DiamondFramePosition> > &a, const std::pair<word, std::vector<DiamondFramePosition> > &b)
-        {
-          return a.second.size() < b.second.size();
-        }
-    };  
+      return a.second.size() < b.second.size();
+    }
+  };  
 
-    /// counter value -> list of frames with this value
-    CounterMap relationMap;
+  /// counter value -> list of frames with this value
+  CounterMap relationMap;
 
-    /// EC or BC counter checker
-    CheckerType type;
+  /// EC or BC counter checker
+  CheckerType type;
 
-    /// the name of this check, used in error messages
-    std::string name;
+  /// the name of this check, used in error messages
+  std::string name;
 
-    /// minimal required number of frames to search for the most frequent one
-    unsigned int min;
+  /// minimal required number of frames to search for the most frequent one
+  unsigned int min;
   
-    /// the most frequent value is accepted only provided its sub-sample size is greater than the
-    /// specified fraction of the full sample
-    double fraction;
+  /// the most frequent value is accepted only provided its sub-sample size is greater than the
+  /// specified fraction of the full sample
+  double fraction;
   
-    /// level of verbosity
-    unsigned int verbosity;
+  /// level of verbosity
+  unsigned int verbosity;
 };
 
 //-------------------------------------------------------------------------------------------------
@@ -88,54 +88,54 @@ void DiamondCounterChecker::Analyze(T &status, bool error, std::ostream &es)
 
   // finding the most frequent counter
   for (CounterMap::iterator iter = relationMap.begin(); iter != relationMap.end(); iter++)
-  {
-    unsigned int iterSize = iter->second.size();
-    totalFrames += iterSize;
-
-    if (iterSize > mostFrequentSize)
     {
-      mostFrequentCounter = iter->first;
-      mostFrequentSize = iter->second.size();
+      unsigned int iterSize = iter->second.size();
+      totalFrames += iterSize;
+
+      if (iterSize > mostFrequentSize)
+	{
+	  mostFrequentCounter = iter->first;
+	  mostFrequentSize = iter->second.size();
+	}
     }
-  }
 
   if (totalFrames < min)
-  {
-  //  if (verbosity > 0)
-   //   es << "Too few frames to determine the most frequent " << name << " value.";
+    {
+      //  if (verbosity > 0)
+      //   es << "Too few frames to determine the most frequent " << name << " value.";
 
-    return;
-  }
+      return;
+    }
 
   // if there are too few frames with the most frequent value
   if ((float)mostFrequentSize/(float)totalFrames < fraction)
-  {
-  //  if (verbosity > 0)
-  //    es << "  The most frequent " << name << " value is doubtful - variance is too high.";
+    {
+      //  if (verbosity > 0)
+      //    es << "  The most frequent " << name << " value is doubtful - variance is too high.";
 
-    return;
-  }
+      return;
+    }
 
   for (CounterMap::iterator iter = relationMap.begin(); iter != relationMap.end(); iter++)
-  {
-    if (iter->first != mostFrequentCounter)
-    {     
-      for (std::vector<DiamondFramePosition>::iterator fr = iter->second.begin(); fr !=  iter->second.end(); fr++)
-      {
-        if (error)
-        {
-          if (type == ECChecker) 
-            status[*fr].status.setECProgressError();
-          if (type == BCChecker) 
-            status[*fr].status.setBCProgressError();    
-        }
+    {
+      if (iter->first != mostFrequentCounter)
+	{     
+	  for (std::vector<DiamondFramePosition>::iterator fr = iter->second.begin(); fr !=  iter->second.end(); fr++)
+	    {
+	      if (error)
+		{
+		  if (type == ECChecker) 
+		    status[*fr].status.setECProgressError();
+		  if (type == BCChecker) 
+		    status[*fr].status.setBCProgressError();    
+		}
 
-    //    if (verbosity > 0)
-    //      es << "  Frame at " << *fr << ": " << name << " number " << iter->first
-     //       << " is different from the most frequent one " << mostFrequentCounter << std::endl;
-      }
+	      //    if (verbosity > 0)
+	      //      es << "  Frame at " << *fr << ": " << name << " number " << iter->first
+	      //       << " is different from the most frequent one " << mostFrequentCounter << std::endl;
+	    }
+	}
     }
-  }
 }
 
 #endif

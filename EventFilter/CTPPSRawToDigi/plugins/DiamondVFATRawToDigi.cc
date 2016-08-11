@@ -35,24 +35,24 @@
 
 class DiamondVFATRawToDigi : public edm::stream::EDProducer<>
 {
-  public:
-    explicit DiamondVFATRawToDigi(const edm::ParameterSet&);
-    ~DiamondVFATRawToDigi();
+public:
+  explicit DiamondVFATRawToDigi(const edm::ParameterSet&);
+  ~DiamondVFATRawToDigi();
 
-    virtual void produce(edm::Event&, const edm::EventSetup&) override;
+  virtual void produce(edm::Event&, const edm::EventSetup&) override;
 
-  private:
-    std::string subSystem;
+private:
+  std::string subSystem;
 
-    std::vector<unsigned int> fedIds;
+  std::vector<unsigned int> fedIds;
 
-    edm::EDGetTokenT<FEDRawDataCollection> fedDataToken;
+  edm::EDGetTokenT<FEDRawDataCollection> fedDataToken;
 
-    DiamondRawDataUnpacker rawDataUnpacker;
-    DiamondRawToDigiConverter rawToDigiConverter;
+  DiamondRawDataUnpacker rawDataUnpacker;
+  DiamondRawToDigiConverter rawToDigiConverter;
 
-    template <typename DigiType>
-    void run(edm::Event&, const edm::EventSetup&);
+  template <typename DigiType>
+  void run(edm::Event&, const edm::EventSetup&);
 };
 
 //----------------------------------------------------------------------------------------------------
@@ -78,18 +78,18 @@ DiamondVFATRawToDigi::DiamondVFATRawToDigi(const edm::ParameterSet &conf):
   produces< vector<DiamondFEDInfo> >(subSystem);
 
   // digi
-    if (subSystem == "RP")
+  if (subSystem == "RP")
     produces< DetSetVector<DiamondDigi> >(subSystem);
 
   // set default IDs
   if (fedIds.empty())
-  {
-    if (subSystem == "RP")
     {
-      for (int id = FEDNumbering::MINCTPPSDiamondsFEDID; id <= FEDNumbering::MAXCTPPSDiamondsFEDID; ++id)
-        fedIds.push_back(id);
+      if (subSystem == "RP")
+	{
+	  for (int id = FEDNumbering::MINCTPPSDiamondsFEDID; id <= FEDNumbering::MAXCTPPSDiamondsFEDID; ++id)
+	    fedIds.push_back(id);
+	}
     }
-  }
 
   // conversion status
   produces< DetSetVector<DiamondVFATStatus> >(subSystem);
@@ -120,7 +120,7 @@ void DiamondVFATRawToDigi::run(edm::Event& event, const edm::EventSetup &es)
 
   // get analysis mask to mask channels
   ESHandle<DiamondAnalysisMask> analysisMask;
- // es.get<DiamondReadoutRcd>().get(analysisMask);
+  // es.get<DiamondReadoutRcd>().get(analysisMask);
   // raw data handle
   edm::Handle<FEDRawDataCollection> rawData;
   event.getByToken(fedDataToken, rawData);
@@ -133,12 +133,12 @@ void DiamondVFATRawToDigi::run(edm::Event& event, const edm::EventSetup &es)
   // raw-data unpacking
   DiamondVFATFrameCollection vfatCollection;
   for (const auto &fedId : fedIds)
-  {
-    const FEDRawData &data = rawData->FEDData(fedId);
-    if (data.size() > 0)
-      rawDataUnpacker.Run(fedId, data, fedInfo, vfatCollection);
+    {
+      const FEDRawData &data = rawData->FEDData(fedId);
+      if (data.size() > 0)
+	rawDataUnpacker.Run(fedId, data, fedInfo, vfatCollection);
 
-  }
+    }
 
   // raw-to-digi conversion
   rawToDigiConverter.Run(vfatCollection, *mapping, *analysisMask, digi, conversionStatus);

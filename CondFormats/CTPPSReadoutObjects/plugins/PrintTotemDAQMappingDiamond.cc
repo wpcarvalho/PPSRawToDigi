@@ -1,6 +1,6 @@
 /****************************************************************************
-* Seyed Mohsen Etesami
-****************************************************************************/
+ * Seyed Mohsen Etesami
+ ****************************************************************************/
 
 #include "FWCore/Framework/interface/one/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -20,12 +20,12 @@
  **/
 class PrintTotemDAQMappingDiamond : public edm::one::EDAnalyzer<>
 {
-  public:
-    PrintTotemDAQMappingDiamond(const edm::ParameterSet &ps) {}
-    ~PrintTotemDAQMappingDiamond() {}
+public:
+  PrintTotemDAQMappingDiamond(const edm::ParameterSet &ps) {}
+  ~PrintTotemDAQMappingDiamond() {}
 
-  private:
-    virtual void analyze(const edm::Event &e, const edm::EventSetup &es) override;
+private:
+  virtual void analyze(const edm::Event &e, const edm::EventSetup &es) override;
 };
 
 using namespace std;
@@ -44,9 +44,9 @@ void PrintTotemDAQMappingDiamond::analyze(const edm::Event &e, const edm::EventS
   es.get<DiamondReadoutRcd>().get(analysisMask);
 
   for (const auto &p : mapping->VFATMapping)
-  {
-    cout << p.first << " -> " << p.second << endl;
-  }
+    {
+      cout << p.first << " -> " << p.second << endl;
+    }
 }
 
 //----------------------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 /****************************************************************************
-*   Seyed Mohsen Etesami
-****************************************************************************/
+ *   Seyed Mohsen Etesami
+ ****************************************************************************/
 
 #ifndef CondFormats_CTPPSReadoutObjects_TotemDAQMappingDiamond
 #define CondFormats_CTPPSReadoutObjects_TotemDAQMappingDiamond
@@ -17,17 +17,17 @@
  */
 class DiamondVFATInfo
 {
-  public:
-    /// is data of coincidence-chip VFAT
-    enum {data, CC} type;
+ public:
+  /// is data of coincidence-chip VFAT
+  enum {data, CC} type;
 
-    /// the symbolic id
-    CTPPSTimingSymbID symbolicID;
+  /// the symbolic id
+  CTPPSTimingSymbID symbolicID;
 
-    /// the hardware ID (16 bit)
-    unsigned int hwID;
+  /// the hardware ID (16 bit)
+  unsigned int hwID;
     
-    friend std::ostream& operator << (std::ostream& s, const DiamondVFATInfo &fp);
+  friend std::ostream& operator << (std::ostream& s, const DiamondVFATInfo &fp);
 };
 
 //----------------------------------------------------------------------------------------------------
@@ -37,10 +37,10 @@ class DiamondVFATInfo
  */
 class TotemDAQMappingDiamond
 {
-  public:
-    std::map<DiamondFramePosition, DiamondVFATInfo> VFATMapping;
+ public:
+  std::map<DiamondFramePosition, DiamondVFATInfo> VFATMapping;
     
-    void insert(const DiamondFramePosition &fp, const DiamondVFATInfo &vi);
+  void insert(const DiamondFramePosition &fp, const DiamondVFATInfo &vi);
 };
 
 #endif

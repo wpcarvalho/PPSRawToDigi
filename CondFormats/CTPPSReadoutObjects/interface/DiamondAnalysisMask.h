@@ -13,14 +13,14 @@
  */
 class DiamondVFATAnalysisMask
 {
-  public:
-    DiamondVFATAnalysisMask() : fullMask(false) {}
+ public:
+ DiamondVFATAnalysisMask() : fullMask(false) {}
 
-    /// whether all channels of the VFAT shall be masked
-    bool fullMask;
+  /// whether all channels of the VFAT shall be masked
+  bool fullMask;
 
-    /// list of channels to be masked
-    std::set<unsigned char> maskedChannels;
+  /// list of channels to be masked
+  std::set<unsigned char> maskedChannels;
 };
 
 //----------------------------------------------------------------------------------------------------
@@ -30,10 +30,10 @@ class DiamondVFATAnalysisMask
  **/
 class DiamondAnalysisMask
 {
-  public:
-    std::map<CTPPSTimingSymbID, DiamondVFATAnalysisMask> analysisMask;
+ public:
+  std::map<CTPPSTimingSymbID, DiamondVFATAnalysisMask> analysisMask;
 
-    void insert(const CTPPSTimingSymbID &sid, const DiamondVFATAnalysisMask &vam);
+  void insert(const CTPPSTimingSymbID &sid, const DiamondVFATAnalysisMask &vam);
 };
 
 #endif

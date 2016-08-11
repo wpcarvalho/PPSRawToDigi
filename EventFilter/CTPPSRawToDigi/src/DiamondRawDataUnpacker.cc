@@ -1,6 +1,6 @@
 /****************************************************************************
-* Seyed Mohsen Etesami
-****************************************************************************/
+ * Seyed Mohsen Etesami
+ ****************************************************************************/
 
 #include "EventFilter/CTPPSRawToDigi/interface/DiamondRawDataUnpacker.h"
 
@@ -23,11 +23,11 @@ int DiamondRawDataUnpacker::Run(int fedId, const FEDRawData &data, vector<Diamon
 {
   unsigned int size_in_words = data.size() / 8; // bytes -> words
   if (size_in_words < 2)
-  {
-    LogProblem("Totem") << "Error in RawDataUnpacker::Run > " <<
-      "Data in FED " << fedId << " too short (size = " << size_in_words << " words).";
-    return 1;
-  }
+    {
+      LogProblem("Totem") << "Error in RawDataUnpacker::Run > " <<
+	"Data in FED " << fedId << " too short (size = " << size_in_words << " words).";
+      return 1;
+    }
 
   fedInfoColl.push_back(DiamondFEDInfo(fedId));
 
@@ -60,18 +60,18 @@ int DiamondRawDataUnpacker::ProcessOptoRxFrame(const word *buf, unsigned int fra
 
   // check header and footer structure
   if (BOE != 5 || H0 != 0 || EOE != 10 || F0 != 0 || FSize != frameSize)
-  {
-    LogProblem("Totem") << "Error in DiamondRawDataUnpacker::ProcessOptoRxFrame > " << "Wrong structure of OptoRx header/footer: "
-      << "BOE=" << BOE << ", H0=" << H0 << ", EOE=" << EOE << ", F0=" << F0
-      << ", size (OptoRx)=" << FSize << ", size (DATE)=" << frameSize
-      << ". FEDID=" << FEDId << ". Skipping frame." << endl;
-    return 0;
-  }
+    {
+      LogProblem("Totem") << "Error in DiamondRawDataUnpacker::ProcessOptoRxFrame > " << "Wrong structure of OptoRx header/footer: "
+			  << "BOE=" << BOE << ", H0=" << H0 << ", EOE=" << EOE << ", F0=" << F0
+			  << ", size (OptoRx)=" << FSize << ", size (DATE)=" << frameSize
+			  << ". FEDID=" << FEDId << ". Skipping frame." << endl;
+      return 0;
+    }
 
-  #ifdef DEBUG
-    printf(">> DiamondRawDataUnpacker::ProcessOptoRxFrame > OptoRxId = %u, BX = %lu, LV1 = %lu, frameSize = %u, subFrames = %u)\n",
-      OptoRxId, BX, LV1, frameSize, subFrames);
-  #endif
+#ifdef DEBUG
+  printf(">> DiamondRawDataUnpacker::ProcessOptoRxFrame > OptoRxId = %u, BX = %lu, LV1 = %lu, frameSize = %u, subFrames = %u)\n",
+	 OptoRxId, BX, LV1, frameSize, subFrames);
+#endif
 
   // parallel or serial transmission?
 
@@ -106,11 +106,11 @@ int DiamondRawDataUnpacker::ProcessOptoRxFrameParallel(const word *buf, unsigned
 
   // process all VFAT data
   for (unsigned int offset = 0; offset < nWords;)
-  {
-    unsigned int wordsProcessed = ProcessVFATDataFED(payload + offset, FEDId, fc);
+    {
+      unsigned int wordsProcessed = ProcessVFATDataFED(payload + offset, FEDId, fc);
    
-    offset += wordsProcessed;
-  }
+      offset += wordsProcessed;
+    }
 
   return 0;
 }
@@ -128,11 +128,11 @@ int DiamondRawDataUnpacker::ProcessVFATDataFED(const uint16_t *buf, unsigned int
   // check header flag
   unsigned int hFlag = (buf[0] >> 8) & 0xFF;
   if (hFlag != vmCluster && hFlag != vmRaw)
-  {
-    LogProblem("Totem") << "Error in DiamondRawDataUnpacker::ProcessVFATDataParallel > "
-      << "Unknown header flag " << hFlag << ". Skipping this word." << endl; 
-    return wordsProcessed;
-  }
+    {
+      LogProblem("Totem") << "Error in DiamondRawDataUnpacker::ProcessVFATDataParallel > "
+			  << "Unknown header flag " << hFlag << ". Skipping this word." << endl; 
+      return wordsProcessed;
+    }
 
   // compile frame position
   // NOTE: DAQ group uses terms GOH and fiber in the other way
@@ -147,25 +147,25 @@ int DiamondRawDataUnpacker::ProcessVFATDataFED(const uint16_t *buf, unsigned int
   uint8_t presenceFlags = 0;
 
   if (((buf[wordsProcessed] >> 12) & 0xF) == 0xA)  // BC
-  {
-    presenceFlags |= 0x1;
-    fd[11] = buf[wordsProcessed];
-    wordsProcessed++;
-  }
+    {
+      presenceFlags |= 0x1;
+      fd[11] = buf[wordsProcessed];
+      wordsProcessed++;
+    }
 
   if (((buf[wordsProcessed] >> 12) & 0xF) == 0xC)  // EC, flags
-  {
-    presenceFlags |= 0x2;
-    fd[10] = buf[wordsProcessed];
-    wordsProcessed++;
-  }
+    {
+      presenceFlags |= 0x2;
+      fd[10] = buf[wordsProcessed];
+      wordsProcessed++;
+    }
 
   if (((buf[wordsProcessed] >> 12) & 0xF) == 0xE)  // ID
-  {
-    presenceFlags |= 0x4;
-    fd[9] = buf[wordsProcessed];
-    wordsProcessed++;
-  }
+    {
+      presenceFlags |= 0x4;
+      fd[9] = buf[wordsProcessed];
+      wordsProcessed++;
+    }
 
   // save offset where channel data start
   unsigned int dataOffset = wordsProcessed;
@@ -192,14 +192,14 @@ int DiamondRawDataUnpacker::ProcessVFATDataFED(const uint16_t *buf, unsigned int
 
   // get channel data and CRC - raw mode
   if (hFlag == vmRaw)
-  {
-    for (unsigned int i = 0; i < 8; i++)
-      fd[8 - i] = buf[dataOffset + i];
+    {
+      for (unsigned int i = 0; i < 8; i++)
+	fd[8 - i] = buf[dataOffset + i];
 
-    // copy CRC
-    presenceFlags |= 0x8;
-    fd[0] = buf[dataOffset + 8];
-  }
+      // copy CRC
+      presenceFlags |= 0x8;
+      fd[0] = buf[dataOffset + 8];
+    }
 
   // save frame to output
   f.setPresenceFlags(presenceFlags);

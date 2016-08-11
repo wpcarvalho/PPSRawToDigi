@@ -1,6 +1,6 @@
 /****************************************************************************
-*  Syed Mohsen Etesami
-****************************************************************************/
+ *  Syed Mohsen Etesami
+ ****************************************************************************/
 
 #include "FWCore/Utilities/interface/typelookup.h"
 
@@ -28,10 +28,10 @@ void TotemDAQMappingDiamond::insert(const DiamondFramePosition &fp, const Diamon
 {
   auto it = VFATMapping.find(fp);  
   if (it != VFATMapping.end())
-  {
-    cerr << "WARNING in DAQMapping::Insert > Overwriting entry at " << fp << ". Previous: " << endl 
-      << "    " << VFATMapping[fp] << "," << endl << "  new: " << endl << "    " << vi << ". " << endl;
-  }
+    {
+      cerr << "WARNING in DAQMapping::Insert > Overwriting entry at " << fp << ". Previous: " << endl 
+	   << "    " << VFATMapping[fp] << "," << endl << "  new: " << endl << "    " << vi << ". " << endl;
+    }
 
   VFATMapping[fp] = vi;
 }

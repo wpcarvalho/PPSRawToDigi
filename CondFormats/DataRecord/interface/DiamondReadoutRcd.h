@@ -3,9 +3,6 @@
 
 #include "FWCore/Framework/interface/EventSetupRecordImplementation.h"
  
-/**
- *\brief EventSetup record for TOTEM readout-related information.
- **/
 class DiamondReadoutRcd : public edm::eventsetup::EventSetupRecordImplementation<DiamondReadoutRcd> {};
  
 #endif

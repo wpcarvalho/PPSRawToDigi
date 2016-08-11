@@ -1,6 +1,6 @@
 /****************************************************************************
-*  Seyed Mohsen Etesami
-****************************************************************************/
+ *  Seyed Mohsen Etesami
+ ****************************************************************************/
 
 #include "FWCore/Framework/interface/global/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Event.h"
@@ -23,22 +23,22 @@
 
 class DiamondVFATFrameAnalyzer : public edm::global::EDAnalyzer<>
 { 
-  public:
-    explicit DiamondVFATFrameAnalyzer(const edm::ParameterSet&);
-    ~DiamondVFATFrameAnalyzer();
+public:
+  explicit DiamondVFATFrameAnalyzer(const edm::ParameterSet&);
+  ~DiamondVFATFrameAnalyzer();
 
-    virtual void analyze(edm::StreamID, const edm::Event &, const edm::EventSetup &) const override;
+  virtual void analyze(edm::StreamID, const edm::Event &, const edm::EventSetup &) const override;
 
-  private:
+private:
 
-    std::vector<unsigned int> fedIds;
+  std::vector<unsigned int> fedIds;
 
-    edm::EDGetTokenT<FEDRawDataCollection> fedDataToken;
+  edm::EDGetTokenT<FEDRawDataCollection> fedDataToken;
 
-    DiamondRawDataUnpacker rawDataUnpacker;
+  DiamondRawDataUnpacker rawDataUnpacker;
 
-    template <typename DigiType>
-    void run(edm::Event&, const edm::EventSetup&);
+  template <typename DigiType>
+  void run(edm::Event&, const edm::EventSetup&);
 };
 
 //----------------------------------------------------------------------------------------------------
@@ -73,21 +73,21 @@ void DiamondVFATFrameAnalyzer::analyze(edm::StreamID, const edm::Event& event, c
   vector<DiamondFEDInfo> fedInfo;
   DiamondVFATFrameCollection vfatCollection;
   for (const auto &fedId : fedIds)
-  {
-    const FEDRawData &data = rawData->FEDData(fedId);
-    if (data.size() > 0)
-      rawDataUnpacker.Run(fedId, data, fedInfo, vfatCollection);
-  }
+    {
+      const FEDRawData &data = rawData->FEDData(fedId);
+      if (data.size() > 0)
+	rawDataUnpacker.Run(fedId, data, fedInfo, vfatCollection);
+    }
 
   // print VFAT frames
   cout << endl << "----------------------------------------------------------------------------------------------------" << endl;
   cout << event.id() << endl;
 
   for (DiamondVFATInterface::Iterator fr(&vfatCollection); !fr.IsEnd(); fr.Next())
-  {
-    cout << fr.Position() << " > ";
-    fr.Data()->Print();
-  }
+    {
+      cout << fr.Position() << " > ";
+      fr.Data()->Print();
+    }
 }
 
 //----------------------------------------------------------------------------------------------------
