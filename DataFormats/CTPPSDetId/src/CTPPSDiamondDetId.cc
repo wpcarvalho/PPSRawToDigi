@@ -63,3 +63,39 @@ std::ostream& operator << (std::ostream& os, const CTPPSDiamondDetId& id)
   return os;
 }
 
+
+
+// FIXME: Added for DQM
+
+
+//----------------------------------------------------------------------------------------------------
+
+string CTPPSDiamondDetId::planeName( NameFlag flag)
+{
+  string name;
+  if (flag == nFull) name = rpName(flag) + "_";
+  if (flag == nPath) name = rpName(flag) + "/plane ";
+
+  char buf[10];
+  uint32_t planeID = plane();
+  sprintf(buf, "%02u", planeID);
+
+  return name + buf;
+}
+
+//----------------------------------------------------------------------------------------------------
+
+string CTPPSDiamondDetId::channelName(NameFlag flag)
+{
+  string name;
+  if (flag == nFull) name = planeName(flag) + "_";
+  if (flag == nPath) name = planeName(flag) + "/ch ";
+
+  char buf[10];
+  uint32_t detID = det();
+  sprintf(buf, "%u", detID );
+
+  return name + buf;
+}
+
+//End mod for DQM

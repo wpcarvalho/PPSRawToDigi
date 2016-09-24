@@ -77,6 +77,21 @@ class CTPPSDiamondDetId : public CTPPSDetId
   }
 
 
+   // FIXME: mod for DQM
+   
+    /// returns official name of a plane characterized by ''id''; if ''full'' is true, name of RP is prefixed
+    std::string planeName(NameFlag flag = nFull);
+  
+    /// returns official name of a chip characterized by ''id''; if ''full'' is true, name of plane is prefixed
+    std::string channelName(NameFlag flag = nFull);
+    
+    
+   //End of DQM mod
+
+
+
+
+
 };
 
 std::ostream& operator<<(std::ostream& os, const CTPPSDiamondDetId& id);
