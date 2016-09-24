@@ -231,10 +231,11 @@ void RawToDigiConverter::Run(const VFATFrameCollection &input,
 
     // update chipPosition in status
     record.status.setChipPosition(chipPosition);
-
+//cout<<" Status: "<<record.status.isMissing()<<": "<<record.status.isIDMismatch()<<": "<<record.status.isFootprintError()<<": "<<record.status.isCRCError()<<" :"<<record.status.isECProgressError()<<": "<<record.status.isBCProgressError()<<endl;
     // produce digi only for good frames
     if (record.status.isOK())
     {
+cout<<" Status: "<<record.status.isMissing()<<": "<<record.status.isIDMismatch()<<": "<<record.status.isFootprintError()<<": "<<record.status.isCRCError()<<" :"<<record.status.isECProgressError()<<": "<<record.status.isBCProgressError()<<endl;
       // find analysis mask (needs a default=no mask, if not in present the mapping)
       TotemVFATAnalysisMask anMa;
       anMa.fullMask = false;

@@ -4,8 +4,9 @@
 
 #include "CondFormats/CTPPSReadoutObjects/interface/CTPPSTimingSymbId.h"
 
+
 std::ostream& operator << (std::ostream& s, const CTPPSTimingSymbID &sid)
-{
+{ 
   switch (sid.subSystem) {
   case CTPPSTimingSymbID::Diamond: s << "sub-system=Diamond, "; break;
   case CTPPSTimingSymbID::FastSi: s << "sub-system=FastSi, "; break;
@@ -13,9 +14,7 @@ std::ostream& operator << (std::ostream& s, const CTPPSTimingSymbID &sid)
 
 
   } 
-
   s << "symb. id=" << sid.symbolicID;
-
   return s;
 }
 

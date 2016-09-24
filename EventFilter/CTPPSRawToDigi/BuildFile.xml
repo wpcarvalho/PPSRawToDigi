@@ -7,6 +7,7 @@
 
 <use name="DataFormats/CTPPSDigi"/>
 <use name="DataFormats/PPSDetId"/>
+<use name="DataFormats/CTPPSDetId"/>
 
 <use name="CondFormats/CTPPSReadoutObjects"/>
 

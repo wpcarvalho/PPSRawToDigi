@@ -18,6 +18,7 @@
 #include "CondFormats/CTPPSReadoutObjects/interface/TotemDAQMappingDiamond.h"
 #include "CondFormats/CTPPSReadoutObjects/interface/DiamondAnalysisMask.h"
 #include "CondFormats/CTPPSReadoutObjects/interface/DiamondFramePosition.h"
+#include "DataFormats/CTPPSDetId/interface/CTPPSDiamondDetId.h"
 
 #include <xercesc/parsers/XercesDOMParser.hpp>
 #include <xercesc/dom/DOM.hpp>
@@ -349,9 +350,10 @@ void DiamondDAQMappingESSourceXML::ParseTreeDiamond(ParseType pType, xercesc::DO
 #endif
 
       if(pType == pMapping &&type == nRPPlane)
-	plane_id=id;
-
-
+	{
+         plane_id=id;
+         cout<<"plain_id= "<<id<<endl;
+         }
       // store mapping data
       if (pType == pMapping &&type == nChip)
 	{
@@ -364,7 +366,13 @@ void DiamondDAQMappingESSourceXML::ParseTreeDiamond(ParseType pType, xercesc::DO
 
 	  if (type == nChip)
 	    {
-	      vfatInfo.symbolicID.symbolicID = parentID - plane_id * 10 + plane_id * 12 + id;
+	     // vfatInfo.symbolicID.symbolicID = parentID - plane_id * 10 + plane_id * 12 + id;
+              unsigned int ArmNum = (parentID/ 1000) % 10; 
+              unsigned int StationNum = (parentID / 100) % 10; 
+              unsigned int RpNum = (parentID/ 10) % 10; 
+       
+              vfatInfo.symbolicID.symbolicID = CTPPSDiamondDetId(ArmNum, StationNum, RpNum,plane_id,id);
+
 
 	      vfatInfo.type = DiamondVFATInfo::data;
 	    }
@@ -391,8 +399,9 @@ void DiamondDAQMappingESSourceXML::ParseTreeDiamond(ParseType pType, xercesc::DO
 	  continue;
 	}
       // recursion (deeper in the tree)
-      ParseTreeDiamond(pType, n, type,  parentID * 10 +id*10 , mapping, mask);
-    }
+      ParseTreeDiamond(pType, n, type,  parentID * 10 +id , mapping, mask);
+   
+ }
 }
 
 //----------------------------------------------------------------------------------------------------

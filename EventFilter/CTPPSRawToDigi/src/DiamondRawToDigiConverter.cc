@@ -8,7 +8,8 @@
 
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 
-#include "DataFormats/CTPPSDetId/interface/DiamondDetId.h"
+#include "DataFormats/CTPPSDetId/interface/CTPPSDiamondDetId.h"
+
 #include "CondFormats/CTPPSReadoutObjects/interface/DiamondFramePosition.h"
                                          
 //----------------------------------------------------------------------------------------------------
@@ -105,7 +106,7 @@ void DiamondRawToDigiConverter::RunCommon(const DiamondVFATInterface &input, con
 	  problemsPresent = true;
 
 	  if (verbosity > 0)
-	    fes << "    Frameware sending wrong Hardware ID  (data: 0x" << hex << record.frame->getChannelID()
+	    fes << "    Firmware sending wrong Hardware ID  (data: 0x" << hex << record.frame->getChannelID()
 		<< ", mapping: 0x" << record.info->hwID  << dec << ", symbId: " << record.info->symbolicID.symbolicID << ")\n";
 
 	  if (testID == tfErr)
@@ -216,11 +217,11 @@ void DiamondRawToDigiConverter::Run(const DiamondVFATInterface &input,
 	continue;
    
       // calculate ids
-      unsigned short decDetId = record.info->symbolicID.symbolicID;
-      det_id_type detId = DiamondDetId::DecToRawId(decDetId);
-      uint8_t chID =  (decDetId % 100)% 12;
-   
+        CTPPSDiamondDetId detId(record.info->symbolicID.symbolicID);  
+        unsigned short  chID= detId.det();
       // produce digi only for good frames
+
+
       if (record.status.isOK())
 	{
 
@@ -228,27 +229,9 @@ void DiamondRawToDigiConverter::Run(const DiamondVFATInterface &input,
 	  DiamondVFATAnalysisMask anMa;
 	  anMa.fullMask = false;
    
-	  /*auto analysisIter = analysisMask.analysisMask.find(record.info->symbolicID);
-	    if (analysisIter != analysisMask.analysisMask.end())
-	    {            
-	    // if there is some information about masked channels - save it into conversionStatus
-	    anMa = analysisIter->second;
-	    if (anMa.fullMask)
-	    record.status.setFullyMaskedOut();
-	    else
-	    record.status.setPartiallyMaskedOut();
-   
-	    }*///FIXME
-	  // std::cout << "-----> analyzing record " << record.info->symbolicID << std::endl;
-	  // record.frame->Print(false);
 	  // create the digi
-	  // skip masked channels
-	  //    if (!anMa.fullMask && anMa.maskedChannels.find(ch) == anMa.maskedChannels.end())
-	  //        {
 	  DetSet<DiamondDigi> &digiDetSet = rpData.find_or_insert(detId);
 	  digiDetSet.push_back(DiamondDigi(chID,record.frame->getLeadingEtime(),record.frame->getTrailingEtime(),record.frame->getThresholdVolt(),record.frame->getMultihit(),record.frame->getHptdcerrorflag()));
-	  //       cout<< "FIND ONE  GOOD EVENT"<<endl;
-	  //   }
 
     
 	}

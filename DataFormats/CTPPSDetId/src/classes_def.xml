@@ -4,5 +4,9 @@
    <class name="edm::Wrapper<std::pair<PPSTrackerDetId,std::pair<unsigned int,unsigned int> > >"/>
    <class name="DiamondDetId"/>
 
+ <class name="CTPPSDetId" ClassVersion="3">
+    <version ClassVersion="3" checksum="2579437464"/>
+</class>
+
 </lcgdict>
 
