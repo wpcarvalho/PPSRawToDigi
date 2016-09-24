@@ -18,11 +18,6 @@ process.source = cms.Source("NewEventStreamFileReader",
     fileNames = cms.untracked.vstring('/store/t0streamer/Minidaq/A/000/280/102/run280102_ls0045_streamA_StorageManager.dat') 
 )   
  
-#process.source = cms.Source("PoolSource",
- #   fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/j/jkaspar/public/run273062_ls0001-2_stream.root')
-#    fileNames = cms.untracked.vstring('file:/afs/cern.ch/user/s/setesami/public/run268608_ls0001_streamA_StorageManager.root')
- 
-#)
 # raw-to-digi conversion
 process.load('CondFormats.CTPPSReadoutObjects.DiamondDAQMappingESSourceXML_cfi')
 process.DiamondDAQMappingESSourceXML.mappingFileNames.append("CondFormats/CTPPSReadoutObjects/xml/ctpps_timing_diamond_215_mapping.xml")
