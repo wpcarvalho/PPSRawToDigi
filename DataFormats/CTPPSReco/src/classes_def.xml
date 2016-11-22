@@ -31,4 +31,12 @@
   <class name="edm::Wrapper<edm::DetSetVector<TotemRPLocalTrack>>"/>
   <class name="edm::DetSetVector<TotemRPLocalTrack::FittedRecHit>"/>
   <class name="edm::Wrapper<edm::DetSetVector<TotemRPLocalTrack::FittedRecHit>>"/>
+
+  <class name="DiamondRecHit" ClassVersion="2">
+    <version ClassVersion="2" checksum="4231689072"/>
+  </class>
+  <class name="edm::DetSet<DiamondRecHit>" />
+  <class name="std::vector<DiamondRecHit>" />
+  <class name="edm::DetSetVector<DiamondRecHit>" />
+  <class name="edm::Wrapper< edm::DetSetVector<DiamondRecHit> >" />
 </lcgdict>

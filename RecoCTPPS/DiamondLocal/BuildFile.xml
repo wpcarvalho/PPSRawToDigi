@@ -1,0 +1,11 @@
+<use name="FWCore/ParameterSet"/>
+
+<use name="DataFormats/Common"/>
+<use name="DataFormats/CTPPSDigi"/>
+<use name="DataFormats/CTPPSReco"/>
+
+<use name="root"/>
+
+<export>
+  <lib name="1"/>
+</export>

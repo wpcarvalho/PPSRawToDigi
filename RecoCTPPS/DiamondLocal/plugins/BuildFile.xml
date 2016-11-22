@@ -1,0 +1,12 @@
+<library name="RecoCTPPSDiamondLocalPlugins" file="*.cc">
+  <flags EDM_PLUGIN="1"/>
+
+  <use name="FWCore/Framework"/>
+  <use name="FWCore/ParameterSet"/>
+  
+  <use name="DataFormats/Common"/>
+  <use name="DataFormats/CTPPSDigi"/>
+  <use name="DataFormats/CTPPSReco"/>
+
+  <use name="RecoCTPPS/DiamondLocal"/>
+</library>

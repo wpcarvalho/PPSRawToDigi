@@ -6,6 +6,7 @@
 #include "DataFormats/CTPPSReco/interface/TotemRPRecHit.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPUVPattern.h"
 #include "DataFormats/CTPPSReco/interface/TotemRPLocalTrack.h"
+#include "DataFormats/CTPPSReco/interface/DiamondRecHit.h"
 
 #include <vector>
 
@@ -35,5 +36,10 @@ namespace {
     edm::Wrapper<edm::DetSetVector<TotemRPLocalTrack>> w_dsv_ft;
     edm::DetSetVector<TotemRPLocalTrack::FittedRecHit> dsv_ft_frh;
     edm::Wrapper<edm::DetSetVector<TotemRPLocalTrack::FittedRecHit>> w_dsv_ft_frh;
+    
+    DiamondRecHit t_reco_hit;
+    edm::DetSet<DiamondRecHit> ds_t_reco_hit;
+    std::vector<DiamondRecHit> sv_t_reco_hit;
+    edm::DetSetVector<DiamondRecHit> dsv_t_reco_hit;
   }
 }
